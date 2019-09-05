@@ -3,22 +3,22 @@ $yellow-color: #EFCEA3;
 $blue-color: #47A5C1;
 
 .big-title {
-  color: #484848;
-  font-size: 32px;
-  margin-bottom: 1em;
+    color: #484848;
+    font-size: 30px;
 }
 
 .small-tittle {
-  color: #484848;
-  font-size: 22px;
-  margin-bottom: 1em
+    color: #484848;
+    font-size: 20px;
+    margin-top: 2em;
+    margin-bottom: 0.5em;
 }
 
 
 .blue-text {
-  color: $blue-color;
+    color: $blue-color;
 }
 
 .yellow-text {
- color: $yellow-color;
+    color: $yellow-color;
 }
