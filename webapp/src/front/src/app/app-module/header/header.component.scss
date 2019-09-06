@@ -1,15 +1,26 @@
+@import "../../../styles";
+
 .header {
-  top: 0;
-  position: absolute;
-  width: 100%;
+    top: 0;
+    width: 100%;
+    background-color: white;
 }
 
 .menu {
-  margin: 0;
-  color: white;
+    margin: 0;
 
-  li {
-    display: inline;
-    margin: 0 15px;
-  }
+    li {
+        display: inline;
+        margin: 0 15px;
+    }
+}
+
+.absolute-header {
+    position: absolute;
+    color: white;
+}
+
+.sticky-header {
+    position: sticky;
+    color: $font-color;
 }

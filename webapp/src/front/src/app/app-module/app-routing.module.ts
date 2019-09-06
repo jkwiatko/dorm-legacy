@@ -4,7 +4,8 @@ import { HomeModule } from '../home-module/home.module';
 import {HeaderComponent} from './header/header.component';
 
 const routes: Routes = [
-  {path: '', component: HeaderComponent, outlet: 'header'},
+  {path: 'login', component: LoginComponent },
+  {path: '', redirectTo: 'home', pathMatch: 'full'},
 ];
 
 @NgModule({

@@ -1,14 +1,15 @@
 /* You can add global styles to this file, and also import other style files */
 $yellow-color: #EFCEA3;
 $blue-color: #47A5C1;
+$font-color: #484848;
 
 .big-title {
-    color: #484848;
+    color: $font-color;
     font-size: 30px;
 }
 
 .small-tittle {
-    color: #484848;
+    color: $font-color;
     font-size: 20px;
     margin-top: 2em;
     margin-bottom: 0.5em;
