@@ -68,6 +68,10 @@ public class User extends BaseEntity {
         return sendMessages;
     }
 
+    public void setSendMessages(List<Message> sendMessages) {
+        this.sendMessages = sendMessages;
+    }
+
     @OneToMany(mappedBy = "owner")
     public List<Picture> getPictures() {
         return pictures;
@@ -84,18 +88,6 @@ public class User extends BaseEntity {
 
     public void setProfilePictures(List<Picture> profilePictures) {
         this.profilePictures = profilePictures;
-    }
-
-    public void setSendMessages(List<Message> sendMessages) {
-        this.sendMessages = sendMessages;
-    }
-
-    public Gender getGender() {
-        return gender;
-    }
-
-    public void setGender(Gender gender) {
-        this.gender = gender;
     }
 
     public String getFirstName() {
@@ -144,6 +136,15 @@ public class User extends BaseEntity {
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    @Enumerated(value = EnumType.STRING)
+    public Gender getGender() {
+        return gender;
+    }
+
+    public void setGender(Gender gender) {
+        this.gender = gender;
     }
 
     @ElementCollection(targetClass = Amenities.class)

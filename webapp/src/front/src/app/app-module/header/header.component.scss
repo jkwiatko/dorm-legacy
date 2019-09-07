@@ -3,7 +3,6 @@
 .header {
     top: 0;
     width: 100%;
-    background-color: white;
 }
 
 .menu {
@@ -22,5 +21,6 @@
 
 .sticky-header {
     position: sticky;
+    background-color: white;
     color: $font-color;
 }
