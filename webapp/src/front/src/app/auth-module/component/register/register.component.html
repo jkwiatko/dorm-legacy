@@ -1,0 +1,22 @@
+<h1 mat-dialog-title>Kubus to dzwon</h1>
+<div mat-dialog-content>
+    <form [formGroup]="registerForm">
+        <mat-form-field appearance="outline">
+            <mat-label>Login</mat-label>
+            <input matInput formControlName="email">
+            <mat-error *ngIf="registerForm.get('email').invalid">
+                Email is <strong>required</strong>
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Hasło</mat-label>
+            <input matInput formControlName="password">
+            <mat-error *ngIf="registerForm.get('password').invalid">
+                Password is <strong>required</strong>
+            </mat-error>
+        </mat-form-field>
+    </form>
+</div>
+<div mat-dialog-actions>
+    <button mat-button (click)="register()">Register</button>
+</div>

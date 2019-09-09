@@ -1,8 +1,9 @@
 package com.dorm.webapp.data.service;
 
+import com.dorm.webapp.auth.jwt.Credentials;
 import com.dorm.webapp.data.entity.User;
 import com.dorm.webapp.data.repo.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -12,9 +13,11 @@ import java.util.List;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final ModelMapper modelMapper;
 
-    UserService(UserRepository userRepository) {
+    UserService(UserRepository userRepository, ModelMapper modelMapper) {
         this.userRepository = userRepository;
+        this.modelMapper = modelMapper;
     }
 
     public User findByUsername(String email) {
@@ -25,8 +28,10 @@ public class UserService {
         return new ArrayList<>(userRepository.findAll());
     }
 
-    public void addUser(User user) {
-        userRepository.save(user);
+    public boolean addUser(Credentials credentials) {
+        User userToAdd = modelMapper.map(credentials, User.class);
+        userRepository.save(userToAdd);
+        return true;
     }
 
     public User getUser(Long id) {

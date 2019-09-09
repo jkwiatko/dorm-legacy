@@ -3,7 +3,8 @@ package com.dorm.webapp.auth;
 import com.dorm.webapp.auth.jwt.Credentials;
 import com.dorm.webapp.auth.jwt.JwtProvider;
 import com.dorm.webapp.auth.jwt.Token;
-import org.springframework.context.annotation.Bean;
+import com.dorm.webapp.data.service.UserService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -20,11 +21,13 @@ public class AuthController {
 
     private AuthenticationManager authenticationManager;
     private JwtProvider jwtProvider;
+    private UserService userService;
 
     public AuthController(AuthenticationManager authenticationManager,
-                                    JwtProvider jwtProvider) {
+                          JwtProvider jwtProvider, UserService userService) {
         this.authenticationManager = authenticationManager;
         this.jwtProvider = jwtProvider;
+        this.userService = userService;
     }
 
     @PostMapping("/login")
@@ -38,4 +41,9 @@ public class AuthController {
         return ResponseEntity.ok(new Token(jwt));
     }
 
+    @PostMapping("/register")
+    public ResponseEntity register(@RequestBody Credentials credentials) {
+        userService.addUser(credentials);
+        return ResponseEntity.status(HttpStatus.OK).body("success");
+    }
 }
