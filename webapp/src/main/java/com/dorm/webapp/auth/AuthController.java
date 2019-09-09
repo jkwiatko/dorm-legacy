@@ -4,7 +4,6 @@ import com.dorm.webapp.auth.jwt.Credentials;
 import com.dorm.webapp.auth.jwt.JwtProvider;
 import com.dorm.webapp.auth.jwt.Token;
 import com.dorm.webapp.data.service.UserService;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -36,14 +35,12 @@ public class AuthController {
                 .authenticate(new UsernamePasswordAuthenticationToken(credentials.getEmail(), credentials.getPassword()));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        String jwt = jwtProvider.generateToken(authentication);
-        System.out.println(jwt);
-        return ResponseEntity.ok(new Token(jwt));
+        return ResponseEntity.ok(new Token(jwtProvider.generateToken(authentication)));
     }
 
     @PostMapping("/register")
     public ResponseEntity register(@RequestBody Credentials credentials) {
         userService.addUser(credentials);
-        return ResponseEntity.status(HttpStatus.OK).body("success");
+        return ResponseEntity.ok().build();
     }
 }

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {Router} from '@angular/router';
 import {RegisterComponent} from '../../auth-module/component/register/register.component';
-import {MatDialog} from '@angular/material';
+import {MatDialog, MatSnackBar} from '@angular/material';
 
 @Component({
     selector: 'app-header',
@@ -11,7 +11,8 @@ import {MatDialog} from '@angular/material';
 export class HeaderComponent implements OnInit {
 
     constructor(private router: Router,
-                private dialog: MatDialog) { }
+                private dialog: MatDialog,
+                private toast: MatSnackBar) { }
 
     ngOnInit() {
     }
@@ -28,6 +29,13 @@ export class HeaderComponent implements OnInit {
         this.dialog.open(RegisterComponent, {
             disableClose: true,
             width: '600px',
+        }).afterClosed().subscribe(result => {
+            if (result === 'success') {
+                this.toast.open('Witamy username', null, {
+                    duration: 3000,
+                    verticalPosition: 'top'
+                });
+            }
         });
     }
 }
