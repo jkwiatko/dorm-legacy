@@ -1,15 +1,18 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { WelcomeScreenComponent } from './welcome-screen/welcome-screen.component';
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
+import {WelcomeScreenComponent} from './welcome-screen/welcome-screen.component';
+import {RoomsComponent} from './rooms/rooms.component';
 
 const routes: Routes = [
-  {path: 'home', component: WelcomeScreenComponent },
+    {path: 'home', component: WelcomeScreenComponent},
+    {path: 'find-room', component: RoomsComponent, pathMatch: 'full'},
 ];
 
 @NgModule({
-  imports: [
-    RouterModule.forChild(routes),
-  ],
-  exports: [RouterModule]
+    imports: [
+        RouterModule.forChild(routes),
+    ],
+    exports: [RouterModule]
 })
-export class HomeRoutingModule { }
+export class HomeRoutingModule {
+}
