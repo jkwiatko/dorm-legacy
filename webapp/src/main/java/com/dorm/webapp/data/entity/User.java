@@ -11,12 +11,13 @@ import java.util.List;
 public class User extends BaseEntity {
 
     private List<Room> ownedRooms;
-    private List<Room> pickedRooms;
     private List<Booking> bookings;
     private List<Message> receivedMessages;
     private List<Message> sendMessages;
     private List<Picture> pictures;
     private List<Picture> profilePictures;
+    private List<ResidenceOffer> residenceOffers;
+    private List<RoomInvite> roomInvites;
 
     private String firstName;
     private String lastName;
@@ -34,15 +35,6 @@ public class User extends BaseEntity {
 
     public void setOwnedRooms(List<Room> ownedRooms) {
         this.ownedRooms = ownedRooms;
-    }
-
-    @ManyToMany(mappedBy = "volunteers")
-    public List<Room> getPickedRooms() {
-        return pickedRooms;
-    }
-
-    public void setPickedRooms(List<Room> pickedRooms) {
-        this.pickedRooms = pickedRooms;
     }
 
     @OneToMany(mappedBy = "renter")
@@ -88,6 +80,24 @@ public class User extends BaseEntity {
 
     public void setProfilePictures(List<Picture> profilePictures) {
         this.profilePictures = profilePictures;
+    }
+
+    @OneToMany(mappedBy = "fromUser")
+    public List<ResidenceOffer> getResidenceOffers() {
+        return residenceOffers;
+    }
+
+    public void setResidenceOffers(List<ResidenceOffer> residenceOffers) {
+        this.residenceOffers = residenceOffers;
+    }
+
+    @OneToMany(mappedBy = "toUser")
+    public List<RoomInvite> getRoomInvites() {
+        return roomInvites;
+    }
+
+    public void setRoomInvites(List<RoomInvite> roomInvites) {
+        this.roomInvites = roomInvites;
     }
 
     public String getFirstName() {

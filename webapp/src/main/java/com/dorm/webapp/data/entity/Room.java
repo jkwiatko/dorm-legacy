@@ -11,10 +11,11 @@ import java.util.List;
 public class Room extends BaseEntity {
 
     private User owner;
-    private List<User> volunteers;
     private List<Booking> bookings;
     private Address address;
     private List<Picture> pictures;
+    private List<RoomInvite> roomInvites;
+    private List<ResidenceOffer> residenceOffers;
 
     private String name;
     private String description;
@@ -31,15 +32,6 @@ public class Room extends BaseEntity {
 
     public void setOwner(User owner) {
         this.owner = owner;
-    }
-
-    @ManyToMany
-    public List<User> getVolunteers() {
-        return volunteers;
-    }
-
-    public void setVolunteers(List<User> volunteers) {
-        this.volunteers = volunteers;
     }
 
     @OneToMany(mappedBy = "room")
@@ -67,6 +59,24 @@ public class Room extends BaseEntity {
 
     public void setAddress(Address address) {
         this.address = address;
+    }
+
+    @OneToMany(mappedBy = "room")
+    public List<RoomInvite> getRoomInvites() {
+        return roomInvites;
+    }
+
+    public void setRoomInvites(List<RoomInvite> roomInvites) {
+        this.roomInvites = roomInvites;
+    }
+
+    @OneToMany(mappedBy = "room")
+    public List<ResidenceOffer> getResidenceOffers() {
+        return residenceOffers;
+    }
+
+    public void setResidenceOffers(List<ResidenceOffer> residenceOffers) {
+        this.residenceOffers = residenceOffers;
     }
 
     public String getName() {
