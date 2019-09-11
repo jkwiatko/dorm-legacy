@@ -1,6 +1,6 @@
 @import "~src/variables";
 
-.register-dialog {
+.login-dialog {
     position: relative;
     &__close-icon {
         position: absolute;
@@ -9,8 +9,8 @@
         height: 25px;
         width: 25px;
         border-radius: 50%;
-        background: black;
-        border: 2px solid black;
+        background: $font-color;
+        border: 2px solid $font-color;
         cursor: pointer;
 
         display: flex;
@@ -32,4 +32,6 @@
             transform: rotate(90deg);
         }
     }
+
+
 }

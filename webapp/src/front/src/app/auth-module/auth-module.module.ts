@@ -5,9 +5,9 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatButtonModule, MatDialogModule, MatFormFieldModule, MatIconModule, MatInputModule} from '@angular/material';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {HttpClientModule} from '@angular/common/http';
-
+import { LoginComponent } from './component/login/login.component';
 @NgModule({
-    declarations: [RegisterComponent],
+    declarations: [RegisterComponent, LoginComponent],
     imports: [
         CommonModule,
         FormsModule,
@@ -20,7 +20,7 @@ import {HttpClientModule} from '@angular/common/http';
         MatIconModule,
         ReactiveFormsModule
     ],
-    entryComponents: [RegisterComponent]
+    entryComponents: [RegisterComponent, LoginComponent]
 })
 export class AuthModuleModule {
 }

@@ -14,7 +14,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
     private registerSubscription: Subscription;
     registerForm: FormGroup;
 
-    constructor(public dialogRef: MatDialogRef<RegisterComponent>,
+    constructor(private dialogRef: MatDialogRef<RegisterComponent>,
                 @Inject(MAT_DIALOG_DATA) public data: any,
                 private fb: FormBuilder,
                 private authService: AuthService) {
@@ -38,6 +38,12 @@ export class RegisterComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        this.registerSubscription.unsubscribe();
+        if (this.registerSubscription) {
+            this.registerSubscription.unsubscribe();
+        }
+    }
+
+    closeDialog() {
+        this.dialogRef.close();
     }
 }

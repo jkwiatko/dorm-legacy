@@ -1,7 +1,7 @@
 <div id="header" [ngClass]="getPositioning()" class="header p-3">
     <div class="row">
         <ul class="col menu d-flex justify-content-end">
-            <li>
+            <li (click)="openLoginDialog()">
                 Zaloguj
             </li>
             <li (click)="openRegisterDialog()">

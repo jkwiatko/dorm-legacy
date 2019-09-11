@@ -1,8 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
-$yellow-color: #EFCEA3;
-$blue-color: #47A5C1;
-$font-color: #484848;
+@import "variables";
 
 .big-title {
     color: $font-color;
@@ -23,4 +21,8 @@ $font-color: #484848;
 
 .yellow-text {
     color: $yellow-color;
+}
+
+.dupa {
+    height: 500px;
 }
