@@ -21,7 +21,7 @@ export class HeaderComponent implements OnInit {
         if (this.router.url === '/home') {
             return 'absolute-header';
         } else {
-            return 'sticky-header';
+            return 'fixed-header';
         }
     }
 

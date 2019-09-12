@@ -20,8 +20,9 @@
     color: white;
 }
 
-.sticky-header {
-    position: sticky;
+.fixed-header {
+    position: fixed;
     background-color: white;
     color: $font-color;
+    z-index: 100;
 }

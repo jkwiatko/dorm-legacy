@@ -1,0 +1,8 @@
+@import "../../../variables";
+.sticky-info {
+    position: sticky;
+    top: 60px;
+    border: 1px solid $font-color;
+    text-align: center;
+    padding: 20px 0;
+}
