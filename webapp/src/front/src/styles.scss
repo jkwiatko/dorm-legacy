@@ -23,10 +23,22 @@
     color: $yellow-color;
 }
 
+.gray-text {
+    color: $font-color;
+}
+
 .content {
     margin-top: 60px;
 }
 
 .below-header {
     padding-top: $header-height;
+}
+
+.scrollable-content {
+    overflow-y: scroll;
+    
+    ::-webkit-scrollbar {
+        display: none;
+    }
 }
