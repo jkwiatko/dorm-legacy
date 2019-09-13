@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, HostListener, Input, OnInit, Output} from '@angular/core';
 import {RoomDto} from '../dto/Room.dto';
 
 @Component({
@@ -9,6 +9,7 @@ import {RoomDto} from '../dto/Room.dto';
 export class RoomComponent implements OnInit {
 
     @Input() room: RoomDto;
+    @Output() roomSelected = new EventEmitter<RoomDto>();
 
     constructor() {
     }
@@ -16,4 +17,8 @@ export class RoomComponent implements OnInit {
     ngOnInit() {
     }
 
+    @HostListener('click')
+    onClick() {
+        this.roomSelected.emit(this.room);
+    }
 }

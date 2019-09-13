@@ -36,4 +36,7 @@ export class RoomsComponent implements OnInit {
     ngOnInit() {
     }
 
+    onRoomSelected(event: RoomDto) {
+        console.log(event);
+    }
 }
