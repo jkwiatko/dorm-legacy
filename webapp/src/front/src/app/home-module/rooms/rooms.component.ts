@@ -7,27 +7,45 @@ import {RoomDto} from '../dto/Room.dto';
     styleUrls: ['./rooms.component.scss']
 })
 export class RoomsComponent implements OnInit {
+    longitude = 51.678418;
+    latitude = 51.678418;
 
     rooms: RoomDto[] = [
         {
             id: 1,
             name: 'Pokój Manhattan',
-            ownerId: 1
+            ownerId: 1,
+            position: {
+                longitude: 49.629381,
+                latitude: 49.629381
+            }
         },
         {
             id: 2,
             name: 'Pokój Retkinia',
-            ownerId: 1
+            ownerId: 1,
+            position: {
+                longitude: 50.629381,
+                latitude: 50.629381
+            }
         },
         {
             id: 3,
             name: 'Pokój Górna',
-            ownerId: 2
+            ownerId: 2,
+            position: {
+                longitude: 53.629381,
+                latitude: 56.629381
+            }
         },
         {
             id: 4,
             name: 'Pokój Widzew',
-            ownerId: 2
+            ownerId: 2,
+            position: {
+                longitude: 42.629381,
+                latitude: 49.629381
+            }
         }];
 
     constructor() {
@@ -37,6 +55,7 @@ export class RoomsComponent implements OnInit {
     }
 
     onRoomSelected(event: RoomDto) {
-        console.log(event);
+        this.longitude = event.position.longitude;
+        this.latitude = event.position.latitude;
     }
 }
