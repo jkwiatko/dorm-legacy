@@ -1,9 +1,12 @@
 <div class="rooms-container below-header">
-    <div class="rooms">
-        <app-room *ngFor="let room of rooms" [room]="room" (roomSelected)="onRoomSelected($event)"
-                  class="rooms__room" >
+    <div class="left-section">
+        <app-browser></app-browser>
+        <div class="rooms">
+            <app-room *ngFor="let room of rooms" [room]="room" (roomSelected)="onRoomSelected($event)"
+                      class="rooms__room" >
 
-        </app-room>
+            </app-room>
+        </div>
     </div>
     <agm-map class="google-map" [latitude]="latitude" [longitude]="longitude">
         <agm-marker></agm-marker>
