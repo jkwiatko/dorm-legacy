@@ -39,6 +39,51 @@ export class RoomsComponent implements OnInit {
             }
         },
         {
+            id: 3,
+            name: 'Pokój Górna',
+            ownerId: 2,
+            position: {
+                longitude: 53.629381,
+                latitude: 56.629381
+            }
+        },
+        {
+            id: 3,
+            name: 'Pokój Górna',
+            ownerId: 2,
+            position: {
+                longitude: 53.629381,
+                latitude: 56.629381
+            }
+        },
+        {
+            id: 3,
+            name: 'Pokój Górna',
+            ownerId: 2,
+            position: {
+                longitude: 53.629381,
+                latitude: 56.629381
+            }
+        },
+        {
+            id: 3,
+            name: 'Pokój Górna',
+            ownerId: 2,
+            position: {
+                longitude: 53.629381,
+                latitude: 56.629381
+            }
+        },
+        {
+            id: 3,
+            name: 'Pokój Górna',
+            ownerId: 2,
+            position: {
+                longitude: 53.629381,
+                latitude: 56.629381
+            }
+        },
+        {
             id: 4,
             name: 'Pokój Widzew',
             ownerId: 2,

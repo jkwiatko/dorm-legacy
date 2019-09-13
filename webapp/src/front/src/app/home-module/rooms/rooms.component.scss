@@ -1,13 +1,15 @@
 .rooms-container {
     display: flex;
+    height: 100vh;
 }
 
 .rooms {
-    padding: 0 30px;
     flex-grow: 1;
     flex-basis: 0;
     display: grid;
     grid-template-columns: auto auto auto;
+    padding: 0 30px;
+    overflow-y: scroll;
 
     &__room {
         padding: 20px;
