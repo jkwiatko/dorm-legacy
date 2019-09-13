@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {RoomDto} from "../dto/Room.dto";
+import {RoomDto} from '../dto/Room.dto';
 
 @Component({
     selector: 'app-room',

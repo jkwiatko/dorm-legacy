@@ -4,12 +4,14 @@ import {WelcomeScreenComponent} from './welcome-screen/welcome-screen.component'
 import {HomeRoutingModule} from './home-routing.module';
 import {RoomsComponent} from './rooms/rooms.component';
 import { RoomComponent } from './room/room.component';
+import {AgmCoreModule} from "@agm/core";
 
 @NgModule({
     declarations: [WelcomeScreenComponent, RoomsComponent, RoomComponent],
     imports: [
         HomeRoutingModule,
-        CommonModule
+        CommonModule,
+        AgmCoreModule
     ]
 })
 export class HomeModule {

@@ -1,3 +1,11 @@
-<app-room *ngFor="let room of rooms" [room]="room">
+<div class="rooms-container below-header">
+    <div class="rooms">
+        <app-room class="rooms__room" *ngFor="let room of rooms" [room]="room">
 
-</app-room>
+        </app-room>
+    </div>
+    <agm-map class="google-map">
+        <agm-marker></agm-marker>
+    </agm-map>
+</div>
+

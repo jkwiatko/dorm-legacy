@@ -9,6 +9,7 @@ import {AuthModuleModule} from '../auth-module/auth-module.module';
 import {HTTP_INTERCEPTORS} from '@angular/common/http';
 import {TokenInterceptor} from './provider/token.interceptor';
 import {MatSnackBarModule} from '@angular/material';
+import {AgmCoreModule} from '@agm/core';
 
 @NgModule({
     declarations: [
@@ -20,7 +21,10 @@ import {MatSnackBarModule} from '@angular/material';
         BrowserModule,
         AppRoutingModule,
         BrowserAnimationsModule,
-        MatSnackBarModule
+        MatSnackBarModule,
+        AgmCoreModule.forRoot({
+            apiKey: 'AIzaSyDKVy1CJI89TnmbC381IzCvQumuddcZttY'
+        })
     ],
     providers: [
         {
