@@ -10,6 +10,7 @@ import {HTTP_INTERCEPTORS} from '@angular/common/http';
 import {TokenInterceptor} from './provider/token.interceptor';
 import {MatSnackBarModule} from '@angular/material';
 import {AgmCoreModule} from '@agm/core';
+import {ProfileModule} from "../profile-module/profile.module";
 
 @NgModule({
     declarations: [
@@ -17,9 +18,10 @@ import {AgmCoreModule} from '@agm/core';
         HeaderComponent,
     ],
     imports: [
-        AuthModuleModule,
         BrowserModule,
         AppRoutingModule,
+        AuthModuleModule,
+        ProfileModule,
         BrowserAnimationsModule,
         MatSnackBarModule,
         AgmCoreModule.forRoot({

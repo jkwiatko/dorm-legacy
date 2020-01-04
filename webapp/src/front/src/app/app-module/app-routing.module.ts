@@ -1,7 +1,6 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { HomeModule } from '../home-module/home.module';
-import {ProfileModule} from "../profile-module/profile.module";
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
+import {HomeModule} from '../home-module/home.module';
 
 const routes: Routes = [
     { path: '', redirectTo: 'home', pathMatch: 'full'}
@@ -10,7 +9,6 @@ const routes: Routes = [
 @NgModule({
     imports: [
         HomeModule,
-        ProfileModule,
         RouterModule.forRoot(routes),
     ],
     exports: [RouterModule]
