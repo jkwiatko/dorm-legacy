@@ -59,6 +59,7 @@ public class AuthConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/*.js").permitAll()
                 .antMatchers("/*.ico").permitAll()
                 .antMatchers("/").permitAll()
+                .antMatchers("/api/profile/edit").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .exceptionHandling().authenticationEntryPoint(jwtEntryPoint)

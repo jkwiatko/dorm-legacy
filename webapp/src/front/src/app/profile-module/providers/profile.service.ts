@@ -1,9 +1,22 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
-import {Observable, Subscription} from "rxjs";
+import {HttpClient} from '@angular/common/http';
+import {Observable} from 'rxjs';
+import {environment} from '../../../environments/environment';
 
-interface Profile {
-
+export interface Profile {
+    username: string;
+    profileImage: string;
+    birthDate: string;
+    summary: string;
+    gender: string;
+    work: string;
+    university: string;
+    interests: [string];
+    inclinations: [string];
+    cleaningPolicy: string;
+    smokingPolicy: string;
+    petPolicy: string;
+    guestsPolicy: string;
 }
 
 @Injectable({
@@ -11,17 +24,23 @@ interface Profile {
 })
 export class ProfileService {
 
-    profileFetchAPI: string = "lol";
-    profileSaveAPI: string = "lol";
-
     constructor(private http: HttpClient) {
     }
 
     public fetchProfile(id: number): Observable<Profile> {
-        return this.http.get<Profile>(this.profileFetchAPI);
+        return this.http.get<Profile>(environment.api + 'profile/' + id);
     }
 
     public saveProfile(profile: Profile) {
-        this.http.put<Profile[]>(this.profileSaveAPI, profile).subscribe();
+        const formData = new FormData();
+        formData.append('image', profile.profileImage);
+        this.http.post<>(environment.api + 'profile/edit', formData).subscribe();
+    }
+
+    public WORKINGsaveProfile(file: File) {
+        let formData = new FormData();
+        formData.append('image', file);
+        console.log(formData.get('image'));
+        this.http.post(environment.api + 'profile/edit', formData).subscribe();
     }
 }
