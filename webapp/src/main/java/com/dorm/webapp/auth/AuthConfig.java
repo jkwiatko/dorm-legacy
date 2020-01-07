@@ -3,8 +3,10 @@ package com.dorm.webapp.auth;
 import com.dorm.webapp.auth.jwt.JwtEntryPoint;
 import com.dorm.webapp.auth.jwt.JwtFilter;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -21,8 +23,9 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Arrays;
 
+// for debug purpuses
+@EnableWebSecurity(debug = true)
 @Configuration
-@EnableWebSecurity
 public class AuthConfig extends WebSecurityConfigurerAdapter {
 
     private final UserDetailsService userDetailsService;
@@ -53,6 +56,9 @@ public class AuthConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/auth/register").permitAll()
                 .antMatchers("/assets/**").permitAll()
                 .antMatchers("/img/**").permitAll()
+                .antMatchers("/*.js").permitAll()
+                .antMatchers("/*.ico").permitAll()
+                .antMatchers("/").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .exceptionHandling().authenticationEntryPoint(jwtEntryPoint)

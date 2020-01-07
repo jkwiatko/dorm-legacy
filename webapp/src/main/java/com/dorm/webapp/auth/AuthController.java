@@ -39,7 +39,7 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity register(@RequestBody Credentials credentials) {
+    public ResponseEntity<Void> register(@RequestBody Credentials credentials) {
         userService.addUser(credentials);
         return ResponseEntity.ok().build();
     }
