@@ -1,6 +1,23 @@
 import {Component, OnInit} from '@angular/core';
 import {FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
-import {Profile, ProfileService} from '../providers/profile.service';
+import {ProfileService} from '../providers/profile.service';
+
+export interface Profile {
+    firstName: string;
+    lastName: string;
+    profileImage: string;
+    birthDate: string;
+    description: string;
+    gender: string;
+    work: string;
+    university: string;
+    interests: [string];
+    inclinations: [string];
+    cleaningPolicy: string;
+    smokingPolicy: string;
+    petPolicy: string;
+    guestsPolicy: string;
+}
 
 @Component({
     selector: 'app-profile-edit',
@@ -9,7 +26,8 @@ import {Profile, ProfileService} from '../providers/profile.service';
 })
 export class ProfileEditComponent implements OnInit {
 
-    profileImg: File;
+    profileImg: string;
+    profileImageFile: File;
     startDate = new Date(2000, 0, 1);
     form: FormGroup;
     interests: FormArray;
@@ -31,10 +49,11 @@ export class ProfileEditComponent implements OnInit {
         const inclinations = new FormArray([]);
 
         this.form = new FormGroup({
-            username: new FormControl(null, Validators.required),
+            firstName: new FormControl(null, Validators.required),
+            lastName: new FormControl(null, Validators.required),
             profileImage: new FormControl(null),
             birthDate: new FormControl(null, Validators.required),
-            summary: new FormControl(null, Validators.required),
+            description: new FormControl(null, Validators.required),
             gender: new FormControl(null, Validators.required),
             work: new FormControl(null),
             university: new FormControl(null),
@@ -65,16 +84,14 @@ export class ProfileEditComponent implements OnInit {
     OnSelectFile(event) {
         if (event.target.files && event.target.files[0]) {
             if (event.target.files[0].type.match('image.*')) {
-                this.profileImg = event.target.files[0];
-                // const reader = new FileReader();
-                // reader.onload = () => this.profileImgUrl = (reader.result as ArrayBuffer);
-                // reader.readAsArrayBuffer(event.target.files[0]);
+                this.profileImageFile = event.target.files[0];
+                const reader = new FileReader();
+                reader.onload = () => this.profileImg = reader.result.toString();
+                reader.readAsDataURL(event.target.files[0]);
             } else {
-                //show error message
+                // show error message
             }
         }
-
-        this.profileImg.
     }
 
     onDeleteInterest(i: number) {
@@ -88,10 +105,11 @@ export class ProfileEditComponent implements OnInit {
     onSubmit() {
         console.log(this.form);
         const profile: Profile = {
-            username: this.form.get('username').value,
-            profileImage: this.form.get('profileImage').value,
+            firstName: this.form.get('firstName').value,
+            lastName: this.form.get('lastName').value,
+            profileImage: this.profileImg,
             birthDate: this.form.get('birthDate').value,
-            summary: this.form.get('summary').value,
+            description: this.form.get('description').value,
             gender: this.form.get('gender').value,
             work: this.form.get('work').value,
             university: this.form.get('university').value,
@@ -102,6 +120,6 @@ export class ProfileEditComponent implements OnInit {
             petPolicy: this.form.get('petPolicy').value,
             guestsPolicy: this.form.get('guestsPolicy').value,
         };
-        this.profileClient.saveProfile(this.profileImg);
+        this.profileClient.saveProfile(profile);
     }
 }

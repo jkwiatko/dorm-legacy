@@ -1,6 +1,7 @@
 package com.dorm.webapp.data.entity;
 
-import com.dorm.webapp.data.shared.Amenities;
+import com.dorm.webapp.data.enums.EAmenities;
+import com.dorm.webapp.data.shared.BaseEntity;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -23,7 +24,7 @@ public class Room extends BaseEntity {
     private BigDecimal additionalCosts;
     private BigDecimal deposit;
     private Period minDuration;
-    private List<Amenities> amenities;
+    private List<EAmenities> amenities;
 
     @ManyToOne
     public User getOwner() {
@@ -127,13 +128,13 @@ public class Room extends BaseEntity {
         this.minDuration = minDuration;
     }
 
-    @ElementCollection(targetClass = Amenities.class)
+    @ElementCollection(targetClass = EAmenities.class)
     @Enumerated(value = EnumType.STRING)
-    public List<Amenities> getAmenities() {
+    public List<EAmenities> getAmenities() {
         return amenities;
     }
 
-    public void setAmenities(List<Amenities> amenities) {
+    public void setAmenities(List<EAmenities> amenities) {
         this.amenities = amenities;
     }
 }

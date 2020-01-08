@@ -1,9 +1,12 @@
 package com.dorm.webapp.data.service;
 
+import com.dorm.webapp.auth.UserPrincipal;
 import com.dorm.webapp.auth.jwt.Credentials;
 import com.dorm.webapp.data.entity.User;
 import com.dorm.webapp.data.repo.UserRepository;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -18,6 +21,16 @@ public class UserService {
     UserService(UserRepository userRepository, ModelMapper modelMapper) {
         this.userRepository = userRepository;
         this.modelMapper = modelMapper;
+    }
+
+
+    // TODO think about refactor
+    public User getCurrentAuthenticatedUser() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if(principal instanceof UserPrincipal) {
+            return getUser(((UserPrincipal) principal).getId());
+        }
+        return null;
     }
 
     public User findByUsername(String email) {

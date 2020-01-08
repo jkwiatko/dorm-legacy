@@ -1,10 +1,11 @@
 package com.dorm.webapp.data.entity;
 
-import com.dorm.webapp.data.shared.Amenities;
-import com.dorm.webapp.data.shared.Gender;
-import com.dorm.webapp.data.shared.RoommatePreferences;
+import com.dorm.webapp.data.enums.EGender;
+import com.dorm.webapp.data.enums.ERoommatePreferences;
+import com.dorm.webapp.data.shared.BaseEntity;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -14,19 +15,19 @@ public class User extends BaseEntity {
     private List<Booking> bookings;
     private List<Message> receivedMessages;
     private List<Message> sendMessages;
-    private List<Picture> pictures;
     private List<Picture> profilePictures;
     private List<ResidenceOffer> residenceOffers;
     private List<RoomInvite> roomInvites;
 
     private String firstName;
     private String lastName;
+    private Date birthDate;
     private String email;
     private String password;
     private String description;
     private boolean active;
-    private Gender gender;
-    private List<RoommatePreferences> roommatePreferences;
+    private EGender gender;
+    private List<ERoommatePreferences> roommatePreferences;
 
     @OneToMany(mappedBy = "owner")
     public List<Room> getOwnedRooms() {
@@ -62,15 +63,6 @@ public class User extends BaseEntity {
 
     public void setSendMessages(List<Message> sendMessages) {
         this.sendMessages = sendMessages;
-    }
-
-    @OneToMany(mappedBy = "owner")
-    public List<Picture> getPictures() {
-        return pictures;
-    }
-
-    public void setPictures(List<Picture> pictures) {
-        this.pictures = pictures;
     }
 
     @OneToMany(mappedBy = "ofUser")
@@ -116,6 +108,14 @@ public class User extends BaseEntity {
         this.lastName = lastName;
     }
 
+    public Date getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(Date birthDate) {
+        this.birthDate = birthDate;
+    }
+
     public String getEmail() {
         return email;
     }
@@ -149,21 +149,21 @@ public class User extends BaseEntity {
     }
 
     @Enumerated(value = EnumType.STRING)
-    public Gender getGender() {
+    public EGender getGender() {
         return gender;
     }
 
-    public void setGender(Gender gender) {
+    public void setGender(EGender gender) {
         this.gender = gender;
     }
 
-    @ElementCollection(targetClass = Amenities.class)
+    @ElementCollection(targetClass = ERoommatePreferences.class)
     @Enumerated(value = EnumType.STRING)
-    public List<RoommatePreferences> getRoommatePreferences() {
+    public List<ERoommatePreferences> getRoommatePreferences() {
         return roommatePreferences;
     }
 
-    public void setRoommatePreferences(List<RoommatePreferences> roommatePreferences) {
+    public void setRoommatePreferences(List<ERoommatePreferences> roommatePreferences) {
         this.roommatePreferences = roommatePreferences;
     }
 }

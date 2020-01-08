@@ -1,5 +1,7 @@
 package com.dorm.webapp.data.entity;
 
+import com.dorm.webapp.data.shared.BaseEntity;
+
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;

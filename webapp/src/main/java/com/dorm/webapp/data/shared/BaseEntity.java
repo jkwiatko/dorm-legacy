@@ -1,4 +1,4 @@
-package com.dorm.webapp.data.entity;
+package com.dorm.webapp.data.shared;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
