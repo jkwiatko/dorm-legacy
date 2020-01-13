@@ -5,7 +5,7 @@ import java.util.List;
 public class ProfileDTO {
     private String firstName;
     private String lastName;
-    private String profileImage;
+    private ProfilePictureDTO profilePicture;
     private String birthDate;
     private String description;
     private String gender;
@@ -34,12 +34,12 @@ public class ProfileDTO {
         this.lastName = lastName;
     }
 
-    public String getProfileImage() {
-        return profileImage;
+    public ProfilePictureDTO getProfilePicture() {
+        return profilePicture;
     }
 
-    public void setProfileImage(String profileImage) {
-        this.profileImage = profileImage;
+    public void setProfilePicture(ProfilePictureDTO profilePicture) {
+        this.profilePicture = profilePicture;
     }
 
     public String getBirthDate() {
