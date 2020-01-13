@@ -65,7 +65,7 @@ public class User extends BaseEntity {
         this.sendMessages = sendMessages;
     }
 
-    @OneToMany(mappedBy = "ofUser")
+    @OneToMany(mappedBy = "ofUser", cascade = CascadeType.ALL)
     public List<Picture> getProfilePictures() {
         return profilePictures;
     }
