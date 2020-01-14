@@ -2,13 +2,7 @@ package com.dorm.webapp.data.entity;
 
 import com.dorm.webapp.data.shared.BaseEntity;
 
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.PostLoad;
-import javax.persistence.PostPersist;
-import javax.persistence.PostRemove;
-import javax.persistence.PostUpdate;
-import javax.persistence.Transient;
+import javax.persistence.*;
 
 @Entity
 public class Picture extends BaseEntity {
@@ -18,6 +12,7 @@ public class Picture extends BaseEntity {
     private User ofUser;
 
     private String url;
+    private String pictureName;
     private byte[] picture;
 
     @ManyToOne
@@ -53,6 +48,15 @@ public class Picture extends BaseEntity {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    @Column(unique = true)
+    public String getPictureName() {
+        return pictureName;
+    }
+
+    public void setPictureName(String pictureName) {
+        this.pictureName = pictureName;
     }
 
     @Transient

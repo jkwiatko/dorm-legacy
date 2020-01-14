@@ -14,6 +14,7 @@ public class ProfilePictureConverter implements Converter<ProfilePictureDTO, Pic
     public Picture convert(MappingContext<ProfilePictureDTO, Picture> context) {
         Picture picture = new Picture();
         picture.setUrl(produceHashPictureDirectoryFilename(context.getSource().getName()));
+        picture.setPictureName(context.getSource().getName());
         picture.setPicture(Base64.getMimeDecoder().decode(context.getSource().getBase64String()));
         return picture;
     }
@@ -27,7 +28,6 @@ public class ProfilePictureConverter implements Converter<ProfilePictureDTO, Pic
                 String.format("%03d", firstDir) +
                 File.separator +
                 String.format("%03d", secondDir) +
-                File.separator +
-                fileName;
+                File.separator;
     }
 }

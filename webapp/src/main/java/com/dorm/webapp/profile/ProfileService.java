@@ -20,15 +20,25 @@ public class ProfileService {
         this.userService = userService;
     }
 
-    public void updateUserDetails(ProfileDTO profile) {
+    public void updateUserDetails(ProfileDTO profile) throws FileNameInUseException {
         User user = userService.getCurrentAuthenticatedUser();
         modelMapper.map(profile, user);
-
-        Picture picture = modelMapper.map(profile.getProfilePicture(), Picture.class);
-        picture.setOfUser(user);
-        picture.setOwner(user);
-        user.getProfilePictures().add(picture);
-
+        addProfilePicture(user, profile.getProfilePicture());
         userService.updateUser(user);
+    }
+
+    private void addProfilePicture(User user, ProfilePictureDTO pictureDTO) throws FileNameInUseException {
+        boolean filenameInUse = user.getProfilePictures()
+                .stream()
+                .anyMatch(img -> img.getPictureName().equals(pictureDTO.getName()));
+
+        if (!filenameInUse) {
+            Picture picture = modelMapper.map(pictureDTO, Picture.class);
+            picture.setOfUser(user);
+            picture.setOwner(user);
+            user.getProfilePictures().add(picture);
+        } else {
+            throw new FileNameInUseException();
+        }
     }
 }
