@@ -3,7 +3,7 @@ package com.dorm.webapp.auth;
 import com.dorm.webapp.auth.jwt.Credentials;
 import com.dorm.webapp.auth.jwt.JwtProvider;
 import com.dorm.webapp.auth.jwt.Token;
-import com.dorm.webapp.data.service.UserService;
+import com.dorm.webapp.shared.services.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
