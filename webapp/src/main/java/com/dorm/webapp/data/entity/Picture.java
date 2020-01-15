@@ -67,20 +67,4 @@ public class Picture extends BaseEntity {
     public void setPicture(byte[] picture) {
         this.picture = picture;
     }
-
-    @PostUpdate
-    @PostPersist
-    public void savePictureToLocalSystemFile() {
-        // TODO
-    }
-
-    @PostRemove
-    public void removePictureFromLocalSystemFile() {
-        // TODO
-    }
-
-    @PostLoad
-    public void loadPictureFromLocalSystemFile(){
-        // TODO
-    }
 }
