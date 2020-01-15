@@ -20,7 +20,6 @@ import java.io.InputStream;
 @Service
 public class PictureService {
     private final Log logger = LogFactory.getLog(this.getClass());
-    private static final String imageStoragePath = "/dorm/image_storage";
 
     private final PictureRepository pictureRepository;
     private final ModelMapper modelMapper;
@@ -43,7 +42,12 @@ public class PictureService {
             picture.setOfUser(user);
             picture.setOwner(user);
             pictureRepository.save(picture);
-            savePictureToLocalFileSystem(picture);
+            try {
+                savePictureToLocalFileSystem(picture);
+            } catch (Exception e) {
+                logger.error("Exception occurred while image storing procedure!!! \n Running rollback...", e);
+                pictureRepository.delete(picture);
+            }
         } else {
             throw new FileNameInUseException();
         }
@@ -52,7 +56,7 @@ public class PictureService {
     public void savePictureToLocalFileSystem(Picture picture) {
         File pictureFile = new File(
                 System.getProperties().getProperty("user.home")
-                        +  imageStoragePath
+                        + Picture.imageStoragePath
                         + picture.getUrl()
                         + picture.getPictureName()
         );
