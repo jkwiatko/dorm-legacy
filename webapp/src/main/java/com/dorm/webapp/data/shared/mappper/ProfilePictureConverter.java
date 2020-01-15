@@ -15,7 +15,7 @@ public class ProfilePictureConverter implements Converter<ProfilePictureDTO, Pic
         Picture picture = new Picture();
         picture.setUrl(produceHashPictureDirectoryFilename(context.getSource().getName()));
         picture.setPictureName(context.getSource().getName());
-        picture.setPicture(Base64.getMimeDecoder().decode(context.getSource().getBase64String()));
+        picture.setPicture(Base64.getMimeDecoder().decode(context.getSource().getBase64String().split(";base64,")[1]));
         return picture;
     }
 
