@@ -4,13 +4,14 @@ import com.dorm.backend.shared.data.entities.Picture;
 import com.dorm.backend.shared.data.entities.User;
 import com.dorm.backend.shared.data.repos.PictureRepository;
 import com.dorm.backend.profile.dto.ProfilePictureDTO;
-import com.dorm.backend.profile.exception.FileNameInUseException;
+import com.dorm.backend.shared.error.exc.FileNameAlreadyTaken;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import javax.imageio.ImageIO;
+import javax.persistence.EntityNotFoundException;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -32,7 +33,7 @@ public class PictureService {
         this.modelMapper = modelMapper;
     }
 
-    public void addProfilePicture(User user, ProfilePictureDTO pictureDTO) throws FileNameInUseException {
+    public void addProfilePicture(User user, ProfilePictureDTO pictureDTO) {
         boolean filenameInUse = user.getProfilePictures()
                 .stream()
                 .anyMatch(img -> img.getPictureName().equals(pictureDTO.getName()));
@@ -45,11 +46,11 @@ public class PictureService {
             try {
                 savePictureToLocalFileSystem(picture);
             } catch (Exception e) {
-                logger.error("Exception occurred while image storing procedure!!! \n Running rollback...", e);
                 pictureRepository.delete(picture);
+                logger.error("Exception occurred while image storing procedure!!! \n Running rollback...", e);
             }
         } else {
-            throw new FileNameInUseException();
+            throw new FileNameAlreadyTaken();
         }
     }
 
@@ -70,5 +71,10 @@ public class PictureService {
         } catch (IOException e) {
             logger.error(String.format("IOException while saving image to local file storage with path:%s", pictureFile.getPath()), e);
         }
+    }
+
+    // TODO move logic from hibernate event listeners
+    public Picture getPicture(Long id) {
+        return pictureRepository.findById(id).orElseThrow(EntityNotFoundException::new);
     }
 }

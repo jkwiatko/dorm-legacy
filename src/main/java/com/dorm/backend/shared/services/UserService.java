@@ -5,7 +5,9 @@ import com.dorm.backend.auth.jwt.Credentials;
 import com.dorm.backend.shared.data.entities.User;
 import com.dorm.backend.shared.data.repos.UserRepository;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -22,14 +24,12 @@ public class UserService {
         this.modelMapper = modelMapper;
     }
 
-
-    // TODO think about refactor
     public User getCurrentAuthenticatedUser() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if(principal instanceof UserPrincipal) {
-            return getUser(((UserPrincipal) principal).getId());
+        if(!(principal instanceof UserPrincipal)) {
+            throw new InsufficientAuthenticationException("Couldn't not retrieve currently logged in user");
         }
-        return null;
+        return getUser(((UserPrincipal) principal).getId());
     }
 
     public User findByUsername(String email) {
@@ -40,14 +40,15 @@ public class UserService {
         return new ArrayList<>(userRepository.findAll());
     }
 
-    public boolean addUser(Credentials credentials) {
+    public void addUser(Credentials credentials) {
         User userToAdd = modelMapper.map(credentials, User.class);
         userRepository.save(userToAdd);
-        return true;
     }
 
     public User getUser(Long id) {
-        return userRepository.getOne(id);
+        return userRepository
+                .findById(id)
+                .orElseThrow(() -> new UsernameNotFoundException(String.format("User of id: %s not found",id)));
     }
 
     public void updateUser(User user) {

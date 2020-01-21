@@ -12,8 +12,8 @@ export class ProfileService {
     constructor(private http: HttpClient) {
     }
 
-    public fetchProfile(id: number): Observable<Profile> {
-        return this.http.get<Profile>(environment.api + 'profile/' + id);
+    public fetchProfile(): Observable<Profile> {
+        return this.http.get<Profile>(environment.api + 'profile/edit');
     }
 
     public saveProfile(profile: Profile) {

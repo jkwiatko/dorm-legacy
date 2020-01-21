@@ -1,10 +1,10 @@
 package com.dorm.backend.profile;
 
+import com.dorm.backend.shared.data.entities.Picture;
 import com.dorm.backend.shared.data.entities.User;
 import com.dorm.backend.shared.services.PictureService;
 import com.dorm.backend.shared.services.UserService;
 import com.dorm.backend.profile.dto.ProfileDTO;
-import com.dorm.backend.profile.exception.FileNameInUseException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.modelmapper.ModelMapper;
@@ -37,16 +37,11 @@ public class ProfileController {
     }
 
     @PostMapping("/edit")
-    public ResponseEntity<String> EditProfile(@RequestBody ProfileDTO profile) {
-        try {
-            User user = userService.getCurrentAuthenticatedUser();
-            modelMapper.map(profile, user);
-            pictureService.addProfilePicture(user, profile.getProfilePicture());
-            userService.updateUser(user);
-        } catch (FileNameInUseException e) {
-            logger.error("user submitted picture with same name");
-            return ResponseEntity.badRequest().body("File name is already taken for this user");
-        }
+    public ResponseEntity<Void> EditProfile(@RequestBody ProfileDTO profile) {
+        User user = userService.getCurrentAuthenticatedUser();
+        modelMapper.map(profile, user);
+        pictureService.addProfilePicture(user, profile.getProfilePicture());
+        userService.updateUser(user);
         return ResponseEntity.ok().build();
     }
 }
