@@ -9,8 +9,8 @@ export interface Profile {
     birthDate: string;
     description: string;
     gender: string;
-    work: string;
-    university: string;
+    workingIn: string;
+    studyingAt: string;
     interests: [string];
     inclinations: [string];
     cleaningPolicy: string;
@@ -56,8 +56,8 @@ export class ProfileEditComponent implements OnInit {
             birthDate: new FormControl(null, Validators.required),
             description: new FormControl(null, Validators.required),
             gender: new FormControl(null, Validators.required),
-            work: new FormControl(null),
-            university: new FormControl(null),
+            workingIn: new FormControl(null),
+            studyingAt: new FormControl(null),
             interests: new FormArray([]),
             inclinations: new FormArray([]),
             cleaningPolicy : new FormControl(null),
@@ -103,7 +103,12 @@ export class ProfileEditComponent implements OnInit {
         (this.form.get('inclinations') as FormArray).removeAt(i);
     }
 
+    onGet() {
+        this.profileClient.fetchProfile().subscribe();
+    }
+
     onSubmit() {
+        // this.profileClient.fetchProfile().subscribe();
         const profile: Profile = {
             firstName: this.form.get('firstName').value,
             lastName: this.form.get('lastName').value,
@@ -114,8 +119,8 @@ export class ProfileEditComponent implements OnInit {
             birthDate: this.form.get('birthDate').value,
             description: this.form.get('description').value,
             gender: this.form.get('gender').value,
-            work: this.form.get('work').value,
-            university: this.form.get('university').value,
+            workingIn: this.form.get('workingIn').value,
+            studyingAt: this.form.get('studyingAt').value,
             interests: this.form.get('interests').value,
             inclinations: this.form.get('inclinations').value,
             cleaningPolicy: this.form.get('cleaningPolicy').value,

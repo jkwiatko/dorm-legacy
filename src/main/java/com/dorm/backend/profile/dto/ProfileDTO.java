@@ -9,8 +9,8 @@ public class ProfileDTO {
     private String birthDate;
     private String description;
     private String gender;
-    private String work;
-    private String university;
+    private String workingIn;
+    private String studyingAt;
     private List<String> interests;
     private List<String> inclinations;
     private String cleaningPolicy;
@@ -66,20 +66,20 @@ public class ProfileDTO {
         this.gender = gender;
     }
 
-    public String getWork() {
-        return work;
+    public String getWorkingIn() {
+        return workingIn;
     }
 
-    public void setWork(String work) {
-        this.work = work;
+    public void setWorkingIn(String work) {
+        this.workingIn = work;
     }
 
-    public String getUniversity() {
-        return university;
+    public String getStudyingAt() {
+        return studyingAt;
     }
 
-    public void setUniversity(String university) {
-        this.university = university;
+    public void setStudyingAt(String studyingAt) {
+        this.studyingAt = studyingAt;
     }
 
     public List<String> getInterests() {

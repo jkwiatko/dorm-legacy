@@ -2,6 +2,8 @@ package com.dorm.backend.shared.services;
 
 import com.dorm.backend.auth.UserPrincipal;
 import com.dorm.backend.auth.jwt.Credentials;
+import com.dorm.backend.profile.dto.ProfileDTO;
+import com.dorm.backend.shared.data.entities.Picture;
 import com.dorm.backend.shared.data.entities.User;
 import com.dorm.backend.shared.data.repos.UserRepository;
 import org.modelmapper.ModelMapper;
@@ -16,12 +18,18 @@ import java.util.List;
 @Service
 public class UserService {
 
-    private final UserRepository userRepository;
     private final ModelMapper modelMapper;
+    private final PictureService pictureService;
+    private final UserRepository userRepository;
 
-    UserService(UserRepository userRepository, ModelMapper modelMapper) {
-        this.userRepository = userRepository;
+    UserService(
+            ModelMapper modelMapper,
+            PictureService pictureService,
+            UserRepository userRepository
+    ) {
         this.modelMapper = modelMapper;
+        this.pictureService = pictureService;
+        this.userRepository = userRepository;
     }
 
     public User getCurrentAuthenticatedUser() {
@@ -30,6 +38,14 @@ public class UserService {
             throw new InsufficientAuthenticationException("Couldn't not retrieve currently logged in user");
         }
         return getUser(((UserPrincipal) principal).getId());
+    }
+
+    public ProfileDTO getUserProfile(Long id) {
+        User user = getUser(id);
+        for (Picture picture : user.getProfilePictures()) {
+            picture.setPicture(pictureService.loadPictureFromFileSystem(picture));
+        }
+        return modelMapper.map(user, ProfileDTO.class);
     }
 
     public User findByUsername(String email) {

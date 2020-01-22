@@ -49,9 +49,12 @@ public class PictureService {
                 persistPictureToFileSystem(picture);
             } catch (IOException e) {
                 pictureRepository.delete(picture);
-                logger.error("Exception occurred while image storing procedure under "
+                logger.error(
+                        "Exception occurred while image storing procedure under "
                         + picture.getUrl()
-                        + " path!!! \n Running rollback...", e);
+                        + " path!!! \n Running rollback...",
+                        e
+                );
                 throw new PersistFileException();
             }
         } else {
@@ -80,8 +83,11 @@ public class PictureService {
         );
 
         try (InputStream inputStream = new ByteArrayInputStream(picture.getPicture())) {
-            if(!pictureFile.getParentFile().exists()) {
-                pictureFile.getParentFile().mkdirs();
+            if(
+                    !pictureFile.getParentFile().exists() &&
+                            !pictureFile.getParentFile().mkdirs()
+            ) {
+                throw new IOException();
             }
             BufferedImage bImage = ImageIO.read(inputStream);
             ImageIO.write(bImage, "jpg", pictureFile);

@@ -46,6 +46,7 @@
                 <hr class="w-50">
                 <div class="mb-3">
                     <button type="submit" class="btn btn-primary">submit</button>
+                    <button type="button" (click)="onGet()" class="btn btn-primary">test me</button>
                 </div>
             </div>
         </div>
@@ -73,13 +74,13 @@
                             <span>Pracuję w: </span>
                         </div>
                         <div>
-                            <label><input type="text" formControlName="work" class="simple-input mt-2"></label>
+                            <label><input type="text" formControlName="workingIn" class="simple-input mt-2"></label>
                         </div>
                         <div>
                             <span>Uczę się na:  </span>
                         </div>
                         <div>
-                            <label><input type="text" formControlName="university" class="simple-input mt-2"></label>
+                            <label><input type="text" formControlName="studyingAt" class="simple-input mt-2"></label>
                         </div>
                     </div>
                     <hr class="horizontal-line">

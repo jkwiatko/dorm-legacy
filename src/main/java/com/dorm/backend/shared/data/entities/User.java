@@ -18,6 +18,8 @@ public class User extends BaseEntity {
     private List<Picture> profilePictures;
     private List<ResidenceOffer> residenceOffers;
     private List<RoomInvite> roomInvites;
+    private List<String> interests;
+    private List<String> inclinations;
 
     private String firstName;
     private String lastName;
@@ -27,7 +29,12 @@ public class User extends BaseEntity {
     private String description;
     private boolean active;
     private EGender gender;
-    private List<ERoommatePreferences> roommatePreferences;
+    private String workingIn;
+    private String studyingAt;
+    private String cleaningPolicy;
+    private String smokingPolicy;
+    private String petPolicy;
+    private String guestsPolicy;
 
     @OneToMany(mappedBy = "owner")
     public List<Room> getOwnedRooms() {
@@ -86,6 +93,24 @@ public class User extends BaseEntity {
     @OneToMany(mappedBy = "toUser")
     public List<RoomInvite> getRoomInvites() {
         return roomInvites;
+    }
+
+    @ElementCollection
+    public List<String> getInterests() {
+        return interests;
+    }
+
+    public void setInterests(List<String> interests) {
+        this.interests = interests;
+    }
+
+    @ElementCollection
+    public List<String> getInclinations() {
+        return inclinations;
+    }
+
+    public void setInclinations(List<String> inclinations) {
+        this.inclinations = inclinations;
     }
 
     public void setRoomInvites(List<RoomInvite> roomInvites) {
@@ -157,13 +182,51 @@ public class User extends BaseEntity {
         this.gender = gender;
     }
 
-    @ElementCollection(targetClass = ERoommatePreferences.class)
-    @Enumerated(value = EnumType.STRING)
-    public List<ERoommatePreferences> getRoommatePreferences() {
-        return roommatePreferences;
+    public String getWorkingIn() {
+        return workingIn;
     }
 
-    public void setRoommatePreferences(List<ERoommatePreferences> roommatePreferences) {
-        this.roommatePreferences = roommatePreferences;
+    public void setWorkingIn(String workingIn) {
+        this.workingIn = workingIn;
+    }
+
+    public String getStudyingAt() {
+        return studyingAt;
+    }
+
+    public void setStudyingAt(String studyingAt) {
+        this.studyingAt = studyingAt;
+    }
+
+    public String getCleaningPolicy() {
+        return cleaningPolicy;
+    }
+
+    public void setCleaningPolicy(String cleaningPolicy) {
+        this.cleaningPolicy = cleaningPolicy;
+    }
+
+    public String getSmokingPolicy() {
+        return smokingPolicy;
+    }
+
+    public void setSmokingPolicy(String smokingPolicy) {
+        this.smokingPolicy = smokingPolicy;
+    }
+
+    public String getPetPolicy() {
+        return petPolicy;
+    }
+
+    public void setPetPolicy(String petPolicy) {
+        this.petPolicy = petPolicy;
+    }
+
+    public String getGuestsPolicy() {
+        return guestsPolicy;
+    }
+
+    public void setGuestsPolicy(String guestsPolicy) {
+        this.guestsPolicy = guestsPolicy;
     }
 }

@@ -32,8 +32,7 @@ public class ProfileController {
 
     @GetMapping("/edit")
     public ResponseEntity<ProfileDTO> getEditedProfile() {
-        User user = userService.getCurrentAuthenticatedUser();
-        return ResponseEntity.ok().body(modelMapper.map(user, ProfileDTO.class));
+        return ResponseEntity.ok().body(userService.getUserProfile(userService.getCurrentAuthenticatedUser().getId()));
     }
 
     @PostMapping("/edit")
