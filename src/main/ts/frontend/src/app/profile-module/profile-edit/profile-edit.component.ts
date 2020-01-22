@@ -1,18 +1,20 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ProfileService} from '../providers/profile.service';
+import {Subscription} from "rxjs";
+import {DomSanitizer, SafeUrl} from "@angular/platform-browser";
 
-export interface Profile {
+export class Profile {
     firstName: string;
     lastName: string;
-    profilePicture: ProfilePicture;
+    profilePicture: ProfilePicture = null;
     birthDate: string;
     description: string;
     gender: string;
     workingIn: string;
     studyingAt: string;
-    interests: [string];
-    inclinations: [string];
+    interests: string[] = [];
+    inclinations: string[] = [];
     cleaningPolicy: string;
     smokingPolicy: string;
     petPolicy: string;
@@ -20,7 +22,7 @@ export interface Profile {
 }
 
 export interface ProfilePicture {
-    base64String: string;
+    base64String: string | SafeUrl;
     name: string;
 }
 
@@ -29,15 +31,17 @@ export interface ProfilePicture {
     templateUrl: './profile-edit.component.html',
     styleUrls: ['./profile-edit.component.scss']
 })
-export class ProfileEditComponent implements OnInit {
+export class ProfileEditComponent implements OnInit, OnDestroy {
 
     startDate = new Date(2000, 0, 1);
     form: FormGroup;
     interests: FormArray;
     inclinations: FormArray;
+    profileSub: Subscription;
+    profile: Profile;
     profileImg: ProfilePicture = {base64String: null, name: null};
 
-    constructor(private profileClient: ProfileService) {
+    constructor(private profileClient: ProfileService, private sanitizer: DomSanitizer) {
     }
 
     get interestsControl() {
@@ -49,38 +53,58 @@ export class ProfileEditComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.form = new FormGroup({
-            firstName: new FormControl(null, Validators.required),
-            lastName: new FormControl(null, Validators.required),
-            profileImage: new FormControl(null),
-            birthDate: new FormControl(null, Validators.required),
-            description: new FormControl(null, Validators.required),
-            gender: new FormControl(null, Validators.required),
-            workingIn: new FormControl(null),
-            studyingAt: new FormControl(null),
-            interests: new FormArray([]),
-            inclinations: new FormArray([]),
-            cleaningPolicy : new FormControl(null),
-            smokingPolicy : new FormControl(null),
-            petPolicy : new FormControl(null),
-            guestsPolicy : new FormControl(null)
+        this.setForm(new Profile());
+        this.profileSub = this.profileClient.fetchProfile().subscribe(profile => {
+            this.setForm(profile);
         });
+    }
+
+    setForm(profile: Profile) {
+        const interests = new FormArray([]);
+        for (const interest of profile.interests) {
+            interests.push(new FormControl(interest, Validators.required));
+        }
+        const inclinations = new FormArray([]);
+        for (const inclination of profile.inclinations) {
+            inclinations.push(new FormControl(inclination, Validators.required));
+        }
+
+        this.form = new FormGroup({
+            firstName: new FormControl(profile.firstName, Validators.required),
+            lastName: new FormControl(profile.lastName, Validators.required),
+            profilePicture: new FormControl(null),
+            birthDate: new FormControl(profile.birthDate, Validators.required),
+            description: new FormControl(profile.description, Validators.required),
+            gender: new FormControl(profile.gender, Validators.required),
+            workingIn: new FormControl(profile.workingIn),
+            studyingAt: new FormControl(profile.studyingAt),
+            interests: interests,
+            inclinations: inclinations,
+            cleaningPolicy: new FormControl(profile.cleaningPolicy),
+            smokingPolicy: new FormControl(profile.smokingPolicy),
+            petPolicy: new FormControl(profile.petPolicy),
+            guestsPolicy: new FormControl(profile.guestsPolicy),
+        });
+
+        if(profile.profilePicture) {
+            this.profileImg =  profile.profilePicture;
+            this.profileImg.base64String = this.sanitizer.bypassSecurityTrustUrl(
+                'data:image/jpeg;base64,' + this.profileImg.base64String
+            );
+        }
     }
 
     onAddInterest() {
         (this.form.get('interests') as FormArray).push(
             new FormControl(null, Validators.required)
-
         );
     }
 
     onAddInclination() {
         (this.form.get('inclinations') as FormArray).push(
             new FormControl(null, Validators.required)
-
         );
     }
-
 
     OnSelectFile(event) {
         if (event.target.files && event.target.files[0]) {
@@ -108,13 +132,12 @@ export class ProfileEditComponent implements OnInit {
     }
 
     onSubmit() {
-        // this.profileClient.fetchProfile().subscribe();
         const profile: Profile = {
             firstName: this.form.get('firstName').value,
             lastName: this.form.get('lastName').value,
             profilePicture: {
-                base64String : this.profileImg.base64String,
-                name :  this.profileImg.name
+                base64String: this.profileImg.base64String,
+                name: this.profileImg.name
             },
             birthDate: this.form.get('birthDate').value,
             description: this.form.get('description').value,
@@ -129,5 +152,9 @@ export class ProfileEditComponent implements OnInit {
             guestsPolicy: this.form.get('guestsPolicy').value,
         };
         this.profileClient.saveProfile(profile);
+    }
+
+    ngOnDestroy(): void {
+        this.profileSub.unsubscribe();
     }
 }

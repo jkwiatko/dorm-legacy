@@ -118,7 +118,7 @@ public class PictureService {
         );
         try {
             Files.delete(pictureFile.toPath());
-        } catch (IOException e) {
+        } catch (Exception e) {
             logger.error(String.format("Couldn't delete file with path name:%s", pictureFile.getPath()), e);
             throw new RemovePictureException();
         }

@@ -10,7 +10,7 @@
                 <button type="button" class="btn btn-success mt-2" (click)="fileInput.click()">add</button>
                 <input type="file"
                        class="d-none"
-                       formControlName="profileImage"
+                       formControlName="profilePicture"
                        #fileInput (change)="OnSelectFile($event)">
                 <hr class="w-50">
                 <div class="w-75">
@@ -46,7 +46,6 @@
                 <hr class="w-50">
                 <div class="mb-3">
                     <button type="submit" class="btn btn-primary">submit</button>
-                    <button type="button" (click)="onGet()" class="btn btn-primary">test me</button>
                 </div>
             </div>
         </div>

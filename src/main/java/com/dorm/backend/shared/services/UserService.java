@@ -3,6 +3,7 @@ package com.dorm.backend.shared.services;
 import com.dorm.backend.auth.UserPrincipal;
 import com.dorm.backend.auth.jwt.Credentials;
 import com.dorm.backend.profile.dto.ProfileDTO;
+import com.dorm.backend.profile.dto.ProfilePictureDTO;
 import com.dorm.backend.shared.data.entities.Picture;
 import com.dorm.backend.shared.data.entities.User;
 import com.dorm.backend.shared.data.repos.UserRepository;
@@ -45,7 +46,11 @@ public class UserService {
         for (Picture picture : user.getProfilePictures()) {
             picture.setPicture(pictureService.loadPictureFromFileSystem(picture));
         }
-        return modelMapper.map(user, ProfileDTO.class);
+        ProfileDTO dto = modelMapper.map(user, ProfileDTO.class);
+        user.getProfilePictures().stream()
+                .findFirst()
+                .ifPresent((picture) -> dto.setProfilePicture(modelMapper.map(picture,  ProfilePictureDTO.class)));
+        return dto;
     }
 
     public User findByUsername(String email) {
