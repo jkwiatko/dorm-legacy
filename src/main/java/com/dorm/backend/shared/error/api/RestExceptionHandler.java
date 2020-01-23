@@ -23,7 +23,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(FileNameAlreadyTaken.class)
-    protected ResponseEntity<ApiError> handleEntityNotFound(FileNameAlreadyTaken exc) {
+    protected ResponseEntity<ApiError> handleFileNameAlreadyTaken(FileNameAlreadyTaken exc) {
         ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST);
         apiError.setMessage(exc.getMessage());
         return buildResponseEntity(apiError);

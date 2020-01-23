@@ -35,10 +35,7 @@ export class ProfileEditComponent implements OnInit, OnDestroy {
 
     startDate = new Date(2000, 0, 1);
     form: FormGroup;
-    interests: FormArray;
-    inclinations: FormArray;
     profileSub: Subscription;
-    profile: Profile;
     profileImg: ProfilePicture = {base64String: null, name: null};
 
     constructor(private profileClient: ProfileService, private sanitizer: DomSanitizer) {
@@ -73,7 +70,7 @@ export class ProfileEditComponent implements OnInit, OnDestroy {
             firstName: new FormControl(profile.firstName, Validators.required),
             lastName: new FormControl(profile.lastName, Validators.required),
             profilePicture: new FormControl(null),
-            birthDate: new FormControl(profile.birthDate, Validators.required),
+            birthDate: new FormControl(new Date(profile.birthDate), Validators.required),
             description: new FormControl(profile.description, Validators.required),
             gender: new FormControl(profile.gender, Validators.required),
             workingIn: new FormControl(profile.workingIn),
@@ -85,7 +82,6 @@ export class ProfileEditComponent implements OnInit, OnDestroy {
             petPolicy: new FormControl(profile.petPolicy),
             guestsPolicy: new FormControl(profile.guestsPolicy),
         });
-
         if(profile.profilePicture) {
             this.profileImg =  profile.profilePicture;
             this.profileImg.base64String = this.sanitizer.bypassSecurityTrustUrl(
@@ -127,18 +123,10 @@ export class ProfileEditComponent implements OnInit, OnDestroy {
         (this.form.get('inclinations') as FormArray).removeAt(i);
     }
 
-    onGet() {
-        this.profileClient.fetchProfile().subscribe();
-    }
-
     onSubmit() {
         const profile: Profile = {
             firstName: this.form.get('firstName').value,
             lastName: this.form.get('lastName').value,
-            profilePicture: {
-                base64String: this.profileImg.base64String,
-                name: this.profileImg.name
-            },
             birthDate: this.form.get('birthDate').value,
             description: this.form.get('description').value,
             gender: this.form.get('gender').value,
@@ -150,6 +138,7 @@ export class ProfileEditComponent implements OnInit, OnDestroy {
             smokingPolicy: this.form.get('smokingPolicy').value,
             petPolicy: this.form.get('petPolicy').value,
             guestsPolicy: this.form.get('guestsPolicy').value,
+            profilePicture: typeof this.profileImg.base64String === 'string' ? this.profileImg : null
         };
         this.profileClient.saveProfile(profile);
     }

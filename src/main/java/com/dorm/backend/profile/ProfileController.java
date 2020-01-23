@@ -1,6 +1,5 @@
 package com.dorm.backend.profile;
 
-import com.dorm.backend.shared.data.entities.Picture;
 import com.dorm.backend.shared.data.entities.User;
 import com.dorm.backend.shared.services.PictureService;
 import com.dorm.backend.shared.services.UserService;
@@ -39,7 +38,9 @@ public class ProfileController {
     public ResponseEntity<Void> EditProfile(@RequestBody ProfileDTO profile) {
         User user = userService.getCurrentAuthenticatedUser();
         modelMapper.map(profile, user);
-        pictureService.addProfilePicture(user, profile.getProfilePicture());
+        if(profile.getProfilePicture() != null) {
+            pictureService.addProfilePicture(user, profile.getProfilePicture());
+        }
         userService.updateUser(user);
         return ResponseEntity.ok().build();
     }
