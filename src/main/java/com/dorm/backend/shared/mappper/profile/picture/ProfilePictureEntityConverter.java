@@ -1,4 +1,4 @@
-package com.dorm.backend.shared.mappper.picture;
+package com.dorm.backend.shared.mappper.profile.picture;
 
 import com.dorm.backend.shared.data.entities.Picture;
 import com.dorm.backend.profile.dto.ProfilePictureDTO;
@@ -6,7 +6,6 @@ import org.modelmapper.Converter;
 import org.modelmapper.spi.MappingContext;
 
 import java.util.Base64;
-import java.util.List;
 
 public class ProfilePictureEntityConverter implements Converter<Picture, ProfilePictureDTO> {
 
