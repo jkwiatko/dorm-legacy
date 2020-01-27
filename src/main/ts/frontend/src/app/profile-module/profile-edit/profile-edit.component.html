@@ -1,173 +1,175 @@
-<form [formGroup]="form" (ngSubmit)="onSubmit()">
-    <div class="content row">
-        <div class="col-4">
-            <div class="sticky-info">
-                <div class="profile-img mb-3 d-flex align-content-center justify-content-center">
-                    <div><img alt="profile image" *ngIf="profileImg.base64String; else noImage" [src]="profileImg.base64String">
-                        <ng-template #noImage><span>?</span></ng-template>
+<div class="container">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <div class="content row">
+            <div class="col-4">
+                <div class="sticky-info">
+                    <div class="profile-img mb-3 d-flex align-content-center justify-content-center">
+                        <div><img alt="profile image" *ngIf="profileImg.base64String; else noImage" [src]="profileImg.base64String">
+                            <ng-template #noImage><span>?</span></ng-template>
+                        </div>
                     </div>
-                </div>
-                <button type="button" class="btn btn-success mt-2" (click)="fileInput.click()">add</button>
-                <input type="file"
-                       class="d-none"
-                       formControlName="profilePicture"
-                       #fileInput (change)="OnSelectFile($event)">
-                <hr class="w-50">
-                <div class="w-75">
-                    <div class="w-100">
-                        <label class="w-50">
-                            <input type="text"
-                                   class="w-100 simple-input first-name-input"
-                                   formControlName="firstName"
-                                   placeholder="First name">
-                        </label>
-                        <label class="w-50">
-                            <input type="text"
-                                   class="w-100 simple-input last-name-input"
-                                   formControlName="lastName"
-                                   placeholder="Last name">
-                        </label>
-                    </div>
-                    <mat-radio-group class="input-group d-flex justify-content-center" formControlName="gender" aria-label="Select an option">
-                        <mat-radio-button value="MALE" color="primary">M</mat-radio-button>
-                        <mat-radio-button value="FEMALE" class="ml-4">K</mat-radio-button>
-                    </mat-radio-group>
-                    <div>
-                        <mat-form-field>
-                            <label>
-                                <!--suppress AngularInvalidExpressionResultType -->
-                                <input matInput formControlName="birthDate" [matDatepicker]="picker" placeholder="Choose birth date">
+                    <button type="button" class="btn btn-success mt-2" (click)="fileInput.click()">add</button>
+                    <input type="file"
+                           class="d-none"
+                           formControlName="profilePicture"
+                           #fileInput (change)="OnSelectFile($event)">
+                    <hr class="w-50">
+                    <div class="w-75">
+                        <div class="w-100">
+                            <label class="w-50">
+                                <input type="text"
+                                       class="w-100 simple-input first-name-input"
+                                       formControlName="firstName"
+                                       placeholder="First name">
                             </label>
-                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                            <mat-datepicker #picker startView="multi-year" [startAt]="startDate"></mat-datepicker>
-                        </mat-form-field>
+                            <label class="w-50">
+                                <input type="text"
+                                       class="w-100 simple-input last-name-input"
+                                       formControlName="lastName"
+                                       placeholder="Last name">
+                            </label>
+                        </div>
+                        <mat-radio-group class="input-group d-flex justify-content-center" formControlName="gender" aria-label="Select an option">
+                            <mat-radio-button value="MALE" color="primary">M</mat-radio-button>
+                            <mat-radio-button value="FEMALE" class="ml-4">K</mat-radio-button>
+                        </mat-radio-group>
+                        <div>
+                            <mat-form-field>
+                                <label>
+                                    <!--suppress AngularInvalidExpressionResultType -->
+                                    <input matInput formControlName="birthDate" [matDatepicker]="picker" placeholder="Choose birth date">
+                                </label>
+                                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                <mat-datepicker #picker startView="multi-year" [startAt]="startDate"></mat-datepicker>
+                            </mat-form-field>
+                        </div>
                     </div>
-                </div>
-                <hr class="w-50">
-                <div class="mb-3">
-                    <button type="submit" class="btn btn-primary">submit</button>
+                    <hr class="w-50">
+                    <div class="mb-3">
+                        <button type="submit" class="btn btn-primary">submit</button>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="col-8" style="border: 1px solid black;">
-            <div class="ml-2">
-                <div class="mb-5 mt-3">
-                    <div class="big-title blue-text font-weight-bold">
-                        O mnie
-                    </div>
-                    <div>
-                        <div class="small-tittle font-weight-bold">Tak w skrócie</div>
+            <div class="col-8" style="border: 1px solid black;">
+                <div class="ml-2">
+                    <div class="mb-5 mt-3">
+                        <div class="big-title blue-text font-weight-bold">
+                            O mnie
+                        </div>
                         <div>
-                            <label class="w-100">
-                            <textarea class="w-100 summary-text-area"
-                                      formControlName="description"
-                                      placeholder="Napisz pare słów o sobie...">
-                            </textarea>
-                            </label>
-                        </div>
-                    </div>
-                    <hr class="horizontal-line">
-                    <div>
-                        <div class="small-tittle font-weight-bold m-0 mb-4">Zajmuje się</div>
-                        <div class="row d-flex justify-content-between">
-                            <div class="col-6 d-flex flex-column">
-                                <span>Pracuję w: </span>
-                                <div>
-                                    <label><input type="text" formControlName="workingIn" class="simple-input mt-2"></label>
-                                </div>
-                            </div>
-                            <div class="col-6 d-flex flex-column">
-                                <span>Uczę się na:  </span>
-                                <div>
-                                    <label><input type="text" formControlName="studyingAt" class="simple-input mt-2"></label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <hr class="horizontal-line">
-                    <div class="row">
-                        <div class="col-6" formArrayName="interests">
-                            <div class="small-tittle font-weight-bold m-0 mb-2">
-                                Jestem
-                            </div>
-                            <div *ngFor="let interest of interestsControl; let i = index">
-                                <label>
-                                    <input type="text" formControlName="{{i}}" class="simple-input yellow-text">
-                                </label>
-                                <button (click)="onDeleteInterest(i)" type="button" class="x-button">X</button>
-                            </div>
+                            <div class="small-tittle font-weight-bold">Tak w skrócie</div>
                             <div>
-                                <button type="button" class="btn btn-success" (click)="onAddInterest()">
+                                <label class="w-100">
+                                <textarea class="w-100 summary-text-area"
+                                          formControlName="description"
+                                          placeholder="Napisz pare słów o sobie...">
+                                </textarea>
+                                </label>
+                            </div>
+                        </div>
+                        <hr class="horizontal-line">
+                        <div>
+                            <div class="small-tittle font-weight-bold m-0 mb-4">Zajmuje się</div>
+                            <div class="row d-flex justify-content-between">
+                                <div class="col-6 d-flex flex-column">
+                                    <span>Pracuję w: </span>
+                                    <div>
+                                        <label><input type="text" formControlName="workingIn" class="simple-input mt-2"></label>
+                                    </div>
+                                </div>
+                                <div class="col-6 d-flex flex-column">
+                                    <span>Uczę się na:  </span>
+                                    <div>
+                                        <label><input type="text" formControlName="studyingAt" class="simple-input mt-2"></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr class="horizontal-line">
+                        <div class="row">
+                            <div class="col-6" formArrayName="interests">
+                                <div class="small-tittle font-weight-bold m-0 mb-2">
+                                    Jestem
+                                </div>
+                                <div *ngFor="let interest of interestsControl; let i = index">
+                                    <label>
+                                        <input type="text" formControlName="{{i}}" class="simple-input yellow-text">
+                                    </label>
+                                    <button (click)="onDeleteInterest(i)" type="button" class="x-button">X</button>
+                                </div>
+                                <div>
+                                    <button type="button" class="btn btn-success" (click)="onAddInterest()">
+                                        add
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col-6" formArrayName="inclinations">
+                                <div class="small-tittle font-weight-bold m-0 mb-2">
+                                    Interesuję się
+                                </div>
+                                <div *ngFor="let inclination of inclinationsControl; let i = index" class="yellow-text">
+                                    <label>
+                                        <input type="text" formControlName="{{i}}" class="simple-input yellow-text">
+                                    </label>
+                                    <button (click)="onDeleteInclination(i)" type="button" class="x-button">X</button>
+                                </div>
+                                <button type="button" class="btn btn-success" (click)="onAddInclination()">
                                     add
                                 </button>
                             </div>
                         </div>
-                        <div class="col-6" formArrayName="inclinations">
-                            <div class="small-tittle font-weight-bold m-0 mb-2">
-                                Interesuję się
-                            </div>
-                            <div *ngFor="let inclination of inclinationsControl; let i = index" class="yellow-text">
-                                <label>
-                                    <input type="text" formControlName="{{i}}" class="simple-input yellow-text">
-                                </label>
-                                <button (click)="onDeleteInclination(i)" type="button" class="x-button">X</button>
-                            </div>
-                            <button type="button" class="btn btn-success" (click)="onAddInclination()">
-                                add
-                            </button>
-                        </div>
                     </div>
-                </div>
-                <hr class="horizontal-line">
-                <div class="mb-5">
-                    <div class="big-title blue-text font-weight-bold">
-                        Preferencje
-                    </div>
-                    <div class="row">
-                        <div class="col-6 d-flex flex-column justify-content-between">
-                            <div class="small-tittle font-weight-bold ">
-                                Jak często sprzatam
+                    <hr class="horizontal-line">
+                    <div class="mb-5">
+                        <div class="big-title blue-text font-weight-bold">
+                            Preferencje
+                        </div>
+                        <div class="row">
+                            <div class="col-6 d-flex flex-column justify-content-between">
+                                <div class="small-tittle font-weight-bold ">
+                                    Jak często sprzatam
+                                </div>
+                                <div>
+                                    <label>
+                                        <input type="text" formControlName="cleaningPolicy" class="simple-input yellow-text">
+                                    </label>
+                                </div>
                             </div>
-                            <div>
-                                <label>
-                                    <input type="text" formControlName="cleaningPolicy" class="simple-input yellow-text">
-                                </label>
+                            <div class="col-6 d-flex flex-column justify-content-between">
+                                <div class="small-tittle font-weight-bold">
+                                    Czy palę?
+                                </div>
+                                <div>
+                                    <label>
+                                        <input type="text" formControlName="smokingPolicy" class="simple-input yellow-text">
+                                    </label>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-6 d-flex flex-column justify-content-between">
-                            <div class="small-tittle font-weight-bold">
-                                Czy palę?
-                            </div>
-                            <div>
+                        <div class="row">
+                            <div class="col-6 d-flex flex-column justify-content-between">
+                                <div class="small-tittle font-weight-bold ">
+                                    Co myślisz o zwierzetach ?
+                                </div>
                                 <label>
-                                    <input type="text" formControlName="smokingPolicy" class="simple-input yellow-text">
+                                    <input type="text" formControlName="petPolicy" class="simple-input yellow-text">
                                 </label>
                             </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-6 d-flex flex-column justify-content-between">
-                            <div class="small-tittle font-weight-bold ">
-                                Co myślisz o zwierzetach ?
-                            </div>
-                            <label>
-                                <input type="text" formControlName="petPolicy" class="simple-input yellow-text">
-                            </label>
-                        </div>
-                        <div class="col-6 d-flex flex-column justify-content-between">
-                            <div class="small-tittle font-weight-bold">
-                                Czy goście mogą zostać na noc?
-                            </div>
-                            <div class="w-100">
-                                <label>
-                                    <input type="text" formControlName="guestsPolicy" class="simple-input yellow-text">
-                                </label>
+                            <div class="col-6 d-flex flex-column justify-content-between">
+                                <div class="small-tittle font-weight-bold">
+                                    Czy goście mogą zostać na noc?
+                                </div>
+                                <div class="w-100">
+                                    <label>
+                                        <input type="text" formControlName="guestsPolicy" class="simple-input yellow-text">
+                                    </label>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</form>
+    </form>
+</div>
 

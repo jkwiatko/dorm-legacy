@@ -29,6 +29,11 @@ public class ProfileController {
         this.modelMapper = modelMapper;
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<ProfileDTO> getProfileForId(@PathVariable Long id) {
+        return ResponseEntity.ok().body(userService.getUserProfile(id));
+    }
+
     @GetMapping("/edit")
     public ResponseEntity<ProfileDTO> getEditedProfile() {
         return ResponseEntity.ok().body(userService.getUserProfile(userService.getCurrentAuthenticatedUser().getId()));

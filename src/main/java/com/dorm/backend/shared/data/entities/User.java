@@ -157,6 +157,7 @@ public class User extends BaseEntity {
         this.password = password;
     }
 
+    @Column(length = 1000)
     public String getDescription() {
         return description;
     }

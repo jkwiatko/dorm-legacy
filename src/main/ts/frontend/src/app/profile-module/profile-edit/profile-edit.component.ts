@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ProfileService} from '../providers/profile.service';
 import {Subscription} from "rxjs";
-import {DomSanitizer, SafeUrl} from "@angular/platform-browser";
+import {SafeUrl} from "@angular/platform-browser";
 
 export class Profile {
     firstName: string;
@@ -38,7 +38,7 @@ export class ProfileEditComponent implements OnInit, OnDestroy {
     profileSub: Subscription;
     profileImg: ProfilePicture = {base64String: null, name: null};
 
-    constructor(private profileClient: ProfileService, private sanitizer: DomSanitizer) {
+    constructor(private profileClient: ProfileService) {
     }
 
     get interestsControl() {
@@ -51,7 +51,7 @@ export class ProfileEditComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.setForm(new Profile());
-        this.profileSub = this.profileClient.fetchProfile().subscribe(profile => {
+        this.profileSub = this.profileClient.fetchCurrentUserProfile().subscribe(profile => {
             this.setForm(profile);
         });
     }
@@ -84,9 +84,6 @@ export class ProfileEditComponent implements OnInit, OnDestroy {
         });
         if(profile.profilePicture) {
             this.profileImg =  profile.profilePicture;
-            this.profileImg.base64String = this.sanitizer.bypassSecurityTrustUrl(
-                'data:image/jpeg;base64,' + this.profileImg.base64String
-            );
         }
     }
 
