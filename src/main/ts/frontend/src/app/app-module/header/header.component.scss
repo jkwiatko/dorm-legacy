@@ -13,11 +13,25 @@
         display: inline;
         margin: 0 15px;
     }
+
+    .menu-button-item {
+        cursor: pointer;
+        margin: 0 15px;
+    }
 }
 
 .absolute-header {
     position: absolute;
     color: white;
+
+    .dropdown-button {
+        color: white;
+
+        &:focus {
+            outline: 0;
+            box-shadow: none;
+        }
+    }
 }
 
 .fixed-header {

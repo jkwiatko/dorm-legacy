@@ -28,22 +28,19 @@
 }
 
 .content {
-    margin-top: 60px;
-}
-
-.below-header {
-    padding-top: $header-height;
+    margin-top: $header-height;
 }
 
 .scrollable-content {
     overflow-y: scroll;
+
     ::-webkit-scrollbar {
         display: none;
     }
 }
 
 .mat-datepicker-content {
-position: relative;
-left: -48px;
-width: 300px;
+    position: relative;
+    left: -48px;
+    width: 300px;
 }

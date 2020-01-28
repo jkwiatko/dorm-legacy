@@ -1,5 +1,5 @@
 package com.dorm.backend.auth.jwt;
-
+//TODO add expire time
 public class Token {
     private String token;
 

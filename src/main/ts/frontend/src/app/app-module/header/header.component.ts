@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {RegisterComponent} from '../../auth-module/component/register/register.component';
 import {MatDialog, MatSnackBar} from '@angular/material';
 import {LoginComponent} from '../../auth-module/component/login/login.component';
+import {AuthService} from "../../auth-module/provider/auth.service";
 
 @Component({
     selector: 'app-header',
@@ -11,18 +12,29 @@ import {LoginComponent} from '../../auth-module/component/login/login.component'
 })
 export class HeaderComponent implements OnInit {
 
+    authenticated = false;
+
     constructor(private router: Router,
                 private dialog: MatDialog,
-                private toast: MatSnackBar) { }
-    ngOnInit() {
+                private toast: MatSnackBar,
+                private auth: AuthService,
+                ) {
     }
 
-    getPositioning() {
-        if (this.router.url === '/home') {
-            return 'absolute-header';
-        } else {
-            return 'fixed-header';
-        }
+    ngOnInit() {
+        this.auth.isLoginIn.subscribe(isLoginIn => this.authenticated = isLoginIn);
+    }
+
+    isHome() {
+        return this.router.url === '/home';
+    }
+
+    onBack() {
+        this.router.navigate(['/']);
+    }
+
+    logout() {
+
     }
 
     openRegisterDialog() {
