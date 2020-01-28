@@ -19,7 +19,7 @@
     grid-template-columns: auto auto auto;
     padding: 0 30px;
     overflow-y: scroll;
-    height: calc(100vh - #{$header-height} - #{$search-tool-height});
+    height: calc(100vh - #{$header-height} - #{$room-browser-height});
 
     &__room {
         padding: 20px;
@@ -27,7 +27,7 @@
 }
 
 .google-map {
-    height: calc(100vh - #{$header-height} - #{$search-tool-height});
+    height: calc(100vh - #{$header-height} - #{$room-browser-height});
 }
 
 .right-section {

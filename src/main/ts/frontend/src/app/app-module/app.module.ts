@@ -5,23 +5,27 @@ import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {HeaderComponent} from './header/header.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {AuthModuleModule} from '../auth-module/auth-module.module';
+import {AuthModule} from '../auth-module/auth.module';
 import {HTTP_INTERCEPTORS} from '@angular/common/http';
-import {TokenInterceptor} from './provider/token.interceptor';
 import {MatSnackBarModule} from '@angular/material';
 import {AgmCoreModule} from '@agm/core';
 import {ProfileModule} from "../profile-module/profile.module";
+import {WelcomeScreenComponent} from "./welcome-screen/welcome-screen.component";
+import {TokenInterceptor} from "../auth-module/provider/token.interceptor";
+import {RoomModule} from "../room-module/room.module";
 
 @NgModule({
     declarations: [
         AppComponent,
         HeaderComponent,
+        WelcomeScreenComponent
     ],
     imports: [
         BrowserModule,
         AppRoutingModule,
-        AuthModuleModule,
+        AuthModule,
         ProfileModule,
+        RoomModule,
         BrowserAnimationsModule,
         MatSnackBarModule,
         AgmCoreModule.forRoot({
