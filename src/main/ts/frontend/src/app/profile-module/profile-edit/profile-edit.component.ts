@@ -2,8 +2,9 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ProfileService} from '../providers/profile.service';
 import {Subscription} from "rxjs";
-import {Profile, ProfilePicture} from "../dto/profile";
 import {Router} from "@angular/router";
+import {Picture} from "../../shared/model/picture.model";
+import {ProfileModel} from "../model/profile.model";
 
 @Component({
     selector: 'app-profile-edit',
@@ -15,7 +16,7 @@ export class ProfileEditComponent implements OnInit, OnDestroy {
     startDate = new Date(2000, 0, 1);
     form: FormGroup;
     profileSub: Subscription;
-    profileImg: ProfilePicture = {base64String: null, name: null};
+    profileImg: Picture = {base64String: null, name: null};
 
     constructor(private profileClient: ProfileService, private router: Router) {
     }
@@ -29,13 +30,13 @@ export class ProfileEditComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.setForm(new Profile());
+        this.setForm(new ProfileModel());
         this.profileSub = this.profileClient.fetchCurrentUserProfile().subscribe(profile => {
             this.setForm(profile);
         });
     }
 
-    setForm(profile: Profile) {
+    setForm(profile: ProfileModel) {
         const interests = new FormArray([]);
         for (const interest of profile.interests) {
             interests.push(new FormControl(interest, Validators.required));
@@ -100,7 +101,7 @@ export class ProfileEditComponent implements OnInit, OnDestroy {
     }
 
     onSubmit() {
-        const profile: Profile = {
+        const profile: ProfileModel = {
             firstName: this.form.get('firstName').value,
             lastName: this.form.get('lastName').value,
             birthDate: this.form.get('birthDate').value,
@@ -125,6 +126,6 @@ export class ProfileEditComponent implements OnInit, OnDestroy {
     }
 
     onAddRoom() {
-        this.router.navigate(['/find-room'])
+        this.router.navigate(['/room/edit/1']);
     }
 }

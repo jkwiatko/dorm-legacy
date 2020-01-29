@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
 import {environment} from '../../../environments/environment';
 import {HttpClient} from '@angular/common/http';
-import {TokenDto} from '../dto/token.dto';
 import {BehaviorSubject, Observable} from "rxjs";
+import {TokenDto} from "../model/token.dto";
 
 @Injectable({
     providedIn: 'root'
@@ -31,6 +31,7 @@ export class AuthService {
 
     logout() {
         localStorage.removeItem('access_token');
+        this._isLoginIn.next(false);
     }
 
     addAccessToken(token: string) {

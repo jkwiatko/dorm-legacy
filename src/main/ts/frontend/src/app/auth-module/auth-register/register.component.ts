@@ -1,9 +1,9 @@
 import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {AuthService} from '../../provider/auth.service';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {switchMap} from 'rxjs/operators';
 import {Subscription} from 'rxjs';
+import {AuthService} from "../provider/auth.service";
 
 @Component({
     selector: 'app-register',

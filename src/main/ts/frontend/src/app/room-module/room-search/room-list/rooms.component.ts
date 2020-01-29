@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {Room} from "../../dto/room";
+import {Room} from "../../model/room";
 
 @Component({
     selector: 'app-rooms',
@@ -19,7 +19,8 @@ export class RoomsComponent implements OnInit {
             position: {
                 longitude: 49.629381,
                 latitude: 49.629381
-            }
+            },
+            pictures: null
         },
         {
             id: 2,
@@ -29,7 +30,8 @@ export class RoomsComponent implements OnInit {
             position: {
                 longitude: 50.629381,
                 latitude: 50.629381
-            }
+            },
+            pictures: null
         },
         {
             id: 3,
@@ -39,7 +41,8 @@ export class RoomsComponent implements OnInit {
             position: {
                 longitude: 53.629381,
                 latitude: 56.629381
-            }
+            },
+            pictures: null
         },
         {
             id: 3,
@@ -49,7 +52,8 @@ export class RoomsComponent implements OnInit {
             position: {
                 longitude: 53.629381,
                 latitude: 56.629381
-            }
+            },
+            pictures: null
         },
         {
             id: 3,
@@ -59,7 +63,8 @@ export class RoomsComponent implements OnInit {
             position: {
                 longitude: 53.629381,
                 latitude: 56.629381
-            }
+            },
+            pictures: null
         },
         {
             id: 3,
@@ -69,7 +74,8 @@ export class RoomsComponent implements OnInit {
             position: {
                 longitude: 53.629381,
                 latitude: 56.629381
-            }
+            },
+            pictures: null
         },
         {
             id: 3,
@@ -79,7 +85,8 @@ export class RoomsComponent implements OnInit {
             position: {
                 longitude: 53.629381,
                 latitude: 56.629381
-            }
+            },
+            pictures: null
         },
         {
             id: 3,
@@ -89,7 +96,8 @@ export class RoomsComponent implements OnInit {
             position: {
                 longitude: 53.629381,
                 latitude: 56.629381
-            }
+            },
+            pictures: null
         },
         {
             id: 4,
@@ -99,7 +107,8 @@ export class RoomsComponent implements OnInit {
             position: {
                 longitude: 42.629381,
                 latitude: 49.629381
-            }
+            },
+            pictures: null
         }];
 
     constructor() {

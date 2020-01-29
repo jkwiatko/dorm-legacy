@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
-import {RegisterComponent} from '../../auth-module/component/register/register.component';
 import {MatDialog, MatSnackBar} from '@angular/material';
-import {LoginComponent} from '../../auth-module/component/login/login.component';
 import {AuthService} from "../../auth-module/provider/auth.service";
+import {RegisterComponent} from "../../auth-module/auth-register/register.component";
+import {LoginComponent} from "../../auth-module/auth-login/login.component";
 
 @Component({
     selector: 'app-header',
@@ -34,7 +34,8 @@ export class HeaderComponent implements OnInit {
     }
 
     logout() {
-        this.auth.logout()
+        console.log('siema');
+        this.auth.logout();
     }
 
     openRegisterDialog() {

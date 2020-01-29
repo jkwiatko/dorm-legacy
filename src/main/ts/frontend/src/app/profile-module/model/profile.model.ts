@@ -1,10 +1,10 @@
-import {SafeUrl} from "@angular/platform-browser";
-import {Room} from "../../room-module/dto/room";
+import {Picture} from "../../shared/model/picture.model";
+import {Room} from "../../room-module/model/room";
 
-export class Profile {
+export class ProfileModel {
     firstName: string;
     lastName: string;
-    profilePicture: ProfilePicture = null;
+    profilePicture: Picture = null;
     birthDate: string;
     description: string;
     gender: string;
@@ -17,9 +17,4 @@ export class Profile {
     petPolicy: string;
     guestsPolicy: string;
     rooms: Room[] = [];
-}
-
-export interface ProfilePicture {
-    base64String: string | SafeUrl;
-    name: string;
 }
