@@ -2,29 +2,8 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ProfileService} from '../providers/profile.service';
 import {Subscription} from "rxjs";
-import {SafeUrl} from "@angular/platform-browser";
-
-export class Profile {
-    firstName: string;
-    lastName: string;
-    profilePicture: ProfilePicture = null;
-    birthDate: string;
-    description: string;
-    gender: string;
-    workingIn: string;
-    studyingAt: string;
-    interests: string[] = [];
-    inclinations: string[] = [];
-    cleaningPolicy: string;
-    smokingPolicy: string;
-    petPolicy: string;
-    guestsPolicy: string;
-}
-
-export interface ProfilePicture {
-    base64String: string | SafeUrl;
-    name: string;
-}
+import {Profile, ProfilePicture} from "../dto/profile";
+import {Router} from "@angular/router";
 
 @Component({
     selector: 'app-profile-edit',
@@ -38,7 +17,7 @@ export class ProfileEditComponent implements OnInit, OnDestroy {
     profileSub: Subscription;
     profileImg: ProfilePicture = {base64String: null, name: null};
 
-    constructor(private profileClient: ProfileService) {
+    constructor(private profileClient: ProfileService, private router: Router) {
     }
 
     get interestsControl() {
@@ -135,12 +114,17 @@ export class ProfileEditComponent implements OnInit, OnDestroy {
             smokingPolicy: this.form.get('smokingPolicy').value,
             petPolicy: this.form.get('petPolicy').value,
             guestsPolicy: this.form.get('guestsPolicy').value,
-            profilePicture: typeof this.profileImg.base64String === 'string' ? this.profileImg : null
+            profilePicture: typeof this.profileImg.base64String === 'string' ? this.profileImg : null,
+            rooms: null
         };
         this.profileClient.saveProfile(profile);
     }
 
     ngOnDestroy(): void {
         this.profileSub.unsubscribe();
+    }
+
+    onAddRoom() {
+        this.router.navigate(['/find-room'])
     }
 }

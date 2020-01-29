@@ -29,6 +29,10 @@ export class AuthService {
         return this.client.post<TokenDto>(environment.api + 'auth/login', registerFormValue);
     }
 
+    logout() {
+        localStorage.removeItem('access_token');
+    }
+
     addAccessToken(token: string) {
         localStorage.setItem('access_token', token);
         this._isLoginIn.next(true);

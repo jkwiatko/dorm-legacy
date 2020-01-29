@@ -2,9 +2,9 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {environment} from '../../../environments/environment';
-import {Profile} from '../profile-edit/profile-edit.component';
 import {tap} from "rxjs/operators";
 import {DomSanitizer} from "@angular/platform-browser";
+import {Profile} from "../dto/profile";
 
 @Injectable({
     providedIn: 'root'

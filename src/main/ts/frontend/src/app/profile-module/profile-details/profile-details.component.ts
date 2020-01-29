@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {ProfileService} from "../providers/profile.service";
 import {Subscription} from "rxjs";
-import {Profile} from "../profile-edit/profile-edit.component";
 import {ActivatedRoute} from "@angular/router";
 import {switchMap} from "rxjs/operators";
+import {Profile} from "../dto/profile";
 
 @Component({
   selector: 'app-profile-details',

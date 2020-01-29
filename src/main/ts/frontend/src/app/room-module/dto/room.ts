@@ -1,4 +1,4 @@
-export class RoomDto {
+export class Room {
     id: number;
     name: string;
     ownerId: number;

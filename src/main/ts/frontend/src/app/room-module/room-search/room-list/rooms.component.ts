@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {RoomDto} from '../dto/room.dto';
+import {Room} from "../../dto/room";
 
 @Component({
     selector: 'app-rooms',
@@ -10,7 +10,7 @@ export class RoomsComponent implements OnInit {
     longitude = 51.678418;
     latitude = 51.678418;
 
-    rooms: RoomDto[] = [
+    rooms: Room[] = [
         {
             id: 1,
             name: 'Pokój Manhattan',
@@ -108,7 +108,7 @@ export class RoomsComponent implements OnInit {
     ngOnInit() {
     }
 
-    onRoomSelected(event: RoomDto) {
+    onRoomSelected(event: Room) {
         this.longitude = event.position.longitude;
         this.latitude = event.position.latitude;
     }

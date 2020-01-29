@@ -3,10 +3,10 @@ import {CommonModule} from '@angular/common';
 import {AgmCoreModule} from "@agm/core";
 import {MatSelectModule} from "@angular/material/select";
 import {MatInputModule} from "@angular/material/input";
-import {RoomsComponent} from "./rooms/rooms.component";
-import {RoomComponent} from "./room/room.component";
-import {BrowserComponent} from "./browser/browser.component";
 import {RouterModule, Routes} from "@angular/router";
+import {RoomsComponent} from "./room-search/room-list/rooms.component";
+import {RoomComponent} from "./room-search/room-item/room.component";
+import {BrowserComponent} from "./room-search/room-browser/browser.component";
 
 const routes: Routes = [
     {path: 'find-room', component: RoomsComponent, pathMatch: 'full'},
