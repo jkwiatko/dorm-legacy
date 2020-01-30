@@ -14,7 +14,7 @@ export class RoomEditComponent implements OnInit {
 
     room: Room;
     roomSub: Subscription;
-    form: FormGroup;
+    form: FormGroup = new FormGroup({});
 
     constructor(private route: ActivatedRoute, private roomCli: RoomService) {
     }
