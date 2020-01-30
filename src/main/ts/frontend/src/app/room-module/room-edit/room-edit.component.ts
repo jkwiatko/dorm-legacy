@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {switchMap} from "rxjs/operators";
 import {Subscription} from "rxjs";
 import {ActivatedRoute} from "@angular/router";
 import {Room} from "../model/room";
 import {RoomService} from "../providers/room.service";
+import {FormGroup} from "@angular/forms";
 
 @Component({
     selector: 'app-room-edit',
@@ -14,6 +14,7 @@ export class RoomEditComponent implements OnInit {
 
     room: Room;
     roomSub: Subscription;
+    form: FormGroup;
 
     constructor(private route: ActivatedRoute, private roomCli: RoomService) {
     }
@@ -25,5 +26,9 @@ export class RoomEditComponent implements OnInit {
         // ).subscribe(room => {
         //     this.room = room;
         // });
+    }
+
+    onSubmit() {
+        console.log(this.form);
     }
 }

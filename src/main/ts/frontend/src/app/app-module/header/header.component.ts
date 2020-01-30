@@ -34,7 +34,6 @@ export class HeaderComponent implements OnInit {
     }
 
     logout() {
-        console.log('siema');
         this.auth.logout();
     }
 
@@ -43,12 +42,7 @@ export class HeaderComponent implements OnInit {
             disableClose: true,
             width: '600px',
         }).afterClosed().subscribe(result => {
-            if (result === 'success') {
-                this.toast.open('Witamy username', null, {
-                    duration: 3000,
-                    verticalPosition: 'top'
-                });
-            }
+            this.displayWelcomeToast(result);
         });
     }
 
@@ -57,12 +51,16 @@ export class HeaderComponent implements OnInit {
             disableClose: true,
             width: '600px',
         }).afterClosed().subscribe(result => {
-            if (result === 'success') {
-                this.toast.open('Witamy username', null, {
-                    duration: 3000,
-                    verticalPosition: 'top'
-                });
-            }
+            this.displayWelcomeToast(result);
         });
+    }
+
+    private displayWelcomeToast(result) {
+        if (result === 'success') {
+            this.toast.open('Witamy', null, {
+                duration: 3000,
+                verticalPosition: 'top'
+            });
+        }
     }
 }

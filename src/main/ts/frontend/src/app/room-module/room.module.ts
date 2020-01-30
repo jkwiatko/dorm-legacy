@@ -8,6 +8,7 @@ import {RoomsComponent} from "./room-search/room-list/rooms.component";
 import {RoomComponent} from "./room-search/room-item/room.component";
 import {BrowserComponent} from "./room-search/room-browser/browser.component";
 import { RoomEditComponent } from './room-edit/room-edit.component';
+import {ReactiveFormsModule} from "@angular/forms";
 
 const routes: Routes = [
     {path: 'room/find', component: RoomsComponent, pathMatch: 'full'},
@@ -22,6 +23,7 @@ const routes: Routes = [
         AgmCoreModule,
         MatSelectModule,
         MatInputModule,
+        ReactiveFormsModule,
     ],
 })
 export class RoomModule {

@@ -5,7 +5,7 @@ import {WelcomeScreenComponent} from "./welcome-screen/welcome-screen.component"
 const routes: Routes = [
     {path: '', redirectTo: 'home', pathMatch: 'full'},
     {path: 'home', component: WelcomeScreenComponent},
-    {path: '**', redirectTo: 'home'},
+    // {path: '**', redirectTo: 'home'}, TODO add not found 404 like swarzmuller
 ];
 
 @NgModule({

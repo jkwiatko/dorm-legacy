@@ -135,4 +135,7 @@ public class PictureService {
                 String.format("%03d", secondDir) +
                 File.separator;
     }
+
+    public void addRoomPicture(Picture picture) {
+    }
 }
