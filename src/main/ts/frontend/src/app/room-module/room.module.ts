@@ -10,6 +10,7 @@ import {BrowserComponent} from "./room-search/room-browser/browser.component";
 import { RoomEditComponent } from './room-edit/room-edit.component';
 import {ReactiveFormsModule} from "@angular/forms";
 import {ProfileModule} from "../profile-module/profile.module";
+import {MatDatepickerModule} from "@angular/material/datepicker";
 
 const routes: Routes = [
     {path: 'room/find', component: RoomsComponent, pathMatch: 'full'},
@@ -27,6 +28,8 @@ const routes: Routes = [
         MatInputModule,
         ReactiveFormsModule,
         ProfileModule,
+        MatDatepickerModule,
+        MatDatepickerModule,
     ],
 })
 export class RoomModule {

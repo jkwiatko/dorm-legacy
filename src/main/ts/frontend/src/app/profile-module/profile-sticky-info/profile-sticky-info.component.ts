@@ -8,7 +8,7 @@ import {Profile} from "../model/profile";
 })
 export class ProfileStickyInfoComponent implements OnInit {
 
-  @Input() profile: Profile = new Profile();
+  @Input() profile: Profile;
 
   constructor() { }
 

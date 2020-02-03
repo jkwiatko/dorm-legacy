@@ -1,5 +1,6 @@
 <div class="content">
-    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <form [formGroup]="form"
+          (ngSubmit)="onSubmit()">
         <div class="row vh-50">
             <div class="col-md-6 col-12 h-100 border">
             </div>
@@ -35,15 +36,74 @@
                     </div>
                     <hr class="w-100 horizontal-line">
                     <div class="row text-center">
-                        <div class="col text-center">Opisik</div>
+                        <div class="col-12">Opis</div>
+                        <div class="col-12 mt-3">
+                            <label class="w-100">
+                                <textarea class="w-100 desc-text-area"
+                                          formControlName="description"
+                                          placeholder="Opisz krótko pokój">
+                                </textarea>
+                            </label>
+                        </div>
                     </div>
                     <hr class="w-100 horizontal-line">
                     <div class="row text-center">
-                        <div class="col text-center">Udogodnienia</div>
+                        <div class="col-12 text-center">Udogodnienia</div>
+                        <div class="col-12 mt-3 row"
+                             formArrayName="amenities">
+                            <div class="col-4"
+                                 *ngFor="let amenity of amenitiesControl; let i = index">
+                                <label>
+                                    <input type="text"
+                                           formControlName="{{i}}"
+                                           class="simple-input yellow-text">
+                                </label>
+                                <button (click)="onDeleteAmenity(i)"
+                                        type="button"
+                                        class="x-button">X
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <button type="button"
+                                    class="btn btn-success"
+                                    (click)="onAddAmenities()">
+                                add
+                            </button>
+                        </div>
                     </div>
                     <hr class="w-100 horizontal-line">
                     <div class="row text-center">
-                        <div class="col text-center">Dostepność</div>
+                        <div class="col-12 text-center">Dostepność</div>
+                        <div class="col-12 row">
+                            <div class="col-6">
+                                <mat-form-field>
+                                    <label>
+                                        <!--suppress AngularInvalidExpressionResultType -->
+                                        <input matInput
+                                               formControlName="availableFrom"
+                                               [matDatepicker]="picker"
+                                               placeholder="Dostępny od">
+                                    </label>
+                                    <mat-datepicker-toggle matSuffix
+                                                           [for]="picker"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker
+                                                    startView="multi-year"></mat-datepicker>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-6 row d-flex flex-column justify-content-center">
+                                <div>
+                                    <label for="minDuration" class="mr-2">
+                                        najkrócej na:
+                                    </label>
+                                    <input id="minDuration"
+                                           type="number"
+                                           formControlName="minDuration"
+                                           class="input-number mr-2">
+                                    <span>miesięcy</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <hr class="w-100 vh-100 horizontal-line">
                     <div class="row text-center">

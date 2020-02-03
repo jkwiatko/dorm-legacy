@@ -6,6 +6,7 @@ import com.dorm.backend.shared.enums.EAmenities;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.Period;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -23,6 +24,7 @@ public class Room extends BaseEntity {
     private BigDecimal monthlyPrice;
     private BigDecimal additionalCosts;
     private BigDecimal deposit;
+    private Date availableFrom;
     private Period minDuration;
     private List<EAmenities> amenities;
 
@@ -118,6 +120,14 @@ public class Room extends BaseEntity {
 
     public void setDeposit(BigDecimal deposit) {
         this.deposit = deposit;
+    }
+
+    public Date getAvailableFrom() {
+        return availableFrom;
+    }
+
+    public void setAvailableFrom(Date availableFrom) {
+        this.availableFrom = availableFrom;
     }
 
     public Period getMinDuration() {

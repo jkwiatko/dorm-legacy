@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Room} from "../../model/room";
+import {Profile} from "../../../profile-module/model/profile";
 
 @Component({
     selector: 'app-rooms',
@@ -14,102 +15,58 @@ export class RoomsComponent implements OnInit {
         {
             id: 1,
             name: 'Pokój Manhattan',
-            ownerId: 1,
-            price: 550,
+            owner: new Profile(),
+            monthlyPrice: 550,
             position: {
                 longitude: 49.629381,
                 latitude: 49.629381
             },
-            pictures: null
+            availableFrom : '',
+            minDuration: 5,
+            amenities: [],
+            pictures: [],
+            additionalCosts: 0,
+            address: {},
+            deposit: 15,
+            description: ''
         },
         {
             id: 2,
             name: 'Pokój Retkinia',
-            ownerId: 1,
-            price: 650,
+            owner: new Profile(),
+            monthlyPrice: 650,
             position: {
                 longitude: 50.629381,
                 latitude: 50.629381
             },
-            pictures: null
+            availableFrom : '',
+            minDuration: 5,
+            amenities: [],
+            pictures: [],
+            additionalCosts: 0,
+            address: {},
+            deposit: 15,
+            description: ''
         },
         {
             id: 3,
             name: 'Pokój Górna',
-            ownerId: 2,
-            price: 450,
+            owner: new Profile(),
+            monthlyPrice: 450,
             position: {
                 longitude: 53.629381,
                 latitude: 56.629381
             },
-            pictures: null
+            availableFrom : '',
+            minDuration: 5,
+            amenities: [],
+            pictures: [],
+            additionalCosts: 0,
+            address: {},
+            deposit: 15,
+            description: ''
         },
-        {
-            id: 3,
-            name: 'Pokój Górna',
-            ownerId: 2,
-            price: 1100,
-            position: {
-                longitude: 53.629381,
-                latitude: 56.629381
-            },
-            pictures: null
-        },
-        {
-            id: 3,
-            name: 'Pokój Górna',
-            ownerId: 2,
-            price: 1400,
-            position: {
-                longitude: 53.629381,
-                latitude: 56.629381
-            },
-            pictures: null
-        },
-        {
-            id: 3,
-            name: 'Pokój Górna',
-            ownerId: 2,
-            price: 350,
-            position: {
-                longitude: 53.629381,
-                latitude: 56.629381
-            },
-            pictures: null
-        },
-        {
-            id: 3,
-            name: 'Pokój Górna',
-            ownerId: 2,
-            price: 1050,
-            position: {
-                longitude: 53.629381,
-                latitude: 56.629381
-            },
-            pictures: null
-        },
-        {
-            id: 3,
-            name: 'Pokój Górna',
-            ownerId: 2,
-            price: 900,
-            position: {
-                longitude: 53.629381,
-                latitude: 56.629381
-            },
-            pictures: null
-        },
-        {
-            id: 4,
-            name: 'Pokój Widzew',
-            ownerId: 2,
-            price: 700,
-            position: {
-                longitude: 42.629381,
-                latitude: 49.629381
-            },
-            pictures: null
-        }];
+        ];
 
     constructor() {
     }
