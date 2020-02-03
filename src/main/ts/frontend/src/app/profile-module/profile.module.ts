@@ -13,6 +13,7 @@ import {
 import {AgePipe} from './pipes/age.pipe';
 import {GenderPipe} from './pipes/gender.pipe';
 import {RouterModule, Routes} from "@angular/router";
+import { ProfileStickyInfoComponent } from './profile-sticky-info/profile-sticky-info.component';
 
 const routes: Routes = [
     {path: 'profile/edit', component: ProfileEditComponent},
@@ -20,7 +21,10 @@ const routes: Routes = [
 ];
 
 @NgModule({
-    declarations: [ProfileDetailsComponent, ProfileEditComponent, AgePipe, GenderPipe],
+    declarations: [ProfileDetailsComponent, ProfileEditComponent, AgePipe, GenderPipe, ProfileStickyInfoComponent],
+    exports: [
+        ProfileStickyInfoComponent
+    ],
     imports: [
         RouterModule.forChild(routes),
         CommonModule,

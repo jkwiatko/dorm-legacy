@@ -1,0 +1,12 @@
+@import '../../../variables';
+
+.sticky-info {
+    position: sticky;
+    top: 72px;
+    border: 1px solid $border-color;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 0;
+}

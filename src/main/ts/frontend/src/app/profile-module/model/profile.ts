@@ -1,7 +1,7 @@
 import {Picture} from "../../shared/model/picture.model";
 import {Room} from "../../room-module/model/room";
 
-export class ProfileModel {
+export class Profile{
     firstName: string;
     lastName: string;
     profilePicture: Picture = null;

@@ -4,6 +4,7 @@ import {ActivatedRoute} from "@angular/router";
 import {Room} from "../model/room";
 import {RoomService} from "../providers/room.service";
 import {FormGroup} from "@angular/forms";
+import {Profile} from "../../profile-module/model/profile";
 
 @Component({
     selector: 'app-room-edit',
@@ -13,6 +14,7 @@ import {FormGroup} from "@angular/forms";
 export class RoomEditComponent implements OnInit {
 
     room: Room;
+    profile: Profile;
     roomSub: Subscription;
     form: FormGroup = new FormGroup({});
 
