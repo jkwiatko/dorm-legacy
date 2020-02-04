@@ -14,3 +14,25 @@
 .desc-text-area {
     min-height: 100px;
 }
+
+.input-number-10 {
+    max-width: 2em;
+}
+
+.input-number-100 {
+    max-width: 2.5em;
+}
+
+.input-number-1000 {
+    max-width: 3.5em;
+}
+
+.subtitle {
+    color: lightgray;
+}
+
+.key-info-table {
+    border-spacing: 10px;
+    border-collapse: separate;
+    margin: 0;
+}

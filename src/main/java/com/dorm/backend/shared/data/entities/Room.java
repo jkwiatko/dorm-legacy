@@ -22,7 +22,6 @@ public class Room extends BaseEntity {
     private String name;
     private String description;
     private BigDecimal monthlyPrice;
-    private BigDecimal additionalCosts;
     private BigDecimal deposit;
     private Date availableFrom;
     private Period minDuration;
@@ -104,14 +103,6 @@ public class Room extends BaseEntity {
 
     public void setMonthlyPrice(BigDecimal monthlyPrice) {
         this.monthlyPrice = monthlyPrice;
-    }
-
-    public BigDecimal getAdditionalCosts() {
-        return additionalCosts;
-    }
-
-    public void setAdditionalCosts(BigDecimal additionalCosts) {
-        this.additionalCosts = additionalCosts;
     }
 
     public BigDecimal getDeposit() {

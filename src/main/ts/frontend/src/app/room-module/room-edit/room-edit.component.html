@@ -31,8 +31,86 @@
                         <li>4+ miesiecy</li>
                     </ul>
                     <hr class="w-100 horizontal-line">
-                    <div class="row">
-                        <div class="col text-center">Cechy</div>
+                    <div>
+                        <div>Kluczowe informacje</div>
+                        <div class="col-12 row">
+                            <div class="col-12 col-lg-4 mt-3 d-flex flex-column align-items-center">
+                                <div class="subtitle">Cena</div>
+                                <div class="d-table key-info-table">
+                                    <div class="d-table-row">
+                                        <label for="deposit"
+                                               class="d-table-cell text-right">
+                                            kaucja
+                                        </label>
+                                        <input id="deposit"
+                                               type="number"
+                                               formControlName="deposit"
+                                               class="input-number-1000 d-table-cell">
+                                        <span class="d-table-cell text-left">zł</span>
+                                    </div>
+
+                                    <div class="d-table-row">
+                                        <label class="d-table-cell text-right"
+                                               for="monthly-price">
+                                            za mięsiąc
+                                        </label>
+                                        <input id="monthly-price"
+                                               type="number"
+                                               formControlName="monthlyPrice"
+                                               class="input-number-1000 d-table-cell">
+                                        <span class="d-table-cell text-left">zł</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-lg-4 mt-3 d-flex flex-column align-items-center">
+                                <div class="subtitle">Przestrzeń</div>
+                                <div class="d-table key-info-table">
+                                    <div class="d-table-row">
+                                        <label class="d-table-cell text-right" for="area">
+                                            metraż
+                                        </label>
+                                        <input id="area"
+                                               class="input-number-1000 d-table-cell"
+                                               type="number">
+                                        <span class="d-table-cell text-left">m2</span>
+                                    </div>
+
+                                    <div class="d-table-row">
+                                        <label for="number-of-rooms"
+                                               class="d-table-cell text-right">
+                                            ilość pokoji
+                                        </label>
+                                        <input id="number-of-rooms"
+                                               type="number"
+                                               formControlName="monthlyPrice"
+                                               class="input-number-1000 d-table-cell">
+                                        <span class="d-table-cell"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-4 mt-3 d-flex flex-column align-items-center">
+                                <div class="subtitle">Adres</div>
+                                <div class="d-table key-info-table">
+                                    <div class="d-table-row">
+                                        <label class="d-table-cell" for="city">miasto</label>
+                                        <input class="d-table-cell w-100" id="city" type="text">
+                                    </div>
+
+                                    <div class="d-table-row">
+                                        <label class="d-table-cell" for="street">ulica</label>
+                                        <input id="street" class="d-table-cell w-100" type="text">
+                                    </div>
+
+                                    <div class="d-table-row">
+                                    <label class="d-table-cell" for="street-number">nr.</label>
+                                    <div class="d-table-cell text-left">
+                                        <input class="input-number-100" id="street-number" type="text">
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
                     </div>
                     <hr class="w-100 horizontal-line">
                     <div class="row text-center">
@@ -93,21 +171,18 @@
                             </div>
                             <div class="col-6 row d-flex flex-column justify-content-center">
                                 <div>
-                                    <label for="minDuration" class="mr-2">
+                                    <label for="minDuration"
+                                           class="mr-2">
                                         najkrócej na:
                                     </label>
                                     <input id="minDuration"
                                            type="number"
                                            formControlName="minDuration"
-                                           class="input-number mr-2">
+                                           class="input-number-100 mr-2">
                                     <span>miesięcy</span>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <hr class="w-100 vh-100 horizontal-line">
-                    <div class="row text-center">
-                        <div class="col text-center">Recenzje</div>
                     </div>
                 </div>
                 <div class="col-4">

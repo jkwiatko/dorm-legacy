@@ -25,7 +25,6 @@ export class RoomsComponent implements OnInit {
             minDuration: 5,
             amenities: [],
             pictures: [],
-            additionalCosts: 0,
             address: {},
             deposit: 15,
             description: ''
@@ -43,7 +42,6 @@ export class RoomsComponent implements OnInit {
             minDuration: 5,
             amenities: [],
             pictures: [],
-            additionalCosts: 0,
             address: {},
             deposit: 15,
             description: ''
@@ -61,7 +59,6 @@ export class RoomsComponent implements OnInit {
             minDuration: 5,
             amenities: [],
             pictures: [],
-            additionalCosts: 0,
             address: {},
             deposit: 15,
             description: ''

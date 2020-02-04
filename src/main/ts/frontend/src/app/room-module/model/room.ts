@@ -5,8 +5,7 @@ export class Room {
     id: number;
     name: string;
     description: string;
-    monthlyPrice: number;
-    additionalCosts: number;
+    monthlyPrice: number
     deposit: number;
     availableFrom: string;
     minDuration: number;
