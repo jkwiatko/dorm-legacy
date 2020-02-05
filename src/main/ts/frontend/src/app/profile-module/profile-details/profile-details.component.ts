@@ -21,8 +21,6 @@ export class ProfileDetailsComponent implements OnInit {
       this.profile = new ProfileModel();
       this.profileSub = this.route.params.pipe(
           switchMap(params => this.profileCli.fetchUserProfile(params['id']))
-      ).subscribe(profile => {
-          this.profile = profile;
-      });
+      ).subscribe(profile => this.profile = profile);
   }
 }

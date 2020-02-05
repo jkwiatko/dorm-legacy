@@ -13,14 +13,14 @@ export class RoomService {
 
   constructor(private http: HttpClient, private sanitizer: DomSanitizer) { }
 
-    fetchRoom(id: number): Observable<RoomModel> {
+    public fetchCurrentUserRoom(id: number): Observable<RoomModel> {
         return this.http.get<RoomModel>(environment.api + 'room/' + id).pipe(
             tap(room => {
                 this.authorizePictureUrl(room);
             }));
     }
 
-    createRoom(roomModel: RoomModel) {
+    public createRoom(roomModel: RoomModel) {
         console.log(roomModel);
         this.http.post<RoomModel>(environment.api + 'room/create', roomModel).subscribe();
     }

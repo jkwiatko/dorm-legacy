@@ -1,10 +1,11 @@
 import {Component, OnInit} from '@angular/core';
-import {Subscription} from "rxjs";
+import {EMPTY, Subscription} from "rxjs";
 import {ActivatedRoute} from "@angular/router";
 import {RoomModel} from "../model/room.model";
 import {RoomService} from "../providers/room.service";
 import {FormArray, FormControl, FormGroup, Validators} from "@angular/forms";
-import {ProfileModel} from "../../profile-module/model/profile.model";
+import {switchMap} from "rxjs/operators";
+import {ProfileService} from "../../profile-module/providers/profile.service";
 
 @Component({
     selector: 'app-room-edit',
@@ -17,7 +18,7 @@ export class RoomEditComponent implements OnInit {
     roomSub: Subscription;
     form: FormGroup;
 
-    constructor(private route: ActivatedRoute, private roomCli: RoomService) {
+    constructor(private route: ActivatedRoute, private roomCli: RoomService, private profileCli: ProfileService) {
     }
 
     get amenitiesControl() {
@@ -25,8 +26,20 @@ export class RoomEditComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.room = new RoomModel();
-        this.room.owner = new ProfileModel();
+       this.room = new RoomModel();
+
+       this.route.url.subscribe(url => {
+          if(url[url.length - 1].path === 'create') {
+              const sub = this.profileCli.fetchCurrentUserProfile().subscribe(profile => {
+                  this.room.owner = profile;
+                  sub.unsubscribe();
+              });
+          }
+       });
+
+       this.roomSub = this.route.params.pipe(
+            switchMap(params => +params['id'] ? this.roomCli.fetchCurrentUserRoom(+params['id']) : EMPTY)
+        ).subscribe(room => this.room = room);
         this.setForm();
     }
 
