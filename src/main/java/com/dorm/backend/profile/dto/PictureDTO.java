@@ -1,6 +1,6 @@
 package com.dorm.backend.profile.dto;
 
-public class ProfilePictureDTO {
+public class PictureDTO {
     private String  base64String;
     private String  name;
 

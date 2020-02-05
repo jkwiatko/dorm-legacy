@@ -5,9 +5,11 @@ import com.dorm.backend.shared.services.RoomService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping("/api/room")
 public class RoomController {
 
     RoomService roomService;
@@ -16,8 +18,8 @@ public class RoomController {
         this.roomService = roomService;
     }
 
-    @PostMapping
-    public ResponseEntity<Void> addRoom(@RequestBody RoomDTO roomDTO) {
+    @PostMapping("/create")
+    public ResponseEntity<Void> createRoom(@RequestBody RoomDTO roomDTO) {
         roomService.addRoom(roomDTO);
         return ResponseEntity.ok().build();
     }

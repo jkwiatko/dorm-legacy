@@ -14,7 +14,6 @@ import {ProfileModel} from "../../profile-module/model/profile.model";
 export class RoomEditComponent implements OnInit {
 
     room: RoomModel;
-    profile: ProfileModel;
     roomSub: Subscription;
     form: FormGroup;
 
@@ -27,7 +26,7 @@ export class RoomEditComponent implements OnInit {
 
     ngOnInit() {
         this.room = new RoomModel();
-        this.profile = new ProfileModel();
+        this.room.owner = new ProfileModel();
         this.setForm();
     }
 
@@ -41,10 +40,12 @@ export class RoomEditComponent implements OnInit {
             deposit: new FormControl(this.room.deposit),
             monthlyPrice: new FormControl(this.room.monthlyPrice),
             room: new FormControl(this.room.room),
-            roomNumber: new FormControl(this.room.roomNumber),
-            city: new FormControl(this.room.address.city),
-            street: new FormControl(this.room.address.street),
-            streetNumber: new FormControl(this.room.address.number),
+            roomsNumber: new FormControl(this.room.roomsNumber),
+            address: new FormGroup({
+                city: new FormControl(this.room.address.city),
+                street: new FormControl(this.room.address.street),
+                number: new FormControl(this.room.address.number),
+            }),
             description: new FormControl(this.room.description, Validators.required),
             availableFrom : new FormControl(this.room.availableFrom),
             minDuration: new FormControl(this.room.minDuration),
@@ -53,7 +54,9 @@ export class RoomEditComponent implements OnInit {
     }
 
     onSubmit() {
-        this.roomCli.saveRoom(new RoomModel(this.form.value));
+        let room = new RoomModel(this.form.value);
+        room.owner = this.room.owner;
+        this.roomCli.createRoom(room);
     }
 
     onDeleteAmenity(i: number) {

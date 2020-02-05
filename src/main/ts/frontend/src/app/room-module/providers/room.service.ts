@@ -20,8 +20,9 @@ export class RoomService {
             }));
     }
 
-    saveRoom(roomModel: RoomModel) {
-        this.http.post<RoomModel>(environment.api + 'room/edit' + roomModel.id, roomModel);
+    createRoom(roomModel: RoomModel) {
+        console.log(roomModel);
+        this.http.post<RoomModel>(environment.api + 'room/create', roomModel).subscribe();
     }
 
     private authorizePictureUrl(room: RoomModel) {

@@ -126,6 +126,6 @@ export class ProfileEditComponent implements OnInit, OnDestroy {
     }
 
     onAddRoom() {
-        this.router.navigate(['/room/edit/1']);
+        this.router.navigate(['/room/create']);
     }
 }

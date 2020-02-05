@@ -85,7 +85,7 @@
                                         </label>
                                         <input id="number-of-rooms"
                                                type="number"
-                                               formControlName="roomNumber"
+                                               formControlName="roomsNumber"
                                                class="input-number-1000 d-table-cell">
                                         <span class="d-table-cell"></span>
                                     </div>
@@ -93,7 +93,7 @@
                             </div>
                             <div class="col-12 col-lg-4 mt-3 d-flex flex-column align-items-center">
                                 <div class="subtitle">Adres</div>
-                                <div class="d-table key-info-table">
+                                <div formGroupName="address" class="d-table key-info-table">
                                     <div class="d-table-row">
                                         <label class="d-table-cell"
                                                for="city">miasto</label>
@@ -118,7 +118,7 @@
                                         <div class="d-table-cell text-left">
                                             <input class="input-number-100"
                                                    id="street-number"
-                                                   formControlName="streetNumber"
+                                                   formControlName="number"
                                                    type="text">
                                         </div>
                                     </div>
@@ -202,7 +202,7 @@
                     </div>
                 </div>
                 <div class="col-4">
-                    <app-profile-sticky-info [profile]="profile"></app-profile-sticky-info>
+                    <app-profile-sticky-info [profile]="this.room.owner"></app-profile-sticky-info>
                 </div>
             </div>
         </div>

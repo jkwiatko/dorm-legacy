@@ -16,7 +16,7 @@ export class RoomModel {
     availableFrom: string;
     minDuration: number;
     room: number;
-    roomNumber: number;
+    roomsNumber: number;
     amenities: string[] = [];
     pictures: Picture[] = [];
     owner: ProfileModel = new ProfileModel();

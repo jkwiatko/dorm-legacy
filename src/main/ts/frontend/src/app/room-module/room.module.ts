@@ -16,6 +16,7 @@ const routes: Routes = [
     {path: 'room/find', component: RoomsComponent, pathMatch: 'full'},
     {path: 'room/:id', component: RoomEditComponent, pathMatch: 'full'},
     {path: 'room/edit/:id', component: RoomEditComponent, pathMatch: 'full'},
+    {path: 'room/create', component: RoomEditComponent, pathMatch: 'full'},
 ];
 
 @NgModule({

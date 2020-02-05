@@ -3,7 +3,7 @@ package com.dorm.backend.shared.services;
 import com.dorm.backend.shared.data.entities.Picture;
 import com.dorm.backend.shared.data.entities.User;
 import com.dorm.backend.shared.data.repos.PictureRepository;
-import com.dorm.backend.profile.dto.ProfilePictureDTO;
+import com.dorm.backend.profile.dto.PictureDTO;
 import com.dorm.backend.shared.error.exc.FileNameAlreadyTaken;
 import com.dorm.backend.shared.error.exc.LoadPictureException;
 import com.dorm.backend.shared.error.exc.PersistFileException;
@@ -35,7 +35,7 @@ public class PictureService {
         this.modelMapper = modelMapper;
     }
 
-    public void addProfilePicture(User user, ProfilePictureDTO pictureDTO) {
+    public void addProfilePicture(User user, PictureDTO pictureDTO) {
         boolean filenameInUse = user.getProfilePictures()
                 .stream()
                 .anyMatch(img -> img.getPictureName().equals(pictureDTO.getName()));
