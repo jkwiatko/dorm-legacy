@@ -1,7 +1,7 @@
 import {Picture} from "../../shared/model/picture.model";
-import {Room} from "../../room-module/model/room";
+import {RoomModel} from "../../room-module/model/room.model";
 
-export class Profile{
+export class ProfileModel{
     firstName: string;
     lastName: string;
     profilePicture: Picture = null;
@@ -16,5 +16,5 @@ export class Profile{
     smokingPolicy: string;
     petPolicy: string;
     guestsPolicy: string;
-    rooms: Room[] = [];
+    rooms: RoomModel[] = [];
 }

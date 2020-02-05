@@ -4,7 +4,7 @@ import {ProfileService} from '../providers/profile.service';
 import {Subscription} from "rxjs";
 import {Router} from "@angular/router";
 import {Picture} from "../../shared/model/picture.model";
-import {Profile} from "../model/profile";
+import {ProfileModel} from "../model/profile.model";
 
 @Component({
     selector: 'app-profile-edit',
@@ -30,13 +30,13 @@ export class ProfileEditComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.setForm(new Profile());
+        this.setForm(new ProfileModel());
         this.profileSub = this.profileClient.fetchCurrentUserProfile().subscribe(profile => {
             this.setForm(profile);
         });
     }
 
-    setForm(profile: Profile) {
+    setForm(profile: ProfileModel) {
         const interests = new FormArray([]);
         for (const interest of profile.interests) {
             interests.push(new FormControl(interest, Validators.required));
@@ -101,7 +101,7 @@ export class ProfileEditComponent implements OnInit, OnDestroy {
     }
 
     onSubmit() {
-        const profile: Profile = {
+        const profile: ProfileModel = {
             firstName: this.form.get('firstName').value,
             lastName: this.form.get('lastName').value,
             birthDate: this.form.get('birthDate').value,

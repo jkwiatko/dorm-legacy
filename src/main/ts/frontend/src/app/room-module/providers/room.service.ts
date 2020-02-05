@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {DomSanitizer} from "@angular/platform-browser";
 import {Observable} from "rxjs";
-import {Room} from "../model/room";
+import {RoomModel} from "../model/room.model";
 import {environment} from "../../../environments/environment";
 import {tap} from "rxjs/operators";
 
@@ -13,14 +13,18 @@ export class RoomService {
 
   constructor(private http: HttpClient, private sanitizer: DomSanitizer) { }
 
-    fetchRoom(id: number): Observable<Room> {
-        return this.http.get<Room>(environment.api + 'room/' + id).pipe(
+    fetchRoom(id: number): Observable<RoomModel> {
+        return this.http.get<RoomModel>(environment.api + 'room/' + id).pipe(
             tap(room => {
                 this.authorizePictureUrl(room);
             }));
     }
 
-    private authorizePictureUrl(room: Room) {
+    saveRoom(roomModel: RoomModel) {
+        this.http.post<RoomModel>(environment.api + 'room/edit' + roomModel.id, roomModel);
+    }
+
+    private authorizePictureUrl(room: RoomModel) {
         if(room.pictures) {
             room.pictures[0].base64String = this.sanitizer.bypassSecurityTrustUrl(
                 'data:image/jpeg;base64,' + room.pictures[0].base64String

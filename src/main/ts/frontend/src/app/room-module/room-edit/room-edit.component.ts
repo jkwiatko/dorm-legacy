@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {Subscription} from "rxjs";
 import {ActivatedRoute} from "@angular/router";
-import {Room} from "../model/room";
+import {RoomModel} from "../model/room.model";
 import {RoomService} from "../providers/room.service";
 import {FormArray, FormControl, FormGroup, Validators} from "@angular/forms";
-import {Profile} from "../../profile-module/model/profile";
+import {ProfileModel} from "../../profile-module/model/profile.model";
 
 @Component({
     selector: 'app-room-edit',
@@ -13,8 +13,8 @@ import {Profile} from "../../profile-module/model/profile";
 })
 export class RoomEditComponent implements OnInit {
 
-    room: Room;
-    profile: Profile;
+    room: RoomModel;
+    profile: ProfileModel;
     roomSub: Subscription;
     form: FormGroup;
 
@@ -26,14 +26,9 @@ export class RoomEditComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.profile = new Profile();
-        this.room = new Room();
-        this.setForm()
-        // this.roomSub = this.roomSub = this.route.params.pipe(
-        //     switchMap(params => this.roomCli.fetchRoom(+params['id']))
-        // ).subscribe(room => {
-        //     this.room = room;
-        // });
+        this.room = new RoomModel();
+        this.profile = new ProfileModel();
+        this.setForm();
     }
 
     private setForm() {
@@ -43,6 +38,13 @@ export class RoomEditComponent implements OnInit {
         }
 
         this.form = new FormGroup({
+            deposit: new FormControl(this.room.deposit),
+            monthlyPrice: new FormControl(this.room.monthlyPrice),
+            room: new FormControl(this.room.room),
+            roomNumber: new FormControl(this.room.roomNumber),
+            city: new FormControl(this.room.address.city),
+            street: new FormControl(this.room.address.street),
+            streetNumber: new FormControl(this.room.address.number),
             description: new FormControl(this.room.description, Validators.required),
             availableFrom : new FormControl(this.room.availableFrom),
             minDuration: new FormControl(this.room.minDuration),
@@ -51,7 +53,7 @@ export class RoomEditComponent implements OnInit {
     }
 
     onSubmit() {
-        console.log(this.form);
+        this.roomCli.saveRoom(new RoomModel(this.form.value));
     }
 
     onDeleteAmenity(i: number) {

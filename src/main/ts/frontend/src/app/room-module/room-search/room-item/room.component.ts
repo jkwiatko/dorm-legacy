@@ -1,5 +1,5 @@
 import {Component, EventEmitter, HostListener, Input, OnInit, Output} from '@angular/core';
-import {Room} from "../../model/room";
+import {RoomModel} from "../../model/room.model";
 
 @Component({
     selector: 'app-room',
@@ -8,8 +8,8 @@ import {Room} from "../../model/room";
 })
 export class RoomComponent implements OnInit {
 
-    @Input() room: Room;
-    @Output() roomSelected = new EventEmitter<Room>();
+    @Input() room: RoomModel;
+    @Output() roomSelected = new EventEmitter<RoomModel>();
 
     constructor() {
     }

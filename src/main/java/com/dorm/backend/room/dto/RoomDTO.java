@@ -1,11 +1,12 @@
 package com.dorm.backend.room.dto;
 
+import com.dorm.backend.profile.dto.ProfileDTO;
+
 import java.util.List;
 
 public class RoomDTO {
 
     private List<String> pictures;
-
 
     public List<String> getPictures() {
         return pictures;

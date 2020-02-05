@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Profile} from "../model/profile";
+import {ProfileModel} from "../model/profile.model";
 
 @Component({
   selector: 'app-profile-sticky-info',
@@ -8,7 +8,7 @@ import {Profile} from "../model/profile";
 })
 export class ProfileStickyInfoComponent implements OnInit {
 
-  @Input() profile: Profile;
+  @Input() profile: ProfileModel;
 
   constructor() { }
 
