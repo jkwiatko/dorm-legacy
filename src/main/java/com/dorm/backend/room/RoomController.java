@@ -3,6 +3,8 @@ package com.dorm.backend.room;
 import com.dorm.backend.room.dto.RoomDTO;
 import com.dorm.backend.shared.services.RoomService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,5 +24,10 @@ public class RoomController {
     public ResponseEntity<Void> createRoom(@RequestBody RoomDTO roomDTO) {
         roomService.addRoom(roomDTO);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<RoomDTO> getRoom(@PathVariable Long id) {
+        return ResponseEntity.ok().body(roomService.getRoom(id));
     }
 }

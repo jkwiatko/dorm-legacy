@@ -7,6 +7,8 @@ import com.dorm.backend.shared.data.repos.RoomRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
+
 @Service
 public class RoomService {
 
@@ -15,7 +17,12 @@ public class RoomService {
     private final UserService userService;
     private final RoomRepository roomRepository;
 
-    public RoomService(ModelMapper modelMapper, PictureService pictureService, UserService userService, RoomRepository roomRepository) {
+    public RoomService(
+            ModelMapper modelMapper,
+            PictureService pictureService,
+            UserService userService,
+            RoomRepository roomRepository
+    ) {
         this.modelMapper = modelMapper;
         this.pictureService = pictureService;
         this.userService = userService;
@@ -29,5 +36,9 @@ public class RoomService {
         room.setOwner(user);
         room.getPictures().forEach(pictureService::addRoomPicture);
         roomRepository.save(room);
+    }
+
+    public RoomDTO getRoom(Long id) {
+        return modelMapper.map(roomRepository.findById(id).orElseThrow(EntityNotFoundException::new), RoomDTO.class);
     }
 }
