@@ -1,11 +1,13 @@
 import {Component, OnInit} from '@angular/core';
-import {EMPTY, Subscription} from "rxjs";
+import {EMPTY} from "rxjs";
 import {ActivatedRoute} from "@angular/router";
 import {RoomModel} from "../model/room.model";
 import {RoomService} from "../providers/room.service";
 import {FormArray, FormControl, FormGroup, Validators} from "@angular/forms";
 import {switchMap} from "rxjs/operators";
 import {ProfileService} from "../../profile-module/providers/profile.service";
+import {DomSanitizer} from "@angular/platform-browser";
+import {ProfileModel} from "../../profile-module/model/profile.model";
 
 @Component({
     selector: 'app-room-edit',
@@ -14,9 +16,8 @@ import {ProfileService} from "../../profile-module/providers/profile.service";
 })
 export class RoomEditComponent implements OnInit {
 
-    room: RoomModel;
-    roomSub: Subscription;
     form: FormGroup;
+    profile = new ProfileModel();
 
     constructor(private route: ActivatedRoute, private roomCli: RoomService, private profileCli: ProfileService) {
     }
@@ -26,50 +27,51 @@ export class RoomEditComponent implements OnInit {
     }
 
     ngOnInit() {
-       this.room = new RoomModel();
+        this.setForm(new RoomModel());
 
        this.route.url.subscribe(url => {
           if(url[url.length - 1].path === 'create') {
               const sub = this.profileCli.fetchCurrentUserProfile().subscribe(profile => {
-                  this.room.owner = profile;
+                  this.profile = profile;
                   sub.unsubscribe();
               });
           }
        });
 
-       this.roomSub = this.route.params.pipe(
+       const sub = this.route.params.pipe(
             switchMap(params => +params['id'] ? this.roomCli.fetchCurrentUserRoom(+params['id']) : EMPTY)
-        ).subscribe(room => this.room = room);
-        this.setForm();
+        ).subscribe(room => {
+            this.profile = room.owner;
+            this.setForm(room);
+           sub.unsubscribe();
+       });
     }
 
-    private setForm() {
+    private setForm(room: RoomModel) {
         const amenities = new FormArray([]);
-        for (const amenity of this.room.amenities) {
+        for (const amenity of room.amenities) {
             amenities.push(new FormControl(amenity, Validators.required));
         }
 
         this.form = new FormGroup({
-            deposit: new FormControl(this.room.deposit),
-            monthlyPrice: new FormControl(this.room.monthlyPrice),
-            room: new FormControl(this.room.room),
-            roomsNumber: new FormControl(this.room.roomsNumber),
+            deposit: new FormControl(room.deposit),
+            monthlyPrice: new FormControl(room.monthlyPrice),
+            room: new FormControl(room.room),
+            roomsNumber: new FormControl(room.roomsNumber),
             address: new FormGroup({
-                city: new FormControl(this.room.address.city),
-                street: new FormControl(this.room.address.street),
-                number: new FormControl(this.room.address.number),
+                city: new FormControl(room.address.city),
+                street: new FormControl(room.address.street),
+                number: new FormControl(room.address.number),
             }),
-            description: new FormControl(this.room.description, Validators.required),
-            availableFrom : new FormControl(this.room.availableFrom),
-            minDuration: new FormControl(this.room.minDuration),
+            description: new FormControl(room.description, Validators.required),
+            availableFrom : new FormControl(room.availableFrom),
+            minDuration: new FormControl(room.minDuration),
             amenities: amenities
         });
     }
 
     onSubmit() {
-        let room = new RoomModel(this.form.value);
-        room.owner = this.room.owner;
-        this.roomCli.createRoom(room);
+        this.roomCli.createRoom(new RoomModel().merge(this.form.value));
     }
 
     onDeleteAmenity(i: number) {

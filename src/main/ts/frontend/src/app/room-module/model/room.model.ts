@@ -4,10 +4,6 @@ import {AddressModel} from "./address.model";
 import {PositionModel} from "./position.model";
 
 export class RoomModel {
-    constructor(init?: Partial<RoomModel>) {
-        Object.assign(this, init);
-    }
-
     id: number;
     name: string;
     description: string;
@@ -22,4 +18,8 @@ export class RoomModel {
     owner: ProfileModel = new ProfileModel();
     address: AddressModel = new AddressModel();
     position: PositionModel = new PositionModel();
+
+    merge(merge: Partial<RoomModel>) : RoomModel {
+       return Object.assign(this, merge);
+    }
 }

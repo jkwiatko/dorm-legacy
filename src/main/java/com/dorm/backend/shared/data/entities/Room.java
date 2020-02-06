@@ -45,7 +45,7 @@ public class Room extends BaseEntity {
         this.bookings = bookings;
     }
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     public Address getAddress() {
         return address;
     }
@@ -129,8 +129,8 @@ public class Room extends BaseEntity {
         this.minDuration = minDuration;
     }
 
-    @ElementCollection(targetClass = EAmenities.class)
     @Enumerated(value = EnumType.STRING)
+    @ElementCollection(targetClass = EAmenities.class)
     public List<EAmenities> getAmenities() {
         return amenities;
     }
