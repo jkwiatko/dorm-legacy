@@ -2,6 +2,7 @@
 
 .vh-50 {
     height: 50vh;
+    max-height: 50vh;
 }
 
 .basic-info-list {
@@ -35,4 +36,11 @@
     border-spacing: 10px;
     border-collapse: separate;
     margin: 0;
+}
+
+.room-images {
+
+    &:hover {
+        background-color: whitesmoke;
+    }
 }

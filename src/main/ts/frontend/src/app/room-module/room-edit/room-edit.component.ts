@@ -17,6 +17,7 @@ export class RoomEditComponent implements OnInit {
 
     form: FormGroup;
     profile = new ProfileModel();
+    room = new RoomModel();
 
     constructor(private route: ActivatedRoute, private roomCli: RoomService, private profileCli: ProfileService) {
     }
@@ -26,24 +27,26 @@ export class RoomEditComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.setForm(new RoomModel());
+        this.setForm(this.room);
 
-       this.route.url.subscribe(url => {
-          if(url[url.length - 1].path === 'create') {
-              const sub = this.profileCli.fetchCurrentUserProfile().subscribe(profile => {
-                  this.profile = profile;
-                  sub.unsubscribe();
-              });
-          }
-       });
+        this.route.url.subscribe(url => {
+            if (url[url.length - 1].path === 'create') {
+                const sub = this.profileCli.fetchCurrentUserProfile().subscribe(profile => {
+                    this.profile = profile;
+                    sub.unsubscribe();
+                });
+            }
+        });
 
-       const sub = this.route.params.pipe(
+        const sub = this.route.params.pipe(
             switchMap(params => +params['id'] ? this.roomCli.fetchCurrentUserRoom(+params['id']) : EMPTY)
         ).subscribe(room => {
+            this.room = room;
             this.profile = room.owner;
-            this.setForm(room);
-           sub.unsubscribe();
-       });
+            this.setForm(this.room);
+            sub.unsubscribe();
+        });
+
     }
 
     private setForm(room: RoomModel) {
@@ -63,7 +66,7 @@ export class RoomEditComponent implements OnInit {
                 number: new FormControl(room.address.number),
             }),
             description: new FormControl(room.description, Validators.required),
-            availableFrom : new FormControl(new Date(room.availableFrom)),
+            availableFrom: new FormControl(new Date(room.availableFrom)),
             minDuration: new FormControl(room.minDuration),
             amenities: amenities
         });
@@ -81,5 +84,23 @@ export class RoomEditComponent implements OnInit {
         (this.form.get('amenities') as FormArray).push(
             new FormControl(null, Validators.required)
         );
+    }
+
+    OnSelectFile(event) {
+        if (event.target.files) {
+            for(let file of event.target.files) {
+                let reader = new FileReader();
+                if (file.type.match('image.*')) {
+                    reader.readAsDataURL(file);
+                    reader.onload = () => {
+                        this.room.pictures.push({
+                            name: file.name,
+                            base64String: reader.result.toString()
+                        });
+                    };
+                }
+            }
+        }
+        console.log(this.room.pictures);
     }
 }
