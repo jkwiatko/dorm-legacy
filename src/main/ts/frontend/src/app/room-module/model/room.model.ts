@@ -11,7 +11,7 @@ export class RoomModel {
     deposit: number;
     availableFrom: string;
     minDuration: number;
-    room: number;
+    houseArea: number;
     roomsNumber: number;
     amenities: string[] = [];
     pictures: Picture[] = [];

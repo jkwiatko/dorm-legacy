@@ -14,13 +14,12 @@ public class RoomDTO {
     private Integer deposit;
     private String availableFrom;
     private Integer minDuration;
-    private Integer room;
+    private Integer houseArea;
     private Integer roomsNumber;
     private List<String> amenities;
     private List<PictureDTO> pictures;
     private ProfileDTO owner;
     private AddressDTO address;
-    private PositionDTO position;
 
     public Long getId() {
         return id;
@@ -78,12 +77,12 @@ public class RoomDTO {
         this.minDuration = minDuration;
     }
 
-    public Integer getRoom() {
-        return room;
+    public Integer getHouseArea() {
+        return houseArea;
     }
 
-    public void setRoom(Integer room) {
-        this.room = room;
+    public void setHouseArea(Integer houseArea) {
+        this.houseArea = houseArea;
     }
 
     public Integer getRoomsNumber() {
@@ -126,11 +125,4 @@ public class RoomDTO {
         this.address = address;
     }
 
-    public PositionDTO getPosition() {
-        return position;
-    }
-
-    public void setPosition(PositionDTO position) {
-        this.position = position;
-    }
 }

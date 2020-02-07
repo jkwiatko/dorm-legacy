@@ -24,7 +24,9 @@ public class Room extends BaseEntity {
     private BigDecimal monthlyPrice;
     private BigDecimal deposit;
     private Date availableFrom;
-    private Period minDuration;
+    private Integer minDuration;
+    private Integer houseArea;
+    private Integer roomsNumber;
     private List<EAmenities> amenities;
 
     @ManyToOne
@@ -121,12 +123,28 @@ public class Room extends BaseEntity {
         this.availableFrom = availableFrom;
     }
 
-    public Period getMinDuration() {
+    public Integer getMinDuration() {
         return minDuration;
     }
 
-    public void setMinDuration(Period minDuration) {
+    public void setMinDuration(Integer minDuration) {
         this.minDuration = minDuration;
+    }
+
+    public Integer getHouseArea() {
+        return houseArea;
+    }
+
+    public void setHouseArea(Integer houseArea) {
+        this.houseArea = houseArea;
+    }
+
+    public Integer getRoomsNumber() {
+        return roomsNumber;
+    }
+
+    public void setRoomsNumber(Integer roomsNumber) {
+        this.roomsNumber = roomsNumber;
     }
 
     @Enumerated(value = EnumType.STRING)

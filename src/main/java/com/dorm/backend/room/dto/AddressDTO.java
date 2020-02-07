@@ -5,6 +5,8 @@ public class AddressDTO {
     private String city;
     private String street;
     private String number;
+    private Double longitude;
+    private Double latitude;
 
     public String getCity() {
         return city;
@@ -28,5 +30,21 @@ public class AddressDTO {
 
     public void setNumber(String number) {
         this.number = number;
+    }
+
+    public Double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
+    }
+
+    public Double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
     }
 }

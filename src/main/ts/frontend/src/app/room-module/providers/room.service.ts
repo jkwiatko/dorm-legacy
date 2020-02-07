@@ -28,8 +28,10 @@ export class RoomService {
       if(room.owner) {
           this.profileService.trustReceivedPictureUrl(room.owner);
       }
-        room.pictures.forEach(picture => picture.base64String = this.sanitizer
-            .bypassSecurityTrustUrl('data:image/jpeg;base64,' + picture.base64String))
+      if(room.pictures) {
+          room.pictures.forEach(picture => picture.base64String = this.sanitizer
+              .bypassSecurityTrustUrl('data:image/jpeg;base64,' + picture.base64String))
+      }
     }
 
     public authorizeSentPictureUrls(room: RoomModel) {

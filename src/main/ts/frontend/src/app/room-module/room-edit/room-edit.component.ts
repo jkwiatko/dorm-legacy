@@ -6,7 +6,6 @@ import {RoomService} from "../providers/room.service";
 import {FormArray, FormControl, FormGroup, Validators} from "@angular/forms";
 import {switchMap} from "rxjs/operators";
 import {ProfileService} from "../../profile-module/providers/profile.service";
-import {DomSanitizer} from "@angular/platform-browser";
 import {ProfileModel} from "../../profile-module/model/profile.model";
 
 @Component({
@@ -56,7 +55,7 @@ export class RoomEditComponent implements OnInit {
         this.form = new FormGroup({
             deposit: new FormControl(room.deposit),
             monthlyPrice: new FormControl(room.monthlyPrice),
-            room: new FormControl(room.room),
+            houseArea: new FormControl(room.houseArea),
             roomsNumber: new FormControl(room.roomsNumber),
             address: new FormGroup({
                 city: new FormControl(room.address.city),
@@ -64,7 +63,7 @@ export class RoomEditComponent implements OnInit {
                 number: new FormControl(room.address.number),
             }),
             description: new FormControl(room.description, Validators.required),
-            availableFrom : new FormControl(room.availableFrom),
+            availableFrom : new FormControl(new Date(room.availableFrom)),
             minDuration: new FormControl(room.minDuration),
             amenities: amenities
         });

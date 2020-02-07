@@ -1,6 +1,8 @@
 package com.dorm.backend.shared.services;
 
+import com.dorm.backend.profile.dto.PictureDTO;
 import com.dorm.backend.room.dto.RoomDTO;
+import com.dorm.backend.shared.data.entities.Picture;
 import com.dorm.backend.shared.data.entities.Room;
 import com.dorm.backend.shared.data.entities.User;
 import com.dorm.backend.shared.data.repos.RoomRepository;
@@ -39,6 +41,18 @@ public class RoomService {
     }
 
     public RoomDTO getRoom(Long id) {
-        return modelMapper.map(roomRepository.findById(id).orElseThrow(EntityNotFoundException::new), RoomDTO.class);
+       Room room = roomRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+       for(Picture picture : room.getPictures()) {
+           picture.setPicture(pictureService.loadPictureFromFileSystem(picture));
+       }
+       RoomDTO dto = modelMapper.map(room, RoomDTO.class);
+       room.getOwner().getProfilePictures()
+               .stream()
+               .findFirst()
+               .ifPresent(picture -> {
+                   picture.setPicture(pictureService.loadPictureFromFileSystem(picture));
+                   dto.getOwner().setProfilePicture(modelMapper.map(picture, PictureDTO.class));
+               });
+       return dto;
     }
 }
