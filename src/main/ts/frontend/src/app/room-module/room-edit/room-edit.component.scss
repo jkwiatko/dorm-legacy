@@ -39,8 +39,22 @@
 }
 
 .room-images {
+    .room-input {
+        &:hover {
+            background-color: whitesmoke;
+        }
+    }
 
-    &:hover {
-        background-color: whitesmoke;
+    .room-image {
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+        object-position: 50% 70%;
+
+        &:hover {
+            filter: opacity(85%);
+        }
     }
 }
+
+

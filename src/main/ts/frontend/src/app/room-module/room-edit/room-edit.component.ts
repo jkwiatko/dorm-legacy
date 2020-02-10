@@ -86,19 +86,19 @@ export class RoomEditComponent implements OnInit {
         );
     }
 
-    OnSelectFile(event) {
-        if (event.target.files) {
-            for(let file of event.target.files) {
-                let reader = new FileReader();
-                if (file.type.match('image.*')) {
-                    reader.readAsDataURL(file);
-                    reader.onload = () => {
-                        this.room.pictures.push({
-                            name: file.name,
-                            base64String: reader.result.toString()
-                        });
+    OnSelectFile(event, number: number) {
+        if (event.target.files && event.target.files[0]) {
+            this.room.pictures.splice(number, 1);
+            let file = event.target.files[0];
+            let reader = new FileReader();
+            if (file.type.match('image.*')) {
+                reader.readAsDataURL(file);
+                reader.onload = () => {
+                    this.room.pictures[number] = {
+                        name: file.name,
+                        base64String: reader.result.toString()
                     };
-                }
+                };
             }
         }
         console.log(this.room.pictures);
