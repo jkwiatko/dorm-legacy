@@ -7,6 +7,7 @@ import com.dorm.backend.profile.dto.PictureDTO;
 import com.dorm.backend.shared.data.entities.Picture;
 import com.dorm.backend.shared.data.entities.User;
 import com.dorm.backend.shared.data.repos.UserRepository;
+import com.dorm.backend.shared.error.exc.FileNameAlreadyTaken;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -39,6 +40,24 @@ public class UserService {
             throw new InsufficientAuthenticationException("Couldn't not retrieve currently logged in user");
         }
         return getUser(((UserPrincipal) principal).getId());
+    }
+
+    public void editCurrentAuthenticatedUser(ProfileDTO profile) {
+        User user = getCurrentAuthenticatedUser();
+        modelMapper.map(profile, user);
+        if(profile.getProfilePicture() != null) {
+            boolean filenameInUse = user.getProfilePictures()
+                    .stream()
+                    .anyMatch(img -> img.getPictureName().equals(profile.getProfilePicture().getName()));
+
+            if (!filenameInUse) {
+                Picture picture = modelMapper.map(profile.getProfilePicture(), Picture.class);
+                pictureService.savePicture(user, picture);
+            } else {
+                throw new FileNameAlreadyTaken();
+            }
+        }
+        updateUser(user);
     }
 
     public ProfileDTO getUserProfile(Long id) {

@@ -41,12 +41,7 @@ public class ProfileController {
 
     @PostMapping("/edit")
     public ResponseEntity<Void> EditProfile(@RequestBody ProfileDTO profile) {
-        User user = userService.getCurrentAuthenticatedUser();
-        modelMapper.map(profile, user);
-        if(profile.getProfilePicture() != null) {
-            pictureService.addProfilePicture(user, profile.getProfilePicture());
-        }
-        userService.updateUser(user);
+        userService.editCurrentAuthenticatedUser(profile);
         return ResponseEntity.ok().build();
     }
 }

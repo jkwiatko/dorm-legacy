@@ -39,20 +39,6 @@ public class PictureService {
         this.modelMapper = modelMapper;
     }
 
-    public void addProfilePicture(User user, PictureDTO pictureDTO) {
-        boolean filenameInUse = user.getProfilePictures()
-                .stream()
-                .anyMatch(img -> img.getPictureName().equals(pictureDTO.getName()));
-
-        if (!filenameInUse) {
-            Picture picture = modelMapper.map(pictureDTO, Picture.class);
-            picture.setOfUser(user);
-            savePicture(user, picture);
-        } else {
-            throw new FileNameAlreadyTaken();
-        }
-    }
-
     public Picture getPicture(Long id) {
         Picture picture = pictureRepository.findById(id).orElseThrow(EntityNotFoundException::new);
         picture.setPicture(loadPictureFromFileSystem(picture));
