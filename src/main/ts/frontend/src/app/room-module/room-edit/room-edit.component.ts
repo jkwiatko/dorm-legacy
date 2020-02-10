@@ -41,7 +41,7 @@ export class RoomEditComponent implements OnInit {
         const sub = this.route.params.pipe(
             switchMap(params => +params['id'] ? this.roomCli.fetchCurrentUserRoom(+params['id']) : EMPTY)
         ).subscribe(room => {
-            this.room = room;
+            this.room = (new RoomModel().merge(room));
             this.profile = room.owner;
             this.setForm(this.room);
             sub.unsubscribe();
@@ -73,7 +73,7 @@ export class RoomEditComponent implements OnInit {
     }
 
     onSubmit() {
-        this.roomCli.createRoom(new RoomModel().merge(this.form.value));
+        this.roomCli.createRoom(this.room.merge(this.form.value));
     }
 
     onDeleteAmenity(i: number) {
@@ -101,6 +101,5 @@ export class RoomEditComponent implements OnInit {
                 };
             }
         }
-        console.log(this.room.pictures);
     }
 }

@@ -52,7 +52,7 @@ public class Room extends BaseEntity {
         return address;
     }
 
-    @OneToMany(mappedBy = "ofRoom")
+    @OneToMany(mappedBy = "ofRoom", cascade = CascadeType.ALL)
     public List<Picture> getPictures() {
         return pictures;
     }

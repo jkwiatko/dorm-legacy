@@ -31,12 +31,15 @@ public class RoomService {
         this.roomRepository = roomRepository;
     }
 
-    public void addRoom(RoomDTO roomDTO) {
+    public void createRoom(RoomDTO roomDTO) {
         User user = userService.getCurrentAuthenticatedUser();
         Room room = modelMapper.map(roomDTO, Room.class);
-
         room.setOwner(user);
-        room.getPictures().forEach(pictureService::addRoomPicture);
+
+        for (Picture picture : room.getPictures()) {
+            picture.setOfRoom(room);
+            pictureService.savePicture(user, picture);
+        }
         roomRepository.save(room);
     }
 

@@ -22,4 +22,8 @@ export class RoomModel {
     merge(merge: Partial<RoomModel>) : RoomModel {
        return Object.assign(this, merge);
     }
+
+    deepCopy() : RoomModel {
+        return new RoomModel().merge(JSON.parse(JSON.stringify(this)));
+    }
 }

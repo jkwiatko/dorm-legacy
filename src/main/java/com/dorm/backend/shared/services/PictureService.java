@@ -1,9 +1,9 @@
 package com.dorm.backend.shared.services;
 
+import com.dorm.backend.profile.dto.PictureDTO;
 import com.dorm.backend.shared.data.entities.Picture;
 import com.dorm.backend.shared.data.entities.User;
 import com.dorm.backend.shared.data.repos.PictureRepository;
-import com.dorm.backend.profile.dto.PictureDTO;
 import com.dorm.backend.shared.error.exc.FileNameAlreadyTaken;
 import com.dorm.backend.shared.error.exc.LoadPictureException;
 import com.dorm.backend.shared.error.exc.PersistFileException;
@@ -16,7 +16,11 @@ import org.springframework.stereotype.Service;
 import javax.imageio.ImageIO;
 import javax.persistence.EntityNotFoundException;
 import java.awt.image.BufferedImage;
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 
 @Service
@@ -43,20 +47,7 @@ public class PictureService {
         if (!filenameInUse) {
             Picture picture = modelMapper.map(pictureDTO, Picture.class);
             picture.setOfUser(user);
-            picture.setOwner(user);
-            pictureRepository.save(picture);
-            try {
-                persistPictureToFileSystem(picture);
-            } catch (IOException e) {
-                pictureRepository.delete(picture);
-                logger.error(
-                        "Exception occurred while image storing procedure under "
-                        + picture.getUrl()
-                        + " path!!! \n Running rollback...",
-                        e
-                );
-                throw new PersistFileException();
-            }
+            savePicture(user, picture);
         } else {
             throw new FileNameAlreadyTaken();
         }
@@ -68,11 +59,22 @@ public class PictureService {
         return picture;
     }
 
+    public void savePicture(User user, Picture picture) {
+        picture.setOwner(user);
+        pictureRepository.save(picture);
+        try {
+            persistPictureToFileSystem(picture);
+        } catch (IOException e) {
+            pictureRepository.delete(picture);
+            logger.error("IOException on img saving procedure -> url: " + picture.getUrl(), e);
+            throw new PersistFileException();
+        }
+    }
+
     public void deletePicture(Long id) {
         Picture picture = pictureRepository.findById(id).orElseThrow(EntityNotFoundException::new);
         removePictureFromFileSystem(picture);
     }
-
 
     public void persistPictureToFileSystem(Picture picture) throws IOException {
         File pictureFile = new File(
@@ -134,8 +136,5 @@ public class PictureService {
                 File.separator +
                 String.format("%03d", secondDir) +
                 File.separator;
-    }
-
-    public void addRoomPicture(Picture picture) {
     }
 }

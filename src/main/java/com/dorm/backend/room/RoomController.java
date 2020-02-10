@@ -22,7 +22,7 @@ public class RoomController {
 
     @PostMapping("/create")
     public ResponseEntity<Void> createRoom(@RequestBody RoomDTO roomDTO) {
-        roomService.addRoom(roomDTO);
+        roomService.createRoom(roomDTO);
         return ResponseEntity.ok().build();
     }
 
