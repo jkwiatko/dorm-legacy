@@ -6,10 +6,12 @@ import com.dorm.backend.shared.data.entities.Picture;
 import com.dorm.backend.shared.data.entities.Room;
 import com.dorm.backend.shared.data.entities.User;
 import com.dorm.backend.shared.data.repos.RoomRepository;
+import com.dorm.backend.shared.error.exc.FileNameAlreadyTaken;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.stream.Collectors;
 
 @Service
 public class RoomService {
@@ -41,6 +43,17 @@ public class RoomService {
             pictureService.savePicture(user, picture);
         }
         roomRepository.save(room);
+    }
+
+    public void editRoom(RoomDTO roomDTO) {
+        User user = userService.getCurrentAuthenticatedUser();
+        Room room = roomRepository.findById(roomDTO.getId()).orElseThrow(EntityNotFoundException::new);
+        modelMapper.map(roomDTO, room);
+        room.getPictures().forEach(picture -> {
+            picture.setOfRoom(room);
+            pictureService.savePicture(user, picture);
+        });
+//        roomRepository.save(room);
     }
 
     public RoomDTO getRoom(Long id) {

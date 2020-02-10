@@ -26,6 +26,13 @@ public class RoomController {
         return ResponseEntity.ok().build();
     }
 
+    @PostMapping("/edit")
+        public ResponseEntity<Void> editRoom(@RequestBody RoomDTO roomDTO) {
+            roomService.editRoom(roomDTO);
+            return ResponseEntity.ok().build();
+        }
+
+
     @GetMapping("/{id}")
     public ResponseEntity<RoomDTO> getRoom(@PathVariable Long id) {
         return ResponseEntity.ok().body(roomService.getRoom(id));
