@@ -19,6 +19,7 @@ public class Picture extends BaseEntity {
 
     private String url;
     private String pictureName;
+    private Integer pictureOrder;
     private byte[] picture;
 
     @ManyToOne
@@ -63,6 +64,14 @@ public class Picture extends BaseEntity {
 
     public void setPictureName(String pictureName) {
         this.pictureName = pictureName;
+    }
+
+    public Integer getPictureOrder() {
+        return pictureOrder;
+    }
+
+    public void setPictureOrder(Integer order) {
+        this.pictureOrder = order;
     }
 
     @Transient

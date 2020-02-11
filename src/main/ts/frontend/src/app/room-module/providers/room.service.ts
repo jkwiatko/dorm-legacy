@@ -25,8 +25,16 @@ export class RoomService {
             .subscribe();
     }
 
+    public editRoom(room: RoomModel) {
+        this.http
+            .post<RoomModel>(environment.api + 'room/edit', room)
+            .subscribe();
+    }
+
     private addPictureExtension(room : RoomModel) : void {
         room.pictures.forEach(img => img.base64String = 'data:image/jpeg;base64,' + img.base64String);
-        room.owner.profilePicture.base64String =  'data:image/jpeg;base64,' + room.owner.profilePicture.base64String;
+        if(room.owner.profilePicture) {
+            room.owner.profilePicture.base64String =  'data:image/jpeg;base64,' + room.owner.profilePicture.base64String;
+        }
     }
 }

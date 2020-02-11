@@ -13,6 +13,7 @@ public class ProfilePictureEntityConverter implements Converter<Picture, Picture
     public PictureDTO convert(MappingContext<Picture, PictureDTO> context) {
         PictureDTO pictureDTO = new PictureDTO();
         pictureDTO.setName(context.getSource().getPictureName());
+        pictureDTO.setPictureOrder(context.getSource().getPictureOrder());
         pictureDTO.setBase64String(new String(Base64.getMimeEncoder().encode(context.getSource().getPicture())));
         return pictureDTO;
     }

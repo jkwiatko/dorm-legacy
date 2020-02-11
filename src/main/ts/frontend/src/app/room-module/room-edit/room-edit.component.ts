@@ -7,6 +7,7 @@ import {FormArray, FormControl, FormGroup, Validators} from "@angular/forms";
 import {switchMap} from "rxjs/operators";
 import {ProfileService} from "../../profile-module/providers/profile.service";
 import {ProfileModel} from "../../profile-module/model/profile.model";
+import {Picture} from "../../shared-module/model/picture.model";
 
 @Component({
     selector: 'app-room-edit',
@@ -43,6 +44,7 @@ export class RoomEditComponent implements OnInit {
             switchMap(params => +params['id'] ? this.roomCli.fetchCurrentUserRoom(+params['id']) : EMPTY)
         ).subscribe(room => {
             this.room = (new RoomModel().merge(room));
+            this.sortPictures(this.room.pictures);
             this.editMode = true;
 
             this.profile = room.owner;
@@ -66,6 +68,7 @@ export class RoomEditComponent implements OnInit {
             houseArea: new FormControl(room.houseArea),
             roomsNumber: new FormControl(room.roomsNumber),
             address: new FormGroup({
+                //can be null :(
                 city: new FormControl(room.address.city),
                 street: new FormControl(room.address.street),
                 number: new FormControl(room.address.number),
@@ -78,7 +81,11 @@ export class RoomEditComponent implements OnInit {
     }
 
     onSubmit() {
-        this.roomCli.createRoom(this.room.merge(this.form.value));
+        if(this.editMode) {
+            this.roomCli.editRoom(this.room.merge(this.form.value));
+        } else {
+            this.roomCli.createRoom(this.room.merge(this.form.value));
+        }
     }
 
     onDeleteAmenity(i: number) {
@@ -93,18 +100,35 @@ export class RoomEditComponent implements OnInit {
 
     OnSelectFile(event, number: number) {
         if (event.target.files && event.target.files[0]) {
-            this.room.pictures.splice(number, 1);
+            let pictureIndex = number;
+            if(number > this.room.pictures.length) {
+                this.room.pictures.splice(number, 1);
+                pictureIndex--;
+            }
             let file = event.target.files[0];
             let reader = new FileReader();
             if (file.type.match('image.*')) {
-                reader.readAsDataURL(file);
                 reader.onload = () => {
-                    this.room.pictures[number] = {
+                    this.room.pictures[pictureIndex] = {
                         name: file.name,
-                        base64String: reader.result.toString()
+                        base64String: reader.result.toString(),
+                        pictureOrder: pictureIndex
                     };
                 };
+                reader.readAsDataURL(file);
             }
         }
+    }
+
+    private sortPictures(pictures: Picture[]) {
+        pictures.sort(((a, b) => {
+            if (a.pictureOrder > b.pictureOrder) {
+                return 1;
+            }
+            if (b.pictureOrder > a.pictureOrder) {
+                return -1;
+            }
+            return 0;
+        }));
     }
 }

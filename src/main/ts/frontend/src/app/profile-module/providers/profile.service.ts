@@ -27,6 +27,8 @@ export class ProfileService {
     }
 
     private addPictureExtension(profile : ProfileModel) : void {
-        profile.profilePicture.base64String = 'data:image/jpeg;base64,' + profile.profilePicture.base64String
+        if(profile.profilePicture) {
+            profile.profilePicture.base64String = 'data:image/jpeg;base64,' + profile.profilePicture.base64String
+        }
     }
 }

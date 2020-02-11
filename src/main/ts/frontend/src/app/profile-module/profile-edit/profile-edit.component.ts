@@ -16,7 +16,7 @@ export class ProfileEditComponent implements OnInit, OnDestroy {
     startDate = new Date(2000, 0, 1);
     form: FormGroup;
     profileSub: Subscription;
-    profileImg: Picture = {base64String: null, name: null};
+    profileImg: Picture = new Picture();
 
     constructor(private profileClient: ProfileService, private router: Router) {
     }

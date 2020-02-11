@@ -5,7 +5,6 @@ import com.dorm.backend.shared.enums.EAmenities;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.time.Period;
 import java.util.Date;
 import java.util.List;
 
@@ -52,7 +51,7 @@ public class Room extends BaseEntity {
         return address;
     }
 
-    @OneToMany(mappedBy = "ofRoom", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "ofRoom", cascade = CascadeType.ALL, orphanRemoval = true)
     public List<Picture> getPictures() {
         return pictures;
     }
