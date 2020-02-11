@@ -18,6 +18,7 @@ export class RoomEditComponent implements OnInit {
     form: FormGroup;
     profile = new ProfileModel();
     room = new RoomModel();
+    editMode = false;
 
     constructor(private route: ActivatedRoute, private roomCli: RoomService, private profileCli: ProfileService) {
     }
@@ -42,7 +43,11 @@ export class RoomEditComponent implements OnInit {
             switchMap(params => +params['id'] ? this.roomCli.fetchCurrentUserRoom(+params['id']) : EMPTY)
         ).subscribe(room => {
             this.room = (new RoomModel().merge(room));
+            this.editMode = true;
+
             this.profile = room.owner;
+            this.room.owner = null;
+
             this.setForm(this.room);
             sub.unsubscribe();
         });

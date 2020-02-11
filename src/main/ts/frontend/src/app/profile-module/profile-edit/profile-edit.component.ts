@@ -3,7 +3,7 @@ import {FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ProfileService} from '../providers/profile.service';
 import {Subscription} from "rxjs";
 import {Router} from "@angular/router";
-import {Picture} from "../../shared/model/picture.model";
+import {Picture} from "../../shared-module/model/picture.model";
 import {ProfileModel} from "../model/profile.model";
 
 @Component({

@@ -3,7 +3,7 @@
           (ngSubmit)="onSubmit()">
         <div class="row vh-50 room-images no-gutters">
             <div (click)="fileInput1.click()" class="col-md-6 col-12 h-100 border room-input">
-                <img class="room-image" alt="main room image" *ngIf="room.pictures[0]; else noImage" [src]="room.pictures[0].base64String">
+                <img class="room-image" alt="main room image" *ngIf="room.pictures[0]; else noImage" [src]="room.pictures[0].base64String | safe: 'url' ">
                 <ng-template #noImage>
                     <div class="w-100 h-100 d-flex justify-content-center align-items-center">
                         <div>?</div>
@@ -16,7 +16,7 @@
             <div class="col-6 h-100">
                 <div class="row h-50 no-gutters">
                     <div (click)="fileInput2.click()" class="col h-100 d-md-block d-none border room-input">
-                        <img class="room-image" alt="main room image" *ngIf="room.pictures[1]; else noImage" [src]="room.pictures[1].base64String">
+                        <img class="room-image" alt="main room image" *ngIf="room.pictures[1]; else noImage" [src]="room.pictures[1].base64String | safe: 'url'">
                         <ng-template #noImage>
                             <div class="w-100 h-100 d-flex justify-content-center align-items-center">
                                 <div>?</div>
@@ -27,7 +27,7 @@
                           #fileInput2 (change)="OnSelectFile($event, 1)">
                     </div>
                     <div (click)="fileInput3.click()" class="col h-100 d-lg-block d-none border room-input">
-                        <img class="room-image" alt="main room image" *ngIf="room.pictures[2]; else noImage" [src]="room.pictures[2].base64String">
+                        <img class="room-image" alt="main room image" *ngIf="room.pictures[2]; else noImage" [src]="room.pictures[2].base64String | safe: 'url'">
                         <ng-template #noImage>
                             <div class="w-100 h-100 d-flex justify-content-center align-items-center">
                                 <div>?</div>
@@ -40,7 +40,7 @@
                 </div>
                 <div class="row h-50 no-gutters">
                     <div (click)="fileInput4.click()" class="col h-100 d-md-block d-none border room-input">
-                        <img class="room-image" alt="main room image" *ngIf="room.pictures[3]; else noImage" [src]="room.pictures[3].base64String">
+                        <img class="room-image" alt="main room image" *ngIf="room.pictures[3]; else noImage" [src]="room.pictures[3].base64String | safe: 'url'">
                         <ng-template #noImage>
                             <div class="w-100 h-100 d-flex justify-content-center align-items-center">
                                 <div>?</div>
@@ -51,7 +51,7 @@
                           #fileInput4 (change)="OnSelectFile($event, 3)">
                     </div>
                     <div (click)="fileInput5.click()" class="col h-100 d-lg-block d-none border room-input">
-                        <img class="room-image" alt="main room image" *ngIf="room.pictures[4]; else noImage" [src]="room.pictures[4].base64String">
+                        <img class="room-image" alt="main room image" *ngIf="room.pictures[4]; else noImage" [src]="room.pictures[4].base64String | safe: 'url'">
                         <ng-template #noImage>
                             <div class="w-100 h-100 d-flex justify-content-center align-items-center">
                                 <div>?</div>
@@ -242,7 +242,7 @@
                         </div>
                         <hr class="w-100 horizontal-line">
                         <div class="col-12">
-                            <button class="btn btn-primary">Create</button>
+                            <button class="btn btn-primary">{{editMode ? 'Update' : 'Create'}}</button>
                         </div>
                     </div>
                 </div>

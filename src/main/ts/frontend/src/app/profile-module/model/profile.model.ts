@@ -1,4 +1,4 @@
-import {Picture} from "../../shared/model/picture.model";
+import {Picture} from "../../shared-module/model/picture.model";
 import {RoomModel} from "../../room-module/model/room.model";
 
 export class ProfileModel{

@@ -14,6 +14,7 @@ import {AgePipe} from './pipes/age.pipe';
 import {GenderPipe} from './pipes/gender.pipe';
 import {RouterModule, Routes} from "@angular/router";
 import { ProfileStickyInfoComponent } from './profile-sticky-info/profile-sticky-info.component';
+import {SharedModule} from "../shared-module/shared.module";
 
 const routes: Routes = [
     {path: 'profile/edit', component: ProfileEditComponent},
@@ -33,7 +34,8 @@ const routes: Routes = [
         MatDatepickerModule,
         MatNativeDateModule,
         MatInputModule,
-        MatRadioModule
+        MatRadioModule,
+        SharedModule
     ]
 })
 export class ProfileModule {

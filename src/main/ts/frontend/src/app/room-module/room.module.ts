@@ -11,6 +11,7 @@ import { RoomEditComponent } from './room-edit/room-edit.component';
 import {ReactiveFormsModule} from "@angular/forms";
 import {ProfileModule} from "../profile-module/profile.module";
 import {MatDatepickerModule} from "@angular/material/datepicker";
+import {SharedModule} from "../shared-module/shared.module";
 
 const routes: Routes = [
     {path: 'room/find', component: RoomsComponent, pathMatch: 'full'},
@@ -31,6 +32,7 @@ const routes: Routes = [
         ProfileModule,
         MatDatepickerModule,
         MatDatepickerModule,
+        SharedModule,
     ],
 })
 export class RoomModule {

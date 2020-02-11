@@ -1,4 +1,4 @@
-import {Picture} from "../../shared/model/picture.model";
+import {Picture} from "../../shared-module/model/picture.model";
 import {ProfileModel} from "../../profile-module/model/profile.model";
 import {AddressModel} from "./address.model";
 import {PositionModel} from "./position.model";

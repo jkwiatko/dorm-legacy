@@ -1,4 +1,4 @@
-import {Injectable, SecurityContext} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {environment} from '../../../environments/environment';
@@ -15,31 +15,18 @@ export class ProfileService {
     }
 
     fetchUserProfile(id: number): Observable<ProfileModel> {
-        return this.http.get<ProfileModel>(environment.api + 'profile/' + id)
-            .pipe(tap(profile => this.trustReceivedPictureUrl(profile)));
+        return this.http.get<ProfileModel>(environment.api + 'profile/' + id).pipe(tap(this.addPictureExtension));
     }
 
     public fetchCurrentUserProfile(): Observable<ProfileModel> {
-        return this.http.get<ProfileModel>(environment.api + 'profile/edit')
-            .pipe(tap(profile => this.trustReceivedPictureUrl(profile)));
+        return this.http.get<ProfileModel>(environment.api + 'profile/edit').pipe(tap(this.addPictureExtension));
     }
 
     public saveProfile(profile: ProfileModel) {
-        this.authorizeSentPictureUrl(profile);
         this.http.post<ProfileModel>(environment.api + 'profile/edit', profile).subscribe();
     }
 
-    public trustReceivedPictureUrl(profile: ProfileModel) {
-        if(profile.profilePicture) {
-            profile.profilePicture.base64String = this.sanitizer
-                .bypassSecurityTrustUrl('data:image/jpeg;base64,' + profile.profilePicture.base64String)
-        }
-    }
-
-    private authorizeSentPictureUrl(profile: ProfileModel) {
-        if(profile.profilePicture) {
-            profile.profilePicture.base64String = this.sanitizer
-                .sanitize(SecurityContext.URL, 'data:image/jpeg;base64,' + profile.profilePicture.base64String)
-        }
+    private addPictureExtension(profile : ProfileModel) : void {
+        profile.profilePicture.base64String = 'data:image/jpeg;base64,' + profile.profilePicture.base64String
     }
 }
