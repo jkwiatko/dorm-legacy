@@ -17,18 +17,18 @@ import java.util.stream.Collectors;
 public class RoomService {
 
     private final ModelMapper modelMapper;
-    private final PictureService pictureService;
+    private final PictureLocalStorage pictureStorage;
     private final UserService userService;
     private final RoomRepository roomRepository;
 
     public RoomService(
             ModelMapper modelMapper,
-            PictureService pictureService,
+            PictureLocalStorage pictureStorage,
             UserService userService,
             RoomRepository roomRepository
     ) {
         this.modelMapper = modelMapper;
-        this.pictureService = pictureService;
+        this.pictureStorage = pictureStorage;
         this.userService = userService;
         this.roomRepository = roomRepository;
     }
@@ -40,7 +40,7 @@ public class RoomService {
 
         for (Picture picture : room.getPictures()) {
             picture.setOfRoom(room);
-            pictureService.savePicture(user, picture);
+            pictureStorage.savePicture(picture);
         }
         roomRepository.save(room);
     }
@@ -51,7 +51,7 @@ public class RoomService {
         modelMapper.map(roomDTO, room);
         room.getPictures().forEach(picture -> {
             picture.setOfRoom(room);
-            pictureService.savePicture(user, picture);
+            pictureStorage.savePicture(picture);
         });
 //        roomRepository.save(room);
     }
@@ -59,14 +59,14 @@ public class RoomService {
     public RoomDTO getRoom(Long id) {
        Room room = roomRepository.findById(id).orElseThrow(EntityNotFoundException::new);
        for(Picture picture : room.getPictures()) {
-           picture.setPicture(pictureService.loadPictureFromFileSystem(picture));
+           picture.setPicture(pictureStorage.loadPictureFromFileSystem(picture));
        }
        RoomDTO dto = modelMapper.map(room, RoomDTO.class);
        room.getOwner().getProfilePictures()
                .stream()
                .findFirst()
                .ifPresent(picture -> {
-                   picture.setPicture(pictureService.loadPictureFromFileSystem(picture));
+                   picture.setPicture(pictureStorage.loadPictureFromFileSystem(picture));
                    dto.getOwner().setProfilePicture(modelMapper.map(picture, PictureDTO.class));
                });
        return dto;

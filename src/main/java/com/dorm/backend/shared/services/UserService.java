@@ -21,16 +21,16 @@ import java.util.List;
 public class UserService {
 
     private final ModelMapper modelMapper;
-    private final PictureService pictureService;
+    private final PictureLocalStorage pictureLocalStorage;
     private final UserRepository userRepository;
 
     UserService(
             ModelMapper modelMapper,
-            PictureService pictureService,
+            PictureLocalStorage pictureLocalStorage,
             UserRepository userRepository
     ) {
         this.modelMapper = modelMapper;
-        this.pictureService = pictureService;
+        this.pictureLocalStorage = pictureLocalStorage;
         this.userRepository = userRepository;
     }
 
@@ -52,7 +52,7 @@ public class UserService {
 
             if (!filenameInUse) {
                 Picture picture = modelMapper.map(profile.getProfilePicture(), Picture.class);
-                pictureService.savePicture(user, picture);
+                pictureLocalStorage.savePicture(picture);
             } else {
                 throw new FileNameAlreadyTaken();
             }
@@ -63,7 +63,7 @@ public class UserService {
     public ProfileDTO getUserProfile(Long id) {
         User user = getUser(id);
         for (Picture picture : user.getProfilePictures()) {
-            picture.setPicture(pictureService.loadPictureFromFileSystem(picture));
+            picture.setPicture(pictureLocalStorage.loadPictureFromFileSystem(picture));
         }
         ProfileDTO dto = modelMapper.map(user, ProfileDTO.class);
         user.getProfilePictures().stream()

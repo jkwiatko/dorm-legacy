@@ -1,42 +1,29 @@
 package com.dorm.backend.shared.services;
 
-import com.dorm.backend.profile.dto.PictureDTO;
 import com.dorm.backend.shared.data.entities.Picture;
-import com.dorm.backend.shared.data.entities.User;
 import com.dorm.backend.shared.data.repos.PictureRepository;
-import com.dorm.backend.shared.error.exc.FileNameAlreadyTaken;
 import com.dorm.backend.shared.error.exc.LoadPictureException;
 import com.dorm.backend.shared.error.exc.PersistFileException;
 import com.dorm.backend.shared.error.exc.RemovePictureException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import javax.imageio.ImageIO;
 import javax.persistence.EntityNotFoundException;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.nio.file.Files;
 
 @Service
-public class PictureService {
+public class PictureLocalStorage {
     public static final String imageStoragePath = "/dorm/image_storage";
     private final Log logger = LogFactory.getLog(this.getClass());
 
     private final PictureRepository pictureRepository;
-    private final ModelMapper modelMapper;
 
-    public PictureService(
-            PictureRepository pictureRepository,
-            ModelMapper modelMapper
-    ) {
+    public PictureLocalStorage(PictureRepository pictureRepository) {
         this.pictureRepository = pictureRepository;
-        this.modelMapper = modelMapper;
     }
 
     public Picture getPicture(Long id) {
@@ -45,9 +32,7 @@ public class PictureService {
         return picture;
     }
 
-    public void savePicture(User user, Picture picture) {
-        picture.setOwner(user);
-        pictureRepository.save(picture);
+    public void savePicture(Picture picture) {
         try {
             persistPictureToFileSystem(picture);
         } catch (IOException e) {

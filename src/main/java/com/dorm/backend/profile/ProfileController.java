@@ -1,14 +1,16 @@
 package com.dorm.backend.profile;
 
-import com.dorm.backend.shared.data.entities.User;
-import com.dorm.backend.shared.services.PictureService;
-import com.dorm.backend.shared.services.UserService;
 import com.dorm.backend.profile.dto.ProfileDTO;
+import com.dorm.backend.shared.services.UserService;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/profile")
@@ -16,17 +18,9 @@ public class ProfileController {
     private final Log logger = LogFactory.getLog(this.getClass());
 
     private final UserService userService;
-    private final PictureService pictureService;
-    private final ModelMapper modelMapper;
 
-    public ProfileController (
-            UserService userService,
-            PictureService pictureService,
-            ModelMapper modelMapper
-    ) {
+    public ProfileController (UserService userService) {
         this.userService = userService;
-        this.pictureService = pictureService;
-        this.modelMapper = modelMapper;
     }
 
     @GetMapping("/{id}")
