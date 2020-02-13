@@ -33,6 +33,7 @@ export class ProfileEditComponent implements OnInit, OnDestroy {
         this.setForm(new ProfileModel());
         this.profileSub = this.profileClient.fetchCurrentUserProfile().subscribe(profile => {
             this.setForm(profile);
+
         });
     }
 
