@@ -46,6 +46,7 @@ public class UserService {
     public void editCurrentAuthenticatedUser(ProfileDTO profile) {
         User user = getCurrentAuthenticatedUser();
         modelMapper.map(profile, user);
+        setPictureDetails(user);
         user.getProfilePictures().stream()
                 .filter(picture -> Objects.nonNull(picture.getPicture()))
                 .forEach(pictureLocalStorage::savePicture);
@@ -83,5 +84,12 @@ public class UserService {
 
     public void  deleteUser(Long id) {
         userRepository.deleteById(id);
+    }
+
+    public void setPictureDetails(User user) {
+        user.getProfilePictures().forEach(picture -> {
+                picture.setOwner(user);
+                picture.setOfUser(user);
+        });
     }
 }

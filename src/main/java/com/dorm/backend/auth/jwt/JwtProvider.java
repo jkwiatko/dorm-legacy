@@ -19,19 +19,21 @@ public class JwtProvider  {
     @Value("10000000")
     private int jwtExpirationInMs;
 
-    public String generateToken(Authentication authentication) {
+    public Token generateToken(Authentication authentication) {
 
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
 
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + jwtExpirationInMs);
 
-        return Jwts.builder()
+        return new Token(
+                Jwts.builder()
                 .setSubject(Long.toString(userPrincipal.getId()))
                 .setIssuedAt(new Date())
                 .setExpiration(expiryDate)
                 .signWith(SignatureAlgorithm.HS256, jwtSecret)
-                .compact();
+                .compact(),
+                expiryDate);
     }
 
     public Long getUserIdFromJWT(String token) {

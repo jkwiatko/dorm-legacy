@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {MatDialogRef} from '@angular/material';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {AuthService} from "../provider/auth.service";
+import {TokenModel} from "../model/token.model";
 
 @Component({
     selector: 'app-login',
@@ -24,8 +25,8 @@ export class LoginComponent implements OnInit {
     }
 
     login() {
-        this.authService.login(this.loginForm.value).subscribe(tokenDto => {
-            this.authService.addAccessToken(tokenDto.token);
+        this.authService.login(this.loginForm.value).subscribe(token => {
+            this.authService.addAccessToken(new TokenModel().merge(token));
             this.dialogRef.close('success');
         });
     }

@@ -114,7 +114,7 @@ export class ProfileEditComponent implements OnInit, OnDestroy {
             smokingPolicy: this.form.get('smokingPolicy').value,
             petPolicy: this.form.get('petPolicy').value,
             guestsPolicy: this.form.get('guestsPolicy').value,
-            profilePictures: [this.profileImg],
+            profilePictures: this.profileImg.base64String ? [this.profileImg] : [],
             rooms: null
         };
         this.profileClient.saveProfile(profile);

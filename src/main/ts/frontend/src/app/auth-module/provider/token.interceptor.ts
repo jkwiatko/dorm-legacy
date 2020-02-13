@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
 import {Observable} from 'rxjs';
+import {TokenModel} from "../model/token.model";
 
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
@@ -11,7 +12,7 @@ export class TokenInterceptor implements HttpInterceptor {
 
         request = request.clone({
             setHeaders: {
-                Authorization: 'Bearer ' + localStorage.getItem('access_token')
+                Authorization: 'Bearer ' + (new TokenModel().merge(JSON.parse(localStorage.getItem('access_token')))).token
             }
         });
 

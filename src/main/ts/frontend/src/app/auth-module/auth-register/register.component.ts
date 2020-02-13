@@ -4,6 +4,7 @@ import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {switchMap} from 'rxjs/operators';
 import {Subscription} from 'rxjs';
 import {AuthService} from "../provider/auth.service";
+import {TokenModel} from "../model/token.model";
 
 @Component({
     selector: 'app-register',
@@ -31,8 +32,8 @@ export class RegisterComponent implements OnInit, OnDestroy {
         this.registerSubscription = this.authService.register(this.registerForm.value)
             .pipe(
                 switchMap(() => this.authService.login(this.registerForm.value))
-            ).subscribe(tokenDto => {
-                this.authService.addAccessToken(tokenDto.token);
+            ).subscribe(token => {
+                this.authService.addAccessToken(new TokenModel().merge(token));
                 this.dialogRef.close('success');
             });
     }
