@@ -6,10 +6,12 @@ import com.dorm.backend.shared.data.entities.Picture;
 import com.dorm.backend.shared.data.entities.Room;
 import com.dorm.backend.shared.data.entities.User;
 import com.dorm.backend.shared.data.repos.RoomRepository;
+import com.dorm.backend.shared.error.exc.DuplicatedPictureException;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,8 +36,16 @@ public class RoomService {
     }
 
     public void createRoom(RoomDTO roomDTO) {
+        if(!roomDTO.getPictures().stream()
+                .map(PictureDTO::getName)
+                .allMatch(new HashSet<>()::add)) {
+            throw new DuplicatedPictureException();
+        }
         User user = userService.getCurrentAuthenticatedUser();
         Room room = modelMapper.map(roomDTO, Room.class);
+        room.setPictures(roomDTO.getPictures().stream()
+                .map(dto -> modelMapper.map(dto, Picture.class))
+                .collect(Collectors.toList()));
         room.setOwner(user);
         setPictureDetails(room);
 
@@ -44,6 +54,11 @@ public class RoomService {
     }
 
     public void editRoom(RoomDTO roomDTO) {
+        if(!roomDTO.getPictures().stream()
+                .map(PictureDTO::getName)
+                .allMatch(new HashSet<>()::add)) {
+            throw new DuplicatedPictureException();
+        }
         Room currentRoom = roomRepository.findById(roomDTO.getId()).orElseThrow(EntityNotFoundException::new);
         modelMapper.map(roomDTO, currentRoom);
 
@@ -103,24 +118,18 @@ public class RoomService {
 
     public RoomDTO getRoom(Long id) {
         Room room = roomRepository.findById(id).orElseThrow(EntityNotFoundException::new);
-        for (Picture picture : room.getPictures()) {
-            picture.setPicture(pictureStorage.loadPictureFromFileSystem(picture));
-        }
-        RoomDTO dto = modelMapper.map(room, RoomDTO.class);
-        room.getOwner().getProfilePictures()
-                .stream()
-                .findFirst()
-                .ifPresent(picture -> {
-                    picture.setPicture(pictureStorage.loadPictureFromFileSystem(picture));
-                    dto.getOwner().setProfilePicture(modelMapper.map(picture, PictureDTO.class));
-                });
-        return dto;
+        room.getPictures().forEach(pictureStorage::loadPictureFromFileSystem);
+        room.getOwner().getProfilePictures().forEach(pictureStorage::loadPictureFromFileSystem);
+        return modelMapper.map(room, RoomDTO.class);
     }
 
     private void setPictureDetails(Room room) {
-        for (Picture picture : room.getPictures()) {
-            picture.setOwner(room.getOwner());
-            picture.setOfRoom(room);
+        if(room.getPictures() != null) {
+            for (Picture picture : room.getPictures()) {
+                picture.setOwner(room.getOwner());
+                picture.setOfRoom(room);
+            }
+
         }
     }
 }

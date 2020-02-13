@@ -6,7 +6,7 @@ import java.util.List;
 public class ProfileDTO {
     private String firstName;
     private String lastName;
-    private PictureDTO profilePicture;
+    private List<PictureDTO> profilePictures;
     private String birthDate;
     private String description;
     private String gender;
@@ -35,12 +35,12 @@ public class ProfileDTO {
         this.lastName = lastName;
     }
 
-    public PictureDTO getProfilePicture() {
-        return profilePicture;
+    public List<PictureDTO> getProfilePictures() {
+        return profilePictures;
     }
 
-    public void setProfilePicture(PictureDTO profilePicture) {
-        this.profilePicture = profilePicture;
+    public void setProfilePictures(List<PictureDTO> profilePictures) {
+        this.profilePictures = profilePictures;
     }
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")

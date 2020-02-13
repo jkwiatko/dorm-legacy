@@ -3,7 +3,6 @@ import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {environment} from '../../../environments/environment';
 import {tap} from "rxjs/operators";
-import {DomSanitizer} from "@angular/platform-browser";
 import {ProfileModel} from "../model/profile.model";
 
 @Injectable({
@@ -11,7 +10,7 @@ import {ProfileModel} from "../model/profile.model";
 })
 export class ProfileService {
 
-    constructor(private http: HttpClient, private sanitizer: DomSanitizer) {
+    constructor(private http: HttpClient) {
     }
 
     fetchUserProfile(id: number): Observable<ProfileModel> {
@@ -27,8 +26,8 @@ export class ProfileService {
     }
 
     private addPictureExtension(profile : ProfileModel) : void {
-        if(profile.profilePicture) {
-            profile.profilePicture.base64String = 'data:image/jpeg;base64,' + profile.profilePicture.base64String
+        if(profile.profilePictures) {
+            profile.profilePictures.forEach(img => img.base64String = 'data:image/jpeg;base64,' + img.base64String);
         }
     }
 }

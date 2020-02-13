@@ -4,7 +4,7 @@ import {RoomModel} from "../../room-module/model/room.model";
 export class ProfileModel{
     firstName: string;
     lastName: string;
-    profilePicture: Picture = null;
+    profilePictures: Picture[] = [];
     birthDate: string;
     description: string;
     gender: string;

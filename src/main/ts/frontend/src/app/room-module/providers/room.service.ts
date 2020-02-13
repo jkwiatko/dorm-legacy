@@ -1,18 +1,16 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {DomSanitizer} from "@angular/platform-browser";
 import {Observable} from "rxjs";
 import {RoomModel} from "../model/room.model";
 import {environment} from "../../../environments/environment";
 import {tap} from "rxjs/operators";
-import {ProfileService} from "../../profile-module/providers/profile.service";
 
 @Injectable({
     providedIn: 'root'
 })
 export class RoomService {
 
-    constructor(private http: HttpClient, private sanitizer: DomSanitizer, private profileService: ProfileService) {
+    constructor(private http: HttpClient) {
     }
 
     public fetchCurrentUserRoom(id: number): Observable<RoomModel> {
@@ -32,9 +30,11 @@ export class RoomService {
     }
 
     private addPictureExtension(room : RoomModel) : void {
-        room.pictures.forEach(img => img.base64String = 'data:image/jpeg;base64,' + img.base64String);
-        if(room.owner.profilePicture) {
-            room.owner.profilePicture.base64String =  'data:image/jpeg;base64,' + room.owner.profilePicture.base64String;
+        if(room.pictures) {
+            room.pictures.forEach(img => img.base64String = 'data:image/jpeg;base64,' + img.base64String);
+        }
+        if(room.owner.profilePictures) {
+            room.owner.profilePictures.forEach(img => img.base64String = 'data:image/jpeg;base64,' + img.base64String);
         }
     }
 }

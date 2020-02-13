@@ -28,7 +28,7 @@ public class PictureLocalStorage {
 
     public Picture getPicture(Long id) {
         Picture picture = pictureRepository.findById(id).orElseThrow(EntityNotFoundException::new);
-        picture.setPicture(loadPictureFromFileSystem(picture));
+        loadPictureFromFileSystem(picture);
         return picture;
     }
 
@@ -56,7 +56,7 @@ public class PictureLocalStorage {
         );
 
         try (InputStream inputStream = new ByteArrayInputStream(picture.getPicture())) {
-            if(
+            if (
                     !pictureFile.getParentFile().exists() &&
                             !pictureFile.getParentFile().mkdirs()
             ) {
@@ -67,7 +67,7 @@ public class PictureLocalStorage {
         }
     }
 
-    public byte[] loadPictureFromFileSystem(Picture picture) {
+    public void loadPictureFromFileSystem(Picture picture) {
         File pictureFile = new File(
                 System.getProperties().getProperty("user.home")
                         + imageStoragePath
@@ -75,7 +75,7 @@ public class PictureLocalStorage {
                         + picture.getPictureName()
         );
         try (FileInputStream fileInputStream = new FileInputStream(pictureFile)) {
-            return Files.readAllBytes(pictureFile.toPath());
+            picture.setPicture(Files.readAllBytes(pictureFile.toPath()));
         } catch (IOException e) {
             logger.error(String.format("Couldn't load file with path name:%s", pictureFile.getPath()), e);
             throw new LoadPictureException();

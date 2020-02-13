@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class UserService {
@@ -45,31 +46,16 @@ public class UserService {
     public void editCurrentAuthenticatedUser(ProfileDTO profile) {
         User user = getCurrentAuthenticatedUser();
         modelMapper.map(profile, user);
-        if(profile.getProfilePicture() != null) {
-            boolean filenameInUse = user.getProfilePictures()
-                    .stream()
-                    .anyMatch(img -> img.getPictureName().equals(profile.getProfilePicture().getName()));
-
-            if (!filenameInUse) {
-                Picture picture = modelMapper.map(profile.getProfilePicture(), Picture.class);
-                pictureLocalStorage.savePicture(picture);
-            } else {
-                throw new FileNameAlreadyTaken();
-            }
-        }
+        user.getProfilePictures().stream()
+                .filter(picture -> Objects.nonNull(picture.getPicture()))
+                .forEach(pictureLocalStorage::savePicture);
         updateUser(user);
     }
 
     public ProfileDTO getUserProfile(Long id) {
         User user = getUser(id);
-        for (Picture picture : user.getProfilePictures()) {
-            picture.setPicture(pictureLocalStorage.loadPictureFromFileSystem(picture));
-        }
-        ProfileDTO dto = modelMapper.map(user, ProfileDTO.class);
-        user.getProfilePictures().stream()
-                .findFirst()
-                .ifPresent((picture) -> dto.setProfilePicture(modelMapper.map(picture,  PictureDTO.class)));
-        return dto;
+        user.getProfilePictures().forEach(pictureLocalStorage::loadPictureFromFileSystem);
+        return modelMapper.map(user, ProfileDTO.class);
     }
 
     public User findByUsername(String email) {

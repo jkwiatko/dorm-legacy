@@ -49,7 +49,6 @@ export class ProfileEditComponent implements OnInit, OnDestroy {
         this.form = new FormGroup({
             firstName: new FormControl(profile.firstName, Validators.required),
             lastName: new FormControl(profile.lastName, Validators.required),
-            profilePicture: new FormControl(null),
             birthDate: new FormControl(new Date(profile.birthDate), Validators.required),
             description: new FormControl(profile.description, Validators.required),
             gender: new FormControl(profile.gender, Validators.required),
@@ -62,8 +61,8 @@ export class ProfileEditComponent implements OnInit, OnDestroy {
             petPolicy: new FormControl(profile.petPolicy),
             guestsPolicy: new FormControl(profile.guestsPolicy),
         });
-        if(profile.profilePicture) {
-            this.profileImg =  profile.profilePicture;
+        if(profile.profilePictures && profile.profilePictures[0]) {
+            this.profileImg = profile.profilePictures[0];
         }
     }
 
@@ -115,7 +114,7 @@ export class ProfileEditComponent implements OnInit, OnDestroy {
             smokingPolicy: this.form.get('smokingPolicy').value,
             petPolicy: this.form.get('petPolicy').value,
             guestsPolicy: this.form.get('guestsPolicy').value,
-            profilePicture: typeof this.profileImg.base64String === 'string' ? this.profileImg : null,
+            profilePictures: [this.profileImg],
             rooms: null
         };
         this.profileClient.saveProfile(profile);
