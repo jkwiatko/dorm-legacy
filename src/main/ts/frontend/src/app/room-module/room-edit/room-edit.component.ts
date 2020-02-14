@@ -7,7 +7,7 @@ import {FormArray, FormControl, FormGroup, Validators} from "@angular/forms";
 import {switchMap} from "rxjs/operators";
 import {ProfileService} from "../../profile-module/providers/profile.service";
 import {ProfileModel} from "../../profile-module/model/profile.model";
-import {Picture} from "../../shared-module/model/picture.model";
+import {PictureModel} from "../../shared-module/model/picture.model";
 
 @Component({
     selector: 'app-room-edit',
@@ -120,7 +120,7 @@ export class RoomEditComponent implements OnInit {
         }
     }
 
-    private sortPictures(pictures: Picture[]) {
+    private sortPictures(pictures: PictureModel[]) {
         pictures.sort(((a, b) => {
             if (a.pictureOrder > b.pictureOrder) {
                 return 1;

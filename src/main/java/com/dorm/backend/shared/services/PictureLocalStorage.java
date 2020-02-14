@@ -17,8 +17,8 @@ import java.nio.file.Files;
 
 @Service
 public class PictureLocalStorage {
-    public static final String imageStoragePath = "/dorm/image_storage";
-    private final Log logger = LogFactory.getLog(this.getClass());
+    private static final String imageStoragePath = "/dorm/image_storage";
+    private static final Log logger = LogFactory.getLog(PictureLocalStorage.class);
 
     private final PictureRepository pictureRepository;
 
@@ -47,7 +47,7 @@ public class PictureLocalStorage {
         removePictureFromFileSystem(picture);
     }
 
-    public void persistPictureToFileSystem(Picture picture) throws IOException {
+    private static void persistPictureToFileSystem(Picture picture) throws IOException {
         File pictureFile = new File(
                 System.getProperties().getProperty("user.home")
                         + imageStoragePath
@@ -67,7 +67,7 @@ public class PictureLocalStorage {
         }
     }
 
-    public void loadPictureFromFileSystem(Picture picture) {
+    public static void loadPictureFromFileSystem(Picture picture) {
         File pictureFile = new File(
                 System.getProperties().getProperty("user.home")
                         + imageStoragePath
@@ -82,7 +82,7 @@ public class PictureLocalStorage {
         }
     }
 
-    public void removePictureFromFileSystem(Picture picture) {
+    private static void removePictureFromFileSystem(Picture picture) {
         File pictureFile = new File(
                 System.getProperties().getProperty("user.home")
                         + imageStoragePath

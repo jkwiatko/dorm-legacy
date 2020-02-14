@@ -1,6 +1,5 @@
 package com.dorm.backend.profile.dto;
 
-import com.dorm.backend.room.dto.RoomDTO;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import java.util.List;
 
@@ -19,7 +18,7 @@ public class ProfileDTO {
     private String smokingPolicy;
     private String petPolicy;
     private String guestsPolicy;
-    private List<PreviewRoomDTO> previewRoomDTO;
+    private List<PreviewRoomDTO> ownedRooms;
 
     public String getFirstName() {
         return firstName;
@@ -132,5 +131,13 @@ public class ProfileDTO {
 
     public void setGuestsPolicy(String guestsPolicy) {
         this.guestsPolicy = guestsPolicy;
+    }
+
+    public List<PreviewRoomDTO> getOwnedRooms() {
+        return ownedRooms;
+    }
+
+    public void setOwnedRooms(List<PreviewRoomDTO> ownedRooms) {
+        this.ownedRooms = ownedRooms;
     }
 }

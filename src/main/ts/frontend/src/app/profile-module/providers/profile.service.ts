@@ -29,5 +29,9 @@ export class ProfileService {
         if(profile.profilePictures) {
             profile.profilePictures.forEach(img => img.base64String = 'data:image/jpeg;base64,' + img.base64String);
         }
+        if(profile.ownedRooms) {
+            profile.ownedRooms
+                .forEach(room => room.picture.base64String = 'data:image/jpeg;base64,' + room.picture.base64String)
+        }
     }
 }

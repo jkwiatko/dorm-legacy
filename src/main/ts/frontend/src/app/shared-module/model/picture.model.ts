@@ -1,4 +1,4 @@
-export class Picture {
+export class PictureModel {
     base64String: string;
     name: string;
     pictureOrder: number;

@@ -1,4 +1,4 @@
-import {Picture} from "../../shared-module/model/picture.model";
+import {PictureModel} from "../../shared-module/model/picture.model";
 import {ProfileModel} from "../../profile-module/model/profile.model";
 import {AddressModel} from "./address.model";
 import {PositionModel} from "./position.model";
@@ -14,7 +14,7 @@ export class RoomModel {
     houseArea: number;
     roomsNumber: number;
     amenities: string[] = [];
-    pictures: Picture[] = [];
+    pictures: PictureModel[] = [];
     owner: ProfileModel = new ProfileModel();
     address: AddressModel = new AddressModel();
     position: PositionModel = new PositionModel();

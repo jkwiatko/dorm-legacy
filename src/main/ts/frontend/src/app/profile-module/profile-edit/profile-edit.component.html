@@ -175,16 +175,12 @@
                             Moje Pokoje
                         </div>
                         <div class="row">
-                            <div *ngFor="let room of [1,2,3]" class="col-6 p-5">
-                                <div class="h-100 border cursor-pointer">
-                                    <div>#</div>
-                                    <div>#</div>
-                                    <div>#</div>
-                                    <div>#</div>
-                                    <div>#</div>
-                                    <div>#</div>
-                                    <div>#</div>
-                                    <div>#</div>
+                            <div *ngFor="let room of profile.ownedRooms" (click)="onEditRoom(room.id)" class="col-6 p-5">
+                                <div class="h-50 border cursor-pointer">
+                                    <div>{{room.roomsNumber}}</div>
+                                    <div class="h-50">
+                                        <img class="img-fluid" [src]="room.picture.base64String | safe: 'url'">
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-6 p-5">

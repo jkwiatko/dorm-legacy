@@ -3,7 +3,7 @@ import {FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ProfileService} from '../providers/profile.service';
 import {Subscription} from "rxjs";
 import {Router} from "@angular/router";
-import {Picture} from "../../shared-module/model/picture.model";
+import {PictureModel} from "../../shared-module/model/picture.model";
 import {ProfileModel} from "../model/profile.model";
 
 @Component({
@@ -16,7 +16,8 @@ export class ProfileEditComponent implements OnInit, OnDestroy {
     startDate = new Date(2000, 0, 1);
     form: FormGroup;
     profileSub: Subscription;
-    profileImg: Picture = new Picture();
+    profile: ProfileModel = new ProfileModel();
+    profileImg: PictureModel = new PictureModel();
 
     constructor(private profileClient: ProfileService, private router: Router) {
     }
@@ -32,8 +33,8 @@ export class ProfileEditComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.setForm(new ProfileModel());
         this.profileSub = this.profileClient.fetchCurrentUserProfile().subscribe(profile => {
+            this.profile = profile;
             this.setForm(profile);
-
         });
     }
 
@@ -116,7 +117,7 @@ export class ProfileEditComponent implements OnInit, OnDestroy {
             petPolicy: this.form.get('petPolicy').value,
             guestsPolicy: this.form.get('guestsPolicy').value,
             profilePictures: this.profileImg.base64String ? [this.profileImg] : [],
-            rooms: null
+            ownedRooms: null
         };
         this.profileClient.saveProfile(profile);
     }
@@ -127,5 +128,9 @@ export class ProfileEditComponent implements OnInit, OnDestroy {
 
     onAddRoom() {
         this.router.navigate(['/room/create']);
+    }
+
+    onEditRoom(id: number) {
+        this.router.navigate(['/room/edit', id]);
     }
 }

@@ -118,8 +118,8 @@ public class RoomService {
 
     public RoomDTO getRoom(Long id) {
         Room room = roomRepository.findById(id).orElseThrow(EntityNotFoundException::new);
-        room.getPictures().forEach(pictureStorage::loadPictureFromFileSystem);
-        room.getOwner().getProfilePictures().forEach(pictureStorage::loadPictureFromFileSystem);
+        room.getPictures().forEach(PictureLocalStorage::loadPictureFromFileSystem);
+        room.getOwner().getProfilePictures().forEach(PictureLocalStorage::loadPictureFromFileSystem);
         return modelMapper.map(room, RoomDTO.class);
     }
 

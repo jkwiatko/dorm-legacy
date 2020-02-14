@@ -1,10 +1,11 @@
-import {Picture} from "../../shared-module/model/picture.model";
+import {PictureModel} from "../../shared-module/model/picture.model";
 import {RoomModel} from "../../room-module/model/room.model";
+import {RoomPreviewModel} from "./room-preview.model";
 
 export class ProfileModel{
     firstName: string;
     lastName: string;
-    profilePictures: Picture[] = [];
+    profilePictures: PictureModel[] = [];
     birthDate: string;
     description: string;
     gender: string;
@@ -16,5 +17,5 @@ export class ProfileModel{
     smokingPolicy: string;
     petPolicy: string;
     guestsPolicy: string;
-    rooms: RoomModel[] = [];
+    ownedRooms: RoomPreviewModel[] = [];
 }
