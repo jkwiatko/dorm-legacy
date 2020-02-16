@@ -65,13 +65,10 @@
     padding: 20px 0;
 }
 
-.room-image {
-    height: 100%;
-    width: 100%;
-    object-fit: scale-down;
-    object-position: 50% 70%;
+.plus {
+    transition: 0.5s;
 
     &:hover {
-        filter: opacity(85%);
+        filter:invert(0.5) sepia(1) saturate(3) hue-rotate(65deg)
     }
 }

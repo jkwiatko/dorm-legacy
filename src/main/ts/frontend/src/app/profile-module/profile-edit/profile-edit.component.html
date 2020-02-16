@@ -53,7 +53,7 @@
                 </div>
             </div>
             <div class="col-8 border">
-                <div class="ml-2">
+                <div>
                     <div class="mb-5 mt-3">
                         <div class="big-title blue-text font-weight-bold">
                             O mnie
@@ -175,16 +175,11 @@
                             Moje Pokoje
                         </div>
                         <div class="row">
-                            <div *ngFor="let room of profile.ownedRooms" (click)="onEditRoom(room.id)" class="col-6 p-5">
-                                <div class="h-50 border cursor-pointer">
-                                    <div>{{room.roomsNumber}}</div>
-                                    <div class="h-50">
-                                        <img class="img-fluid" [src]="room.picture.base64String | safe: 'url'">
-                                    </div>
-                                </div>
+                            <div *ngFor="let room of profile.ownedRooms" (click)="onEditRoom(room.id)" class="col-6 p-3">
+                                <app-room-preview [room]="room"></app-room-preview>
                             </div>
-                            <div class="col-6 p-5">
-                                <div class="h-100 border d-flex cursor-pointer justify-content-center align-content-center" (click)="onAddRoom()">
+                            <div class="col-6 p-3">
+                                <div class="h-100 w-100 d-flex cursor-pointer justify-content-center align-content-center plus" (click)="onAddRoom()">
                                     <img src="assets/svg/plus.svg" alt="add room" width="100">
                                 </div>
                             </div>

@@ -1,0 +1,15 @@
+<div class="border p-4 h-100 cursor-pointer">
+    <div>
+        <div class="text-center mb-4">{{room.name}}</div>
+        <img class="room-image mb-4" [src]="room.picture.base64String | safe: 'url'">
+        <div class="basic-info-list">
+            <ul>
+                <li>{{room.roomsNumber > 1 ? room.roomsNumber + 'pokoji' : '1 pokój'}}</li>
+                &bull;
+                <li>Dostępny od {{room.availableFrom | availableFrom}}</li>
+                &bull;
+                <li>{{room.minDuration}}+ mięsiency</li>
+            </ul>
+        </div>
+    </div>
+</div>

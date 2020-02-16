@@ -11,7 +11,7 @@ import {MatSnackBarModule} from '@angular/material';
 import {AgmCoreModule} from '@agm/core';
 import {ProfileModule} from "../profile-module/profile.module";
 import {WelcomeScreenComponent} from "./welcome-screen/welcome-screen.component";
-import {TokenInterceptor} from "../auth-module/provider/token.interceptor";
+import {TokenInterceptor} from "../auth-module/providers/token.interceptor";
 import {RoomModule} from "../room-module/room.module";
 
 @NgModule({

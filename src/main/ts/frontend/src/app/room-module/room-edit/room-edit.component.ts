@@ -1,13 +1,14 @@
 import {Component, OnInit} from '@angular/core';
 import {EMPTY} from "rxjs";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {RoomModel} from "../model/room.model";
 import {RoomService} from "../providers/room.service";
 import {FormArray, FormControl, FormGroup, Validators} from "@angular/forms";
 import {switchMap} from "rxjs/operators";
 import {ProfileService} from "../../profile-module/providers/profile.service";
-import {ProfileModel} from "../../profile-module/model/profile.model";
-import {PictureModel} from "../../shared-module/model/picture.model";
+import {ProfileModel} from "../../profile-module/models/profile.model";
+import {PictureModel} from "../../shared-module/models/picture.model";
+
 
 @Component({
     selector: 'app-room-edit',
@@ -19,10 +20,16 @@ export class RoomEditComponent implements OnInit {
     form: FormGroup;
     profile = new ProfileModel();
     room = new RoomModel();
-    editMode = false;
-
-    constructor(private route: ActivatedRoute, private roomCli: RoomService, private profileCli: ProfileService) {
+    constructor
+    (
+        private route: ActivatedRoute,
+        private router: Router,
+        private roomCli: RoomService,
+        private profileCli: ProfileService
+    ) {
     }
+
+    editMode = false;
 
     get amenitiesControl() {
         return (this.form.get('amenities') as FormArray).controls;
@@ -81,10 +88,12 @@ export class RoomEditComponent implements OnInit {
     }
 
     onSubmit() {
-        if(this.editMode) {
-            this.roomCli.editRoom(this.room.merge(this.form.value));
+        if (this.editMode) {
+            this.roomCli.editRoom(this.room.merge(this.form.value))
+                .subscribe(() => this.router.navigate(['/profile/edit']));
         } else {
-            this.roomCli.createRoom(this.room.merge(this.form.value));
+            this.roomCli.createRoom(this.room.merge(this.form.value))
+                .subscribe(() => this.router.navigate(['/profile/edit']));
         }
     }
 
@@ -101,7 +110,7 @@ export class RoomEditComponent implements OnInit {
     OnSelectFile(event, number: number) {
         if (event.target.files && event.target.files[0]) {
             let pictureIndex = number;
-            if(number > this.room.pictures.length) {
+            if (number > this.room.pictures.length) {
                 this.room.pictures.splice(number, 1);
                 pictureIndex--;
             }

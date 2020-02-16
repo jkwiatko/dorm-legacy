@@ -3,8 +3,8 @@ import {FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ProfileService} from '../providers/profile.service';
 import {Subscription} from "rxjs";
 import {Router} from "@angular/router";
-import {PictureModel} from "../../shared-module/model/picture.model";
-import {ProfileModel} from "../model/profile.model";
+import {ProfileModel} from "../models/profile.model";
+import {PictureModel} from "../../shared-module/models/picture.model";
 
 @Component({
     selector: 'app-profile-edit',

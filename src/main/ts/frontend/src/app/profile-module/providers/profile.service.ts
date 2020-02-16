@@ -3,7 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {environment} from '../../../environments/environment';
 import {tap} from "rxjs/operators";
-import {ProfileModel} from "../model/profile.model";
+import {ProfileModel} from "../models/profile.model";
 
 @Injectable({
     providedIn: 'root'

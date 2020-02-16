@@ -10,10 +10,7 @@ import {
     MatNativeDateModule,
     MatRadioModule
 } from "@angular/material";
-import {AgePipe} from './pipes/age.pipe';
-import {GenderPipe} from './pipes/gender.pipe';
 import {RouterModule, Routes} from "@angular/router";
-import { ProfileStickyInfoComponent } from './profile-sticky-info/profile-sticky-info.component';
 import {SharedModule} from "../shared-module/shared.module";
 
 const routes: Routes = [
@@ -22,10 +19,8 @@ const routes: Routes = [
 ];
 
 @NgModule({
-    declarations: [ProfileDetailsComponent, ProfileEditComponent, AgePipe, GenderPipe, ProfileStickyInfoComponent],
-    exports: [
-        ProfileStickyInfoComponent
-    ],
+    declarations: [ProfileDetailsComponent, ProfileEditComponent],
+    exports: [],
     imports: [
         RouterModule.forChild(routes),
         CommonModule,

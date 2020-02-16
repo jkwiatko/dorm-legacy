@@ -18,15 +18,13 @@ export class RoomService {
     }
 
     public createRoom(room: RoomModel) {
-        this.http
+        return  this.http
             .post<RoomModel>(environment.api + 'room/create', room)
-            .subscribe();
     }
 
-    public editRoom(room: RoomModel) {
-        this.http
+    public editRoom(room: RoomModel) : Observable<RoomModel> {
+        return this.http
             .post<RoomModel>(environment.api + 'room/edit', room)
-            .subscribe();
     }
 
     private addPictureExtension(room : RoomModel) : void {

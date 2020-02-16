@@ -3,8 +3,8 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {switchMap} from 'rxjs/operators';
 import {Subscription} from 'rxjs';
-import {AuthService} from "../provider/auth.service";
-import {TokenModel} from "../model/token.model";
+import {AuthService} from '../providers/auth.service';
+import {TokenModel} from '../models/token.model';
 
 @Component({
     selector: 'app-register',

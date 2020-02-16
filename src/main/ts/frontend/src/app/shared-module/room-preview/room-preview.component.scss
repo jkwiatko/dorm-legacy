@@ -1,0 +1,28 @@
+
+.room-image {
+    max-height: 250px;
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    object-position: 50% 70%;
+
+    &:hover {
+        filter: opacity(85%);
+    }
+}
+
+.basic-info-list {
+    white-space: nowrap;
+    font-size: 0.8em;
+    text-align: center;
+    color: gray;
+
+    ul {
+        padding-inline-start: 0;
+        margin: auto;
+    }
+
+    li {
+        display: inline;
+    }
+}

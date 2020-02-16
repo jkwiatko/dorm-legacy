@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {MatDialog, MatSnackBar} from '@angular/material';
-import {AuthService} from "../../auth-module/provider/auth.service";
 import {RegisterComponent} from "../../auth-module/auth-register/register.component";
 import {LoginComponent} from "../../auth-module/auth-login/login.component";
+import {AuthService} from "../../auth-module/providers/auth.service";
 
 @Component({
     selector: 'app-header',

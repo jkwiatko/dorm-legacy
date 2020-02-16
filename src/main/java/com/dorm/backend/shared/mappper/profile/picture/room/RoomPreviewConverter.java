@@ -18,25 +18,25 @@ public class RoomPreviewConverter implements Converter<Room, PreviewRoomDTO> {
     public PreviewRoomDTO convert(MappingContext<Room, PreviewRoomDTO> mappingContext) {
         PreviewRoomDTO previewRoomDTO = new PreviewRoomDTO();
         Room room = mappingContext.getSource();
-
         previewRoomDTO.setId(room.getId());
         previewRoomDTO.setName(room.getName());
-        if(room.getAvailableFrom() != null) {
-            previewRoomDTO.setAvailableFrom(room.getAvailableFrom().toString());
-        }
         previewRoomDTO.setMinDuration(room.getMinDuration());
         previewRoomDTO.setRoomsNumber(room.getRoomsNumber());
-
-        Optional<Picture> picture = room.getPictures().stream()
-                .min(Comparator.comparingInt(Picture::getPictureOrder));
-        if(picture.isPresent()) {
-            PictureDTO pictureDTO = new PictureDTO();
-            PictureLocalStorage.loadPictureFromFileSystem(picture.get());
-            pictureDTO.setBase64String(new String(Base64.getMimeEncoder().encode(picture.get().getPicture())));
-            pictureDTO.setName(picture.get().getPictureName());
-            pictureDTO.setPictureOrder(picture.get().getPictureOrder());
-            previewRoomDTO.setPicture(pictureDTO);
-        }
+        Optional.ofNullable(room.getAvailableFrom())
+                .map(Object::toString)
+                .ifPresent(previewRoomDTO::setAvailableFrom);
+        room.getPictures().stream()
+                .min(Comparator.comparingInt(Picture::getPictureOrder))
+                .ifPresent(img -> convert2Picture(previewRoomDTO, img));
         return previewRoomDTO;
+    }
+
+    private void convert2Picture(PreviewRoomDTO previewRoomDTO, Picture picture) {
+        PictureDTO pictureDTO = new PictureDTO();
+        PictureLocalStorage.loadPictureFromFileSystem(picture);
+        pictureDTO.setBase64String(new String(Base64.getMimeEncoder().encode(picture.getPicture())));
+        pictureDTO.setName(picture.getPictureName());
+        pictureDTO.setPictureOrder(picture.getPictureOrder());
+        previewRoomDTO.setPicture(pictureDTO);
     }
 }

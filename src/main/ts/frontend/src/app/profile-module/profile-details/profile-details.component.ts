@@ -3,7 +3,7 @@ import {ProfileService} from "../providers/profile.service";
 import {Subscription} from "rxjs";
 import {ActivatedRoute} from "@angular/router";
 import {switchMap} from "rxjs/operators";
-import {ProfileModel} from "../model/profile.model";
+import {ProfileModel} from "../models/profile.model";
 
 @Component({
   selector: 'app-profile-details',

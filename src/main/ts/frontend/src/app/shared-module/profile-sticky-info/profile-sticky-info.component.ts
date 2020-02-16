@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {ProfileModel} from "../model/profile.model";
+import {ProfileModel} from '../../profile-module/models/profile.model';
+
 
 @Component({
   selector: 'app-profile-sticky-info',
