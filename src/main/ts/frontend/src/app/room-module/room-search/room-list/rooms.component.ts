@@ -1,5 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {RoomModel} from "../../model/room.model";
+import {RoomService} from "../../providers/room.service";
+import {CityRoomsModel} from "../../../shared-module/models/city-rooms.model";
+import {Router} from "@angular/router";
+import {EMPTY, Subject} from "rxjs";
+import {debounceTime, distinctUntilChanged, switchMap, tap} from "rxjs/operators";
 
 @Component({
     selector: 'app-rooms',
@@ -7,19 +11,44 @@ import {RoomModel} from "../../model/room.model";
     styleUrls: ['./rooms.component.scss']
 })
 export class RoomsComponent implements OnInit {
-    longitude = 51.678418;
-    latitude = 51.678418;
 
-    rooms: RoomModel[] = [];
+    cityRooms = new CityRoomsModel();
+    availableCities: string[] = [];
+    searchObservable = new Subject<Event>();
+    isLoading = false;
 
-    constructor() {
+    constructor(private roomService: RoomService, private router: Router) {
     }
 
     ngOnInit() {
+        this.roomService.fetchAvailableCities().subscribe((cities => this.availableCities = cities));
+        this.searchObservable.pipe(
+            tap(() => this.isLoading = true),
+            debounceTime(1000),
+            distinctUntilChanged(),
+            switchMap(event => {
+                    if (!this.cityRooms.cityName) {
+                        return EMPTY
+                    } else {
+                        return this.roomService.fetchSearchedRooms(
+                            this.cityRooms.cityName, (event.target as HTMLInputElement).value);
+                    }
+                }
+            )
+        ).subscribe(cityRooms => {
+            this.isLoading = false;
+            this.cityRooms = cityRooms;
+        });
     }
 
-    onRoomSelected(event: RoomModel) {
-        this.longitude = event.position.longitude;
-        this.latitude = event.position.latitude;
+
+    onCityChange(city: string) {
+        this.roomService.fetchRoomsFromCity(city).subscribe(rooms => {
+            this.cityRooms = rooms;
+        })
+    }
+
+    navigateToRoom(id: number) {
+        this.router.navigate(['room/', id])
     }
 }

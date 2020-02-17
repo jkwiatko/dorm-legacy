@@ -12,9 +12,10 @@ import {
 } from "@angular/material";
 import {RouterModule, Routes} from "@angular/router";
 import {SharedModule} from "../shared-module/shared.module";
+import {AuthGuardService} from "../auth-module/providers/auth-guard.service";
 
 const routes: Routes = [
-    {path: 'profile/edit', component: ProfileEditComponent},
+    {path: 'profile/edit', component: ProfileEditComponent, canActivate: [AuthGuardService]},
     {path: 'profile/:id', component: ProfileDetailsComponent}
 ];
 

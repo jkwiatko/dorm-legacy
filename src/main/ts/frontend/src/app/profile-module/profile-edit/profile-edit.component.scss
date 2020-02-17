@@ -74,16 +74,16 @@
 }
 
 .simple-input.ng-invalid.ng-touched, textarea.ng-invalid.ng-touched {
-    border: 1px solid red;
+    border: 1px solid lightcoral;
 }
 
 .submitted {
     .mat-radio-group.ng-invalid {
-        border: 1px solid red;
+        border: 1px solid lightcoral;
     }
 
     .simple-input.ng-invalid {
-        border: 1px solid red;
+        border: 1px solid lightcoral;
     }
 }
 

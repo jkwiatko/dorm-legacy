@@ -4,6 +4,7 @@ import {Observable} from "rxjs";
 import {RoomModel} from "../model/room.model";
 import {environment} from "../../../environments/environment";
 import {tap} from "rxjs/operators";
+import {CityRoomsModel} from "../../shared-module/models/city-rooms.model";
 
 @Injectable({
     providedIn: 'root'
@@ -34,5 +35,27 @@ export class RoomService {
         if(room.owner.profilePictures) {
             room.owner.profilePictures.forEach(img => img.base64String = 'data:image/jpeg;base64,' + img.base64String);
         }
+    }
+
+    private addPictureExtension2CityRooms(cityRooms: CityRoomsModel) {
+        cityRooms.rooms.forEach(dto => {
+            if (dto.picture) {
+                dto.picture.base64String = 'data:image/jpeg;base64,' + dto.picture.base64String
+            }
+        });
+    }
+
+    fetchRoomsFromCity(city: string): Observable<CityRoomsModel> {
+        return this.http.get<CityRoomsModel>(environment.api + 'room/find/' + city)
+            .pipe(tap(this.addPictureExtension2CityRooms));
+    }
+
+    fetchAvailableCities() : Observable<string[]> {
+        return this.http.get<string[]>(environment.api + 'room/cities')
+    }
+
+    fetchSearchedRooms(city: string ,value: string) : Observable<CityRoomsModel> {
+        return this.http.get<CityRoomsModel>(environment.api + 'room/find/' + city + '/search/' + value)
+            .pipe(tap(this.addPictureExtension2CityRooms));
     }
 }

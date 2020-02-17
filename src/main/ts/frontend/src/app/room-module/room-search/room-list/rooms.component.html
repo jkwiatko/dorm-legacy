@@ -1,16 +1,30 @@
-<div class="content d-flex overflow-hidden">
-    <div class="left-section">
-        <app-browser></app-browser>
-        <div class="rooms">
-            <app-room *ngFor="let room of rooms" [room]="room" (roomSelected)="onRoomSelected($event)"
-                      class="rooms__room" >
-            </app-room>
+<div class="content container">
+    <div class="row">
+        <div class="col-12">
+            <div class="browser">
+                <mat-form-field appearance="outline" class="city-select">
+                    <mat-label>{{cityRooms.cityName ? cityRooms.cityName :  'Wybierz miasto'}}</mat-label>
+                    <mat-select>
+                        <mat-option>--------</mat-option>
+                        <mat-option *ngFor="let city of availableCities" (click)="onCityChange(city)">{{city}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field appearance="outline" class="description">
+                    <mat-label>Szukaj</mat-label>
+                    <input (input)="searchObservable.next($event)" matInput />
+                </mat-form-field>
+            </div>
         </div>
     </div>
-    <div class="right-section">
-        <agm-map class="google-map" [latitude]="latitude" [longitude]="longitude">
-            <agm-marker></agm-marker>
-        </agm-map>
+    <div class="row">
+        <div class="col-12 text-center mt-5" *ngIf="isLoading; else searchResult">
+            <app-loader-spinner></app-loader-spinner>
+        </div>
+        <ng-template #searchResult>
+            <div  *ngFor="let room of cityRooms.rooms" class="col-4 p-3">
+                <app-room-preview (click)="navigateToRoom(room.id)" [room]="room"></app-room-preview>
+            </div>
+        </ng-template>
     </div>
 </div>
 

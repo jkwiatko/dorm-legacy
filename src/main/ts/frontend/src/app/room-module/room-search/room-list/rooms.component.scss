@@ -1,37 +1,14 @@
 @import "../../../../variables";
 
-.rooms-container {
-    overflow: hidden;
-    display: flex;
-    height: 100vh;
+.browser {
+    max-height: $room-browser-height;
+    width: 100%;
 }
 
-.left-section {
-    flex-grow: 1;
-    flex-basis: 0;
-    padding: 0 30px;
+.city-select {
+    width: 30%;
 }
 
-.rooms {
-    flex-grow: 1;
-    flex-basis: 0;
-    display: grid;
-    grid-template-columns: auto auto auto;
-    padding: 0 30px;
-    overflow-y: scroll;
-    height: calc(100vh - #{$header-height} - #{$room-browser-height});
-
-    &__room {
-        padding: 20px;
-    }
-}
-
-.google-map {
-    height: calc(100vh - #{$header-height} - #{$room-browser-height});
-}
-
-.right-section {
-    flex-grow: 1;
-    margin: auto;
-    padding-right: 50px;
+.description {
+    width: 70%;
 }

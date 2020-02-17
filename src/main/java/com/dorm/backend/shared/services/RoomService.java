@@ -1,10 +1,14 @@
 package com.dorm.backend.shared.services;
 
 import com.dorm.backend.profile.dto.PictureDTO;
+import com.dorm.backend.profile.dto.PreviewRoomDTO;
+import com.dorm.backend.room.dto.CityRoomDTO;
 import com.dorm.backend.room.dto.RoomDTO;
+import com.dorm.backend.shared.data.entities.Address;
 import com.dorm.backend.shared.data.entities.Picture;
 import com.dorm.backend.shared.data.entities.Room;
 import com.dorm.backend.shared.data.entities.User;
+import com.dorm.backend.shared.data.repos.AddressRepository;
 import com.dorm.backend.shared.data.repos.RoomRepository;
 import com.dorm.backend.shared.error.exc.DuplicatedPictureException;
 import org.modelmapper.ModelMapper;
@@ -23,17 +27,20 @@ public class RoomService {
     private final PictureLocalStorage pictureStorage;
     private final UserService userService;
     private final RoomRepository roomRepository;
+    private final AddressRepository addressRepository;
 
     public RoomService(
             ModelMapper modelMapper,
             PictureLocalStorage pictureStorage,
             UserService userService,
-            RoomRepository roomRepository
+            RoomRepository roomRepository,
+            AddressRepository addressRepository
     ) {
         this.modelMapper = modelMapper;
         this.pictureStorage = pictureStorage;
         this.userService = userService;
         this.roomRepository = roomRepository;
+        this.addressRepository = addressRepository;
     }
 
     public void createRoom(RoomDTO roomDTO) {
@@ -132,5 +139,34 @@ public class RoomService {
             }
 
         }
+    }
+
+    public CityRoomDTO getRoomsFromCity(String city) {
+        List<Room> rooms = roomRepository.findAllByCity(city);
+        CityRoomDTO cityRoomDTO = new CityRoomDTO();
+        cityRoomDTO.setRooms(
+                rooms.stream()
+                        .map(room -> modelMapper.map(room, PreviewRoomDTO.class))
+                        .collect(Collectors.toList())
+        );
+        cityRoomDTO.setCityName(city);
+        return cityRoomDTO;
+    }
+
+    public List<String> getCities() {
+        return addressRepository.findAll().stream().map(Address::getCity).collect(Collectors.toList());
+    }
+
+    public CityRoomDTO getRoomsFromCityWithFilter(String city, String value) {
+        List<Room> rooms = roomRepository.findAllByCity(city);
+        CityRoomDTO cityRoomDTO = new CityRoomDTO();
+        cityRoomDTO.setRooms(
+                rooms.stream()
+                .filter(room -> room.getName().toLowerCase().startsWith(value.toLowerCase()))
+                .map(room -> modelMapper.map(room, PreviewRoomDTO.class))
+                .collect(Collectors.toList())
+        );
+        cityRoomDTO.setCityName(city);
+        return cityRoomDTO;
     }
 }

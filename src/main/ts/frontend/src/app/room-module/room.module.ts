@@ -5,23 +5,22 @@ import {MatSelectModule} from "@angular/material/select";
 import {MatInputModule} from "@angular/material/input";
 import {RouterModule, Routes} from "@angular/router";
 import {RoomsComponent} from "./room-search/room-list/rooms.component";
-import {RoomComponent} from "./room-search/room-item/room.component";
-import {BrowserComponent} from "./room-search/room-browser/browser.component";
 import { RoomEditComponent } from './room-edit/room-edit.component';
 import {ReactiveFormsModule} from "@angular/forms";
 import {ProfileModule} from "../profile-module/profile.module";
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {SharedModule} from "../shared-module/shared.module";
+import {AuthGuardService} from "../auth-module/providers/auth-guard.service";
 
 const routes: Routes = [
     {path: 'room/find', component: RoomsComponent, pathMatch: 'full'},
     {path: 'room/:id', component: RoomEditComponent, pathMatch: 'full'},
-    {path: 'room/edit/:id', component: RoomEditComponent, pathMatch: 'full'},
-    {path: 'room/create', component: RoomEditComponent, pathMatch: 'full'},
+    {path: 'room/edit/:id', component: RoomEditComponent, pathMatch: 'full', canActivate: [AuthGuardService]},
+    {path: 'room/create', component: RoomEditComponent, pathMatch: 'full', canActivate: [AuthGuardService]},
 ];
 
 @NgModule({
-    declarations: [RoomsComponent, RoomComponent, BrowserComponent, RoomEditComponent],
+    declarations: [RoomsComponent, RoomEditComponent],
     imports: [
         RouterModule.forChild(routes),
         CommonModule,
