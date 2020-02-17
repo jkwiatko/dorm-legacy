@@ -31,7 +31,11 @@ export class ProfileService {
         }
         if(profile.ownedRooms) {
             profile.ownedRooms
-                .forEach(room => room.picture.base64String = 'data:image/jpeg;base64,' + room.picture.base64String)
+                .forEach(room => {
+                    if(room.picture) {
+                        room.picture.base64String = 'data:image/jpeg;base64,' + room.picture.base64String
+                    }
+                })
         }
     }
 }

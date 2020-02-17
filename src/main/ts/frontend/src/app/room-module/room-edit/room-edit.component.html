@@ -1,65 +1,70 @@
 <div class="content">
-    <form [formGroup]="form"
+    <form [ngClass]="submitted ? 'submitted' : ''" [formGroup]="form"
           (ngSubmit)="onSubmit()">
         <div class="row vh-50 room-images no-gutters">
             <div (click)="fileInput1.click()" class="col-md-6 col-12 h-100 border room-input">
-                <img class="room-image" alt="main room image" *ngIf="room.pictures[0]; else noImage" [src]="room.pictures[0].base64String | safe: 'url' ">
+                <img class="room-image" alt="main room image" *ngIf="room.pictures[0]; else noImage"
+                     [src]="room.pictures[0].base64String | safe: 'url' ">
                 <ng-template #noImage>
                     <div class="w-100 h-100 d-flex justify-content-center align-items-center">
                         <div>?</div>
                     </div>
                 </ng-template>
                 <input type="file"
-                          class="d-none"
-                          #fileInput1 (change)="OnSelectFile($event, 0)">
+                       class="d-none"
+                       #fileInput1 (change)="OnSelectFile($event, 0)">
             </div>
             <div class="col-6 h-100">
                 <div class="row h-50 no-gutters">
                     <div (click)="fileInput2.click()" class="col h-100 d-md-block d-none border room-input">
-                        <img class="room-image" alt="main room image" *ngIf="room.pictures[1]; else noImage" [src]="room.pictures[1].base64String | safe: 'url'">
+                        <img class="room-image" alt="main room image" *ngIf="room.pictures[1]; else noImage"
+                             [src]="room.pictures[1].base64String | safe: 'url'">
                         <ng-template #noImage>
                             <div class="w-100 h-100 d-flex justify-content-center align-items-center">
                                 <div>?</div>
                             </div>
                         </ng-template>
                         <input type="file"
-                          class="d-none"
-                          #fileInput2 (change)="OnSelectFile($event, 1)">
+                               class="d-none"
+                               #fileInput2 (change)="OnSelectFile($event, 1)">
                     </div>
                     <div (click)="fileInput3.click()" class="col h-100 d-lg-block d-none border room-input">
-                        <img class="room-image" alt="main room image" *ngIf="room.pictures[2]; else noImage" [src]="room.pictures[2].base64String | safe: 'url'">
+                        <img class="room-image" alt="main room image" *ngIf="room.pictures[2]; else noImage"
+                             [src]="room.pictures[2].base64String | safe: 'url'">
                         <ng-template #noImage>
                             <div class="w-100 h-100 d-flex justify-content-center align-items-center">
                                 <div>?</div>
                             </div>
                         </ng-template>
                         <input type="file"
-                          class="d-none"
-                          #fileInput3 (change)="OnSelectFile($event, 2)">
+                               class="d-none"
+                               #fileInput3 (change)="OnSelectFile($event, 2)">
                     </div>
                 </div>
                 <div class="row h-50 no-gutters">
                     <div (click)="fileInput4.click()" class="col h-100 d-md-block d-none border room-input">
-                        <img class="room-image" alt="main room image" *ngIf="room.pictures[3]; else noImage" [src]="room.pictures[3].base64String | safe: 'url'">
+                        <img class="room-image" alt="main room image" *ngIf="room.pictures[3]; else noImage"
+                             [src]="room.pictures[3].base64String | safe: 'url'">
                         <ng-template #noImage>
                             <div class="w-100 h-100 d-flex justify-content-center align-items-center">
                                 <div>?</div>
                             </div>
                         </ng-template>
                         <input type="file"
-                          class="d-none"
-                          #fileInput4 (change)="OnSelectFile($event, 3)">
+                               class="d-none"
+                               #fileInput4 (change)="OnSelectFile($event, 3)">
                     </div>
                     <div (click)="fileInput5.click()" class="col h-100 d-lg-block d-none border room-input">
-                        <img class="room-image" alt="main room image" *ngIf="room.pictures[4]; else noImage" [src]="room.pictures[4].base64String | safe: 'url'">
+                        <img class="room-image" alt="main room image" *ngIf="room.pictures[4]; else noImage"
+                             [src]="room.pictures[4].base64String | safe: 'url'">
                         <ng-template #noImage>
                             <div class="w-100 h-100 d-flex justify-content-center align-items-center">
                                 <div>?</div>
                             </div>
                         </ng-template>
                         <input type="file"
-                          class="d-none"
-                          #fileInput5 (change)="OnSelectFile($event, 4)">
+                               class="d-none"
+                               #fileInput5 (change)="OnSelectFile($event, 4)">
                     </div>
                 </div>
             </div>
@@ -67,13 +72,17 @@
         <div class="container mt-5">
             <div class="row">
                 <div class="col-8 text-center">
-                    <h1>Pokój w Łodzi</h1>
+                    <div>
+                        <label>
+                            <input formControlName="name" placeholder="Nazwa"  class="simple-input h1 text-center room-title" type="text">
+                        </label>
+                    </div>
                     <ul class="basic-info-list gray-text">
-                        <li>3 sypialnie</li>
+                        <li>{{room.roomsNumber > 1 ? room.roomsNumber + ' pokoji' : '1 pokój'}}</li>
                         &bull;
-                        <li>Dostepny od zaraz</li>
+                        <li>Dostępny od {{room.availableFrom | availableFrom}}</li>
                         &bull;
-                        <li>4+ miesiecy</li>
+                        <li>{{room.minDuration}}+ miesięcy</li>
                     </ul>
                     <hr class="w-100 horizontal-line">
                     <div>
@@ -90,7 +99,7 @@
                                         <input id="deposit"
                                                type="number"
                                                formControlName="deposit"
-                                               class="input-number-1000 d-table-cell">
+                                               class="input-number-1000 d-table-cell simple-input">
                                         <span class="d-table-cell text-left">zł</span>
                                     </div>
 
@@ -102,7 +111,7 @@
                                         <input id="monthly-price"
                                                type="number"
                                                formControlName="monthlyPrice"
-                                               class="input-number-1000 d-table-cell">
+                                               class="input-number-1000 d-table-cell simple-input">
                                         <span class="d-table-cell text-left">zł</span>
                                     </div>
                                 </div>
@@ -118,7 +127,7 @@
                                         </label>
                                         <input id="house-area"
                                                formControlName="houseArea"
-                                               class="input-number-1000 d-table-cell"
+                                               class="input-number-1000 d-table-cell simple-input"
                                                type="number">
                                         <span class="d-table-cell text-left">m2</span>
                                     </div>
@@ -131,7 +140,7 @@
                                         <input id="number-of-rooms"
                                                type="number"
                                                formControlName="roomsNumber"
-                                               class="input-number-1000 d-table-cell">
+                                               class="input-number-1000 d-table-cell simple-input">
                                         <span class="d-table-cell"></span>
                                     </div>
                                 </div>
@@ -142,7 +151,7 @@
                                     <div class="d-table-row">
                                         <label class="d-table-cell"
                                                for="city">miasto</label>
-                                        <input class="d-table-cell w-100"
+                                        <input class="d-table-cell w-100 simple-input"
                                                formControlName="city"
                                                id="city"
                                                type="text">
@@ -152,7 +161,7 @@
                                         <label class="d-table-cell"
                                                for="street">ulica</label>
                                         <input id="street"
-                                               class="d-table-cell w-100"
+                                               class="d-table-cell w-100 simple-input"
                                                formControlName="street"
                                                type="text">
                                     </div>
@@ -161,7 +170,7 @@
                                         <label class="d-table-cell"
                                                for="street-number">nr.</label>
                                         <div class="d-table-cell text-left">
-                                            <input class="input-number-100"
+                                            <input class="input-number-100 simple-input"
                                                    id="street-number"
                                                    formControlName="number"
                                                    type="text">
@@ -176,7 +185,7 @@
                         <div class="col-12">Opis</div>
                         <div class="col-12 mt-3">
                             <label class="w-100">
-                                <textarea class="w-100 desc-text-area"
+                                <textarea class="w-100 desc-text-area simple-textarea"
                                           formControlName="description"
                                           placeholder="Opisz krótko pokój">
                                 </textarea>
@@ -192,6 +201,7 @@
                                  *ngFor="let amenity of amenitiesControl; let i = index">
                                 <label>
                                     <input type="text"
+                                           class="simple-input"
                                            formControlName="{{i}}">
                                 </label>
                                 <button (click)="onDeleteAmenity(i)"
@@ -235,7 +245,7 @@
                                     <input id="minDuration"
                                            type="number"
                                            formControlName="minDuration"
-                                           class="input-number-100 mr-2">
+                                           class="input-number-100 mr-2 simple-input">
                                     <span>miesięcy</span>
                                 </div>
                             </div>

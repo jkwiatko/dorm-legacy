@@ -1,7 +1,7 @@
 <div class="border p-4 h-100 cursor-pointer">
     <div>
         <div class="text-center mb-4">{{room.name}}</div>
-        <img class="room-image mb-4" [src]="room.picture.base64String | safe: 'url'">
+        <img class="room-image mb-4" [src]="room.picture ? (room.picture.base64String | safe: 'url') : 'assets/svg/default-room.svg'">
         <div class="basic-info-list">
             <ul>
                 <li>{{room.roomsNumber > 1 ? room.roomsNumber + ' pokoji' : '1 pokój'}}</li>

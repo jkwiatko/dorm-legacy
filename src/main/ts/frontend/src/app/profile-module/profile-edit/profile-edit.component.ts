@@ -55,7 +55,7 @@ export class ProfileEditComponent implements OnInit, OnDestroy {
         this.form = new FormGroup({
             firstName: new FormControl(profile.firstName, Validators.required),
             lastName: new FormControl(profile.lastName, Validators.required),
-            birthDate: new FormControl(new Date(profile.birthDate), Validators.required),
+            birthDate: new FormControl(profile.birthDate ? new Date(profile.birthDate) : null, Validators.required),
             description: new FormControl(profile.description, Validators.required),
             gender: new FormControl(profile.gender, Validators.required),
             workingIn: new FormControl(profile.workingIn),

@@ -57,4 +57,26 @@
     }
 }
 
+.simple-input.ng-invalid.ng-touched, textarea.ng-invalid.ng-touched {
+    border: 1px solid red;
+}
+
+.submitted {
+    .mat-radio-group.ng-invalid {
+        border: 1px solid red;
+    }
+
+    .simple-input.ng-invalid {
+        border: 1px solid red;
+    }
+
+    .simple-textarea.ng-invalid {
+        border: 1px solid red;
+    }
+}
+
+.room-title {
+    border: none;
+}
+
 

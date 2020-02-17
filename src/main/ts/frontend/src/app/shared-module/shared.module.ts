@@ -14,7 +14,8 @@ import {AvailableFromPipe} from "./pipes/available-from.pipe";
         AgePipe,
         GenderPipe,
         ProfileStickyInfoComponent,
-        RoomPreviewComponent
+        RoomPreviewComponent,
+        AvailableFromPipe
     ],
     imports: [
         CommonModule

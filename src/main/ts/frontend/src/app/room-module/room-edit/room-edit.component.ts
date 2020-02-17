@@ -8,6 +8,7 @@ import {switchMap} from "rxjs/operators";
 import {ProfileService} from "../../profile-module/providers/profile.service";
 import {ProfileModel} from "../../profile-module/models/profile.model";
 import {PictureModel} from "../../shared-module/models/picture.model";
+import {ToastrService} from "ngx-toastr";
 
 
 @Component({
@@ -25,11 +26,13 @@ export class RoomEditComponent implements OnInit {
         private route: ActivatedRoute,
         private router: Router,
         private roomCli: RoomService,
-        private profileCli: ProfileService
+        private profileCli: ProfileService,
+        private toastr: ToastrService
     ) {
     }
 
     editMode = false;
+    submitted = false;
 
     get amenitiesControl() {
         return (this.form.get('amenities') as FormArray).controls;
@@ -70,30 +73,37 @@ export class RoomEditComponent implements OnInit {
         }
 
         this.form = new FormGroup({
+            name: new FormControl(room.name, Validators.required),
             deposit: new FormControl(room.deposit),
-            monthlyPrice: new FormControl(room.monthlyPrice),
-            houseArea: new FormControl(room.houseArea),
-            roomsNumber: new FormControl(room.roomsNumber),
+            monthlyPrice: new FormControl(room.monthlyPrice, Validators.required),
+            houseArea: new FormControl(room.houseArea, Validators.required),
+            roomsNumber: new FormControl(room.roomsNumber, Validators.required),
             address: new FormGroup({
                 //can be null :(
-                city: new FormControl(room.address.city),
-                street: new FormControl(room.address.street),
-                number: new FormControl(room.address.number),
+                city: new FormControl(room.address.city, Validators.required),
+                street: new FormControl(room.address.street, Validators.required),
+                number: new FormControl(room.address.number, Validators.required),
             }),
             description: new FormControl(room.description, Validators.required),
-            availableFrom: new FormControl(new Date(room.availableFrom)),
-            minDuration: new FormControl(room.minDuration),
+            availableFrom: new FormControl(room.availableFrom ? new Date(room.availableFrom) : null),
+            minDuration: new FormControl(room.minDuration, Validators.required),
             amenities: amenities
         });
     }
 
     onSubmit() {
-        if (this.editMode) {
-            this.roomCli.editRoom(this.room.merge(this.form.value))
-                .subscribe(() => this.router.navigate(['/profile/edit']));
+        this.submitted = true;
+        this.room.pictures = this.room.pictures.filter((el) => el != null);
+        if(this.form.invalid) {
+            this.toastr.error("Prosze wypełnij poprawie wszystkie pola", "Błędne dane");
         } else {
-            this.roomCli.createRoom(this.room.merge(this.form.value))
-                .subscribe(() => this.router.navigate(['/profile/edit']));
+            if (this.editMode) {
+                this.roomCli.editRoom(this.room.merge(this.form.value))
+                    .subscribe(() => this.router.navigate(['/profile/edit']));
+            } else {
+                this.roomCli.createRoom(this.room.merge(this.form.value))
+                    .subscribe(() => this.router.navigate(['/profile/edit']));
+            }
         }
     }
 
@@ -102,6 +112,8 @@ export class RoomEditComponent implements OnInit {
     }
 
     onAddAmenities() {
+        this.submitted = false;
+        this.form.reset(this.form.value);
         (this.form.get('amenities') as FormArray).push(
             new FormControl(null, Validators.required)
         );

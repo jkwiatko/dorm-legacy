@@ -26,7 +26,7 @@ public class Room extends BaseEntity {
     private Integer minDuration;
     private Integer houseArea;
     private Integer roomsNumber;
-    private List<EAmenities> amenities;
+    private List<String> amenities;
 
     @ManyToOne
     public User getOwner() {
@@ -146,13 +146,12 @@ public class Room extends BaseEntity {
         this.roomsNumber = roomsNumber;
     }
 
-    @Enumerated(value = EnumType.STRING)
-    @ElementCollection(targetClass = EAmenities.class)
-    public List<EAmenities> getAmenities() {
+    @ElementCollection
+    public List<String> getAmenities() {
         return amenities;
     }
 
-    public void setAmenities(List<EAmenities> amenities) {
+    public void setAmenities(List<String> amenities) {
         this.amenities = amenities;
     }
 }
