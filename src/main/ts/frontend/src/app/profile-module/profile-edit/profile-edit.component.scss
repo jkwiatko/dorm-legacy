@@ -72,3 +72,18 @@
         filter:invert(0.5) sepia(1) saturate(3) hue-rotate(65deg)
     }
 }
+
+.simple-input.ng-invalid.ng-touched, textarea.ng-invalid.ng-touched {
+    border: 1px solid red;
+}
+
+.submitted {
+    .mat-radio-group.ng-invalid {
+        border: 1px solid red;
+    }
+
+    .simple-input.ng-invalid {
+        border: 1px solid red;
+    }
+}
+

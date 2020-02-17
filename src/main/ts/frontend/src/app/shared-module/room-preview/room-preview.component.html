@@ -4,7 +4,7 @@
         <img class="room-image mb-4" [src]="room.picture.base64String | safe: 'url'">
         <div class="basic-info-list">
             <ul>
-                <li>{{room.roomsNumber > 1 ? room.roomsNumber + 'pokoji' : '1 pokój'}}</li>
+                <li>{{room.roomsNumber > 1 ? room.roomsNumber + ' pokoji' : '1 pokój'}}</li>
                 &bull;
                 <li>Dostępny od {{room.availableFrom | availableFrom}}</li>
                 &bull;

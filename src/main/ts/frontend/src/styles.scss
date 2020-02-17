@@ -2,6 +2,11 @@
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 @import "variables";
 
+.toast-top-right-under-header {
+    top: $header-height;
+    right: 12px;
+}
+
 .big-title {
     color: $font-color;
     font-size: 30px;

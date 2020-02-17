@@ -13,6 +13,7 @@ import {ProfileModule} from "../profile-module/profile.module";
 import {WelcomeScreenComponent} from "./welcome-screen/welcome-screen.component";
 import {TokenInterceptor} from "../auth-module/providers/token.interceptor";
 import {RoomModule} from "../room-module/room.module";
+import {ToastrModule} from "ngx-toastr";
 
 @NgModule({
     declarations: [
@@ -28,6 +29,10 @@ import {RoomModule} from "../room-module/room.module";
         RoomModule,
         BrowserAnimationsModule,
         MatSnackBarModule,
+        ToastrModule.forRoot({
+                positionClass: 'toast-top-right-under-header',
+            }
+        ),
         AgmCoreModule.forRoot({
             apiKey: 'AIzaSyDKVy1CJI89TnmbC381IzCvQumuddcZttY'
         })

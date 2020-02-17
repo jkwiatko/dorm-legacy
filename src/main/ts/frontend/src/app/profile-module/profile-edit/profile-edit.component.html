@@ -1,6 +1,6 @@
 <div class="container">
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
-        <div class="content row">
+        <div [ngClass]="submitted ? 'submitted' : ''"  class="content row">
             <div class="col-4">
                 <div class="sticky-info border">
                     <div class="mb-3 d-flex align-content-center justify-content-center">
@@ -17,7 +17,7 @@
                            #fileInput (change)="OnSelectFile($event)">
                     <hr class="w-50">
                     <div class="w-75">
-                        <div class="w-100">
+                        <div class="w-100 p-2">
                             <label class="w-50">
                                 <input type="text"
                                        class="w-100 simple-input first-name-input"
@@ -31,11 +31,11 @@
                                        placeholder="Last name">
                             </label>
                         </div>
-                        <mat-radio-group class="input-group d-flex justify-content-center" formControlName="gender" aria-label="Select an option">
+                        <mat-radio-group required="true" class="input-group d-flex justify-content-center p-2" formControlName="gender" aria-label="Select an option">
                             <mat-radio-button value="MALE" color="primary">M</mat-radio-button>
                             <mat-radio-button value="FEMALE" class="ml-4">K</mat-radio-button>
                         </mat-radio-group>
-                        <div>
+                        <div class="mt-2">
                             <mat-form-field>
                                 <label>
                                     <!--suppress AngularInvalidExpressionResultType -->

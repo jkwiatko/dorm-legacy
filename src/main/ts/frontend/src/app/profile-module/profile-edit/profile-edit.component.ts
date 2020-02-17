@@ -5,6 +5,7 @@ import {Subscription} from "rxjs";
 import {Router} from "@angular/router";
 import {ProfileModel} from "../models/profile.model";
 import {PictureModel} from "../../shared-module/models/picture.model";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
     selector: 'app-profile-edit',
@@ -18,8 +19,11 @@ export class ProfileEditComponent implements OnInit, OnDestroy {
     profileSub: Subscription;
     profile: ProfileModel = new ProfileModel();
     profileImg: PictureModel = new PictureModel();
+    submitted = false;
 
-    constructor(private profileClient: ProfileService, private router: Router) {
+    constructor(private profileClient: ProfileService,
+                private router: Router,
+                private toastr: ToastrService) {
     }
 
     get interestsControl() {
@@ -69,12 +73,14 @@ export class ProfileEditComponent implements OnInit, OnDestroy {
     }
 
     onAddInterest() {
+        this.resetForm();
         (this.form.get('interests') as FormArray).push(
             new FormControl(null, Validators.required)
         );
     }
 
     onAddInclination() {
+        this.resetForm();
         (this.form.get('inclinations') as FormArray).push(
             new FormControl(null, Validators.required)
         );
@@ -102,24 +108,29 @@ export class ProfileEditComponent implements OnInit, OnDestroy {
     }
 
     onSubmit() {
-        const profile: ProfileModel = {
-            firstName: this.form.get('firstName').value,
-            lastName: this.form.get('lastName').value,
-            birthDate: this.form.get('birthDate').value,
-            description: this.form.get('description').value,
-            gender: this.form.get('gender').value,
-            workingIn: this.form.get('workingIn').value,
-            studyingAt: this.form.get('studyingAt').value,
-            interests: this.form.get('interests').value,
-            inclinations: this.form.get('inclinations').value,
-            cleaningPolicy: this.form.get('cleaningPolicy').value,
-            smokingPolicy: this.form.get('smokingPolicy').value,
-            petPolicy: this.form.get('petPolicy').value,
-            guestsPolicy: this.form.get('guestsPolicy').value,
-            profilePictures: this.profileImg.base64String ? [this.profileImg] : [],
-            ownedRooms: null
-        };
-        this.profileClient.saveProfile(profile);
+        this.submitted = true;
+        if(this.form.invalid) {
+            this.toastr.error("Prosze wypełnij poprawie wszystkie pola", "Błędne dane")
+        } else {
+            const profile: ProfileModel = {
+                firstName: this.form.get('firstName').value,
+                lastName: this.form.get('lastName').value,
+                birthDate: this.form.get('birthDate').value,
+                description: this.form.get('description').value,
+                gender: this.form.get('gender').value,
+                workingIn: this.form.get('workingIn').value,
+                studyingAt: this.form.get('studyingAt').value,
+                interests: this.form.get('interests').value,
+                inclinations: this.form.get('inclinations').value,
+                cleaningPolicy: this.form.get('cleaningPolicy').value,
+                smokingPolicy: this.form.get('smokingPolicy').value,
+                petPolicy: this.form.get('petPolicy').value,
+                guestsPolicy: this.form.get('guestsPolicy').value,
+                profilePictures: this.profileImg.base64String ? [this.profileImg] : [],
+                ownedRooms: null
+            };
+            this.profileClient.saveProfile(profile);
+        }
     }
 
     ngOnDestroy(): void {
@@ -132,5 +143,10 @@ export class ProfileEditComponent implements OnInit, OnDestroy {
 
     onEditRoom(id: number) {
         this.router.navigate(['/room/edit', id]);
+    }
+
+    resetForm() {
+        this.submitted = false;
+        this.form.reset(this.form.value);
     }
 }
