@@ -2,9 +2,14 @@ package com.dorm.backend.shared.data.entities;
 
 import com.dorm.backend.shared.data.entities.base.BaseEntity;
 import com.dorm.backend.shared.enums.EGender;
-import com.dorm.backend.shared.enums.ERoommatePreferences;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.OneToMany;
 import java.util.Date;
 import java.util.List;
 
@@ -12,12 +17,7 @@ import java.util.List;
 public class User extends BaseEntity {
 
     private List<Room> ownedRooms;
-    private List<Booking> bookings;
-    private List<Message> receivedMessages;
-    private List<Message> sendMessages;
     private List<Picture> profilePictures;
-    private List<ResidenceOffer> residenceOffers;
-    private List<RoomInvite> roomInvites;
     private List<String> interests;
     private List<String> inclinations;
 
@@ -45,33 +45,6 @@ public class User extends BaseEntity {
         this.ownedRooms = ownedRooms;
     }
 
-    @OneToMany(mappedBy = "renter")
-    public List<Booking> getBookings() {
-        return bookings;
-    }
-
-    public void setBookings(List<Booking> bookings) {
-        this.bookings = bookings;
-    }
-
-    @ManyToMany(mappedBy = "addresses")
-    public List<Message> getReceivedMessages() {
-        return receivedMessages;
-    }
-
-    public void setReceivedMessages(List<Message> receivedMessages) {
-        this.receivedMessages = receivedMessages;
-    }
-
-    @OneToMany(mappedBy = "author")
-    public List<Message> getSendMessages() {
-        return sendMessages;
-    }
-
-    public void setSendMessages(List<Message> sendMessages) {
-        this.sendMessages = sendMessages;
-    }
-
     @OneToMany(mappedBy = "ofUser", cascade = CascadeType.ALL)
     public List<Picture> getProfilePictures() {
         return profilePictures;
@@ -79,20 +52,6 @@ public class User extends BaseEntity {
 
     public void setProfilePictures(List<Picture> profilePictures) {
         this.profilePictures = profilePictures;
-    }
-
-    @OneToMany(mappedBy = "fromUser")
-    public List<ResidenceOffer> getResidenceOffers() {
-        return residenceOffers;
-    }
-
-    public void setResidenceOffers(List<ResidenceOffer> residenceOffers) {
-        this.residenceOffers = residenceOffers;
-    }
-
-    @OneToMany(mappedBy = "toUser")
-    public List<RoomInvite> getRoomInvites() {
-        return roomInvites;
     }
 
     @ElementCollection
@@ -111,10 +70,6 @@ public class User extends BaseEntity {
 
     public void setInclinations(List<String> inclinations) {
         this.inclinations = inclinations;
-    }
-
-    public void setRoomInvites(List<RoomInvite> roomInvites) {
-        this.roomInvites = roomInvites;
     }
 
     public String getFirstName() {
