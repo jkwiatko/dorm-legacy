@@ -8,7 +8,6 @@ public class RoomEntitySkipper extends PropertyMap<RoomDTO, Room> {
     @Override
     protected void configure() {
         skip(destination.getPictures());
-        skip(destination.getRoomInvites());
-        skip(destination.getBookings());
+        skip(destination.getOwner());
     }
 }

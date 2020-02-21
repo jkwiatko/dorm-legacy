@@ -1,4 +1,4 @@
-package com.dorm.backend.shared.mappper.profile.picture.room;
+package com.dorm.backend.shared.mappper.profile.room;
 
 import com.dorm.backend.profile.dto.PictureDTO;
 import com.dorm.backend.profile.dto.PreviewRoomDTO;

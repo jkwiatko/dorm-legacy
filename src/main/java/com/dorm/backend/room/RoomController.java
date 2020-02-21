@@ -30,10 +30,10 @@ public class RoomController {
     }
 
     @PostMapping("/edit")
-        public ResponseEntity<Void> editRoom(@RequestBody RoomDTO roomDTO) {
-            roomService.editRoom(roomDTO);
-            return ResponseEntity.ok().build();
-        }
+    public ResponseEntity<Void> editRoom(@RequestBody RoomDTO roomDTO) {
+        roomService.editRoom(roomDTO);
+        return ResponseEntity.ok().build();
+    }
 
 
     @GetMapping("/{id}")
