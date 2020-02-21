@@ -1,0 +1,160 @@
+<div class="content">
+    <div class="row vh-50 room-images no-gutters">
+        <div class="col-md-6 col-12 h-100 border room-input">
+            <img class="room-image"
+                 alt="main room image"
+                 *ngIf="room.pictures[0]; else noImage"
+                 [src]="room.pictures[0].base64String | safe: 'url' ">
+            <ng-template #noImage>
+                <div class="w-100 h-100 d-flex justify-content-center align-items-center">
+                    <div>?</div>
+                </div>
+            </ng-template>
+        </div>
+        <div class="col-6 h-100">
+            <div class="row h-50 no-gutters">
+                <div class="col h-100 d-md-block d-none border room-input">
+                    <img class="room-image"
+                         alt="main room image"
+                         *ngIf="room.pictures[1]; else noImage"
+                         [src]="room.pictures[1].base64String | safe: 'url'">
+                    <ng-template #noImage>
+                        <div class="w-100 h-100 d-flex justify-content-center align-items-center">
+                            <div>?</div>
+                        </div>
+                    </ng-template>
+                </div>
+                <div class="col h-100 d-lg-block d-none border room-input">
+                    <img class="room-image"
+                         alt="main room image"
+                         *ngIf="room.pictures[2]; else noImage"
+                         [src]="room.pictures[2].base64String | safe: 'url'">
+                    <ng-template #noImage>
+                        <div class="w-100 h-100 d-flex justify-content-center align-items-center">
+                            <div>?</div>
+                        </div>
+                    </ng-template>
+                </div>
+            </div>
+            <div class="row h-50 no-gutters">
+                <div class="col h-100 d-md-block d-none border room-input">
+                    <img class="room-image"
+                         alt="main room image"
+                         *ngIf="room.pictures[3]; else noImage"
+                         [src]="room.pictures[3].base64String | safe: 'url'">
+                    <ng-template #noImage>
+                        <div class="w-100 h-100 d-flex justify-content-center align-items-center">
+                            <div>?</div>
+                        </div>
+                    </ng-template>
+                </div>
+                <div class="col h-100 d-lg-block d-none border room-input">
+                    <img class="room-image"
+                         alt="main room image"
+                         *ngIf="room.pictures[4]; else noImage"
+                         [src]="room.pictures[4].base64String | safe: 'url'">
+                    <ng-template #noImage>
+                        <div class="w-100 h-100 d-flex justify-content-center align-items-center">
+                            <div>?</div>
+                        </div>
+                    </ng-template>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-8 text-center">
+                <div class="h1">
+                    {{room.name}}
+                </div>
+                <ul class="basic-info-list gray-text">
+                    <li>{{room.roomsNumber > 1 ? room.roomsNumber + ' pokoji' : '1 pokój'}}</li>
+                    &bull;
+                    <li>Dostępny od {{room.availableFrom | availableFrom}}</li>
+                    &bull;
+                    <li>{{room.minDuration}}+ miesięcy</li>
+                </ul>
+                <hr class="w-100 horizontal-line">
+                <div>
+                    <div>Kluczowe informacje</div>
+                    <div class="col-12 row">
+                        <div class="col-12 col-lg-4 mt-3 d-flex flex-column align-items-center">
+                            <div class="subtitle">Cena</div>
+                            <div class="d-table key-info-table">
+                                <div class="d-table-row">
+                                    <div class="d-table-cell text-left">kaucja</div>
+                                    <div class="d-table-cell text-left">{{room.deposit ? room.deposit : '-'}}</div>
+                                    <div class="d-table-cell text-left">zł</div>
+                                </div>
+
+                                <div class="d-table-row">
+                                    <div class="d-table-cell text-left">za miesiąc</div>
+                                    <div class="d-table-cell text-left">{{room.monthlyPrice}}</div>
+                                    <div class="d-table-cell text-left">zł</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-lg-4 mt-3 d-flex flex-column align-items-center">
+                            <div class="subtitle">Przestrzeń</div>
+                            <div class="d-table key-info-table">
+                                <div class="d-table-row">
+                                    <div class="d-table-cell text-left">ilość pokoji</div>
+                                    <div class="d-table-cell text-left">{{room.roomsNumber}}</div>
+                                </div>
+                                <div class="d-table-row">
+                                    <div class="d-table-cell text-left">metraż</div>
+                                    <div class="d-table-cell text-left">{{room.houseArea}}</div>
+                                    <span class="d-table-cell text-left">m2</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-4 mt-3 d-flex flex-column align-items-center">
+                            <div class="subtitle">Adres</div>
+                            <div class="d-table key-info-table">
+                                <div class="d-table-row">
+                                    <div class="d-table-cell text-left">miasto</div>
+                                    <div class="d-table-cell text-left">{{room.address.city}}</div>
+                                </div>
+
+                                <div class="d-table-row">
+                                    <div class="d-table-cell text-left">ulica</div>
+                                    <div class="d-table-cell text-left">{{room.address.street}}</div>
+                                </div>
+
+                                <div class="d-table-row">
+                                    <div class="d-table-cell text-left">nr.</div>
+                                    <div class="d-table-cell text-left">{{room.address.number}}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr class="w-100 horizontal-line">
+                <div class="row text-center">
+                    <div class="col-12">Opis</div>
+                    <div class="col-12 mt-3">
+                        <div class="w-100">{{room.description}}</div>
+                    </div>
+                </div>
+                <hr class="w-100 horizontal-line">
+                <div class="row text-center">
+                    <div class="col-12 text-center">Udogodnienia</div>
+                    <div class="col-12 mt-3 row">
+                        <div class="col-4"
+                             *ngFor="let amenity of room.amenities;">
+                            <div>{{amenity}}</div>
+                        </div>
+                    </div>
+                </div>
+                <hr class="w-100 horizontal-line">
+            </div>
+            <div class="col-4 cursor-pointer">
+                <app-profile-sticky-info (click)="navigateToUser()" [profile]="room.owner"></app-profile-sticky-info>
+            </div>
+        </div>
+    </div>
+</div>
+
+

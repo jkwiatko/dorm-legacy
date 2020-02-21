@@ -11,16 +11,17 @@ import {ProfileModule} from "../profile-module/profile.module";
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {SharedModule} from "../shared-module/shared.module";
 import {AuthGuardService} from "../auth-module/providers/auth-guard.service";
+import { RoomDetailsComponent } from './room-details/room-details.component';
 
 const routes: Routes = [
     {path: 'room/find', component: RoomsComponent, pathMatch: 'full'},
-    {path: 'room/:id', component: RoomEditComponent, pathMatch: 'full'},
+    {path: 'room/:id', component: RoomDetailsComponent, pathMatch: 'full'},
     {path: 'room/edit/:id', component: RoomEditComponent, pathMatch: 'full', canActivate: [AuthGuardService]},
     {path: 'room/create', component: RoomEditComponent, pathMatch: 'full', canActivate: [AuthGuardService]},
 ];
 
 @NgModule({
-    declarations: [RoomsComponent, RoomEditComponent],
+    declarations: [RoomsComponent, RoomEditComponent, RoomDetailsComponent],
     imports: [
         RouterModule.forChild(routes),
         CommonModule,

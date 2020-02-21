@@ -51,7 +51,7 @@ export class RoomEditComponent implements OnInit {
         });
 
         const sub = this.route.params.pipe(
-            switchMap(params => +params['id'] ? this.roomCli.fetchCurrentUserRoom(+params['id']) : EMPTY)
+            switchMap(params => +params['id'] ? this.roomCli.fetchRoom(+params['id']) : EMPTY)
         ).subscribe(room => {
             this.room = (new RoomModel().merge(room));
             this.sortPictures(this.room.pictures);

@@ -2,6 +2,7 @@ import {PictureModel} from "../../shared-module/models/picture.model";
 import {RoomPreviewModel} from "./room-preview.model";
 
 export class ProfileModel{
+    id?: number;
     firstName: string;
     lastName: string;
     profilePictures: PictureModel[] = [];

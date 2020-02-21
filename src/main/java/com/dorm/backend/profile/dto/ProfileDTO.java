@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import java.util.List;
 
 public class ProfileDTO {
+
+    private Long id;
     private String firstName;
     private String lastName;
     private List<PictureDTO> profilePictures;
@@ -19,6 +21,14 @@ public class ProfileDTO {
     private String petPolicy;
     private String guestsPolicy;
     private List<PreviewRoomDTO> ownedRooms;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getFirstName() {
         return firstName;

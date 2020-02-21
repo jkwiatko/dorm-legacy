@@ -1,0 +1,82 @@
+@import "../../../variables";
+
+.vh-50 {
+    height: 50vh;
+    max-height: 50vh;
+}
+
+.basic-info-list {
+    li {
+        display: inline;
+        margin: 0 5px;
+    }
+}
+
+.desc-text-area {
+    min-height: 100px;
+}
+
+.input-number-10 {
+    max-width: 2em;
+}
+
+.input-number-100 {
+    max-width: 2.5em;
+}
+
+.input-number-1000 {
+    max-width: 3.5em;
+}
+
+.subtitle {
+    color: lightgray;
+}
+
+.key-info-table {
+    border-spacing: 10px;
+    border-collapse: separate;
+    margin: 0;
+}
+
+.room-images {
+    .room-input {
+        &:hover {
+            background-color: whitesmoke;
+        }
+    }
+
+    .room-image {
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+        object-position: 50% 70%;
+
+        &:hover {
+            filter: opacity(85%);
+        }
+    }
+}
+
+.simple-input.ng-invalid.ng-touched, textarea.ng-invalid.ng-touched {
+    border: 1px solid lightcoral;
+}
+
+.submitted {
+    .mat-radio-group.ng-invalid {
+        border: 1px solid lightcoral;
+    }
+
+    .simple-input.ng-invalid {
+        border: 1px solid lightcoral;
+    }
+
+    .simple-textarea.ng-invalid {
+        border: 1px solid lightcoral;
+    }
+}
+
+.room-title {
+    border: none;
+}
+
+

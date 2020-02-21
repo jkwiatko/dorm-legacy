@@ -14,7 +14,8 @@ export class RoomService {
     constructor(private http: HttpClient) {
     }
 
-    public fetchCurrentUserRoom(id: number): Observable<RoomModel> {
+    public fetchRoom(id: number): Observable<RoomModel> {
+        console.log(id);
         return this.http.get<RoomModel>(environment.api + 'room/' + id).pipe(tap(this.addPictureExtension));
     }
 
