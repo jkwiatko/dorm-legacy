@@ -141,10 +141,6 @@ export class ProfileEditComponent implements OnInit, OnDestroy {
         this.router.navigate(['/room/create']);
     }
 
-    onEditRoom(id: number) {
-        this.router.navigate(['/room/edit', id]);
-    }
-
     resetForm() {
         this.submitted = false;
         this.form.reset(this.form.value);

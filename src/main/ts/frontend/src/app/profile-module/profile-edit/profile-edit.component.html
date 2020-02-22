@@ -11,7 +11,7 @@
                                 </div>
                             </ng-template>
                     </div>
-                    <button type="button" class="btn btn-success mt-2" (click)="fileInput.click()">add</button>
+                    <button type="button" class="btn btn-success mt-2" (click)="fileInput.click()">{{profileImg.base64String ? 'zmień' : 'dodaj'}}</button>
                     <input type="file"
                            class="d-none"
                            #fileInput (change)="OnSelectFile($event)">
@@ -48,7 +48,7 @@
                     </div>
                     <hr class="w-50">
                     <div class="mb-3">
-                        <button type="submit" class="btn btn-primary">submit</button>
+                        <button type="submit" class="btn btn-primary">prześlij</button>
                     </div>
                 </div>
             </div>
@@ -59,7 +59,7 @@
                             O mnie
                         </div>
                         <div>
-                            <div class="small-tittle font-weight-bold">Tak w skrócie</div>
+                            <div class="small-tittle font-weight-bold">Tak w skrócie:</div>
                             <div>
                                 <label class="w-100">
                                 <textarea class="w-100 summary-text-area"
@@ -71,7 +71,7 @@
                         </div>
                         <hr class="horizontal-line">
                         <div>
-                            <div class="small-tittle font-weight-bold m-0 mb-4">Zajmuje się</div>
+                            <div class="small-tittle font-weight-bold m-0 mb-4">Zajmuję się</div>
                             <div class="row d-flex justify-content-between">
                                 <div class="col-6 d-flex flex-column">
                                     <span>Pracuję w: </span>
@@ -91,7 +91,7 @@
                         <div class="row">
                             <div class="col-6" formArrayName="interests">
                                 <div class="small-tittle font-weight-bold m-0 mb-2">
-                                    Jestem
+                                    Jestem:
                                 </div>
                                 <div *ngFor="let interest of interestsControl; let i = index">
                                     <label>
@@ -101,13 +101,13 @@
                                 </div>
                                 <div>
                                     <button type="button" class="btn btn-success" (click)="onAddInterest()">
-                                        add
+                                        dodaj
                                     </button>
                                 </div>
                             </div>
                             <div class="col-6" formArrayName="inclinations">
                                 <div class="small-tittle font-weight-bold m-0 mb-2">
-                                    Interesuję się
+                                    Interesuję się:
                                 </div>
                                 <div *ngFor="let inclination of inclinationsControl; let i = index" class="yellow-text">
                                     <label>
@@ -116,7 +116,7 @@
                                     <button (click)="onDeleteInclination(i)" type="button" class="x-button">X</button>
                                 </div>
                                 <button type="button" class="btn btn-success" (click)="onAddInclination()">
-                                    add
+                                    dodaj
                                 </button>
                             </div>
                         </div>
@@ -129,7 +129,7 @@
                         <div class="row">
                             <div class="col-6 d-flex flex-column justify-content-between">
                                 <div class="small-tittle font-weight-bold ">
-                                    Jak często sprzatam
+                                    Jak często sprzątam
                                 </div>
                                 <div>
                                     <label>
@@ -151,7 +151,7 @@
                         <div class="row">
                             <div class="col-6 d-flex flex-column justify-content-between">
                                 <div class="small-tittle font-weight-bold ">
-                                    Co myślisz o zwierzetach ?
+                                    Co myślę o zwierzętach?
                                 </div>
                                 <label>
                                     <input type="text" formControlName="petPolicy" class="simple-input yellow-text">
@@ -175,12 +175,12 @@
                             Moje Pokoje
                         </div>
                         <div class="row">
-                            <div *ngFor="let room of profile.ownedRooms" (click)="onEditRoom(room.id)" class="col-6 p-3">
-                                <app-room-preview [room]="room"></app-room-preview>
+                            <div *ngFor="let room of profile.ownedRooms" class="col-6 p-3">
+                                <app-room-preview [navigateOnClick]="true" [room]="room"></app-room-preview>
                             </div>
                             <div class="col-6 p-3">
                                 <div class="h-100 w-100 d-flex cursor-pointer justify-content-center align-content-center plus" (click)="onAddRoom()">
-                                    <img src="assets/svg/plus.svg" alt="add room" width="100">
+                                    <img src="assets/svg/plus.svg" alt="dodaj pokój" width="100">
                                 </div>
                             </div>
                         </div>

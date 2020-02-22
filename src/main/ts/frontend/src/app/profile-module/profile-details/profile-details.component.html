@@ -15,21 +15,23 @@
                     </div>
                     <hr class="horizontal-line">
                     <div>
-                        <div class="small-tittle font-weight-bold m-0 mb-4">Zajmuje się</div>
-                        <div>
-                            <span>Pracuje w: </span>
-                            <span>{{profile.workingIn}}</span>
-                        </div>
-                        <div>
-                            <span>Uczy się na:  </span>
-                            <span>{{profile.studyingAt}}</span>
+                        <div class="small-tittle font-weight-bold m-0 mb-4">Zajmuję się</div>
+                        <div class="row d-flex justify-content-between">
+                            <div class="col-6 d-flex flex-column">
+                                <span>Pracuje w: </span>
+                                <span>{{profile.workingIn}}</span>
+                            </div>
+                            <div class="col-6 d-flex flex-column">
+                                <span>Uczę się na:  </span>
+                                <span>{{profile.studyingAt}}</span>
+                            </div>
                         </div>
                     </div>
                     <hr class="horizontal-line">
                     <div class="row">
                         <div class="col-6">
                             <div class="small-tittle font-weight-bold m-0 mb-2">
-                                Jestem
+                                Jestem:
                             </div>
                             <div *ngFor="let interest of profile.interests"
                                  class="yellow-text">
@@ -38,7 +40,7 @@
                         </div>
                         <div class="col-6">
                             <div class="small-tittle font-weight-bold m-0 mb-2">
-                                Interesuję się
+                                Interesuję się:
                             </div>
                             <div *ngFor="let inclination of profile.inclinations"
                                  class="yellow-text">
@@ -55,7 +57,7 @@
                     <div class="row">
                         <div class="col-6">
                             <div class="small-tittle font-weight-bold ">
-                                Jak często sprzatam
+                                Jak często sprzątam
                             </div>
                             <div class="">{{profile.cleaningPolicy}}</div>
                         </div>
@@ -69,13 +71,13 @@
                     <div class="row">
                         <div class="col-6">
                             <div class="small-tittle font-weight-bold ">
-                                Co myślisz o zwierzetach ?
+                                Co myślę o zwierzętach?
                             </div>
                             <div class="">{{profile.petPolicy}}</div>
                         </div>
                         <div class="col-6">
                             <div class="small-tittle font-weight-bold">
-                                A jak z gośćmi, mogą zostać na noc?
+                                Czy goście mogą zostać na noc?
                             </div>
                             <div>
                                 {{profile.guestsPolicy}}
@@ -88,46 +90,10 @@
                     <div class="big-title blue-text font-weight-bold">
                         Moje Pokoje
                     </div>
-                    <div class="row mt-3">
-                        <div class="offset-1 col-4 border">
-                            <div>#</div>
-                            <div>#</div>
-                            <div>#</div>
-                            <div>#</div>
-                            <div>#</div>
-                            <div>#</div>
-                            <div>#</div>
+                    <div class="row">
+                        <div *ngFor="let room of profile.ownedRooms" class="col-6 p-3">
+                            <app-room-preview [navigateOnClick]="true" [room]="room"></app-room-preview>
                         </div>
-                        <div class="offset-2 col-4 border">
-                            <div>#</div>
-                            <div>#</div>
-                            <div>#</div>
-                            <div>#</div>
-                            <div>#</div>
-                            <div>#</div>
-                            <div>#</div>
-                        </div>
-                    </div>
-                </div>
-                <hr class="horizontal-line">
-                <div class="mb-5">
-                    <div class="big-title blue-text font-weight-bold">
-                        Recenzje
-                    </div>
-                    <div class="m-3">
-                        <div class="gray-text mt-2 mb-2">lipiec 2019</div>
-                        <div>Niesamowity dom! Mieszkalem tam przez pare miesiecy i moge powiedziec o nim same dobre
-                            rzeczy!. Jest taki wygodny, ze rzadko kiedy z niego wychodzilem zeby gdzies indziej spedzic
-                            czas. Fiona przez caly czas gotowala przepyszne obiady :). To byl dobrze spedzony czas.
-                        </div>
-                        <div class="profile-img mt-2 d-flex align-content-center justify-content-center">?</div>
-                    </div>
-                    <div class="m-3">
-                        <div class="gray-text mt-2 mb-2">sierpien 2019</div>
-                        <div>Mieszkanie bylo posprzatane i przyjemne. Wszystko bylo na swoim miejscu. Dobra lokacja i
-                            wygodne polaczenia.
-                        </div>
-                        <div class="profile-img mt-2  d-flex align-content-center justify-content-center">?</div>
                     </div>
                 </div>
             </div>
