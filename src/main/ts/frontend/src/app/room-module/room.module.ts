@@ -15,9 +15,9 @@ import { RoomDetailsComponent } from './room-details/room-details.component';
 
 const routes: Routes = [
     {path: 'room/find', component: RoomsComponent, pathMatch: 'full'},
+    {path: 'room/create', component: RoomEditComponent, pathMatch: 'full', canActivate: [AuthGuardService]},
     {path: 'room/:id', component: RoomDetailsComponent, pathMatch: 'full'},
     {path: 'room/edit/:id', component: RoomEditComponent, pathMatch: 'full', canActivate: [AuthGuardService]},
-    {path: 'room/create', component: RoomEditComponent, pathMatch: 'full', canActivate: [AuthGuardService]},
 ];
 
 @NgModule({

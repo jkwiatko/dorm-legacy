@@ -1,15 +1,16 @@
-<div class="border p-4 h-100 cursor-pointer">
-    <div>
-        <div class="text-center mb-4">{{room.name}}</div>
-        <img class="room-image mb-4" [src]="room.picture ? (room.picture.base64String | safe: 'url') : 'assets/svg/default-room.svg'">
-        <div class="basic-info-list">
-            <ul>
-                <li>{{room.roomsNumber > 1 ? room.roomsNumber + ' pokoji' : '1 pokój'}}</li>
-                &bull;
-                <li>Dostępny od {{room.availableFrom | availableFrom}}</li>
-                &bull;
-                <li>{{room.minDuration}}+ mięsiency</li>
-            </ul>
-        </div>
+<div (click)="onEditRoom()" class="border p-4 h-100 cursor-pointer d-flex flex-column justify-content-between">
+    <div class="text-center mb-4">{{room.name}}</div>
+    <div class="mb-4">
+        <img class="room-image"
+             [src]="room.picture ? (room.picture.base64String | safe: 'url') : 'assets/svg/default-room.svg'">
+    </div>
+    <div class="basic-info-list">
+        <ul>
+            <li class="d-lg-inline">{{room.roomsNumber > 1 ? room.roomsNumber + ' pokoji' : '1 pokój'}}</li>
+            &bull;
+            <li class="d-lg-inline">Dostępny od {{room.availableFrom | availableFrom}}</li>
+            &bull;
+            <li class="d-lg-inline">{{room.minDuration}}+ mięsiency</li>
+        </ul>
     </div>
 </div>

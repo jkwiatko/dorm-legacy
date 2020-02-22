@@ -5,13 +5,12 @@
                 <mat-form-field appearance="outline" class="city-select">
                     <mat-label>{{cityRooms.cityName ? cityRooms.cityName :  'Wybierz miasto'}}</mat-label>
                     <mat-select>
-                        <mat-option>--------</mat-option>
                         <mat-option *ngFor="let city of availableCities" (click)="onCityChange(city)">{{city}}</mat-option>
                     </mat-select>
                 </mat-form-field>
-                <mat-form-field appearance="outline" class="description">
+                <mat-form-field appearance="outline"  class="description">
                     <mat-label>Szukaj</mat-label>
-                    <input (input)="searchObservable.next($event)" matInput />
+                    <input type="text" (input)="searchObservable.next($event)" matInput />
                 </mat-form-field>
             </div>
         </div>
@@ -21,7 +20,7 @@
             <app-loader-spinner></app-loader-spinner>
         </div>
         <ng-template #searchResult>
-            <div  *ngFor="let room of cityRooms.rooms" class="col-4 p-3">
+            <div  *ngFor="let room of cityRooms.rooms" class="col-6 col-lg-4 p-3">
                 <app-room-preview (click)="navigateToRoom(room.id)" [room]="room"></app-room-preview>
             </div>
         </ng-template>

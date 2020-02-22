@@ -5,6 +5,7 @@
     width: 100%;
     object-fit: cover;
     object-position: 50% 70%;
+    border-radius: 25px;
 
     &:hover {
         filter: opacity(85%);
@@ -20,9 +21,6 @@
     ul {
         padding-inline-start: 0;
         margin: auto;
-    }
-
-    li {
-        display: inline;
+        list-style: none;
     }
 }
