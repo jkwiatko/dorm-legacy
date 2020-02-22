@@ -9,5 +9,6 @@ public class RoomEntitySkipper extends PropertyMap<RoomDTO, Room> {
     protected void configure() {
         skip(destination.getPictures());
         skip(destination.getOwner());
+        skip(destination.getId());
     }
 }

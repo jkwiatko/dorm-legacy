@@ -1,6 +1,6 @@
 package com.dorm.backend.profile.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import java.util.Date;
 import java.util.List;
 
 public class ProfileDTO {
@@ -9,7 +9,7 @@ public class ProfileDTO {
     private String firstName;
     private String lastName;
     private List<PictureDTO> profilePictures;
-    private String birthDate;
+    private Date birthDate;
     private String description;
     private String gender;
     private String workingIn;
@@ -54,12 +54,11 @@ public class ProfileDTO {
         this.profilePictures = profilePictures;
     }
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
-    public String getBirthDate() {
+    public Date getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(String birthDate) {
+    public void setBirthDate(Date birthDate) {
         this.birthDate = birthDate;
     }
 

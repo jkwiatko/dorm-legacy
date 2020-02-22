@@ -1,5 +1,6 @@
 package com.dorm.backend.shared.mappper;
 
+import com.dorm.backend.shared.mappper.profile.UserEntitySkipper;
 import com.dorm.backend.shared.mappper.profile.picture.ProfilePictureDTOConverter;
 import com.dorm.backend.shared.mappper.profile.picture.ProfilePictureEntityConverter;
 import com.dorm.backend.shared.mappper.profile.room.RoomPreviewConverter;
@@ -11,7 +12,6 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class ModelMapperConfig {
 
-    // TODO repair bug with bias on birthDate
     @Bean
     public ModelMapper modelMapper() {
         ModelMapper mapper = new ModelMapper();
@@ -19,6 +19,7 @@ public class ModelMapperConfig {
         mapper.addConverter(new ProfilePictureEntityConverter());
         mapper.addConverter(new RoomPreviewConverter());
         mapper.addMappings(new RoomEntitySkipper());
+        mapper.addMappings(new UserEntitySkipper());
         return mapper;
     }
 }

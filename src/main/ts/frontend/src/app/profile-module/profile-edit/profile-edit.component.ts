@@ -94,7 +94,7 @@ export class ProfileEditComponent implements OnInit, OnDestroy {
                 reader.onload = () => this.profileImg.base64String = reader.result.toString();
                 reader.readAsDataURL(event.target.files[0]);
             } else {
-                // show error message
+                this.toastr.error('Wybrany plik nie jest zdjeciem', 'Zły plik');
             }
         }
     }

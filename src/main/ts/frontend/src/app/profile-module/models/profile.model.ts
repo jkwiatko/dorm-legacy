@@ -6,7 +6,7 @@ export class ProfileModel{
     firstName: string;
     lastName: string;
     profilePictures: PictureModel[] = [];
-    birthDate: string;
+    birthDate: Date;
     description: string;
     gender: string;
     workingIn: string;
