@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ProfileModel} from '../../profile-module/models/profile.model';
+import {Router} from "@angular/router";
 
 
 @Component({
@@ -10,10 +11,16 @@ import {ProfileModel} from '../../profile-module/models/profile.model';
 export class ProfileStickyInfoComponent implements OnInit {
 
   @Input() profile: ProfileModel;
+  @Input() navigateOnClick: boolean;
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit() {
   }
 
+    navigateToUser() {
+      if(this.navigateOnClick) {
+          this.router.navigate(['profile', this.profile.id])
+      }
+    }
 }

@@ -151,7 +151,7 @@
                 <hr class="w-100 horizontal-line">
             </div>
             <div class="col-4 cursor-pointer">
-                <app-profile-sticky-info (click)="navigateToUser()" [profile]="room.owner"></app-profile-sticky-info>
+                <app-profile-sticky-info [navigateOnClick]="true" [profile]="room.owner"></app-profile-sticky-info>
             </div>
         </div>
     </div>

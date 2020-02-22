@@ -30,9 +30,4 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
     ngOnDestroy(): void {
         this.sub.unsubscribe();
     }
-
-    navigateToUser() {
-        console.log("siemanko");
-        this.router.navigate(['profile', this.room.owner.id])
-    }
 }
