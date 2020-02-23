@@ -15,7 +15,6 @@ export class RoomService {
     }
 
     public fetchRoom(id: number): Observable<RoomModel> {
-        console.log(id);
         return this.http.get<RoomModel>(environment.api + 'room/' + id).pipe(tap(this.addPictureExtension));
     }
 
@@ -58,5 +57,9 @@ export class RoomService {
     fetchSearchedRooms(city: string ,value: string) : Observable<CityRoomsModel> {
         return this.http.get<CityRoomsModel>(environment.api + 'room/find/' + city + '/search/' + value)
             .pipe(tap(this.addPictureExtension2CityRooms));
+    }
+
+    fetchAvailableAmenities() {
+        return this.http.get<string[]>(environment.api + 'room/amenities');
     }
 }

@@ -21,6 +21,7 @@ export class RoomEditComponent implements OnInit {
     form: FormGroup;
     profile = new ProfileModel();
     room = new RoomModel();
+    amenityOptions: string[] = [];
     constructor
     (
         private route: ActivatedRoute,
@@ -40,6 +41,9 @@ export class RoomEditComponent implements OnInit {
 
     ngOnInit() {
         this.setForm(this.room);
+
+        this.roomCli.fetchAvailableAmenities()
+            .subscribe((amenityOptions) => this.amenityOptions = amenityOptions);
 
         this.route.url.subscribe(url => {
             if (url[url.length - 1].path === 'create') {

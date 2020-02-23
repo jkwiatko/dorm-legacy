@@ -1,16 +1,16 @@
 import {Component, OnInit} from '@angular/core';
-import {RoomService} from "../../providers/room.service";
-import {CityRoomsModel} from "../../../shared-module/models/city-rooms.model";
+import {RoomService} from "../providers/room.service";
+import {CityRoomsModel} from "../../shared-module/models/city-rooms.model";
 import {Router} from "@angular/router";
 import {EMPTY, Subject} from "rxjs";
 import {debounceTime, distinctUntilChanged, switchMap, tap} from "rxjs/operators";
 
 @Component({
     selector: 'app-rooms',
-    templateUrl: './rooms.component.html',
-    styleUrls: ['./rooms.component.scss']
+    templateUrl: './room-search.component.html',
+    styleUrls: ['./room-search.component.scss']
 })
-export class RoomsComponent implements OnInit {
+export class RoomSearchComponent implements OnInit {
 
     cityRooms = new CityRoomsModel();
     availableCities: string[] = [];

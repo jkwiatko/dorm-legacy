@@ -1,13 +1,9 @@
 package com.dorm.backend.shared.data.entities;
 
 import com.dorm.backend.shared.data.entities.base.BaseEntity;
+import com.dorm.backend.shared.enums.EAmenity;
 
-import javax.persistence.CascadeType;
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
@@ -27,7 +23,7 @@ public class Room extends BaseEntity {
     private Integer minDuration;
     private Integer houseArea;
     private Integer roomsNumber;
-    private List<String> amenities;
+    private List<EAmenity> amenities;
 
     @ManyToOne
     public User getOwner() {
@@ -120,12 +116,13 @@ public class Room extends BaseEntity {
         this.roomsNumber = roomsNumber;
     }
 
-    @ElementCollection
-    public List<String> getAmenities() {
+    @Enumerated(value = EnumType.STRING)
+    @ElementCollection(targetClass = EAmenity.class)
+    public List<EAmenity> getAmenities() {
         return amenities;
     }
 
-    public void setAmenities(List<String> amenities) {
+    public void setAmenities(List<EAmenity> amenities) {
         this.amenities = amenities;
     }
 }
