@@ -38,4 +38,8 @@ export class ProfileService {
                 })
         }
     }
+
+    fetchCharacteristicsOptions() : Observable<string[]> {
+        return this.http.get<string[]>(environment.api + 'profile/characteristics');
+    }
 }

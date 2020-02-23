@@ -1,6 +1,7 @@
 package com.dorm.backend.profile;
 
 import com.dorm.backend.profile.dto.ProfileDTO;
+import com.dorm.backend.shared.enums.EUserCharacteristic;
 import com.dorm.backend.shared.services.UserService;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -11,6 +12,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/profile")
@@ -34,8 +39,14 @@ public class ProfileController {
     }
 
     @PostMapping("/edit")
-    public ResponseEntity<Void> EditProfile(@RequestBody ProfileDTO profile) {
+    public ResponseEntity<Void> editProfile(@RequestBody ProfileDTO profile) {
         userService.editCurrentAuthenticatedUser(profile);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/characteristics")
+    public ResponseEntity<List<String>> getCharacteristics() {
+        return ResponseEntity.ok()
+                .body(Arrays.stream(EUserCharacteristic.values()).map(EUserCharacteristic::toString).collect(Collectors.toList()));
     }
 }

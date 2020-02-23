@@ -73,7 +73,8 @@
     }
 }
 
-.simple-input.ng-invalid.ng-touched, textarea.ng-invalid.ng-touched {
+.simple-input.ng-invalid.ng-touched, textarea.ng-invalid.ng-touched, select.ng-invalid.ng-touched
+{
     border: 1px solid lightcoral;
 }
 
@@ -87,6 +88,10 @@
     }
 
     textarea.ng-invalid {
+        border: 1px solid lightcoral;
+    }
+
+    select.ng-invalid {
         border: 1px solid lightcoral;
     }
 }

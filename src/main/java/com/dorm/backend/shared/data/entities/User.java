@@ -2,6 +2,7 @@ package com.dorm.backend.shared.data.entities;
 
 import com.dorm.backend.shared.data.entities.base.BaseEntity;
 import com.dorm.backend.shared.enums.EGender;
+import com.dorm.backend.shared.enums.EUserCharacteristic;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -19,7 +20,7 @@ public class User extends BaseEntity {
     private List<Room> ownedRooms;
     private List<Picture> profilePictures;
     private List<String> interests;
-    private List<String> inclinations;
+    private List<EUserCharacteristic> inclinations;
 
     private String firstName;
     private String lastName;
@@ -63,12 +64,13 @@ public class User extends BaseEntity {
         this.interests = interests;
     }
 
-    @ElementCollection
-    public List<String> getInclinations() {
+    @Enumerated(value = EnumType.STRING)
+    @ElementCollection(targetClass = EUserCharacteristic.class)
+    public List<EUserCharacteristic> getInclinations() {
         return inclinations;
     }
 
-    public void setInclinations(List<String> inclinations) {
+    public void setInclinations(List<EUserCharacteristic> inclinations) {
         this.inclinations = inclinations;
     }
 

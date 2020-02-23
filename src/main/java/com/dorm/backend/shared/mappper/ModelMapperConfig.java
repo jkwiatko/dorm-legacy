@@ -1,5 +1,6 @@
 package com.dorm.backend.shared.mappper;
 
+import com.dorm.backend.shared.mappper.profile.EUserCharacteristicConverter;
 import com.dorm.backend.shared.mappper.profile.UserEntitySkipper;
 import com.dorm.backend.shared.mappper.profile.picture.ProfilePictureDTOConverter;
 import com.dorm.backend.shared.mappper.profile.picture.ProfilePictureEntityConverter;
@@ -19,6 +20,7 @@ public class ModelMapperConfig {
         mapper.addConverter(new ProfilePictureDTOConverter());
         mapper.addConverter(new ProfilePictureEntityConverter());
         mapper.addConverter(new RoomPreviewConverter());
+        mapper.addConverter(new EUserCharacteristicConverter());
         mapper.addConverter(new EAmenityConverter());
         mapper.addMappings(new RoomEntitySkipper());
         mapper.addMappings(new UserEntitySkipper());

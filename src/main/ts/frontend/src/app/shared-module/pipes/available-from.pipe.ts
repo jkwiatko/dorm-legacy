@@ -6,9 +6,12 @@ import * as moment from "moment";
 })
 export class AvailableFromPipe implements PipeTransform {
 
-  transform(value: any, args?: any): any {
-      let availableFrom = moment(new Date(value));
-      return availableFrom.date() +'.'+ availableFrom.year();
+  transform(value: any, args?: any): string {
+      if(value) {
+          let availableFrom = moment(new Date(value));
+          return availableFrom.date() +'.'+ availableFrom.year();
+      }
+      return 'dzisiaj'
   }
 
 }

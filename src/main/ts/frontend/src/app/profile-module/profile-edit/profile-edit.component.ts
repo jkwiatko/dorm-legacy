@@ -19,6 +19,7 @@ export class ProfileEditComponent implements OnInit, OnDestroy {
     profileSub: Subscription;
     profile: ProfileModel = new ProfileModel();
     profileImg: PictureModel = new PictureModel();
+    characteristicsOptions: string[] = [];
     submitted = false;
 
     constructor(private profileClient: ProfileService,
@@ -36,6 +37,8 @@ export class ProfileEditComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.setForm(new ProfileModel());
+        this.profileClient.fetchCharacteristicsOptions()
+            .subscribe((options) => this.characteristicsOptions = options);
         this.profileSub = this.profileClient.fetchCurrentUserProfile().subscribe(profile => {
             this.profile = profile;
             this.setForm(profile);

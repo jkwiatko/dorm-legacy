@@ -91,7 +91,7 @@
                         <div class="row">
                             <div class="col-6" formArrayName="interests">
                                 <div class="small-tittle font-weight-bold m-0 mb-2">
-                                    Jestem:
+                                    Interesuję się:
                                 </div>
                                 <div *ngFor="let interest of interestsControl; let i = index">
                                     <label>
@@ -107,11 +107,16 @@
                             </div>
                             <div class="col-6" formArrayName="inclinations">
                                 <div class="small-tittle font-weight-bold m-0 mb-2">
-                                    Interesuję się:
+                                    Jestem:
                                 </div>
-                                <div *ngFor="let inclination of inclinationsControl; let i = index" class="yellow-text">
+                                <div class="form-group" *ngFor="let inclination of inclinationsControl; let i = index">
                                     <label>
-                                        <input type="text" formControlName="{{i}}" class="simple-input yellow-text">
+                                        <select class="form-control"
+                                                [value]="inclination.value" formControlName="{{i}}">
+                                            <option *ngFor="let characteristicsOption of characteristicsOptions">
+                                                {{characteristicsOption}}
+                                            </option>
+                                        </select>
                                     </label>
                                     <button (click)="onDeleteInclination(i)" type="button" class="x-button">X</button>
                                 </div>
@@ -133,7 +138,7 @@
                                 </div>
                                 <div>
                                     <label>
-                                        <input type="text" formControlName="cleaningPolicy" class="simple-input yellow-text">
+                                        <input type="text" formControlName="cleaningPolicy" class="simple-input">
                                     </label>
                                 </div>
                             </div>
@@ -143,7 +148,7 @@
                                 </div>
                                 <div>
                                     <label>
-                                        <input type="text" formControlName="smokingPolicy" class="simple-input yellow-text">
+                                        <input type="text" formControlName="smokingPolicy" class="simple-input">
                                     </label>
                                 </div>
                             </div>
@@ -154,7 +159,7 @@
                                     Co myślę o zwierzętach?
                                 </div>
                                 <label>
-                                    <input type="text" formControlName="petPolicy" class="simple-input yellow-text">
+                                    <input type="text" formControlName="petPolicy" class="simple-input">
                                 </label>
                             </div>
                             <div class="col-6 d-flex flex-column justify-content-between">
@@ -163,7 +168,7 @@
                                 </div>
                                 <div class="w-100">
                                     <label>
-                                        <input type="text" formControlName="guestsPolicy" class="simple-input yellow-text">
+                                        <input type="text" formControlName="guestsPolicy" class="simple-input">
                                     </label>
                                 </div>
                             </div>
