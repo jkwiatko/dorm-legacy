@@ -8,7 +8,7 @@ import {
     MatFormFieldModule,
     MatInputModule,
     MatNativeDateModule,
-    MatRadioModule
+    MatRadioModule,
 } from "@angular/material";
 import {RouterModule, Routes} from "@angular/router";
 import {SharedModule} from "../shared-module/shared.module";

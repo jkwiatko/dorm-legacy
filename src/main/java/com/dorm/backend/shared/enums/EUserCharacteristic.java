@@ -5,7 +5,7 @@ public enum EUserCharacteristic {
     NIGHT_OWL("Nocnym markiem"),
     PARTY_PERSON("Towarzyski"),
     SILENT("Cichy"),
-    HEALTHY("Zrowy"),
+    HEALTHY("Fit"),
     VEGAN("Vege"),
     VEGETARIAN("Wege"),
     PET_PAL("Miłośnikiem zwierząt"),

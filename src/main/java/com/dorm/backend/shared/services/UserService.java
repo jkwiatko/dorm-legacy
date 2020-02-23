@@ -3,20 +3,20 @@ package com.dorm.backend.shared.services;
 import com.dorm.backend.auth.UserPrincipal;
 import com.dorm.backend.auth.jwt.Credentials;
 import com.dorm.backend.profile.dto.ProfileDTO;
-import com.dorm.backend.profile.dto.PictureDTO;
-import com.dorm.backend.shared.data.entities.Picture;
 import com.dorm.backend.shared.data.entities.User;
 import com.dorm.backend.shared.data.repos.UserRepository;
-import com.dorm.backend.shared.error.exc.FileNameAlreadyTaken;
+import com.dorm.backend.shared.enums.EUserCharacteristic;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -46,6 +46,22 @@ public class UserService {
     public void editCurrentAuthenticatedUser(ProfileDTO profile) {
         User user = getCurrentAuthenticatedUser();
         modelMapper.map(profile, user);
+
+        user.getInterests().clear();
+        user.getInterests().addAll(profile.getInterests()
+                .stream()
+                .map(interest -> StringUtils.capitalize(interest.toLowerCase()))
+                .distinct()
+                .collect(Collectors.toList())
+        );
+        user.getInclinations().clear();
+        user.getInclinations().addAll(profile.getInclinations()
+                .stream()
+                .distinct()
+                .map(EUserCharacteristic::getEnum)
+                .collect(Collectors.toList())
+        );
+
         setPictureDetails(user);
         user.getProfilePictures().stream()
                 .filter(picture -> Objects.nonNull(picture.getPicture()))

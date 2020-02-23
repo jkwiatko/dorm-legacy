@@ -8,5 +8,7 @@ public class UserEntitySkipper extends PropertyMap<ProfileDTO, User> {
     @Override
     protected void configure() {
         skip(destination.getId());
+        skip(destination.getInclinations());
+        skip(destination.getInterests());
     }
 }

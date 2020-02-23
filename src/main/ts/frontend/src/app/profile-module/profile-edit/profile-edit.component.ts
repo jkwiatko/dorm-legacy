@@ -65,10 +65,10 @@ export class ProfileEditComponent implements OnInit, OnDestroy {
             studyingAt: new FormControl(profile.studyingAt),
             interests: interests,
             inclinations: inclinations,
-            cleaningPolicy: new FormControl(profile.cleaningPolicy),
-            smokingPolicy: new FormControl(profile.smokingPolicy),
-            petPolicy: new FormControl(profile.petPolicy),
-            guestsPolicy: new FormControl(profile.guestsPolicy),
+            cleaningPolicy: new FormControl(profile.cleaningPolicy, Validators.required),
+            smokingPolicy: new FormControl(profile.smokingPolicy, Validators.required),
+            petPolicy: new FormControl(profile.petPolicy, Validators.required),
+            guestsPolicy: new FormControl(profile.guestsPolicy, Validators.required),
         });
         if(profile.profilePictures && profile.profilePictures[0]) {
             this.profileImg = profile.profilePictures[0];
