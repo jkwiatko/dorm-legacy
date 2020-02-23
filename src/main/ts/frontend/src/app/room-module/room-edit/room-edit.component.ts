@@ -103,10 +103,13 @@ export class RoomEditComponent implements OnInit {
         } else {
             if (this.editMode) {
                 this.roomCli.editRoom(this.room.merge(this.form.value))
-                    .subscribe(() => this.router.navigate(['/profile/edit']));
+                    .subscribe(() => this.router.navigate(['/profile/edit']),
+                        error => this.toastr.error(error.error.message,"Błędne dane!" ));
             } else {
                 this.roomCli.createRoom(this.room.merge(this.form.value))
-                    .subscribe(() => this.router.navigate(['/profile/edit']));
+                    .subscribe(() => this.router.navigate(['/profile/edit']),
+                            error => {this.toastr.error(error.error.message,"Błędne dane!" );
+                    console.log(error)});
             }
         }
     }

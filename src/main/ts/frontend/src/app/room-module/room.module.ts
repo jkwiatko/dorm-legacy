@@ -12,6 +12,7 @@ import {MatDatepickerModule} from "@angular/material/datepicker";
 import {SharedModule} from "../shared-module/shared.module";
 import {AuthGuardService} from "../auth-module/providers/auth-guard.service";
 import { RoomDetailsComponent } from './room-details/room-details.component';
+import {MatRadioModule} from "@angular/material/radio";
 
 const routes: Routes = [
     {path: 'room/find', component: RoomSearchComponent, pathMatch: 'full'},
@@ -33,6 +34,7 @@ const routes: Routes = [
         MatDatepickerModule,
         MatDatepickerModule,
         SharedModule,
+        MatRadioModule,
     ],
 })
 export class RoomModule {

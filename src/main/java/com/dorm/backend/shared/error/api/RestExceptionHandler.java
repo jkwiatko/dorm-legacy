@@ -1,6 +1,7 @@
 package com.dorm.backend.shared.error.api;
 
 import com.dorm.backend.shared.error.exc.FileNameAlreadyTaken;
+import com.dorm.backend.shared.error.exc.NoSuchCityException;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
@@ -24,6 +25,13 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(FileNameAlreadyTaken.class)
     protected ResponseEntity<ApiError> handleFileNameAlreadyTaken(FileNameAlreadyTaken exc) {
+        ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST);
+        apiError.setMessage(exc.getMessage());
+        return buildResponseEntity(apiError);
+    }
+
+    @ExceptionHandler(NoSuchCityException.class)
+    protected ResponseEntity<ApiError> handleNoSuchCity(NoSuchCityException exc) {
         ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST);
         apiError.setMessage(exc.getMessage());
         return buildResponseEntity(apiError);

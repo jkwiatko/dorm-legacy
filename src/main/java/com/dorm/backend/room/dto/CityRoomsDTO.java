@@ -4,7 +4,7 @@ import com.dorm.backend.profile.dto.PreviewRoomDTO;
 
 import java.util.List;
 
-public class CityRoomDTO {
+public class CityRoomsDTO {
 
     private String cityName;
     private List<PreviewRoomDTO> rooms;

@@ -2,17 +2,21 @@ package com.dorm.backend.shared.services;
 
 import com.dorm.backend.profile.dto.PictureDTO;
 import com.dorm.backend.profile.dto.PreviewRoomDTO;
-import com.dorm.backend.room.dto.CityRoomDTO;
+import com.dorm.backend.room.dto.CityRoomsDTO;
 import com.dorm.backend.room.dto.RoomDTO;
-import com.dorm.backend.shared.data.entities.Address;
+import com.dorm.backend.shared.data.entities.address.Address;
 import com.dorm.backend.shared.data.entities.Picture;
 import com.dorm.backend.shared.data.entities.Room;
 import com.dorm.backend.shared.data.entities.User;
+import com.dorm.backend.shared.data.entities.address.City;
 import com.dorm.backend.shared.data.repos.AddressRepository;
+import com.dorm.backend.shared.data.repos.CityRepository;
 import com.dorm.backend.shared.data.repos.RoomRepository;
 import com.dorm.backend.shared.error.exc.DuplicatedPictureException;
+import com.dorm.backend.shared.error.exc.NoSuchCityException;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
@@ -29,19 +33,22 @@ public class RoomService {
     private final UserService userService;
     private final RoomRepository roomRepository;
     private final AddressRepository addressRepository;
+    private final CityRepository cityRepository;
 
     public RoomService(
             ModelMapper modelMapper,
             PictureLocalStorage pictureStorage,
             UserService userService,
             RoomRepository roomRepository,
-            AddressRepository addressRepository
+            AddressRepository addressRepository,
+            CityRepository cityRepository
     ) {
         this.modelMapper = modelMapper;
         this.pictureStorage = pictureStorage;
         this.userService = userService;
         this.roomRepository = roomRepository;
         this.addressRepository = addressRepository;
+        this.cityRepository = cityRepository;
     }
 
     public void createRoom(RoomDTO roomDTO) {
@@ -52,6 +59,8 @@ public class RoomService {
         }
         User user = userService.getCurrentAuthenticatedUser();
         Room room = modelMapper.map(roomDTO, Room.class);
+        room.getAddress().setCity(cityRepository.findByName(StringUtils.capitalize(roomDTO.getAddress().getCity().toLowerCase()))
+                .orElseThrow(() -> new NoSuchCityException(roomDTO.getAddress().getCity())));
         room.setPictures(roomDTO.getPictures().stream()
                 .map(dto -> modelMapper.map(dto, Picture.class))
                 .collect(Collectors.toList()));
@@ -68,8 +77,11 @@ public class RoomService {
                 .allMatch(new HashSet<>()::add)) {
             throw new DuplicatedPictureException();
         }
+        City city = cityRepository.findByName(roomDTO.getAddress().getCity())
+                .orElseThrow(() -> new NoSuchCityException(roomDTO.getAddress().getCity()));
         Room currentRoom = roomRepository.findById(roomDTO.getId()).orElseThrow(EntityNotFoundException::new);
         modelMapper.map(roomDTO, currentRoom);
+        currentRoom.getAddress().setCity(city);
 
         List<Picture> newPictures = roomDTO.getPictures()
                 .stream()
@@ -142,32 +154,36 @@ public class RoomService {
         }
     }
 
-    public CityRoomDTO getRoomsFromCity(String city) {
+    public CityRoomsDTO getRoomsFromCity(String city) {
         List<Room> rooms = roomRepository.findAllByCity(city);
-        CityRoomDTO cityRoomDTO = new CityRoomDTO();
-        cityRoomDTO.setRooms(
+        CityRoomsDTO cityRoomsDTO = new CityRoomsDTO();
+        cityRoomsDTO.setRooms(
                 rooms.stream()
                         .map(room -> modelMapper.map(room, PreviewRoomDTO.class))
                         .collect(Collectors.toList())
         );
-        cityRoomDTO.setCityName(city);
-        return cityRoomDTO;
+        cityRoomsDTO.setCityName(city);
+        return cityRoomsDTO;
     }
 
     public List<String> getCities() {
-        return addressRepository.findAll().stream().map(Address::getCity).collect(Collectors.toList());
+        return addressRepository.findAll()
+                .stream()
+                .map(Address::getCity)
+                .map(City::getName)
+                .collect(Collectors.toList());
     }
 
-    public CityRoomDTO getRoomsFromCityWithFilter(String city, String value) {
+    public CityRoomsDTO getRoomsFromCityWithFilter(String city, String value) {
         List<Room> rooms = roomRepository.findAllByCity(city);
-        CityRoomDTO cityRoomDTO = new CityRoomDTO();
-        cityRoomDTO.setRooms(
+        CityRoomsDTO cityRoomsDTO = new CityRoomsDTO();
+        cityRoomsDTO.setRooms(
                 rooms.stream()
                 .filter(room -> room.getName().toLowerCase().startsWith(value.toLowerCase()))
                 .map(room -> modelMapper.map(room, PreviewRoomDTO.class))
                 .collect(Collectors.toList())
         );
-        cityRoomDTO.setCityName(city);
-        return cityRoomDTO;
+        cityRoomsDTO.setCityName(city);
+        return cityRoomsDTO;
     }
 }

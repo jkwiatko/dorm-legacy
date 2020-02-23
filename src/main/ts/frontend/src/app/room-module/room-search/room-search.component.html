@@ -2,6 +2,10 @@
     <div class="row">
         <div class="col-12">
             <div class="browser">
+                <mat-radio-group value="Room" class="input-group d-flex justify-content-center p-2" aria-label="Select an option">
+                    <mat-radio-button value="Room" color="primary">Pokój</mat-radio-button>
+                    <mat-radio-button value="Mate" class="ml-4">Współlokatora</mat-radio-button>
+                </mat-radio-group>
                 <mat-form-field appearance="outline" class="city-select">
                     <mat-label>{{cityRooms.cityName ? cityRooms.cityName :  'Wybierz miasto'}}</mat-label>
                     <mat-select>
@@ -9,7 +13,7 @@
                     </mat-select>
                 </mat-form-field>
                 <mat-form-field appearance="outline"  class="description">
-                    <mat-label>Szukaj</mat-label>
+                    <mat-label>Szukaj po nazwie</mat-label>
                     <input type="text" (input)="searchObservable.next($event)" matInput />
                 </mat-form-field>
             </div>
