@@ -22,6 +22,7 @@ import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -170,6 +171,7 @@ public class RoomService {
         return addressRepository.findAll()
                 .stream()
                 .map(Address::getCity)
+                .filter(Objects::nonNull)
                 .map(City::getName)
                 .collect(Collectors.toList());
     }

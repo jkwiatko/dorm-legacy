@@ -9,6 +9,6 @@ import java.util.List;
 
 @Repository
 public interface RoomRepository extends JpaRepository<Room, Long> {
-    @Query(value = "SELECT r FROM Room r JOIN r.address a WHERE a.city = ?1")
+    @Query(value = "SELECT r FROM Room r JOIN r.address adr JOIN adr.city c WHERE c.name = ?1")
     List<Room> findAllByCity(String cityName);
 }
