@@ -6,6 +6,7 @@ import {Router} from "@angular/router";
 import {ProfileModel} from "../models/profile.model";
 import {PictureModel} from "../../shared-module/models/picture.model";
 import {ToastrService} from "ngx-toastr";
+import {DateParserPipe} from "../../shared-module/pipes/dateParser.pipe";
 
 @Component({
     selector: 'app-profile-edit',
@@ -24,6 +25,7 @@ export class ProfileEditComponent implements OnInit, OnDestroy {
 
     constructor(private profileClient: ProfileService,
                 private router: Router,
+                private dateParser: DateParserPipe,
                 private toastr: ToastrService) {
     }
 
@@ -58,7 +60,7 @@ export class ProfileEditComponent implements OnInit, OnDestroy {
         this.form = new FormGroup({
             firstName: new FormControl(profile.firstName, Validators.required),
             lastName: new FormControl(profile.lastName, Validators.required),
-            birthDate: new FormControl(profile.birthDate ? new Date(profile.birthDate) : null, Validators.required),
+            birthDate: new FormControl(this.dateParser.transform(profile.birthDate), Validators.required),
             description: new FormControl(profile.description, Validators.required),
             gender: new FormControl(profile.gender, Validators.required),
             workingIn: new FormControl(profile.workingIn),

@@ -22,10 +22,10 @@
 
 .absolute-header {
     position: absolute;
-    color: white;
+    color: $font-color;
 
     .dropdown-button {
-        color: white;
+        color: $font-color;
 
         &:focus {
             outline: 0;

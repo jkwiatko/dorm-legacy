@@ -13,6 +13,7 @@ import {
 import {RouterModule, Routes} from "@angular/router";
 import {SharedModule} from "../shared-module/shared.module";
 import {AuthGuardService} from "../auth-module/providers/auth-guard.service";
+import {DateParserPipe} from "../shared-module/pipes/dateParser.pipe";
 
 const routes: Routes = [
     {path: 'profile/edit', component: ProfileEditComponent, canActivate: [AuthGuardService]},
@@ -32,7 +33,8 @@ const routes: Routes = [
         MatInputModule,
         MatRadioModule,
         SharedModule
-    ]
+    ],
+    providers: [DateParserPipe]
 })
 export class ProfileModule {
 }
