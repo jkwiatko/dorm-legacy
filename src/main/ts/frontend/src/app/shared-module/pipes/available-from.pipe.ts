@@ -1,14 +1,15 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import * as moment from "moment";
+import {environment} from "../../../environments/environment";
 
 @Pipe({
   name: 'availableFrom'
 })
 export class AvailableFromPipe implements PipeTransform {
 
-  transform(value: any, args?: any): string {
-      if(value) {
-          let availableFrom = moment(new Date(value));
+  transform(dateString: string): string {
+      if(dateString) {
+          let availableFrom = moment(dateString, environment.dateFormat);
           return availableFrom.date() +'.'+ availableFrom.year();
       }
       return 'dzisiaj'

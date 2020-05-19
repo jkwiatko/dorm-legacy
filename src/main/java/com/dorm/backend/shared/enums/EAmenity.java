@@ -7,17 +7,19 @@ public enum EAmenity {
     GARDEN("Ogród"),
     PATIO("Patio"),
     POOL("Basen"),
-    PETS_ALLOWED("Zwięrzeta dozwolone"),
-    SECURITY_ALARMS("Alarm antywłamaniowy"),
+    PETS_ALLOWED("Zwięrzenta"),
+    SECURITY_ALARMS("Alarm"),
     ELEVATOR("Winda"),
+
     //furniture
     DISHWASHER("Zmywarka"),
     FURNITURE("Meble"),
     AIR_CONDITIONING("Klimatyzacja"),
+
     //storage
     STORAGE("Komórka"),
     GARAGE("Garaż"),
-    PARKING("Miejsce Parkingowe");
+    PARKING("Parking");
 
     private final String readableText;
 
@@ -26,8 +28,8 @@ public enum EAmenity {
     }
 
     public static EAmenity getEnum(String readableText) {
-        for(EAmenity value : EAmenity.values()) {
-            if(value.readableText.equals(readableText)) {
+        for (EAmenity value : EAmenity.values()) {
+            if (value.readableText.equals(readableText)) {
                 return value;
             }
         }

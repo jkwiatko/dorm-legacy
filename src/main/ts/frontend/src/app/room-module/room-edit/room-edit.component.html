@@ -74,7 +74,8 @@
                 <div class="col-12 col-lg-8 text-center order-1 order-lg-0">
                     <div>
                         <label>
-                            <input formControlName="name" placeholder="Nazwa"  class="simple-input h1 text-center room-title" type="text">
+                            <input formControlName="name" placeholder="Nazwa"
+                                   class="simple-input h1 text-center room-title" type="text">
                         </label>
                     </div>
                     <ul class="basic-info-list gray-text">
@@ -200,8 +201,8 @@
                                  *ngFor="let amenity of amenitiesControl; let i = index">
                                 <label>
                                     <select [value]="amenity.value" class="simple-input form-control"
-                                           formControlName="{{i}}">
-                                    <option *ngFor="let amenityOption of amenityOptions">{{amenityOption}}</option>
+                                            formControlName="{{i}}">
+                                        <option *ngFor="let amenityOption of amenityOptions">{{amenityOption}}</option>
                                     </select>
                                 </label>
                                 <button class="btn" (click)="onDeleteAmenity(i)" type="button">X
@@ -245,7 +246,7 @@
                                            type="number"
                                            formControlName="minDuration"
                                            class="input-number-100 mr-2 simple-input">
-                                    <span>miesięcy</span>
+                                    <span>miesiące</span>
                                 </div>
                             </div>
                         </div>
@@ -256,7 +257,8 @@
                     </div>
                 </div>
                 <div class="col-12 col-lg-4 mb-4 mb-lg-0 order-0 order-lg-1">
-                    <app-profile-sticky-info [navigateOnClick]="true" [profile]="this.profile"></app-profile-sticky-info>
+                    <app-profile-sticky-info [navigateOnClick]="true"
+                                             [profile]="this.profile"></app-profile-sticky-info>
                 </div>
             </div>
         </div>

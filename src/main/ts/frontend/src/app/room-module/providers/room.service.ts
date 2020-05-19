@@ -3,15 +3,17 @@ import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {RoomModel} from "../model/room.model";
 import {environment} from "../../../environments/environment";
-import {tap} from "rxjs/operators";
+import {map, tap} from "rxjs/operators";
 import {CityRoomsModel} from "../../shared-module/models/city-rooms.model";
+import {validatorService} from "../../shared-module/lazy-async-validator/lazy-async-validator";
+import {ToastrService} from "ngx-toastr";
 
 @Injectable({
     providedIn: 'root'
 })
-export class RoomService {
+export class RoomService implements validatorService {
 
-    constructor(private http: HttpClient) {
+    constructor(private http: HttpClient, private toastr: ToastrService) {
     }
 
     public fetchRoom(id: number): Observable<RoomModel> {
@@ -19,20 +21,20 @@ export class RoomService {
     }
 
     public createRoom(room: RoomModel) {
-        return  this.http
+        return this.http
             .post<RoomModel>(environment.api + 'room/create', room)
     }
 
-    public editRoom(room: RoomModel) : Observable<RoomModel> {
+    public editRoom(room: RoomModel): Observable<RoomModel> {
         return this.http
             .post<RoomModel>(environment.api + 'room/edit', room)
     }
 
-    private addPictureExtension(room : RoomModel) : void {
-        if(room.pictures) {
+    private addPictureExtension(room: RoomModel): void {
+        if (room.pictures) {
             room.pictures.forEach(img => img.base64String = 'data:image/jpeg;base64,' + img.base64String);
         }
-        if(room.owner.profilePictures) {
+        if (room.owner.profilePictures) {
             room.owner.profilePictures.forEach(img => img.base64String = 'data:image/jpeg;base64,' + img.base64String);
         }
     }
@@ -50,16 +52,28 @@ export class RoomService {
             .pipe(tap(this.addPictureExtension2CityRooms));
     }
 
-    fetchAvailableCities() : Observable<string[]> {
+    fetchAvailableCities(): Observable<string[]> {
         return this.http.get<string[]>(environment.api + 'room/cities')
     }
 
-    fetchSearchedRooms(city: string ,value: string) : Observable<CityRoomsModel> {
+    fetchSearchedRooms(city: string, value: string): Observable<CityRoomsModel> {
         return this.http.get<CityRoomsModel>(environment.api + 'room/find/' + city + '/search/' + value)
             .pipe(tap(this.addPictureExtension2CityRooms));
     }
 
     fetchAvailableAmenities() {
         return this.http.get<string[]>(environment.api + 'room/amenities');
+    }
+
+    checkIfNotValid(cityName: string) {
+        return this.fetchAvailableCities().pipe(
+            map(availableCities => availableCities.filter(availableCity => availableCity === cityName)),
+            map(availableCities => {
+                if (!availableCities.length) {
+                    this.toastr.error("Niestety to miasto nie jest jeszcze dostępne", "Miasto niedostępne", {timeOut: 1500});
+                }
+                return !availableCities.length
+            })
+        )
     }
 }

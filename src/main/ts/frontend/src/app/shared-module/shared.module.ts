@@ -7,7 +7,7 @@ import {AgePipe} from "./pipes/age.pipe";
 import {GenderPipe} from "./pipes/gender.pipe";
 import {AvailableFromPipe} from "./pipes/available-from.pipe";
 import {LoaderSpinnerComponent} from "./loader-spiner/loader-spinner.component";
-import { DateParserPipe } from './pipes/dateParser.pipe';
+import {DateParserPipe} from './pipes/dateParser.pipe';
 
 @NgModule({
     declarations: [SafePipe, AgePipe, GenderPipe, ProfileStickyInfoComponent, RoomPreviewComponent, AvailableFromPipe, LoaderSpinnerComponent, DateParserPipe],

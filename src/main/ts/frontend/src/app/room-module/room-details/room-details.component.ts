@@ -23,7 +23,6 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
             switchMap(params => +params['id'] ? this.roomService.fetchRoom(+params['id']) : EMPTY)
         ).subscribe(room => {
             this.room = room;
-            console.log(room);
         });
     }
 

@@ -19,11 +19,11 @@ export class RoomModel {
     address: AddressModel = new AddressModel();
     position: PositionModel = new PositionModel();
 
-    merge(merge: Partial<RoomModel>) : RoomModel {
-       return Object.assign(this, merge);
+    merge(merge: Partial<RoomModel>): RoomModel {
+        return Object.assign(this, merge);
     }
 
-    deepCopy() : RoomModel {
+    deepCopy(): RoomModel {
         return new RoomModel().merge(JSON.parse(JSON.stringify(this)));
     }
 }

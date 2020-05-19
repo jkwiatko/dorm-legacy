@@ -9,6 +9,8 @@ import {ProfileService} from "../../profile-module/providers/profile.service";
 import {ProfileModel} from "../../profile-module/models/profile.model";
 import {PictureModel} from "../../shared-module/models/picture.model";
 import {ToastrService} from "ngx-toastr";
+import {DateParserPipe} from "../../shared-module/pipes/dateParser.pipe";
+import {LazyAsyncValidatorFactory,} from "../../shared-module/lazy-async-validator/lazy-async-validator";
 
 
 @Component({
@@ -22,12 +24,14 @@ export class RoomEditComponent implements OnInit {
     profile = new ProfileModel();
     room = new RoomModel();
     amenityOptions: string[] = [];
+
     constructor
     (
         private route: ActivatedRoute,
         private router: Router,
         private roomCli: RoomService,
         private profileCli: ProfileService,
+        private dateParser: DateParserPipe,
         private toastr: ToastrService
     ) {
     }
@@ -58,7 +62,7 @@ export class RoomEditComponent implements OnInit {
             switchMap(params => +params['id'] ? this.roomCli.fetchRoom(+params['id']) : EMPTY)
         ).subscribe(room => {
             this.room = (new RoomModel().merge(room));
-            this.sortPictures(this.room.pictures);
+            RoomEditComponent.sortPictures(this.room.pictures);
             this.editMode = true;
 
             this.profile = room.owner;
@@ -84,12 +88,13 @@ export class RoomEditComponent implements OnInit {
             roomsNumber: new FormControl(room.roomsNumber, Validators.required),
             address: new FormGroup({
                 //can be null :(
-                city: new FormControl(room.address.city, Validators.required),
+                city: new FormControl(room.address.city, [Validators.required,]
+                    , LazyAsyncValidatorFactory(this.roomCli)),
                 street: new FormControl(room.address.street, Validators.required),
                 number: new FormControl(room.address.number, Validators.required),
             }),
             description: new FormControl(room.description, Validators.required),
-            availableFrom: new FormControl(room.availableFrom ? new Date(room.availableFrom) : null),
+            availableFrom: new FormControl(this.dateParser.transform(this.room.availableFrom)),
             minDuration: new FormControl(room.minDuration, Validators.required),
             amenities: amenities
         });
@@ -98,18 +103,20 @@ export class RoomEditComponent implements OnInit {
     onSubmit() {
         this.submitted = true;
         this.room.pictures = this.room.pictures.filter((el) => el != null);
-        if(this.form.invalid) {
+        if (this.form.invalid) {
             this.toastr.error("Prosze wypełnij poprawie wszystkie pola", "Błędne dane");
         } else {
             if (this.editMode) {
                 this.roomCli.editRoom(this.room.merge(this.form.value))
                     .subscribe(() => this.router.navigate(['/profile/edit']),
-                        error => this.toastr.error(error.error.message,"Błędne dane!" ));
+                        error => this.toastr.error(error.error.message, "Błędne dane!"));
             } else {
                 this.roomCli.createRoom(this.room.merge(this.form.value))
                     .subscribe(() => this.router.navigate(['/profile/edit']),
-                            error => {this.toastr.error(error.error.message,"Błędne dane!" );
-                    console.log(error)});
+                        error => {
+                            this.toastr.error(error.error.message, "Błędne dane!");
+                            console.log(error)
+                        });
             }
         }
     }
@@ -148,7 +155,7 @@ export class RoomEditComponent implements OnInit {
         }
     }
 
-    private sortPictures(pictures: PictureModel[]) {
+    private static sortPictures(pictures: PictureModel[]) {
         pictures.sort(((a, b) => {
             if (a.pictureOrder > b.pictureOrder) {
                 return 1;
