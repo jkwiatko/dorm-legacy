@@ -21,8 +21,8 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Arrays;
 
-// for debug purpuses
-@EnableWebSecurity(debug = false)
+// for debug purposes
+//@EnableWebSecurity(debug = true)
 @Configuration
 public class AuthConfig extends WebSecurityConfigurerAdapter {
 
@@ -56,8 +56,9 @@ public class AuthConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/img/**").permitAll()
                 .antMatchers("/*.js").permitAll()
                 .antMatchers("/*.ico").permitAll()
+                .antMatchers("/*.svg").permitAll()
                 .antMatchers("/").permitAll()
-                .antMatchers("/api/profile/edit").permitAll()
+                .antMatchers("/*.js.map").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .exceptionHandling().authenticationEntryPoint(jwtEntryPoint)
