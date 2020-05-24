@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {RoomService} from "../providers/room.service";
 import {CityRoomsModel} from "../../shared-module/models/city-rooms.model";
 import {Router} from "@angular/router";
@@ -8,7 +8,8 @@ import {debounceTime, distinctUntilChanged, switchMap, tap} from "rxjs/operators
 @Component({
     selector: 'app-rooms',
     templateUrl: './room-search.component.html',
-    styleUrls: ['./room-search.component.scss']
+    styleUrls: ['./room-search.component.scss'],
+    encapsulation: ViewEncapsulation.None
 })
 export class RoomSearchComponent implements OnInit {
 

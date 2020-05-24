@@ -1,21 +1,41 @@
 @import "../../../variables";
 
-.browser {
-    max-height: $room-browser-height;
-    width: 100%;
-}
+.search-component {
+    .mat-form-field-wrapper {
+        padding-bottom: 0;
+    }
 
-.city-select {
-    width: 30%;
-}
+    .browser {
+        max-height: $room-browser-height;
+        width: 100%;
+    }
 
-.description {
-    width: 70%;
-}
+    .city-select {
+        width: 30%;
+    }
 
-.search-box {
-    min-height: 100vh;
-    border-left: 1px solid lightgray;
-    border-right: 1px solid lightgray;
+    .description {
+        width: 70%;
+    }
+
+    .search-box {
+        min-height: 100vh;
+        border-left: 1px solid lightgray;
+        border-right: 1px solid lightgray;
+    }
+
+    .filters-table {
+
+        border-spacing: 0.1em;
+
+        .d-table-cell {
+            font-size: 10px;
+
+            span {
+                text-align: center;
+                margin: auto 5px;
+            }
+        }
+    }
 }
 

@@ -1,4 +1,4 @@
-<div class="content container">
+<div class="search-component content container">
     <div class="row">
         <div class="col-12">
             <div class="browser">
@@ -21,10 +21,33 @@
         </div>
     </div>
     <div class="row col-12">
-        <div class="col-2 border">Od</div>
-        <div class="col-2 border">Na</div>
-        <div class="col-2 border">Za</div>
-        <div class="col-2 border">+</div>
+        <div class="d-table filters-table">
+            <div class="d-table-row">
+                <div class="d-table-cell border">
+                    <div class="d-flex justify-content-center p-1">
+                        <img alt="back svg" src="assets/svg/calendar.svg" height="20"/>
+                        <span>Kiedy?</span>
+                    </div>
+                </div>
+                <div class="d-table-cell border">
+                    <div class="d-flex justify-content-center p-1">
+                        <img alt="back svg" src="assets/svg/clock.svg" height="20"/>
+                        <span>Jak długo?</span>
+                    </div>
+                </div>
+                <div class="d-table-cell border">
+                    <div class="d-flex justify-content-center p-1">
+                        <img alt="back svg" src="assets/svg/money.svg" height="20"/>
+                        <span>Jaki budrzet?</span>
+                    </div>
+                </div>
+                <div class="d-table-cell border">
+                    <div class="d-flex justify-content-center p-1">
+                        <img alt="back svg" src="assets/svg/gear.svg" height="20"/>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="row">
         <div class="col-12 text-center mt-5" *ngIf="isLoading; else searchResult">
