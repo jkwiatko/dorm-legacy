@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {MatDialogRef} from '@angular/material';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {AuthService} from "../providers/auth.service";
 import {TokenModel} from "../models/token.model";
+import {MatDialogRef} from "@angular/material/dialog";
 
 
 @Component({

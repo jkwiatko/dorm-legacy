@@ -7,13 +7,15 @@ import {HeaderComponent} from './header/header.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {AuthModule} from '../auth-module/auth.module';
 import {HTTP_INTERCEPTORS} from '@angular/common/http';
-import {MatSnackBarModule} from '@angular/material';
 import {AgmCoreModule} from '@agm/core';
 import {ProfileModule} from "../profile-module/profile.module";
 import {WelcomeScreenComponent} from "./welcome-screen/welcome-screen.component";
 import {TokenInterceptor} from "../auth-module/providers/token.interceptor";
 import {RoomModule} from "../room-module/room.module";
 import {ToastrModule} from "ngx-toastr";
+import {IonicModule, IonicRouteStrategy} from "@ionic/angular";
+import {RouteReuseStrategy} from "@angular/router";
+import {MatSnackBarModule} from "@angular/material/snack-bar";
 
 @NgModule({
     declarations: [
@@ -29,6 +31,7 @@ import {ToastrModule} from "ngx-toastr";
         RoomModule,
         BrowserAnimationsModule,
         MatSnackBarModule,
+        IonicModule.forRoot(),
         ToastrModule.forRoot({
                 positionClass: 'toast-top-right-under-header',
             }
@@ -43,6 +46,10 @@ import {ToastrModule} from "ngx-toastr";
             useClass: TokenInterceptor,
             multi: true
         },
+        {
+            provide: RouteReuseStrategy,
+            useClass: IonicRouteStrategy
+        }
     ],
     bootstrap: [AppComponent]
 })

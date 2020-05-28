@@ -1,9 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
-import {MatDialog, MatSnackBar} from '@angular/material';
 import {RegisterComponent} from "../../auth-module/auth-register/register.component";
 import {LoginComponent} from "../../auth-module/auth-login/login.component";
 import {AuthService} from "../../auth-module/providers/auth.service";
+import {MatDialog} from "@angular/material/dialog";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
     selector: 'app-header',
