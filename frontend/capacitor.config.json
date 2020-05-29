@@ -1,0 +1,13 @@
+{
+  "appId": "io.ionic.starter",
+  "appName": "dorm",
+  "bundledWebRuntime": false,
+  "npmClient": "npm",
+  "webDir": "../backend/src/main/resources/static",
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 0
+    }
+  },
+  "cordova": {}
+}
