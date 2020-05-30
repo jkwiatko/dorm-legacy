@@ -1,17 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import {ToastrService} from "ngx-toastr";
-import {timeout} from "rxjs/operators";
+import {Component} from '@angular/core';
+import {environment} from '../../../environments/environment';
 
 @Component({
-  selector: 'app-welcome-screen',
-  templateUrl: './welcome-screen.component.html',
-  styleUrls: ['./welcome-screen.component.scss'],
+    selector: 'app-welcome-screen',
+    templateUrl: './welcome-screen.component.html',
+    styleUrls: ['./welcome-screen.component.scss'],
 })
-export class WelcomeScreenComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit() {
-  }
-
+export class WelcomeScreenComponent {
+    mobile = environment.mobile;
 }

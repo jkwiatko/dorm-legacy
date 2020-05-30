@@ -4,7 +4,7 @@
     "scripts": {
         "ng": "ng",
         "start": "ng serve",
-        "start-mobile": "ng serve -c mobile",
+        "start-mobile": "ng serve -c mobile --port=4201",
         "build": "ng build",
         "build-mobile": "ng build -c mobile && ionic capacitor copy android",
         "test": "ng test",

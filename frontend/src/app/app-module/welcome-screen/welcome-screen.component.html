@@ -4,12 +4,12 @@
     </div>
     <div class="container mt-5">
         <div class="row justify-content-center mb-5">
-            <div class="col-lg-6 d-flex align-items-center">
+            <div *ngIf="!mobile" class="col-lg-6 d-flex align-items-center">
                 <div>
                     <img src="assets/home/anywhere.jpg" class="img-fluid">
                 </div>
             </div>
-            <div class="col-lg-6">
+            <div *ngIf="!mobile" class="col-lg-6">
                 <div class="d-flex flex-column justify-content-center h-100" >
                     <div class="big-title mt-4 mt-lg-0">
                         <span>Wynajmuj łatwiej i bezpieczniej</span>
@@ -41,7 +41,7 @@
                 </div>
             </div>
         </div>
-        <div class="row mt-5">
+        <div *ngIf="!mobile" class="row mt-5">
             <div class="col-lg-6 order-2 order-lg-1 mt-4 mt-lg-0">
                 <div class="d-flex flex-column justify-content-center h-100">
                     <div class="big-title">
@@ -72,13 +72,13 @@
                 <img src="assets/home/room.jpg" class="img-fluid" style="display:block;">
             </div>
         </div>
-        <div class="row mt-5 mb-5">
-            <div class="col-lg-6 d-flex align-items-center">
+        <div class="row mt-5 mb-5" [ngClass]="mobile ? 'd-flex justify-content-center' : ''">
+            <div *ngIf="!mobile" class="col-lg-6 d-flex align-items-center">
                 <div>
                     <img src="assets/home/big_room.jpg" class="img-fluid" style="display:block;">
                 </div>
             </div>
-            <div class="col-lg-6 mt-lg-0 mt-5 d-flex align-items-center justify-content-center">
+            <div class="col-lg-6 mt-lg-0 mt-5 d-flex flex-column flex-sm-row d-sm-flex align-items-center justify-content-sm-center">
                 <div class="yellow-button" routerLink="/room/find">
                     <button>Szukaj pokoju</button>
                 </div>

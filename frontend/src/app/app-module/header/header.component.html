@@ -1,30 +1,41 @@
-<div id="header" [ngClass]="isHome() ? 'absolute-header' : 'fixed-header'" class="header p-3">
-    <div class="row">
-        <div *ngIf="!isHome()" class="col menu d-flex justify-content-start">
-            <div class="menu-button-item" (click)="onBack()">
-                <img alt="back svg" class="ml-2" src="assets/svg/home-sketch.svg" height="40"/>
-            </div>
-        </div>
-        <ul *ngIf="!authenticated; else loggedIn" class="col menu d-flex justify-content-end">
-            <li (click)="openLoginDialog()">
-                Zaloguj
-            </li>
-            <li (click)="openRegisterDialog()">
-                Zarejestruj
-            </li>
-        </ul>
-        <ng-template #loggedIn>
-            <div class="dropdown menu col d-flex justify-content-end ">
-                <button class="btn dropdown-button dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Profile
-                </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                    <button class="dropdown-item" type="button" routerLink="/room/find" >Szukaj</button>
-                    <button class="dropdown-item" type="button" routerLink="/profile/edit" >Edytuj</button>
-                    <div class="dropdown-divider"></div>
-                    <button class="dropdown-item" type="button" (click)="logout()">Wyloguj</button>
+<div class="login-dialog" *ngIf="mobile; else desktopHeader">
+    <ion-card>
+        <ion-card-content>
+            zaloguj
+        </ion-card-content>
+    </ion-card>
+</div>
+<ng-template #desktopHeader>
+    <div id="header" class="header p-3" [ngClass]="isHome() ? 'absolute-header' : 'fixed-header'">
+        <div class="row">
+            <div *ngIf="!isHome()" class="col menu d-flex justify-content-start">
+                <div class="menu-button-item" (click)="onBack()">
+                    <img alt="back svg" class="ml-2" src="assets/svg/home-sketch.svg" height="40"/>
                 </div>
             </div>
-        </ng-template>
+            <ul *ngIf="!authenticated; else loggedIn" class="col menu d-flex justify-content-end">
+                <li (click)="openLoginDialog()">
+                    Zaloguj
+                </li>
+                <li (click)="openRegisterDialog()">
+                    Zarejestruj
+                </li>
+            </ul>
+            <ng-template #loggedIn>
+                <div class="dropdown menu col d-flex justify-content-end ">
+                    <button class="btn dropdown-button dropdown-toggle" type="button" id="dropdownMenu2"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Profile
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                        <button class="dropdown-item" type="button" routerLink="/room/find">Szukaj</button>
+                        <button class="dropdown-item" type="button" routerLink="/profile/edit">Edytuj</button>
+                        <div class="dropdown-divider"></div>
+                        <button class="dropdown-item" type="button" (click)="logout()">Wyloguj</button>
+                    </div>
+                </div>
+            </ng-template>
+        </div>
     </div>
-</div>
+</ng-template>
+

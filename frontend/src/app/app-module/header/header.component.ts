@@ -1,10 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
-import {RegisterComponent} from "../../auth-module/auth-register/register.component";
-import {LoginComponent} from "../../auth-module/auth-login/login.component";
-import {AuthService} from "../../auth-module/providers/auth.service";
-import {MatDialog} from "@angular/material/dialog";
-import {MatSnackBar} from "@angular/material/snack-bar";
+import {RegisterComponent} from '../../auth-module/auth-register/register.component';
+import {LoginComponent} from '../../auth-module/auth-login/login.component';
+import {AuthService} from '../../auth-module/providers/auth.service';
+import {MatDialog} from '@angular/material/dialog';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import {environment} from '../../../environments/environment';
 
 @Component({
     selector: 'app-header',
@@ -14,6 +15,7 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 export class HeaderComponent implements OnInit {
 
     authenticated = false;
+    mobile = environment.mobile;
 
     constructor(private router: Router,
                 private dialog: MatDialog,

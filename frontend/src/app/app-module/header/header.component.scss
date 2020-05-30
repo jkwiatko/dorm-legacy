@@ -1,5 +1,12 @@
 @import "../../../styles";
 
+.login-dialog {
+    position: absolute;
+    bottom: 10%;
+    left: 50%;
+    transform: translate(-50%, -10%);
+}
+
 .header {
     top: 0;
     width: 100%;

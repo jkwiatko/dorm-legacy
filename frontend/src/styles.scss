@@ -27,15 +27,6 @@
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 @import "variables";
 
-body{
-    overflow-y: auto;
-    position: static;
-}
-
-.ion-page{
-    overflow-y: auto;
-}
-
 .toast-top-right-under-header {
     top: $header-height;
     right: 12px;
