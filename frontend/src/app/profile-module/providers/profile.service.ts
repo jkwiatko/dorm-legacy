@@ -2,8 +2,8 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {environment} from '../../../environments/environment';
-import {tap} from "rxjs/operators";
-import {ProfileModel} from "../models/profile.model";
+import {tap} from 'rxjs/operators';
+import {ProfileModel} from '../models/profile.model';
 
 @Injectable({
     providedIn: 'root'
@@ -25,21 +25,21 @@ export class ProfileService {
         this.http.post<ProfileModel>(environment.api + 'profile/edit', profile).subscribe();
     }
 
-    private addPictureExtension(profile : ProfileModel) : void {
-        if(profile.profilePictures) {
+    private addPictureExtension(profile: ProfileModel): void {
+        if (profile.profilePictures) {
             profile.profilePictures.forEach(img => img.base64String = 'data:image/jpeg;base64,' + img.base64String);
         }
-        if(profile.ownedRooms) {
+        if (profile.ownedRooms) {
             profile.ownedRooms
                 .forEach(room => {
-                    if(room.picture) {
-                        room.picture.base64String = 'data:image/jpeg;base64,' + room.picture.base64String
+                    if (room.picture) {
+                        room.picture.base64String = 'data:image/jpeg;base64,' + room.picture.base64String;
                     }
-                })
+                });
         }
     }
 
-    fetchCharacteristicsOptions() : Observable<string[]> {
+    fetchCharacteristicsOptions(): Observable<string[]> {
         return this.http.get<string[]>(environment.api + 'profile/characteristics');
     }
 }

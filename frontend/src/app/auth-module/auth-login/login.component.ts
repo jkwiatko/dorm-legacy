@@ -1,8 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {AuthService} from "../providers/auth.service";
-import {TokenModel} from "../models/token.model";
-import {MatDialogRef} from "@angular/material/dialog";
+import {AuthService} from '../providers/auth.service';
+import {TokenModel} from '../models/token.model';
+import {MatDialogRef} from '@angular/material/dialog';
+import {AlertController} from '@ionic/angular';
 
 
 @Component({
@@ -15,7 +16,8 @@ export class LoginComponent implements OnInit {
 
     constructor(private dialogRef: MatDialogRef<LoginComponent>,
                 private fb: FormBuilder,
-                private authService: AuthService) {
+                private authService: AuthService,
+                private alertCtrl: AlertController) {
     }
 
     ngOnInit() {
@@ -29,6 +31,13 @@ export class LoginComponent implements OnInit {
         this.authService.login(this.loginForm.value).subscribe(token => {
             this.authService.addAccessToken(new TokenModel().merge(token));
             this.dialogRef.close('success');
+        }, error => {
+            console.log(error);
+            this.alertCtrl.create({
+                message : error.message,
+                header: 'error',
+                buttons: ['Okay']
+            }).then(alert => alert.present());
         });
     }
 
