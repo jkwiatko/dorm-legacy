@@ -28,8 +28,12 @@
 @import "variables";
 
 body{
-    overflow: auto;
+    overflow-y: auto;
     position: static;
+}
+
+.ion-page{
+    overflow-y: auto;
 }
 
 .toast-top-right-under-header {

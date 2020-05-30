@@ -87,6 +87,9 @@
                     "configurations": {
                         "production": {
                             "browserTarget": "front:build:production"
+                        },
+                        "mobile": {
+                            "browserTarget": "front:build:mobile"
                         }
                     }
                 },

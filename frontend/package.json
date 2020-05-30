@@ -4,8 +4,9 @@
     "scripts": {
         "ng": "ng",
         "start": "ng serve",
+        "start-mobile": "ng serve -c mobile",
         "build": "ng build",
-        "build-mobile": "ng build --configuration mobile && ionic capacitor copy android",
+        "build-mobile": "ng build -c mobile && ionic capacitor copy android",
         "test": "ng test",
         "lint": "ng lint",
         "e2e": "ng e2e"
