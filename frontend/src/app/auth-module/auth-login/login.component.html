@@ -22,6 +22,6 @@
         </form>
     </div>
     <div mat-dialog-actions>
-        <button mat-button (click)="login()">Zaloguj</button>
+        <button mat-button [disabled]="loginForm.invalid" (click)="login()">Zaloguj</button>
     </div>
 </div>

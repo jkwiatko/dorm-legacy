@@ -4,6 +4,7 @@ import {AuthService} from '../providers/auth.service';
 import {TokenModel} from '../models/token.model';
 import {MatDialogRef} from '@angular/material/dialog';
 import {AlertController} from '@ionic/angular';
+import {timeout} from 'rxjs/operators';
 
 
 @Component({
@@ -28,7 +29,9 @@ export class LoginComponent implements OnInit {
     }
 
     login() {
-        this.authService.login(this.loginForm.value).subscribe(token => {
+        this.authService.login(this.loginForm.value)
+            .pipe(timeout(2000))
+            .subscribe(token => {
             this.authService.addAccessToken(new TokenModel().merge(token));
             this.dialogRef.close('success');
         }, error => {

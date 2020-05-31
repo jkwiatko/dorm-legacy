@@ -1,6 +1,6 @@
 <div class="login-dialog" *ngIf="mobile; else desktopHeader">
     <ion-card>
-        <ion-card-content>
+        <ion-card-content (click)="openLoginDialog()">
             zaloguj
         </ion-card-content>
     </ion-card>
