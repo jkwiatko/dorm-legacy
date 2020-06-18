@@ -3,6 +3,8 @@ import {environment} from '../../../environments/environment';
 import {HttpClient} from '@angular/common/http';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {TokenModel} from '../models/token.model';
+import {map, switchMap, take, tap, timeout} from 'rxjs/operators';
+import {fromPromise} from 'rxjs/internal-compatibility';
 
 @Injectable({
     providedIn: 'root'
@@ -28,12 +30,22 @@ export class AuthService {
         }
     }
 
-    register(registerFormValue: any) {
-        return this.client.post(environment.api + 'auth/register', registerFormValue);
+    register(registerFormValue: any): Promise<null> {
+        return this.client.post(environment.api + 'auth/register', registerFormValue).pipe(
+            timeout(2000),
+            take(1),
+            switchMap(() => fromPromise(this.login(registerFormValue))),
+            map(() => null)
+        ).toPromise();
     }
 
-    login(loginForm: any): Observable<TokenModel> {
-        return this.client.post<TokenModel>(environment.api + 'auth/login', loginForm);
+    login(loginForm: any): Promise<null> {
+        return this.client.post<TokenModel>(environment.api + 'auth/login', loginForm).pipe(
+            timeout(2000),
+            tap(token => this.addAccessToken(new TokenModel().merge(token))),
+            map(() => null),
+            take(1)
+        ).toPromise();
     }
 
     logout() {
