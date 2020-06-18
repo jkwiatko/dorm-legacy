@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
 import {environment} from '../../../environments/environment';
 import {HttpClient} from '@angular/common/http';
-import {BehaviorSubject, Observable} from "rxjs";
-import {TokenModel} from "../models/token.model";
+import {BehaviorSubject, Observable} from 'rxjs';
+import {TokenModel} from '../models/token.model';
 
 @Injectable({
     providedIn: 'root'
@@ -32,8 +32,8 @@ export class AuthService {
         return this.client.post(environment.api + 'auth/register', registerFormValue);
     }
 
-    login(registerFormValue: any): Observable<TokenModel> {
-        return this.client.post<TokenModel>(environment.api + 'auth/login', registerFormValue);
+    login(loginForm: any): Observable<TokenModel> {
+        return this.client.post<TokenModel>(environment.api + 'auth/login', loginForm);
     }
 
     logout() {
@@ -50,7 +50,7 @@ export class AuthService {
         this._isLoginIn.next(true);
     }
 
-    addAutoLogout(expirationDuration : number) {
+    addAutoLogout(expirationDuration: number) {
         this.tokenExpirationTimer = setTimeout(() => {
             this.logout();
         }, expirationDuration);

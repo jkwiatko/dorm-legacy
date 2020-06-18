@@ -1,16 +1,52 @@
+<ion-header mode="ios" *ngIf="authenticated" class="position-absolute">
+    <ion-toolbar>
+        <ion-buttons class="header-icons" slot="end">
+            <ion-icon name="log-out-outline" class="m-2" size="large"></ion-icon>
+            <ion-icon name="settings-outline" class="m-2" size="large"></ion-icon>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+<div class="login-dialog">
+    <h1 class="mb-4 mt-4 pl-3">{{isLogging ? 'Logowanie' : 'Rejestracja'}}</h1>
+    <div>
+        <form #f="ngForm">
+            <div class="text-center p-2">
+                <ion-item mode="ios" lines="none">
+                    <ion-label position="floating">email</ion-label>
+                    <ion-input required ngModel #emailCtrl="ngModel" name="email"></ion-input>
+                </ion-item>
+                <ion-label *ngIf="!emailCtrl.valid && emailCtrl.touched">
+                    email is required
+                </ion-label>
+                <ion-item lines="none">
+                    <ion-label mode="ios" position="floating">password</ion-label>
+                    <ion-input type="password" required ngModel #passwordCtrl="ngModel" name="password"></ion-input>
+                </ion-item>
+                <ion-label *ngIf="!passwordCtrl.valid && passwordCtrl.touched">
+                    password is required
+                </ion-label>
+            </div>
+        </form>
+    </div>
+    <div class="mt-3 mb-3 d-flex d-flex justify-content-around">
+        <ion-button (click)="toggle(f)">{{isLogging ? 'Zarejestruj' : 'Zaloguj'}}</ion-button>
+        <ion-button *ngIf="isLogging" [disabled]="f.invalid" (click)="login(f)">Ok</ion-button>
+        <ion-button *ngIf="!isLogging" [disabled]="f.invalid" (click)="register(f)">Ok</ion-button>
+    </div>
+</div>
 <div>
     <div>
         <img src="assets/home/welcome.jpg" class="title-image"/>
     </div>
-    <div class="container mt-5">
+    <div *ngIf="!mobile" class="container mt-5">
         <div class="row justify-content-center mb-5">
-            <div *ngIf="!mobile" class="col-lg-6 d-flex align-items-center">
+            <div class="col-lg-6 d-flex align-items-center">
                 <div>
                     <img src="assets/home/anywhere.jpg" class="img-fluid">
                 </div>
             </div>
-            <div *ngIf="!mobile" class="col-lg-6">
-                <div class="d-flex flex-column justify-content-center h-100" >
+            <div class="col-lg-6">
+                <div class="d-flex flex-column justify-content-center h-100">
                     <div class="big-title mt-4 mt-lg-0">
                         <span>Wynajmuj łatwiej i bezpieczniej</span>
                     </div>
@@ -41,7 +77,7 @@
                 </div>
             </div>
         </div>
-        <div *ngIf="!mobile" class="row mt-5">
+        <div class="row mt-5">
             <div class="col-lg-6 order-2 order-lg-1 mt-4 mt-lg-0">
                 <div class="d-flex flex-column justify-content-center h-100">
                     <div class="big-title">
@@ -72,13 +108,14 @@
                 <img src="assets/home/room.jpg" class="img-fluid" style="display:block;">
             </div>
         </div>
-        <div class="row mt-5 mb-5" [ngClass]="mobile ? 'd-flex justify-content-center' : ''">
-            <div *ngIf="!mobile" class="col-lg-6 d-flex align-items-center">
+        <div class="row mt-5 mb-5">
+            <div class="col-lg-6 d-flex align-items-center">
                 <div>
                     <img src="assets/home/big_room.jpg" class="img-fluid" style="display:block;">
                 </div>
             </div>
-            <div class="col-lg-6 mt-lg-0 mt-5 d-flex flex-column flex-sm-row d-sm-flex align-items-center justify-content-sm-center">
+            <div
+                class="col-lg-6 mt-lg-0 mt-5 d-flex flex-column flex-sm-row d-sm-flex align-items-center justify-content-sm-center">
                 <div class="yellow-button" routerLink="/room/find">
                     <button>Szukaj pokoju</button>
                 </div>
