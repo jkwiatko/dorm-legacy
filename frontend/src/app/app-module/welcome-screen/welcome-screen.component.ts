@@ -1,19 +1,22 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {environment} from '../../../environments/environment';
 import {Router} from '@angular/router';
 import {AuthService} from '../../auth-module/providers/auth.service';
 import {AlertController} from '@ionic/angular';
 import {NgForm} from '@angular/forms';
+import {Subscription} from 'rxjs';
 
 @Component({
     selector: 'app-welcome-screen',
     templateUrl: './welcome-screen.component.html',
     styleUrls: ['./welcome-screen.component.scss'],
 })
-export class WelcomeScreenComponent implements OnInit {
+export class WelcomeScreenComponent implements OnInit, OnDestroy {
     authenticated = false;
+    authSub: Subscription;
     mobile = environment.mobile;
-    isLogging = true;
+    isLoggingIn = true;
+    isLoading = false;
 
     constructor(private router: Router,
                 private auth: AuthService,
@@ -22,7 +25,7 @@ export class WelcomeScreenComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.auth.isLoginIn.subscribe(isLoginIn => this.authenticated = isLoginIn);
+       this.authSub = this.auth.isLoginIn.subscribe(isLoginIn => this.authenticated = isLoginIn);
     }
 
     login(f: NgForm) {
@@ -42,15 +45,37 @@ export class WelcomeScreenComponent implements OnInit {
     }
 
     onError(error) {
-        this.alertCtrl.create({
-            message: error.message,
-            header: 'error',
-            buttons: ['Oki']
-        }).then(alert => alert.present());
+        if (error.error && error.error.message) {
+            this.alertCtrl.create({
+                message: error.error.message,
+                header: 'Błąd',
+                buttons: ['Oki']
+            }).then(alert => alert.present());
+        } else {
+            if (error.name === 'TimeoutError') {
+                this.alertCtrl.create({
+                    message: error.message,
+                    header: 'Błąd',
+                    buttons: ['Oki']
+                }).then(alert => alert.present());
+            } else {
+                console.log('CRITICAL ERROR!');
+            }
+        }
     }
 
     toggle(f: NgForm) {
         f.reset();
-        this.isLogging = !this.isLogging;
+        this.isLoggingIn = !this.isLoggingIn;
+    }
+
+    logout() {
+        this.auth.logout();
+    }
+
+    ngOnDestroy(): void {
+        if (this.authSub) {
+            this.authSub.unsubscribe();
+        }
     }
 }
