@@ -40,7 +40,10 @@ export class WelcomeScreenComponent implements OnInit, OnDestroy {
         this.alertCtrl.create({
             message: 'Zalogowano pomyślnie',
             header: 'Witaj!',
-            buttons: ['Oki']
+            buttons: [{
+                text: 'Oki',
+                handler: () => this.router.navigate(['profile/edit'])
+            }]
         }).then(alert => alert.present());
     }
 

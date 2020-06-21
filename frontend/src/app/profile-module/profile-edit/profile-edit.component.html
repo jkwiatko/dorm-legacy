@@ -1,3 +1,13 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button></ion-back-button>
+        </ion-buttons>
+        <ion-buttons slot="end">
+            <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
 <div class="container">
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
         <div [ngClass]="submitted ? 'submitted' : ''"  class="content row">
@@ -73,13 +83,13 @@
                         <div>
                             <div class="small-tittle font-weight-bold m-0 mb-4">Zajmuję się</div>
                             <div class="row d-flex justify-content-between">
-                                <div class="col-6 d-flex flex-column">
+                                <div class="col-md-6 col-12 text-center d-flex flex-column">
                                     <span>Pracuję w: </span>
                                     <div>
                                         <label><input type="text" formControlName="workingIn" class="simple-input mt-2"></label>
                                     </div>
                                 </div>
-                                <div class="col-6 d-flex flex-column">
+                                <div class="col-md-6 col-12 text-center d-flex flex-column">
                                     <span>Uczę się na:  </span>
                                     <div>
                                         <label><input type="text" formControlName="studyingAt" class="simple-input mt-2"></label>
@@ -89,40 +99,44 @@
                         </div>
                         <hr class="horizontal-line">
                         <div class="row">
-                            <div class="col-6" formArrayName="interests">
+                            <div class="col-md-6 col-12 mb-5 mb-md-0" formArrayName="interests">
                                 <div class="small-tittle font-weight-bold m-0 mb-2">
                                     Interesuję się:
                                 </div>
-                                <div *ngFor="let interest of interestsControl; let i = index">
-                                    <label>
-                                        <input type="text" formControlName="{{i}}" class="simple-input yellow-text">
-                                    </label>
-                                    <button (click)="onDeleteInterest(i)" type="button" class="x-button">X</button>
-                                </div>
-                                <div>
-                                    <button type="button" class="btn btn-success" (click)="onAddInterest()">
-                                        dodaj
-                                    </button>
+                                <div class="text-center">
+                                    <div *ngFor="let interest of interestsControl; let i = index">
+                                        <label>
+                                            <input type="text" formControlName="{{i}}" class="simple-input yellow-text">
+                                        </label>
+                                        <button (click)="onDeleteInterest(i)" type="button" class="x-button">X</button>
+                                    </div>
+                                    <div>
+                                        <button type="button" class="btn btn-success" (click)="onAddInterest()">
+                                            dodaj
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-6" formArrayName="inclinations">
+                            <div class="col-md-6 col-12" formArrayName="inclinations">
                                 <div class="small-tittle font-weight-bold m-0 mb-2">
                                     Jestem:
                                 </div>
-                                <div class="form-group" *ngFor="let inclination of inclinationsControl; let i = index">
-                                    <label>
-                                        <select class="form-control"
-                                                [value]="inclination.value" formControlName="{{i}}">
-                                            <option *ngFor="let characteristicsOption of characteristicsOptions">
-                                                {{characteristicsOption}}
-                                            </option>
-                                        </select>
-                                    </label>
-                                    <button (click)="onDeleteInclination(i)" type="button" class="x-button">X</button>
+                                <div class="text-center">
+                                    <div class="form-group" *ngFor="let inclination of inclinationsControl; let i = index">
+                                        <label>
+                                            <select class="form-control"
+                                                    [value]="inclination.value" formControlName="{{i}}">
+                                                <option *ngFor="let characteristicsOption of characteristicsOptions">
+                                                    {{characteristicsOption}}
+                                                </option>
+                                            </select>
+                                        </label>
+                                        <button (click)="onDeleteInclination(i)" type="button" class="x-button">X</button>
+                                    </div>
+                                    <button type="button" class="btn btn-success" (click)="onAddInclination()">
+                                        dodaj
+                                    </button>
                                 </div>
-                                <button type="button" class="btn btn-success" (click)="onAddInclination()">
-                                    dodaj
-                                </button>
                             </div>
                         </div>
                     </div>
@@ -132,21 +146,21 @@
                             Preferencje
                         </div>
                         <div class="row">
-                            <div class="col-6 d-flex flex-column justify-content-between">
+                            <div class="col-md-6 col-12 d-flex flex-column justify-content-between">
                                 <div class="small-tittle font-weight-bold ">
-                                    Jak często sprzątam
+                                    Jak często sprzątam?
                                 </div>
-                                <div>
+                                <div class="text-center">
                                     <label>
                                         <input type="text" formControlName="cleaningPolicy" class="simple-input">
                                     </label>
                                 </div>
                             </div>
-                            <div class="col-6 d-flex flex-column justify-content-between">
+                            <div class="col-md-6 col-12 d-flex flex-column justify-content-between">
                                 <div class="small-tittle font-weight-bold">
                                     Czy palę?
                                 </div>
-                                <div>
+                                <div class="text-center">
                                     <label>
                                         <input type="text" formControlName="smokingPolicy" class="simple-input">
                                     </label>
@@ -154,19 +168,21 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-6 d-flex flex-column justify-content-between">
+                            <div class="col-md-6 col-12 d-flex flex-column justify-content-between">
                                 <div class="small-tittle font-weight-bold ">
                                     Co myślę o zwierzętach?
                                 </div>
-                                <label>
-                                    <input type="text" formControlName="petPolicy" class="simple-input">
-                                </label>
+                                <div class="text-center">
+                                    <label>
+                                        <input type="text" formControlName="petPolicy" class="simple-input">
+                                    </label>
+                                </div>
                             </div>
-                            <div class="col-6 d-flex flex-column justify-content-between">
+                            <div class="col-md-6 col-12 d-flex flex-column justify-content-between">
                                 <div class="small-tittle font-weight-bold">
                                     Czy goście mogą zostać na noc?
                                 </div>
-                                <div class="w-100">
+                                <div class="w-100 text-center">
                                     <label>
                                         <input type="text" formControlName="guestsPolicy" class="simple-input">
                                     </label>
@@ -180,12 +196,12 @@
                             Moje Pokoje
                         </div>
                         <div class="row">
-                            <div *ngFor="let room of profile.ownedRooms" class="col-6 p-3">
+                            <div *ngFor="let room of profile.ownedRooms" class="col-12 col-md-6 p-3">
                                 <app-room-preview [navigateOnClick]="true" [room]="room"></app-room-preview>
                             </div>
-                            <div class="col-6 p-3">
+                            <div class="col-12 col-md-6 m-3 p-3">
                                 <div class="h-100 w-100 d-flex cursor-pointer justify-content-center align-content-center plus" (click)="onAddRoom()">
-                                    <img src="assets/svg/plus.svg" alt="dodaj pokój" width="100">
+                                    <ion-icon name="add-circle" size="large"></ion-icon>
                                 </div>
                             </div>
                         </div>
