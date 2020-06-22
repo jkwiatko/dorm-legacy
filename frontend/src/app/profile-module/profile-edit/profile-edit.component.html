@@ -126,7 +126,7 @@
                                         <label>
                                             <select class="form-control"
                                                     [value]="inclination.value" formControlName="{{i}}">
-                                                <option *ngFor="let characteristicsOption of characteristicsOptions">
+                                                <option [value]="characteristicsOption" *ngFor="let characteristicsOption of characteristicsOptions">
                                                     {{characteristicsOption}}
                                                 </option>
                                             </select>
@@ -152,7 +152,7 @@
                                 </div>
                                 <div class="text-center">
                                     <label>
-                                        <input type="text" formControlName="cleaningPolicy" class="simple-input">
+                                        <input  type="text" class="simple-input">
                                     </label>
                                 </div>
                             </div>

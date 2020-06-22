@@ -202,7 +202,7 @@
                                 <label>
                                     <select [value]="amenity.value" class="simple-input form-control"
                                             formControlName="{{i}}">
-                                        <option *ngFor="let amenityOption of amenityOptions">{{amenityOption}}</option>
+                                        <option [value]="amenityOption" *ngFor="let amenityOption of amenityOptions">{{amenityOption}}</option>
                                     </select>
                                 </label>
                                 <button class="btn" (click)="onDeleteAmenity(i)" type="button">X
