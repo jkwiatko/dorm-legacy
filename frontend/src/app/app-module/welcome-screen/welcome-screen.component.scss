@@ -72,13 +72,21 @@ ion-toolbar {
 .login-dialog {
     position: absolute;
     width: 250px;
-    background-color:  rgba(255,255,255,0.8);
+    background-color:  rgba(var(--ion-color-light-rgb),0.8);
     bottom: 50%;
     left: 50%;
     transform: translate(-50%, 50%);
     box-shadow: 4px 4px 16px 0 rgba(0,0,0,0.75);
 
-    //media adjustments:
+    ion-item {
+        --background: transparent;
+    }
+
+    ion-input {
+        --background: rgba(var(--ion-color-light-rgb),0.5);
+    }
+
+    //adjustments size to media:
     @media (min-width: 1200px) {
         transform: translate(-50%, 50%);
         bottom: 50%;
@@ -88,14 +96,6 @@ ion-toolbar {
     @media (min-width: 1300px) {
         width: 400px;
         padding: 50px;
-    }
-
-    ion-item {
-        --background: transparent;
-    }
-
-    ion-input {
-        --background: rgba(255,255,255,0.5);
     }
 }
 
