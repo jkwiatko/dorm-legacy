@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {ProfileService} from "../providers/profile.service";
-import {Subscription} from "rxjs";
-import {ActivatedRoute} from "@angular/router";
-import {switchMap} from "rxjs/operators";
-import {ProfileModel} from "../models/profile.model";
+import {ProfileService} from '../providers/profile.service';
+import {Subscription} from 'rxjs';
+import {ActivatedRoute} from '@angular/router';
+import {switchMap} from 'rxjs/operators';
+import {ProfileModel} from '../models/profile.model';
 
 @Component({
   selector: 'app-profile-details',
@@ -20,7 +20,7 @@ export class ProfileDetailsComponent implements OnInit {
   ngOnInit() {
       this.profile = new ProfileModel();
       this.profileSub = this.route.params.pipe(
-          switchMap(params => this.profileCli.fetchUserProfile(params['id']))
+          switchMap(params => this.profileCli.fetchUserProfile(params.id))
       ).subscribe(profile => this.profile = profile);
   }
 }

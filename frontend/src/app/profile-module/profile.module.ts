@@ -2,7 +2,7 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {ProfileDetailsComponent} from './profile-details/profile-details.component';
 import {ProfileEditComponent} from './profile-edit/profile-edit.component';
-import {ReactiveFormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {RouterModule, Routes} from '@angular/router';
 import {SharedModule} from '../shared-module/shared.module';
 import {AuthGuardService} from '../auth-module/providers/auth-guard.service';
@@ -32,7 +32,8 @@ const routes: Routes = [
         MatInputModule,
         MatRadioModule,
         SharedModule,
-        IonicModule
+        IonicModule,
+        FormsModule
     ],
     providers: [DateParserPipe]
 })

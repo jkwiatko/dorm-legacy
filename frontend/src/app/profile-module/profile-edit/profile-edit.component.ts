@@ -1,18 +1,19 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ProfileService} from '../providers/profile.service';
-import {Subscription} from "rxjs";
-import {Router} from "@angular/router";
-import {ProfileModel} from "../models/profile.model";
-import {PictureModel} from "../../shared-module/models/picture.model";
-import {ToastrService} from "ngx-toastr";
-import {DateParserPipe} from "../../shared-module/pipes/dateParser.pipe";
+import {Subscription} from 'rxjs';
+import {Router} from '@angular/router';
+import {ProfileModel} from '../models/profile.model';
+import {PictureModel} from '../../shared-module/models/picture.model';
+import {ToastrService} from 'ngx-toastr';
+import {DateParserPipe} from '../../shared-module/pipes/dateParser.pipe';
 
 @Component({
     selector: 'app-profile-edit',
     templateUrl: './profile-edit.component.html',
     styleUrls: ['./profile-edit.component.scss']
 })
+
 export class ProfileEditComponent implements OnInit, OnDestroy {
 
     startDate = new Date(2000, 0, 1);
@@ -65,14 +66,14 @@ export class ProfileEditComponent implements OnInit, OnDestroy {
             gender: new FormControl(profile.gender, Validators.required),
             workingIn: new FormControl(profile.workingIn),
             studyingAt: new FormControl(profile.studyingAt),
-            interests: interests,
-            inclinations: inclinations,
+            interests,
+            inclinations,
             cleaningPolicy: new FormControl(profile.cleaningPolicy, Validators.required),
             smokingPolicy: new FormControl(profile.smokingPolicy, Validators.required),
             petPolicy: new FormControl(profile.petPolicy, Validators.required),
             guestsPolicy: new FormControl(profile.guestsPolicy, Validators.required),
         });
-        if(profile.profilePictures && profile.profilePictures[0]) {
+        if (profile.profilePictures && profile.profilePictures[0]) {
             this.profileImg = profile.profilePictures[0];
         }
     }
@@ -114,8 +115,8 @@ export class ProfileEditComponent implements OnInit, OnDestroy {
 
     onSubmit() {
         this.submitted = true;
-        if(this.form.invalid) {
-            this.toastr.error("Prosze wypełnij poprawie wszystkie pola", "Błędne dane")
+        if (this.form.invalid) {
+            this.toastr.error('Prosze wypełnij poprawie wszystkie pola', 'Błędne dane');
         } else {
             const profile: ProfileModel = {
                 firstName: this.form.get('firstName').value,

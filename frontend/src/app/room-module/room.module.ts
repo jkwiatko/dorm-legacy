@@ -1,18 +1,19 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {AgmCoreModule} from "@agm/core";
-import {MatSelectModule} from "@angular/material/select";
-import {MatInputModule} from "@angular/material/input";
-import {RouterModule, Routes} from "@angular/router";
-import {RoomSearchComponent} from "./room-search/room-search.component";
-import { RoomEditComponent } from './room-edit/room-edit.component';
-import {ReactiveFormsModule} from "@angular/forms";
-import {ProfileModule} from "../profile-module/profile.module";
-import {MatDatepickerModule} from "@angular/material/datepicker";
-import {SharedModule} from "../shared-module/shared.module";
-import {AuthGuardService} from "../auth-module/providers/auth-guard.service";
-import { RoomDetailsComponent } from './room-details/room-details.component';
-import {MatRadioModule} from "@angular/material/radio";
+import {AgmCoreModule} from '@agm/core';
+import {MatSelectModule} from '@angular/material/select';
+import {MatInputModule} from '@angular/material/input';
+import {RouterModule, Routes} from '@angular/router';
+import {RoomSearchComponent} from './room-search/room-search.component';
+import {RoomEditComponent} from './room-edit/room-edit.component';
+import {ReactiveFormsModule} from '@angular/forms';
+import {ProfileModule} from '../profile-module/profile.module';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {SharedModule} from '../shared-module/shared.module';
+import {AuthGuardService} from '../auth-module/providers/auth-guard.service';
+import {RoomDetailsComponent} from './room-details/room-details.component';
+import {MatRadioModule} from '@angular/material/radio';
+import {IonicModule} from '@ionic/angular';
 
 const routes: Routes = [
     {path: 'room/find', component: RoomSearchComponent, pathMatch: 'full'},
@@ -35,6 +36,7 @@ const routes: Routes = [
         MatDatepickerModule,
         SharedModule,
         MatRadioModule,
+        IonicModule,
     ],
 })
 export class RoomModule {
