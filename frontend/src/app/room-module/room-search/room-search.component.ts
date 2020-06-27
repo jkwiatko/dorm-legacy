@@ -4,6 +4,7 @@ import {CityRoomsModel} from '../../shared-module/models/city-rooms.model';
 import {Router} from '@angular/router';
 import {EMPTY, Subject} from 'rxjs';
 import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
+import * as moment from 'moment';
 
 @Component({
     selector: 'app-rooms',
@@ -53,5 +54,13 @@ export class RoomSearchComponent implements OnInit {
 
     navigateToRoom(id: number) {
         this.router.navigate(['room/', id])
+    }
+
+    minDate() {
+        return moment(new Date()).format('YYYY-MM-DD');
+    }
+
+    maxDate() {
+        return moment(new Date()).add(5, 'years').format('YYYY-MM-DD');
     }
 }

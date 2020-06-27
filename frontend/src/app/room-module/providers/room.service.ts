@@ -1,12 +1,12 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
-import {Observable} from "rxjs";
-import {RoomModel} from "../model/room.model";
-import {environment} from "../../../environments/environment";
-import {map, tap} from "rxjs/operators";
-import {CityRoomsModel} from "../../shared-module/models/city-rooms.model";
-import {validatorService} from "../../shared-module/lazy-async-validator/lazy-async-validator";
-import {ToastrService} from "ngx-toastr";
+import {HttpClient} from '@angular/common/http';
+import {Observable} from 'rxjs';
+import {RoomModel} from '../model/room.model';
+import {environment} from '../../../environments/environment';
+import {map, tap} from 'rxjs/operators';
+import {CityRoomsModel} from '../../shared-module/models/city-rooms.model';
+import {validatorService} from '../../shared-module/lazy-async-validator/lazy-async-validator';
+import {ToastrService} from 'ngx-toastr';
 
 @Injectable({
     providedIn: 'root'
@@ -70,7 +70,7 @@ export class RoomService implements validatorService {
             map(availableCities => availableCities.filter(availableCity => availableCity === cityName)),
             map(availableCities => {
                 if (!availableCities.length) {
-                    this.toastr.error("Niestety to miasto nie jest jeszcze dostępne", "Miasto niedostępne", {timeOut: 1500});
+                    this.toastr.error('Niestety to miasto nie jest jeszcze dostępne', 'Miasto niedostępne', {timeOut: 1500});
                 }
                 return !availableCities.length
             })
