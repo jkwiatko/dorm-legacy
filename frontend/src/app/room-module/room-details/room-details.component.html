@@ -1,4 +1,14 @@
-<div class="content">
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button defaultHref="room/find"></ion-back-button>
+        </ion-buttons>
+        <ion-buttons slot="end">
+            <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+<div>
     <div class="row vh-50 room-images no-gutters">
         <div class="col-md-6 col-12 h-100 border room-input">
             <img class="room-image"
@@ -64,11 +74,11 @@
     </div>
     <div class="container mt-5">
         <div class="row">
-            <div class="col-8 text-center">
+            <div class="col-12 col-lg-8 text-center order-1 order-lg-0">
                 <div class="h1">
                     {{room.name}}
                 </div>
-                <ul class="basic-info-list gray-text">
+                <ul class="basic-info-list gray-text p-0">
                     <li>{{room.roomsNumber > 1 ? room.roomsNumber + ' pokoi' : '1 pokój'}}</li>
                     &bull;
                     <li>Dostępny od {{room.availableFrom | availableFrom}}</li>
@@ -77,8 +87,8 @@
                 </ul>
                 <hr class="w-100 horizontal-line">
                 <div>
-                    <div>Kluczowe informacje</div>
-                    <div class="col-12 row">
+                    <div class="font-weight-bold yellow-text">Kluczowe informacje</div>
+                    <div class="col-12 row no-gutters">
                         <div class="col-12 col-lg-4 mt-3 d-flex flex-column align-items-center">
                             <div class="subtitle">Cena</div>
                             <div class="d-table key-info-table">
@@ -133,25 +143,25 @@
                 </div>
                 <hr class="w-100 horizontal-line">
                 <div class="row text-center">
-                    <div class="col-12">Opis</div>
+                    <div class="col-12 font-weight-bold yellow-text">Opis</div>
                     <div class="col-12 mt-3">
                         <div class="w-100">{{room.description}}</div>
                     </div>
                 </div>
                 <hr class="w-100 horizontal-line">
                 <div class="row text-center">
-                    <div class="col-12 text-center">Udogodnienia</div>
-                    <div class="col-12 mt-3 row">
-                        <div class="col-4"
-                             *ngFor="let amenity of room.amenities;">
-                            <div>{{amenity}}</div>
-                        </div>
+                    <div class="col-12 mb-3 text-center font-weight-bold yellow-text">Udogodnienia</div>
+                    <div class="col-md-4 col-6 mb-3"
+                         *ngFor="let amenity of room.amenities;">
+                        <div>{{amenity}}</div>
                     </div>
                 </div>
                 <hr class="w-100 horizontal-line">
+                <ion-button color="primary mb-3">Rezerwuj</ion-button>
             </div>
-            <div class="col-4 cursor-pointer">
-                <app-profile-sticky-info [navigateOnClick]="true" [profile]="room.owner"></app-profile-sticky-info>
+            <div class="col-12 col-lg-4 mb-4 mb-lg-0 order-0 order-lg-1 cursor-pointer">
+                <app-profile-sticky-info [navigateOnClick]="true" [profile]="room.owner">
+                </app-profile-sticky-info>
             </div>
         </div>
     </div>
