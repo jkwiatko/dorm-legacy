@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {environment} from '../../../environments/environment';
 import {Router} from '@angular/router';
 import {AuthService} from '../../auth-module/providers/auth.service';
-import {AlertController} from '@ionic/angular';
+import {AlertController, MenuController} from '@ionic/angular';
 import {NgForm} from '@angular/forms';
 import {Subscription} from 'rxjs';
 
@@ -20,7 +20,8 @@ export class WelcomeScreenComponent implements OnInit, OnDestroy {
 
     constructor(private router: Router,
                 private auth: AuthService,
-                private alertCtrl: AlertController
+                private alertCtrl: AlertController,
+                private menuCtrl: MenuController
     ) {
     }
 
@@ -80,5 +81,9 @@ export class WelcomeScreenComponent implements OnInit, OnDestroy {
         if (this.authSub) {
             this.authSub.unsubscribe();
         }
+    }
+
+    openNavMenu() {
+        this.menuCtrl.open('navigation-menu').then();
     }
 }

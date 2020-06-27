@@ -1,11 +1,7 @@
 <ion-header>
     <ion-toolbar>
-        <ion-title>Edytuj Pok</ion-title>
-        <ion-buttons slot="start">
-            <ion-back-button></ion-back-button>
-        </ion-buttons>
-        <ion-buttons slot="end">
-            <ion-menu-button></ion-menu-button>
+        <ion-buttons>
+            <ion-back-button defaultHref="profile/edit"></ion-back-button>
         </ion-buttons>
     </ion-toolbar>
 </ion-header>
@@ -204,26 +200,21 @@
                         </div>
                     </div>
                     <hr class="w-100 horizontal-line">
-                    <div class="row text-center">
-                        <div class="mt-3"
-                             formArrayName="amenities">
-                            <div class="col-12 text-center mb-3">Udogodnienia</div>
-                            <div>
-                                <div class="col-md-4 col-12 form-group btn-group"
-                                     *ngFor="let amenity of amenitiesControl; let i = index">
-                                    <div class="d-flex justify-content-center w-100">
-                                        <label>
-                                            <select class="simple-input form-control"
-                                                    formControlName="{{i}}">
-                                                <option [value]="null" hidden disabled>Wybierz...</option>
-                                                <option [value]="amenityOption"
-                                                        *ngFor="let amenityOption of amenityOptions;">{{amenityOption}}</option>
-                                            </select>
-                                        </label>
-                                        <button class="btn" (click)="onDeleteAmenity(i)" type="button">X
-                                        </button>
-                                    </div>
-                                </div>
+                    <div class="mt-3 row" formArrayName="amenities">
+                        <div class="col-12 text-center mb-4">Udogodnienia</div>
+                        <div class="col-md-4 col-12 mb-2"
+                             *ngFor="let amenity of amenitiesControl; let i = index">
+                            <div class="d-flex justify-content-center w-100">
+                                <label>
+                                    <select class="simple-input form-control"
+                                            formControlName="{{i}}">
+                                        <option [value]="null" hidden disabled>Wybierz...</option>
+                                        <option [value]="amenityOption"
+                                                *ngFor="let amenityOption of amenityOptions;">{{amenityOption}}</option>
+                                    </select>
+                                </label>
+                                <button class="btn" (click)="onDeleteAmenity(i)" type="button">X
+                                </button>
                             </div>
                         </div>
                         <div class="col-12">

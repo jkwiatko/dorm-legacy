@@ -1,8 +1,5 @@
 <ion-header>
     <ion-toolbar>
-        <ion-buttons slot="start">
-            <ion-back-button></ion-back-button>
-        </ion-buttons>
         <ion-buttons slot="end">
             <ion-menu-button></ion-menu-button>
         </ion-buttons>
@@ -10,7 +7,7 @@
 </ion-header>
 <div class="container">
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
-        <div [ngClass]="submitted ? 'submitted' : ''"  class="content row">
+        <div [ngClass]="submitted ? 'submitted' : ''"  class="mt-3 row">
             <div class="col-12 col-lg-4 mb-4 mb-lg-0">
                 <div class="sticky-info border">
                     <div class="mb-3 d-flex align-content-center justify-content-center">
@@ -152,7 +149,7 @@
                                 </div>
                                 <div class="text-center">
                                     <label>
-                                        <input  type="text" class="simple-input">
+                                        <input  type="text" formControlName="cleaningPolicy" class="simple-input">
                                     </label>
                                 </div>
                             </div>
@@ -199,8 +196,8 @@
                             <div *ngFor="let room of profile.ownedRooms" class="col-12 col-md-6 p-3">
                                 <app-room-preview [navigateOnClick]="true" [room]="room"></app-room-preview>
                             </div>
-                            <div class="col-12 col-md-6 m-3 p-3">
-                                <div class="h-100 w-100 d-flex cursor-pointer justify-content-center align-content-center plus" (click)="onAddRoom()">
+                            <div class="col-12 col-md-6 p-3 mb-md-0 mb-5 mt-5">
+                                <div class="w-100 h-100 plus cursor-pointer" (click)="onAddRoom()">
                                     <ion-icon name="add-circle" size="large"></ion-icon>
                                 </div>
                             </div>

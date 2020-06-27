@@ -1,9 +1,9 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {RoomModel} from "../model/room.model";
-import {ActivatedRoute, Router} from "@angular/router";
-import {switchMap} from "rxjs/operators";
-import {EMPTY, Subscription} from "rxjs";
-import {RoomService} from "../providers/room.service";
+import {RoomModel} from '../model/room.model';
+import {ActivatedRoute, Router} from '@angular/router';
+import {switchMap} from 'rxjs/operators';
+import {EMPTY, Subscription} from 'rxjs';
+import {RoomService} from '../providers/room.service';
 
 @Component({
     selector: 'app-room-details',
@@ -20,10 +20,8 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.sub = this.route.params.pipe(
-            switchMap(params => +params['id'] ? this.roomService.fetchRoom(+params['id']) : EMPTY)
-        ).subscribe(room => {
-            this.room = room;
-        });
+            switchMap(params => +params.id ? this.roomService.fetchRoom(+params.id) : EMPTY)
+        ).subscribe(room => this.room = room);
     }
 
     ngOnDestroy(): void {

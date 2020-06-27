@@ -27,7 +27,8 @@ export class ProfileEditComponent implements OnInit, OnDestroy {
     constructor(private profileClient: ProfileService,
                 private router: Router,
                 private dateParser: DateParserPipe,
-                private toastr: ToastrService) {
+                private toastr: ToastrService,
+    ) {
     }
 
     get interestsControl() {

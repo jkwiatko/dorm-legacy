@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
+import {MenuController} from '@ionic/angular';
 
 @Component({
   selector: 'app-mobile-menu',
@@ -7,9 +9,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MobileMenuComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+      private router: Router,
+      private menuCtrl: MenuController,
+  ) { }
 
   ngOnInit(): void {
   }
 
+    navigate() {
+       this.menuCtrl.close('navigation-menu').then();
+    }
 }
