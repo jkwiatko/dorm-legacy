@@ -7,61 +7,43 @@
 </ion-header>
 <div class="search-component mb-3 container">
     <div class="row">
-        <div class="col-12">
-            <div class="browser">
-                <!--                <mat-radio-group value="Room" class="input-group d-flex justify-content-center p-2" aria-label="Select an option">-->
-                <!--                    <mat-radio-button value="Room" color="primary">Pokój</mat-radio-button>-->
-                <!--                    <mat-radio-button value="Mate" class="ml-4">Współlokatora</mat-radio-button>-->
-                <!--                </mat-radio-group>-->
-                <mat-form-field appearance="outline" class="city-select">
-                    <mat-label>{{cityRooms.cityName ? cityRooms.cityName : 'Wybierz miasto'}}</mat-label>
-                    <mat-select>
-                        <mat-option *ngFor="let city of availableCities"
-                                    (click)="onCityChange(city)">{{city}}</mat-option>
-                    </mat-select>
-                </mat-form-field>
-                <mat-form-field appearance="outline" class="description">
-                    <mat-label>Szukaj po nazwie</mat-label>
-                    <input type="text" (input)="searchObservable.next($event)" matInput/>
-                </mat-form-field>
-            </div>
-        </div>
-    </div>
-    <div class="row col-12">
-        <div class="d-table filters-table">
-            <div class="d-table-row">
-                <div class="d-table-cell border">
-                    <div class="d-flex justify-content-center p-1">
-                        <img alt="back svg" src="assets/svg/calendar.svg" height="20"/>
-                        <span>Kiedy?</span>
-                    </div>
-                </div>
-                <div class="d-table-cell border">
-                    <div class="d-flex justify-content-center p-1">
-                        <img alt="back svg" src="assets/svg/clock.svg" height="20"/>
-                        <span>Jak długo?</span>
-                    </div>
-                </div>
-                <div class="d-table-cell border">
-                    <div class="d-flex justify-content-center p-1">
-                        <img alt="back svg" src="assets/svg/money.svg" height="20"/>
-                        <span>Jaki budrzet?</span>
-                    </div>
-                </div>
-                <div class="d-table-cell border">
-                    <div class="d-flex justify-content-center p-1">
-                        <img alt="back svg" src="assets/svg/gear.svg" height="20"/>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <ion-item class="col-12 col-md-3 order-0-md order-1" >
+            <ion-label position="floating">Miasto</ion-label>
+            <ion-select [interfaceOptions]="availableCities" (ionChange)="onCityChange($event.detail.value)"
+                        interface="popover">
+                <ion-select-option *ngFor="let city of availableCities" [value]="city">
+                    {{city}}
+                </ion-select-option>
+            </ion-select>
+        </ion-item>
+        <ion-item class="col-12 col-md-9 order-0 order-md-1">
+            <ion-label position="floating">Nazwa</ion-label>
+            <ion-input (input)="searchObservable.next($event)" name="searchByName"></ion-input>
+        </ion-item>
+        <ion-item class="col-12 col-md-4 order-2">
+            <ion-label position="floating">Od kiedy?</ion-label>
+            <ion-datetime
+                display-format="MM DD YYYY"
+                picker-format="YY MMM DD"
+                [min]=""
+                [max]="">
+            </ion-datetime>
+        </ion-item>
+        <ion-item class="col-12 col-md-4 order-2" lines="none">
+            <ion-label>M-cy:</ion-label>
+            <ion-range color="secondary" [min]="1" [max]="24" step="1" pin="true"></ion-range>
+        </ion-item>
+        <ion-item class="col-12 col-md-4 order-2" lines="none">
+            <ion-label>$ $ $</ion-label>
+            <ion-range color="secondary" [min]="500" [max]="3000" step="100" pin="true"></ion-range>
+        </ion-item>
     </div>
     <div class="row">
         <div class="col-12 text-center mt-5" *ngIf="isLoading; else searchResult">
             <app-loader-spinner></app-loader-spinner>
         </div>
         <ng-template #searchResult>
-            <div *ngFor="let room of cityRooms.rooms" class="col-6 col-lg-4 p-3">
+            <div *ngFor="let room of cityRooms.rooms" class="col-md-6 col-12 col-lg-4 p-3">
                 <app-room-preview (click)="navigateToRoom(room.id)" [room]="room"></app-room-preview>
             </div>
         </ng-template>

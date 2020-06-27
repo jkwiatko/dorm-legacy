@@ -1,9 +1,9 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
-import {RoomService} from "../providers/room.service";
-import {CityRoomsModel} from "../../shared-module/models/city-rooms.model";
-import {Router} from "@angular/router";
-import {EMPTY, Subject} from "rxjs";
-import {debounceTime, distinctUntilChanged, switchMap, tap} from "rxjs/operators";
+import {RoomService} from '../providers/room.service';
+import {CityRoomsModel} from '../../shared-module/models/city-rooms.model';
+import {Router} from '@angular/router';
+import {EMPTY, Subject} from 'rxjs';
+import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 
 @Component({
     selector: 'app-rooms',
@@ -29,6 +29,7 @@ export class RoomSearchComponent implements OnInit {
             distinctUntilChanged(),
             switchMap(event => {
                     if (!this.cityRooms.cityName) {
+                        this.isLoading = false;
                         return EMPTY
                     } else {
                         return this.roomService.fetchSearchedRooms(
@@ -44,6 +45,7 @@ export class RoomSearchComponent implements OnInit {
 
 
     onCityChange(city: string) {
+        console.log(city);
         this.roomService.fetchRoomsFromCity(city).subscribe(rooms => {
             this.cityRooms = rooms;
         })
