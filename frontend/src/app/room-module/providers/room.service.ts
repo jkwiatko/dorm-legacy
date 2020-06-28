@@ -56,8 +56,9 @@ export class RoomService implements validatorService {
         return this.http.get<string[]>(environment.api + 'room/cities')
     }
 
-    fetchSearchedRooms(city: string, value: string): Observable<CityRoomsModel> {
-        return this.http.get<CityRoomsModel>(environment.api + 'room/find/' + city + '/search/' + value)
+    fetchSearchedRooms(searchCriteria): Observable<CityRoomsModel> {
+        console.log(searchCriteria);
+        return this.http.post<CityRoomsModel>(environment.api + 'room/search/', searchCriteria)
             .pipe(tap(this.addPictureExtension2CityRooms));
     }
 

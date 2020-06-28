@@ -1,10 +1,11 @@
-import {Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {Component, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
 import {RoomService} from '../providers/room.service';
 import {CityRoomsModel} from '../../shared-module/models/city-rooms.model';
 import {Router} from '@angular/router';
-import {EMPTY, Subject} from 'rxjs';
+import {Subject} from 'rxjs';
 import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 import * as moment from 'moment';
+import {NgForm} from '@angular/forms';
 
 @Component({
     selector: 'app-rooms',
@@ -19,6 +20,9 @@ export class RoomSearchComponent implements OnInit {
     searchObservable = new Subject<Event>();
     isLoading = false;
 
+    @ViewChild('f', {static: true})
+    form: NgForm;
+
     constructor(private roomService: RoomService, private router: Router) {
     }
 
@@ -28,28 +32,11 @@ export class RoomSearchComponent implements OnInit {
             tap(() => this.isLoading = true),
             debounceTime(1000),
             distinctUntilChanged(),
-            switchMap(event => {
-                    if (!this.cityRooms.cityName) {
-                        this.isLoading = false;
-                        return EMPTY
-                    } else {
-                        return this.roomService.fetchSearchedRooms(
-                            this.cityRooms.cityName, (event.target as HTMLInputElement).value);
-                    }
-                }
-            )
+            switchMap(event => this.roomService.fetchSearchedRooms(this.form.value))
         ).subscribe(cityRooms => {
             this.isLoading = false;
             this.cityRooms = cityRooms;
         });
-    }
-
-
-    onCityChange(city: string) {
-        console.log(city);
-        this.roomService.fetchRoomsFromCity(city).subscribe(rooms => {
-            this.cityRooms = rooms;
-        })
     }
 
     navigateToRoom(id: number) {

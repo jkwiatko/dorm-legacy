@@ -6,38 +6,65 @@
     </ion-toolbar>
 </ion-header>
 <div class="search-component mb-3 container">
-    <div class="row">
-        <ion-item class="col-12 col-md-3 order-0-md order-1" >
-            <ion-label position="floating">Miasto</ion-label>
-            <ion-select [interfaceOptions]="availableCities" (ionChange)="onCityChange($event.detail.value)"
-                        interface="popover">
-                <ion-select-option *ngFor="let city of availableCities" [value]="city">
-                    {{city}}
-                </ion-select-option>
-            </ion-select>
-        </ion-item>
-        <ion-item class="col-12 col-md-9 order-0 order-md-1">
-            <ion-label position="floating">Nazwa</ion-label>
-            <ion-input (input)="searchObservable.next($event)" name="searchByName"></ion-input>
-        </ion-item>
-        <ion-item class="col-12 col-md-4 order-2">
-            <ion-label position="floating">Od kiedy?</ion-label>
-            <ion-datetime
-                display-format="MM DD YYYY"
-                picker-format="YY MMM DD"
-                [min]="minDate()"
-                [max]="maxDate()">
-            </ion-datetime>
-        </ion-item>
-        <ion-item class="col-12 col-md-4 order-2" lines="none">
-            <ion-label>M-cy:</ion-label>
-            <ion-range color="secondary" [min]="1" [max]="24" step="1" pin="true"></ion-range>
-        </ion-item>
-        <ion-item class="col-12 col-md-4 order-2" lines="none">
-            <ion-label>$ $ $</ion-label>
-            <ion-range color="secondary" [min]="500" [max]="3000" step="100" pin="true"></ion-range>
-        </ion-item>
-    </div>
+    <form #f="ngForm">
+        <div class="row">
+            <ion-item class="col-12 col-md-3 order-0-md order-1">
+                <ion-label position="floating">Miasto</ion-label>
+                <ion-select
+                    [interfaceOptions]="availableCities"
+                    name="cityName"
+                    ngModel
+                    interface="popover">
+                    <ion-select-option *ngFor="let city of availableCities" [value]="city">
+                        {{city}}
+                    </ion-select-option>
+                </ion-select>
+            </ion-item>
+            <ion-item class="col-12 col-md-9 order-0 order-md-1">
+                <ion-label position="floating">Nazwa</ion-label>
+                <ion-input
+                    name="searchByName"
+                    (input)="searchObservable.next($event)">
+                </ion-input>
+            </ion-item>
+            <ion-item class="col-12 col-md-4 order-2">
+                <ion-label position="floating">Od kiedy?</ion-label>
+                <ion-datetime
+                    name="startingDate"
+                    ngModel
+                    display-format="MM DD YYYY"
+                    picker-format="YY MMM DD"
+                    [min]="minDate()"
+                    [max]="maxDate()">
+                </ion-datetime>
+            </ion-item>
+            <ion-item class="col-12 col-md-4 order-2" lines="none">
+                <ion-label>M-cy:</ion-label>
+                <ion-range
+                    name="period"
+                    ngModel
+                    color="secondary"
+                    [min]="1"
+                    [max]="24"
+                    step="1"
+                    pin="true">
+                </ion-range>
+            </ion-item>
+            <ion-item class="col-12 col-md-4 order-2" lines="none">
+                <ion-label>$ $ $</ion-label>
+                <ion-range
+                    name="maxPrice"
+                    ngModel
+                    color="secondary"
+                    [min]="500"
+                    [max]="3000"
+                    step="100"
+                    pin="true">
+                </ion-range>
+            </ion-item>
+            <ion-button class="col-12 order-3" (click)="test(f)">submit</ion-button>
+        </div>
+    </form>
     <div class="row">
         <div class="col-12 text-center mt-5" *ngIf="isLoading; else searchResult">
             <app-loader-spinner></app-loader-spinner>

@@ -9,10 +9,10 @@ export class AgePipe implements PipeTransform {
 
   transform(dateString: Date): string {
       if(dateString) {
-          let today = moment();
-          let birthDate = moment(dateString.toString(), environment.dateFormat);
+          const today = moment();
+          const birthDate = moment(dateString.toString(), environment.dateFormat);
           return today.diff(birthDate, 'years').toString();
       }
-      return "?";
+      return '?';
   }
 }

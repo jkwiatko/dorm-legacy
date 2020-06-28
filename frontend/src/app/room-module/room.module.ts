@@ -6,7 +6,7 @@ import {MatInputModule} from '@angular/material/input';
 import {RouterModule, Routes} from '@angular/router';
 import {RoomSearchComponent} from './room-search/room-search.component';
 import {RoomEditComponent} from './room-edit/room-edit.component';
-import {ReactiveFormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {ProfileModule} from '../profile-module/profile.module';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {SharedModule} from '../shared-module/shared.module';
@@ -16,7 +16,7 @@ import {MatRadioModule} from '@angular/material/radio';
 import {IonicModule} from '@ionic/angular';
 
 const routes: Routes = [
-    {path: 'room/find', component: RoomSearchComponent, pathMatch: 'full'},
+    {path: 'room/find', component: RoomSearchComponent, pathMatch: 'full', canActivate: [AuthGuardService]},
     {path: 'room/create', component: RoomEditComponent, pathMatch: 'full', canActivate: [AuthGuardService]},
     {path: 'room/:id', component: RoomDetailsComponent, pathMatch: 'full'},
     {path: 'room/edit/:id', component: RoomEditComponent, pathMatch: 'full', canActivate: [AuthGuardService]},
@@ -37,6 +37,7 @@ const routes: Routes = [
         SharedModule,
         MatRadioModule,
         IonicModule,
+        FormsModule,
     ],
 })
 export class RoomModule {

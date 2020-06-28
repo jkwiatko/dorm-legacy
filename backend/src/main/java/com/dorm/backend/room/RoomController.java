@@ -1,16 +1,11 @@
 package com.dorm.backend.room;
 
-import com.dorm.backend.room.dto.CityRoomsDTO;
 import com.dorm.backend.room.dto.RoomDTO;
+import com.dorm.backend.room.dto.SearchCriteria;
 import com.dorm.backend.shared.enums.EAmenity;
 import com.dorm.backend.shared.services.RoomService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 import java.util.List;
@@ -38,20 +33,14 @@ public class RoomController {
         return ResponseEntity.ok().build();
     }
 
-
     @GetMapping("/{id}")
     public ResponseEntity<RoomDTO> getRoom(@PathVariable Long id) {
         return ResponseEntity.ok().body(roomService.getRoom(id));
     }
 
-    @GetMapping("/find/{city}")
-    public ResponseEntity<CityRoomsDTO> getRoomsFromCity(@PathVariable String city) {
-        return ResponseEntity.ok().body(roomService.getRoomsFromCity(city));
-    }
-
-    @GetMapping("/find/{city}/search")
-    public ResponseEntity<CityRoomsDTO> getRoomsFromCityEmptySearch(@PathVariable String city) {
-        return ResponseEntity.ok().body(roomService.getRoomsFromCity(city));
+    @PostMapping("/search")
+    public ResponseEntity<List<RoomDTO>> getRoomsFromCityEmptySearch(@RequestBody SearchCriteria searchCriteria) {
+        return ResponseEntity.ok().body(roomService.searchRoom(searchCriteria));
     }
 
     @GetMapping("/amenities")
@@ -63,10 +52,5 @@ public class RoomController {
     @GetMapping("/cities")
     public ResponseEntity<List<String>> getCities() {
         return ResponseEntity.ok().body(roomService.getCities());
-    }
-
-    @GetMapping("/find/{city}/search/{value}")
-    public ResponseEntity<CityRoomsDTO> getFilteredCities(@PathVariable String city, @PathVariable String value) {
-        return ResponseEntity.ok().body(roomService.getRoomsFromCityWithFilter(city, value));
     }
 }

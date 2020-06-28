@@ -1,7 +1,7 @@
-import {PictureModel} from "../../shared-module/models/picture.model";
-import {ProfileModel} from "../../profile-module/models/profile.model";
-import {AddressModel} from "./address.model";
-import {PositionModel} from "./position.model";
+import {PictureModel} from '../../shared-module/models/picture.model';
+import {ProfileModel} from '../../profile-module/models/profile.model';
+import {AddressModel} from './address.model';
+import {PositionModel} from './position.model';
 
 export class RoomModel {
     id: number;

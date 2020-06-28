@@ -6,7 +6,7 @@ export const environment = {
     production: false,
     mobile: false,
     api: 'http://localhost:8080/api/',
-    dateFormat: "YYYY-MM-DDTHH:mm:ssZ"
+    dateFormat: 'YYYY-MM-DDTHH:mm:ssZ'
 };
 
 /*
