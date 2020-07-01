@@ -1,11 +1,12 @@
-package com.dorm.backend.shared.services;
+package com.dorm.backend.profile;
 
 import com.dorm.backend.auth.UserPrincipal;
 import com.dorm.backend.auth.jwt.Credentials;
 import com.dorm.backend.profile.dto.ProfileDTO;
 import com.dorm.backend.shared.data.entities.User;
 import com.dorm.backend.shared.data.repos.UserRepository;
-import com.dorm.backend.shared.enums.EUserCharacteristic;
+import com.dorm.backend.shared.data.enums.EUserCharacteristic;
+import com.dorm.backend.shared.storage.PictureLocalStorage;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;

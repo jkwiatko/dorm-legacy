@@ -1,6 +1,6 @@
-package com.dorm.backend.shared.mappper.room;
+package com.dorm.backend.shared.map.room;
 
-import com.dorm.backend.shared.enums.EAmenity;
+import com.dorm.backend.shared.data.enums.EAmenity;
 import org.modelmapper.Converter;
 import org.modelmapper.spi.MappingContext;
 

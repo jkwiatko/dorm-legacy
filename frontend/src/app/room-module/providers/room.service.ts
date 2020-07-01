@@ -4,9 +4,9 @@ import {Observable} from 'rxjs';
 import {RoomModel} from '../model/room.model';
 import {environment} from '../../../environments/environment';
 import {map, tap} from 'rxjs/operators';
-import {CityRoomsModel} from '../../shared-module/models/city-rooms.model';
 import {validatorService} from '../../shared-module/lazy-async-validator/lazy-async-validator';
 import {ToastrService} from 'ngx-toastr';
+import {RoomPreviewModel} from '../../profile-module/models/room-preview.model';
 
 @Injectable({
     providedIn: 'root'
@@ -39,26 +39,20 @@ export class RoomService implements validatorService {
         }
     }
 
-    private addPictureExtension2CityRooms(cityRooms: CityRoomsModel) {
-        cityRooms.rooms.forEach(dto => {
-            if (dto.picture) {
-                dto.picture.base64String = 'data:image/jpeg;base64,' + dto.picture.base64String
+    private addPictureExtension2CityRooms(rooms: RoomPreviewModel[]) {
+        rooms.forEach(room => {
+            if (room.picture) {
+                room.picture.base64String = 'data:image/jpeg;base64,' + room.picture.base64String
             }
         });
-    }
-
-    fetchRoomsFromCity(city: string): Observable<CityRoomsModel> {
-        return this.http.get<CityRoomsModel>(environment.api + 'room/find/' + city)
-            .pipe(tap(this.addPictureExtension2CityRooms));
     }
 
     fetchAvailableCities(): Observable<string[]> {
         return this.http.get<string[]>(environment.api + 'room/cities')
     }
 
-    fetchSearchedRooms(searchCriteria): Observable<CityRoomsModel> {
-        console.log(searchCriteria);
-        return this.http.post<CityRoomsModel>(environment.api + 'room/search/', searchCriteria)
+    fetchSearchedRooms(searchCriteria): Observable<RoomPreviewModel[]> {
+        return this.http.post<RoomPreviewModel[]>(environment.api + 'room/search/', searchCriteria)
             .pipe(tap(this.addPictureExtension2CityRooms));
     }
 

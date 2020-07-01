@@ -23,7 +23,8 @@
             <ion-item class="col-12 col-md-9 order-0 order-md-1">
                 <ion-label position="floating">Nazwa</ion-label>
                 <ion-input
-                    name="searchByName"
+                    name="roomName"
+                    ngModel
                     (input)="searchObservable.next($event)">
                 </ion-input>
             </ion-item>
@@ -41,7 +42,7 @@
             <ion-item class="col-12 col-md-4 order-2" lines="none">
                 <ion-label>M-cy:</ion-label>
                 <ion-range
-                    name="period"
+                    name="duration"
                     ngModel
                     color="secondary"
                     [min]="1"
@@ -70,7 +71,7 @@
             <app-loader-spinner></app-loader-spinner>
         </div>
         <ng-template #searchResult>
-            <div *ngFor="let room of cityRooms.rooms" class="col-md-6 col-12 col-lg-4 p-3">
+            <div *ngFor="let room of rooms" class="col-md-6 col-12 col-lg-4 p-3">
                 <app-room-preview (click)="navigateToRoom(room.id)" [room]="room"></app-room-preview>
             </div>
         </ng-template>

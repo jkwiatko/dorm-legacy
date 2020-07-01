@@ -1,9 +1,10 @@
-package com.dorm.backend.shared.enums;
+package com.dorm.backend.shared.data.enums;
 
 public enum EAmenity {
+
     //place
     LOCATION("Localizacja"),
-    BALCONY("Blacon"),
+    BALCONY("Balcon"),
     GARDEN("Ogród"),
     PATIO("Patio"),
     POOL("Basen"),

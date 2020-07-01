@@ -6,6 +6,7 @@ import {Subject} from 'rxjs';
 import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 import * as moment from 'moment';
 import {NgForm} from '@angular/forms';
+import {RoomPreviewModel} from '../../profile-module/models/room-preview.model';
 
 @Component({
     selector: 'app-rooms',
@@ -15,7 +16,7 @@ import {NgForm} from '@angular/forms';
 })
 export class RoomSearchComponent implements OnInit {
 
-    cityRooms = new CityRoomsModel();
+    rooms: RoomPreviewModel[] = []
     availableCities: string[] = [];
     searchObservable = new Subject<Event>();
     isLoading = false;
@@ -35,7 +36,6 @@ export class RoomSearchComponent implements OnInit {
             switchMap(event => this.roomService.fetchSearchedRooms(this.form.value))
         ).subscribe(cityRooms => {
             this.isLoading = false;
-            this.cityRooms = cityRooms;
         });
     }
 
@@ -49,5 +49,10 @@ export class RoomSearchComponent implements OnInit {
 
     maxDate() {
         return moment(new Date()).add(5, 'years').format('YYYY-MM-DD');
+    }
+
+    test(f: NgForm) {
+        console.log(f.value)
+        this.roomService.fetchSearchedRooms(f.value).subscribe(console.log);
     }
 }

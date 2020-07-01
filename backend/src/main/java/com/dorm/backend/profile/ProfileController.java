@@ -1,8 +1,7 @@
 package com.dorm.backend.profile;
 
 import com.dorm.backend.profile.dto.ProfileDTO;
-import com.dorm.backend.shared.enums.EUserCharacteristic;
-import com.dorm.backend.shared.services.UserService;
+import com.dorm.backend.shared.data.enums.EUserCharacteristic;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.http.ResponseEntity;

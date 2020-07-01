@@ -1,8 +1,8 @@
 package com.dorm.backend.shared.data.entities;
 
 import com.dorm.backend.shared.data.entities.base.BaseEntity;
-import com.dorm.backend.shared.enums.EGender;
-import com.dorm.backend.shared.enums.EUserCharacteristic;
+import com.dorm.backend.shared.data.enums.EGender;
+import com.dorm.backend.shared.data.enums.EUserCharacteristic;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;

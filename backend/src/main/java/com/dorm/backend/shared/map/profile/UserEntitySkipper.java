@@ -1,4 +1,4 @@
-package com.dorm.backend.shared.mappper.profile;
+package com.dorm.backend.shared.map.profile;
 
 import com.dorm.backend.profile.dto.ProfileDTO;
 import com.dorm.backend.shared.data.entities.User;

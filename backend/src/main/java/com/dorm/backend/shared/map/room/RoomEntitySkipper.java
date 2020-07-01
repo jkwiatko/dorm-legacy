@@ -1,6 +1,6 @@
-package com.dorm.backend.shared.mappper.room;
+package com.dorm.backend.shared.map.room;
 
-import com.dorm.backend.room.dto.RoomDTO;
+import com.dorm.backend.room.dtos.RoomDTO;
 import com.dorm.backend.shared.data.entities.Room;
 import org.modelmapper.PropertyMap;
 

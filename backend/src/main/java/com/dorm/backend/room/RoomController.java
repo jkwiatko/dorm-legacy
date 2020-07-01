@@ -1,9 +1,8 @@
 package com.dorm.backend.room;
 
-import com.dorm.backend.room.dto.RoomDTO;
-import com.dorm.backend.room.dto.SearchCriteria;
-import com.dorm.backend.shared.enums.EAmenity;
-import com.dorm.backend.shared.services.RoomService;
+import com.dorm.backend.room.dtos.RoomDTO;
+import com.dorm.backend.room.dtos.RoomSearchCriteria;
+import com.dorm.backend.shared.data.enums.EAmenity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,8 +38,8 @@ public class RoomController {
     }
 
     @PostMapping("/search")
-    public ResponseEntity<List<RoomDTO>> getRoomsFromCityEmptySearch(@RequestBody SearchCriteria searchCriteria) {
-        return ResponseEntity.ok().body(roomService.searchRoom(searchCriteria));
+    public ResponseEntity<List<RoomDTO>> getRoomsFromCityEmptySearch(@RequestBody RoomSearchCriteria roomSearchCriteria) {
+        return ResponseEntity.ok().body(roomService.searchRoom(roomSearchCriteria));
     }
 
     @GetMapping("/amenities")

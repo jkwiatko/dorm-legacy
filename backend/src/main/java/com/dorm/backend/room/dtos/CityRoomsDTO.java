@@ -1,4 +1,4 @@
-package com.dorm.backend.room.dto;
+package com.dorm.backend.room.dtos;
 
 import com.dorm.backend.profile.dto.PreviewRoomDTO;
 

@@ -1,8 +1,8 @@
-package com.dorm.backend.shared.services;
+package com.dorm.backend.room;
 
 import com.dorm.backend.profile.dto.PictureDTO;
-import com.dorm.backend.room.dto.RoomDTO;
-import com.dorm.backend.room.dto.SearchCriteria;
+import com.dorm.backend.room.dtos.RoomDTO;
+import com.dorm.backend.room.dtos.RoomSearchCriteria;
 import com.dorm.backend.shared.data.entities.Picture;
 import com.dorm.backend.shared.data.entities.Room;
 import com.dorm.backend.shared.data.entities.User;
@@ -11,22 +11,21 @@ import com.dorm.backend.shared.data.entities.address.City;
 import com.dorm.backend.shared.data.repos.AddressRepository;
 import com.dorm.backend.shared.data.repos.CityRepository;
 import com.dorm.backend.shared.data.repos.RoomRepository;
-import com.dorm.backend.shared.data.spec.RoomSpecifications;
+import com.dorm.backend.shared.data.repos.search.RoomSearchRepository;
 import com.dorm.backend.shared.error.exc.DuplicatedPictureException;
 import com.dorm.backend.shared.error.exc.NoSuchCityException;
+import com.dorm.backend.shared.storage.PictureLocalStorage;
+import com.dorm.backend.profile.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
-
-import static org.springframework.data.jpa.domain.Specification.where;
 
 @Service
 @Transactional
@@ -35,6 +34,7 @@ public class RoomService {
     private final ModelMapper modelMapper;
     private final PictureLocalStorage pictureStorage;
     private final UserService userService;
+    private final RoomSearchRepository roomSearchRepository;
     private final RoomRepository roomRepository;
     private final AddressRepository addressRepository;
     private final CityRepository cityRepository;
@@ -43,6 +43,7 @@ public class RoomService {
             ModelMapper modelMapper,
             PictureLocalStorage pictureStorage,
             UserService userService,
+            RoomSearchRepository roomSearchRepository,
             RoomRepository roomRepository,
             AddressRepository addressRepository,
             CityRepository cityRepository
@@ -50,13 +51,14 @@ public class RoomService {
         this.modelMapper = modelMapper;
         this.pictureStorage = pictureStorage;
         this.userService = userService;
+        this.roomSearchRepository = roomSearchRepository;
         this.roomRepository = roomRepository;
         this.addressRepository = addressRepository;
         this.cityRepository = cityRepository;
     }
 
     public void createRoom(RoomDTO roomDTO) {
-        if(!roomDTO.getPictures().stream()
+        if (!roomDTO.getPictures().stream()
                 .map(PictureDTO::getName)
                 .allMatch(new HashSet<>()::add)) {
             throw new DuplicatedPictureException();
@@ -66,12 +68,12 @@ public class RoomService {
         Room room = modelMapper.map(roomDTO, Room.class);
         room.getAddress().setCity(
                 cityRepository.findByName(StringUtils.capitalize(roomDTO.getAddress().getCity().toLowerCase()))
-                .orElseThrow(() -> new NoSuchCityException(roomDTO.getAddress().getCity()))
+                        .orElseThrow(() -> new NoSuchCityException(roomDTO.getAddress().getCity()))
         );
         room.setPictures(
                 roomDTO.getPictures().stream()
-                .map(dto -> modelMapper.map(dto, Picture.class))
-                .collect(Collectors.toList())
+                        .map(dto -> modelMapper.map(dto, Picture.class))
+                        .collect(Collectors.toList())
         );
         room.setOwner(user);
         setPictureDetails(room);
@@ -81,7 +83,7 @@ public class RoomService {
     }
 
     public void editRoom(RoomDTO roomDTO) {
-        if(!roomDTO.getPictures().stream()
+        if (!roomDTO.getPictures().stream()
                 .map(PictureDTO::getName)
                 .allMatch(new HashSet<>()::add)) {
             throw new DuplicatedPictureException();
@@ -107,13 +109,17 @@ public class RoomService {
         roomRepository.save(currentRoom);
     }
 
-    public List<RoomDTO> searchRoom(SearchCriteria searchCriteria) {
-       roomRepository.findAll(
-               where(RoomSpecifications.isRoomInTheCity(searchCriteria.getCityName())));
-       return Collections.EMPTY_LIST;
+    public List<RoomDTO> searchRoom(RoomSearchCriteria roomSearchCriteria) {
+        return roomSearchRepository.findRoomUsingCriteria(roomSearchCriteria).stream()
+                .map(room -> {
+                    room.getPictures().forEach(PictureLocalStorage::loadPictureFromFileSystem);
+                    room.getOwner().getProfilePictures().forEach(PictureLocalStorage::loadPictureFromFileSystem);
+                    return modelMapper.map(room, RoomDTO.class);
+                })
+                .collect(Collectors.toList());
     }
 
-    private void removeOldPictures(List<Picture> oldPictures, List<Picture> newPictures){
+    private void removeOldPictures(List<Picture> oldPictures, List<Picture> newPictures) {
         oldPictures
                 .removeIf(currentPicture ->
                         newPictures.stream()
@@ -160,7 +166,7 @@ public class RoomService {
     }
 
     private void setPictureDetails(Room room) {
-        if(room.getPictures() != null) {
+        if (room.getPictures() != null) {
             for (Picture picture : room.getPictures()) {
                 picture.setOwner(room.getOwner());
                 picture.setOfRoom(room);

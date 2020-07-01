@@ -1,4 +1,4 @@
-package com.dorm.backend.shared.enums;
+package com.dorm.backend.shared.data.enums;
 
 public enum ERoommatePreferences {
     NO_SMOKING,

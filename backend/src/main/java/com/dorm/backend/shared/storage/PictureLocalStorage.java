@@ -1,4 +1,4 @@
-package com.dorm.backend.shared.services;
+package com.dorm.backend.shared.storage;
 
 import com.dorm.backend.shared.data.entities.Picture;
 import com.dorm.backend.shared.data.repos.PictureRepository;

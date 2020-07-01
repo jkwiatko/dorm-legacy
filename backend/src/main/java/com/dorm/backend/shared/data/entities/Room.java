@@ -2,7 +2,7 @@ package com.dorm.backend.shared.data.entities;
 
 import com.dorm.backend.shared.data.entities.address.Address;
 import com.dorm.backend.shared.data.entities.base.BaseEntity;
-import com.dorm.backend.shared.enums.EAmenity;
+import com.dorm.backend.shared.data.enums.EAmenity;
 
 import javax.persistence.*;
 import java.math.BigDecimal;

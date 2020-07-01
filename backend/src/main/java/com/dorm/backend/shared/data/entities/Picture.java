@@ -1,14 +1,8 @@
 package com.dorm.backend.shared.data.entities;
 
 import com.dorm.backend.shared.data.entities.base.BaseEntity;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 import javax.persistence.*;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.nio.file.Files;
 
 @Entity
 public class Picture extends BaseEntity {

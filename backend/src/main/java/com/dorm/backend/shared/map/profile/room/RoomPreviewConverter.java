@@ -1,10 +1,10 @@
-package com.dorm.backend.shared.mappper.profile.room;
+package com.dorm.backend.shared.map.profile.room;
 
 import com.dorm.backend.profile.dto.PictureDTO;
 import com.dorm.backend.profile.dto.PreviewRoomDTO;
 import com.dorm.backend.shared.data.entities.Picture;
 import com.dorm.backend.shared.data.entities.Room;
-import com.dorm.backend.shared.services.PictureLocalStorage;
+import com.dorm.backend.shared.storage.PictureLocalStorage;
 import org.modelmapper.Converter;
 import org.modelmapper.spi.MappingContext;
 

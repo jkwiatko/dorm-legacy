@@ -1,4 +1,4 @@
-package com.dorm.backend.shared.enums;
+package com.dorm.backend.shared.data.enums;
 
 public enum EUserCharacteristic {
     EARLY_BIRD("Rannym ptaszkiem"),

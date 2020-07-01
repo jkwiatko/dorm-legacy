@@ -1,4 +1,4 @@
-package com.dorm.backend.shared.mappper.room;
+package com.dorm.backend.shared.map.room;
 
 import com.dorm.backend.shared.data.entities.address.City;
 import org.modelmapper.Converter;
