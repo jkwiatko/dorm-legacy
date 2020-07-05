@@ -6,7 +6,7 @@
     </ion-toolbar>
 </ion-header>
 <div class="search-component mb-3 container">
-    <form #f="ngForm">
+    <form #searchForm="ngForm">
         <div class="row">
             <ion-item class="col-12 col-md-3 order-0-md order-1">
                 <ion-label position="floating">Miasto</ion-label>
@@ -14,6 +14,8 @@
                     [interfaceOptions]="availableCities"
                     name="cityName"
                     ngModel
+                    required
+                    (ionChange)="searchObservable.next($event)"
                     interface="popover">
                     <ion-select-option *ngFor="let city of availableCities" [value]="city">
                         {{city}}
@@ -36,10 +38,11 @@
                     display-format="MM DD YYYY"
                     picker-format="YY MMM DD"
                     [min]="minDate()"
-                    [max]="maxDate()">
+                    [max]="maxDate()"
+                    (ionChange)="searchObservable.next($event)">
                 </ion-datetime>
             </ion-item>
-            <ion-item class="col-12 col-md-4 order-2" lines="none">
+            <ion-item mode="ios" class="col-12 col-md-4 order-2" lines="none">
                 <ion-label>M-cy:</ion-label>
                 <ion-range
                     name="duration"
@@ -48,10 +51,11 @@
                     [min]="1"
                     [max]="24"
                     step="1"
-                    pin="true">
+                    pin="true"
+                    (ionChange)="searchObservable.next($event)">
                 </ion-range>
             </ion-item>
-            <ion-item class="col-12 col-md-4 order-2" lines="none">
+            <ion-item mode="ios" class="col-12 col-md-4 order-2" lines="none">
                 <ion-label>$ $ $</ion-label>
                 <ion-range
                     name="maxPrice"
@@ -60,17 +64,18 @@
                     [min]="500"
                     [max]="3000"
                     step="100"
-                    pin="true">
+                    pin="true"
+                    (ionChange)="searchObservable.next($event)">
                 </ion-range>
             </ion-item>
-            <ion-button class="col-12 order-3" (click)="test(f)">submit</ion-button>
         </div>
     </form>
-    <div class="row">
-        <div class="col-12 text-center mt-5" *ngIf="isLoading; else searchResult">
+    <div class="row mt-5">
+        <div class="col-12 text-center" *ngIf="isLoading; else searchResult">
             <app-loader-spinner></app-loader-spinner>
         </div>
         <ng-template #searchResult>
+            <div class="col-12 p-3 mt-lg-5 text-center" *ngIf="rooms.length < 1">Brak wyników wyszukiwania</div>
             <div *ngFor="let room of rooms" class="col-md-6 col-12 col-lg-4 p-3">
                 <app-room-preview (click)="navigateToRoom(room.id)" [room]="room"></app-room-preview>
             </div>

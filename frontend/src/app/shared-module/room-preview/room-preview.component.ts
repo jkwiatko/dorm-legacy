@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {RoomPreviewModel} from "../../profile-module/models/room-preview.model";
-import {Router} from "@angular/router";
+import {RoomPreviewModel} from '../../profile-module/models/room-preview.model';
+import {Router} from '@angular/router';
 
 @Component({
     selector: 'app-room-preview',

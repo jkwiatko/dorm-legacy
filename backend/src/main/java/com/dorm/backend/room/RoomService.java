@@ -1,6 +1,7 @@
 package com.dorm.backend.room;
 
 import com.dorm.backend.profile.dto.PictureDTO;
+import com.dorm.backend.profile.dto.PreviewRoomDTO;
 import com.dorm.backend.room.dtos.RoomDTO;
 import com.dorm.backend.room.dtos.RoomSearchCriteria;
 import com.dorm.backend.shared.data.entities.Picture;
@@ -109,12 +110,12 @@ public class RoomService {
         roomRepository.save(currentRoom);
     }
 
-    public List<RoomDTO> searchRoom(RoomSearchCriteria roomSearchCriteria) {
+    public List<PreviewRoomDTO> searchRoom(RoomSearchCriteria roomSearchCriteria) {
         return roomSearchRepository.findRoomUsingCriteria(roomSearchCriteria).stream()
                 .map(room -> {
                     room.getPictures().forEach(PictureLocalStorage::loadPictureFromFileSystem);
                     room.getOwner().getProfilePictures().forEach(PictureLocalStorage::loadPictureFromFileSystem);
-                    return modelMapper.map(room, RoomDTO.class);
+                    return modelMapper.map(room, PreviewRoomDTO.class);
                 })
                 .collect(Collectors.toList());
     }

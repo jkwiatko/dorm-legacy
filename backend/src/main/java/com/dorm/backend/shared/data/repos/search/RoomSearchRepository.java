@@ -34,7 +34,7 @@ public class RoomSearchRepository {
         );
         criteria.getRoomName()
                 .filter(roomName -> !roomName.isEmpty())
-                .map(roomName -> criteriaBuilder.like(room.get("name"), roomName))
+                .map(roomName -> criteriaBuilder.like(room.get("name"), roomName+"%"))
                 .ifPresent(predicates::add);
         criteria.getStartingDate()
                 .map(start -> criteriaBuilder.lessThanOrEqualTo(room.get("availableFrom"), start))

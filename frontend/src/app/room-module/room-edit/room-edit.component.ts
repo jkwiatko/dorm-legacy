@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {EMPTY} from 'rxjs';
 import {ActivatedRoute, Router} from '@angular/router';
-import {RoomModel} from '../model/room.model';
+import {RoomModel} from '../models/room.model';
 import {RoomService} from '../providers/room.service';
 import {FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
 import {switchMap} from 'rxjs/operators';

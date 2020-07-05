@@ -1,5 +1,6 @@
 package com.dorm.backend.room;
 
+import com.dorm.backend.profile.dto.PreviewRoomDTO;
 import com.dorm.backend.room.dtos.RoomDTO;
 import com.dorm.backend.room.dtos.RoomSearchCriteria;
 import com.dorm.backend.shared.data.enums.EAmenity;
@@ -38,7 +39,7 @@ public class RoomController {
     }
 
     @PostMapping("/search")
-    public ResponseEntity<List<RoomDTO>> getRoomsFromCityEmptySearch(@RequestBody RoomSearchCriteria roomSearchCriteria) {
+    public ResponseEntity<List<PreviewRoomDTO>> getRoomsFromCityEmptySearch(@RequestBody RoomSearchCriteria roomSearchCriteria) {
         return ResponseEntity.ok().body(roomService.searchRoom(roomSearchCriteria));
     }
 

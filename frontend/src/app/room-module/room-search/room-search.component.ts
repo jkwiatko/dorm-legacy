@@ -1,6 +1,5 @@
-import {Component, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
 import {RoomService} from '../providers/room.service';
-import {CityRoomsModel} from '../../shared-module/models/city-rooms.model';
 import {Router} from '@angular/router';
 import {Subject} from 'rxjs';
 import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
@@ -14,15 +13,15 @@ import {RoomPreviewModel} from '../../profile-module/models/room-preview.model';
     styleUrls: ['./room-search.component.scss'],
     encapsulation: ViewEncapsulation.None
 })
-export class RoomSearchComponent implements OnInit {
+export class RoomSearchComponent implements OnInit, OnDestroy {
 
     rooms: RoomPreviewModel[] = []
     availableCities: string[] = [];
     searchObservable = new Subject<Event>();
     isLoading = false;
 
-    @ViewChild('f', {static: true})
-    form: NgForm;
+    @ViewChild('searchForm', {static: true})
+    searchForm: NgForm;
 
     constructor(private roomService: RoomService, private router: Router) {
     }
@@ -30,13 +29,18 @@ export class RoomSearchComponent implements OnInit {
     ngOnInit() {
         this.roomService.fetchAvailableCities().subscribe((cities => this.availableCities = cities));
         this.searchObservable.pipe(
-            tap(() => this.isLoading = true),
-            debounceTime(1000),
+            debounceTime(200),
             distinctUntilChanged(),
-            switchMap(event => this.roomService.fetchSearchedRooms(this.form.value))
-        ).subscribe(cityRooms => {
-            this.isLoading = false;
-        });
+            tap(() => this.isLoading = true),
+            debounceTime(500),
+            switchMap(() => this.roomService.fetchSearchedRooms(this.searchForm.value))
+        ).subscribe(
+            rooms => {
+                this.rooms = rooms;
+                this.isLoading = false;
+            },
+            console.log
+        );
     }
 
     navigateToRoom(id: number) {
@@ -51,8 +55,8 @@ export class RoomSearchComponent implements OnInit {
         return moment(new Date()).add(5, 'years').format('YYYY-MM-DD');
     }
 
-    test(f: NgForm) {
-        console.log(f.value)
-        this.roomService.fetchSearchedRooms(f.value).subscribe(console.log);
+    ngOnDestroy() {
+        this.searchObservable.unsubscribe();
     }
+
 }

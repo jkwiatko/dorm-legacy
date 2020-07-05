@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {RoomModel} from '../model/room.model';
+import {RoomModel} from '../models/room.model';
 import {ActivatedRoute, Router} from '@angular/router';
 import {switchMap} from 'rxjs/operators';
 import {EMPTY, Subscription} from 'rxjs';

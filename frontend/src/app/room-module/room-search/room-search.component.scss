@@ -37,5 +37,11 @@
             }
         }
     }
+
+    form.ng-touched {
+        ion-select.ng-invalid {
+            border: 1px solid var(--ion-color-danger);
+        }
+    }
 }
 

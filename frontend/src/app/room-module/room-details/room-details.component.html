@@ -79,7 +79,7 @@
                     {{room.name}}
                 </div>
                 <ul class="basic-info-list gray-text p-0">
-                    <li>{{room.roomsNumber > 1 ? room.roomsNumber + ' pokoi' : '1 pokój'}}</li>
+                    <li>{{room.roomsNumber | roomNumber}}</li>
                     &bull;
                     <li>Dostępny od {{room.availableFrom | availableFrom}}</li>
                     &bull;
@@ -157,7 +157,7 @@
                     </div>
                 </div>
                 <hr class="w-100 horizontal-line">
-                <ion-button color="primary mb-3">Rezerwuj</ion-button>
+                <ion-button color="primary mb-3">Zarezerwuj</ion-button>
             </div>
             <div class="col-12 col-lg-4 mb-4 mb-lg-0 order-0 order-lg-1 cursor-pointer">
                 <app-profile-sticky-info [navigateOnClick]="true" [profile]="room.owner">

@@ -1,4 +1,4 @@
-import {PictureModel} from "../../shared-module/models/picture.model";
+import {PictureModel} from '../../shared-module/models/picture.model';
 
 export class RoomPreviewModel {
      id: number;
