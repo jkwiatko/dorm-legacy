@@ -6,6 +6,7 @@ import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators
 import * as moment from 'moment';
 import {NgForm} from '@angular/forms';
 import {RoomPreviewModel} from '../../profile-module/models/room-preview.model';
+import {environment} from '../../../environments/environment';
 
 @Component({
     selector: 'app-rooms',
@@ -19,9 +20,11 @@ export class RoomSearchComponent implements OnInit, OnDestroy {
     availableCities: string[] = [];
     searchObservable = new Subject<Event>();
     isLoading = false;
+    startDate = new Date();
 
     @ViewChild('searchForm', {static: true})
     searchForm: NgForm;
+    mobile = environment.mobile;
 
     constructor(private roomService: RoomService, private router: Router) {
     }

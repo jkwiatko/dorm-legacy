@@ -7,23 +7,25 @@
 </ion-header>
 <div class="container">
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
-        <div [ngClass]="submitted ? 'submitted' : ''"  class="mt-3 row">
+        <div [ngClass]="submitted ? 'submitted' : ''" class="mt-3 row">
             <div class="col-12 col-lg-4 mb-4 mb-lg-0">
                 <div class="sticky-info border">
                     <div class="mb-3 d-flex align-content-center justify-content-center">
-                        <img class="profile-img" alt="profile image" *ngIf="profileImg.base64String; else noImage" [src]="profileImg.base64String | safe: 'url'">
-                            <ng-template #noImage>
-                                <div class="profile-img border">
-                                    <span>?</span>
-                                </div>
-                            </ng-template>
+                        <img class="profile-img" alt="profile image" *ngIf="profileImg.base64String; else noImage"
+                             [src]="profileImg.base64String | safe: 'url'">
+                        <ng-template #noImage>
+                            <div class="profile-img border">
+                                <span>?</span>
+                            </div>
+                        </ng-template>
                     </div>
-                    <button type="button" class="btn btn-success mt-2" (click)="fileInput.click()">{{profileImg.base64String ? 'zmień' : 'dodaj'}}</button>
+                    <button type="button" class="btn btn-success mt-2"
+                            (click)="fileInput.click()">{{profileImg.base64String ? 'zmień' : 'dodaj'}}</button>
                     <input type="file"
                            class="d-none"
                            #fileInput (change)="OnSelectFile($event)">
                     <hr class="w-50">
-                    <div class="w-75">
+                    <div class="w-100">
                         <div class="w-100 p-2">
                             <label class="w-50">
                                 <input type="text"
@@ -38,19 +40,42 @@
                                        placeholder="Last name">
                             </label>
                         </div>
-                        <mat-radio-group required="true" class="input-group d-flex justify-content-center p-2" formControlName="gender" aria-label="Select an option">
+                        <mat-radio-group required="true" class="input-group d-flex justify-content-center p-2"
+                                         formControlName="gender" aria-label="Select an option">
                             <mat-radio-button value="MALE" color="primary">M</mat-radio-button>
                             <mat-radio-button value="FEMALE" class="ml-4">K</mat-radio-button>
                         </mat-radio-group>
                         <div class="mt-2">
-                            <mat-form-field>
+                            <mat-form-field *ngIf="!mobile; else mobileBirthPicker">
                                 <label>
                                     <!--suppress AngularInvalidExpressionResultType -->
-                                    <input matInput formControlName="birthDate" [matDatepicker]="picker" placeholder="Choose birth date">
+                                    <input matInput formControlName="birthDate" [matDatepicker]="picker"
+                                           placeholder="Wybierz datę urodzin">
                                 </label>
                                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                                 <mat-datepicker #picker startView="multi-year" [startAt]="startDate"></mat-datepicker>
                             </mat-form-field>
+                            <ng-template #mobileBirthPicker>
+                                <ion-item lines="none" class="w-100">
+                                    <ion-label class="text-center d-flex align-items-center justify-content-center"
+                                               position="floating">
+                                        <div class="mr-3">
+                                            Wybierz datę urodzin
+                                        </div>
+                                        <div>
+                                            <ion-icon size="large" name="calendar-outline"></ion-icon>
+                                        </div>
+                                    </ion-label>
+                                    <ion-datetime
+                                        [className]="'text-center'"
+                                        formControlName="birthDate"
+                                        display-format="DD MM YYYY"
+                                        picker-format="DD MM YYYY"
+                                        min="1900-01-01"
+                                        [max]="maxDate()">
+                                    </ion-datetime>
+                                </ion-item>
+                            </ng-template>
                         </div>
                     </div>
                     <hr class="w-50">
@@ -89,7 +114,8 @@
                                 <div class="col-md-6 col-12 text-center d-flex flex-column">
                                     <span>Uczę się na:  </span>
                                     <div>
-                                        <label><input type="text" formControlName="studyingAt" class="simple-input mt-2"></label>
+                                        <label><input type="text" formControlName="studyingAt"
+                                                      class="simple-input mt-2"></label>
                                     </div>
                                 </div>
                             </div>
@@ -119,16 +145,19 @@
                                     Jestem:
                                 </div>
                                 <div class="text-center">
-                                    <div class="form-group" *ngFor="let inclination of inclinationsControl; let i = index">
+                                    <div class="form-group"
+                                         *ngFor="let inclination of inclinationsControl; let i = index">
                                         <label>
                                             <select class="form-control" formControlName="{{i}}">
                                                 <option [value]="null" hidden disabled>Wybierz...</option>
-                                                <option [value]="characteristicsOption" *ngFor="let characteristicsOption of characteristicsOptions">
+                                                <option [value]="characteristicsOption"
+                                                        *ngFor="let characteristicsOption of characteristicsOptions">
                                                     {{characteristicsOption}}
                                                 </option>
                                             </select>
                                         </label>
-                                        <button (click)="onDeleteInclination(i)" type="button" class="x-button">X</button>
+                                        <button (click)="onDeleteInclination(i)" type="button" class="x-button">X
+                                        </button>
                                     </div>
                                     <button type="button" class="btn btn-success" (click)="onAddInclination()">
                                         dodaj
@@ -149,7 +178,7 @@
                                 </div>
                                 <div class="text-center">
                                     <label>
-                                        <input  type="text" formControlName="cleaningPolicy" class="simple-input">
+                                        <input type="text" formControlName="cleaningPolicy" class="simple-input">
                                     </label>
                                 </div>
                             </div>

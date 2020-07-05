@@ -4,10 +4,9 @@ public enum EAmenity {
 
     //place
     LOCATION("Localizacja"),
-    BALCONY("Balcon"),
+    BALCONY("Balkon"),
     GARDEN("Ogród"),
     PATIO("Patio"),
-    POOL("Basen"),
     PETS_ALLOWED("Zwięrzenta"),
     SECURITY_ALARMS("Alarm"),
     ELEVATOR("Winda"),

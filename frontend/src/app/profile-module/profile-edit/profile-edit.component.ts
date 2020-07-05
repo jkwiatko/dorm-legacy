@@ -7,6 +7,8 @@ import {ProfileModel} from '../models/profile.model';
 import {PictureModel} from '../../shared-module/models/picture.model';
 import {ToastrService} from 'ngx-toastr';
 import {DateParserPipe} from '../../shared-module/pipes/dateParser.pipe';
+import * as moment from 'moment';
+import {environment} from '../../../environments/environment';
 
 @Component({
     selector: 'app-profile-edit',
@@ -23,6 +25,7 @@ export class ProfileEditComponent implements OnInit, OnDestroy {
     profileImg: PictureModel = new PictureModel();
     characteristicsOptions: string[] = [];
     submitted = false;
+    mobile = environment.mobile;
 
     constructor(private profileClient: ProfileService,
                 private router: Router,
@@ -140,10 +143,6 @@ export class ProfileEditComponent implements OnInit, OnDestroy {
         }
     }
 
-    ngOnDestroy(): void {
-        this.profileSub.unsubscribe();
-    }
-
     onAddRoom() {
         this.router.navigate(['/room/create']);
     }
@@ -152,4 +151,17 @@ export class ProfileEditComponent implements OnInit, OnDestroy {
         this.submitted = false;
         this.form.reset(this.form.value);
     }
+
+    minDate() {
+        return moment('1900-01-01').format('YYYY-MM-DD');
+    }
+
+    maxDate() {
+        return moment(new Date()).subtract(15, 'years').format('YYYY-MM-DD');
+    }
+
+    ngOnDestroy(): void {
+        this.profileSub.unsubscribe();
+    }
+
 }

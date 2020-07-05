@@ -30,7 +30,7 @@
                     (input)="searchObservable.next($event)">
                 </ion-input>
             </ion-item>
-            <ion-item class="col-12 col-md-4 order-2">
+            <ion-item *ngIf="mobile; else desktopPicker" class="col-12 col-md-4 order-2">
                 <ion-label position="floating">Od kiedy?</ion-label>
                 <ion-datetime
                     name="startingDate"
@@ -42,6 +42,25 @@
                     (ionChange)="searchObservable.next($event)">
                 </ion-datetime>
             </ion-item>
+            <ng-template #desktopPicker>
+                <ion-item lines="none" class="col-12 col-md-4 order-2">
+                    <mat-form-field class="pt-2 w-75">
+                        <label>
+                            <!--suppress AngularInvalidExpressionResultType -->
+                            <input matInput
+                                   ngModel
+                                   name="startingDate"
+                                   [max]="maxDate()"
+                                   [min]="minDate()"
+                                   [matDatepicker]="picker"
+                                   (dateChange)="searchObservable.next()"
+                                   placeholder="Od kiedy?">
+                        </label>
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker startView="month" [startAt]="startDate"></mat-datepicker>
+                    </mat-form-field>
+                </ion-item>
+            </ng-template>
             <ion-item mode="ios" class="col-12 col-md-4 order-2" lines="none">
                 <ion-label>M-cy:</ion-label>
                 <ion-range
