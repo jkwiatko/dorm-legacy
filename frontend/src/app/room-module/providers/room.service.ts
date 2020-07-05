@@ -16,8 +16,26 @@ export class RoomService implements validatorService {
     constructor(private http: HttpClient, private toastr: ToastrService) {
     }
 
+    static addPictureExtToPreview(rooms: RoomPreviewModel[]) {
+        rooms.forEach(room => {
+            if (room.picture) {
+                room.picture.base64String = 'data:image/jpeg;base64,' + room.picture.base64String
+            }
+        });
+    }
+
+    static addPictureExt(room: RoomModel): void {
+        if (room.pictures) {
+            room.pictures.forEach(img => img.base64String = 'data:image/jpeg;base64,' + img.base64String);
+        }
+        if (room.owner.profilePictures) {
+            room.owner.profilePictures.forEach(img => img.base64String = 'data:image/jpeg;base64,' + img.base64String);
+        }
+    }
+
     public fetchRoom(id: number): Observable<RoomModel> {
-        return this.http.get<RoomModel>(environment.api + 'room/' + id).pipe(tap(this.addPictureExtension));
+        return this.http.get<RoomModel>(environment.api + 'room/' + id)
+            .pipe(tap(RoomService.addPictureExt));
     }
 
     public createRoom(room: RoomModel) {
@@ -30,30 +48,8 @@ export class RoomService implements validatorService {
             .post<RoomModel>(environment.api + 'room/edit', room)
     }
 
-    private addPictureExtension(room: RoomModel): void {
-        if (room.pictures) {
-            room.pictures.forEach(img => img.base64String = 'data:image/jpeg;base64,' + img.base64String);
-        }
-        if (room.owner.profilePictures) {
-            room.owner.profilePictures.forEach(img => img.base64String = 'data:image/jpeg;base64,' + img.base64String);
-        }
-    }
-
-    private addPictureExtension2CityRooms(rooms: RoomPreviewModel[]) {
-        rooms.forEach(room => {
-            if (room.picture) {
-                room.picture.base64String = 'data:image/jpeg;base64,' + room.picture.base64String
-            }
-        });
-    }
-
     fetchAvailableCities(): Observable<string[]> {
         return this.http.get<string[]>(environment.api + 'room/cities')
-    }
-
-    fetchSearchedRooms(searchCriteria): Observable<RoomPreviewModel[]> {
-        return this.http.post<RoomPreviewModel[]>(environment.api + 'room/search/', searchCriteria)
-            .pipe(tap(this.addPictureExtension2CityRooms));
     }
 
     fetchAvailableAmenities() {

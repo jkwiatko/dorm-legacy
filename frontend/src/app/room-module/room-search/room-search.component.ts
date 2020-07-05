@@ -2,11 +2,12 @@ import {Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation} from '@angul
 import {RoomService} from '../providers/room.service';
 import {Router} from '@angular/router';
 import {Subject} from 'rxjs';
-import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
+import {debounceTime, distinctUntilChanged, filter, switchMap, tap} from 'rxjs/operators';
 import * as moment from 'moment';
 import {NgForm} from '@angular/forms';
 import {RoomPreviewModel} from '../../profile-module/models/room-preview.model';
 import {environment} from '../../../environments/environment';
+import {RoomSearchService, SearchCriteria} from '../providers/room-search.service';
 
 @Component({
     selector: 'app-rooms',
@@ -16,27 +17,36 @@ import {environment} from '../../../environments/environment';
 })
 export class RoomSearchComponent implements OnInit, OnDestroy {
 
+    constructor(
+        private roomSearchService: RoomSearchService,
+        private roomService: RoomService,
+        private router: Router
+    ) {
+    }
+
     rooms: RoomPreviewModel[] = []
     availableCities: string[] = [];
     searchObservable = new Subject<Event>();
     isLoading = false;
     startDate = new Date();
+    lastCriteria: SearchCriteria;
 
     @ViewChild('searchForm', {static: true})
     searchForm: NgForm;
     mobile = environment.mobile;
 
-    constructor(private roomService: RoomService, private router: Router) {
-    }
-
     ngOnInit() {
+        this.lastCriteria = this.roomSearchService.getLastCriteria();
         this.roomService.fetchAvailableCities().subscribe((cities => this.availableCities = cities));
         this.searchObservable.pipe(
             debounceTime(200),
             distinctUntilChanged(),
-            tap(() => this.isLoading = true),
             debounceTime(500),
-            switchMap(() => this.roomService.fetchSearchedRooms(this.searchForm.value))
+            switchMap(() => {
+                this.searchForm.form.markAsTouched();
+                this.isLoading = true;
+                return this.roomSearchService.fetchSearchedRooms(this.searchForm.value);
+            })
         ).subscribe(
             rooms => {
                 this.rooms = rooms;
@@ -61,5 +71,4 @@ export class RoomSearchComponent implements OnInit, OnDestroy {
     ngOnDestroy() {
         this.searchObservable.unsubscribe();
     }
-
 }

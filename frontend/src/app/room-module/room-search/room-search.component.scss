@@ -34,9 +34,9 @@
         }
     }
 
-    form.ng-touched {
-        ion-select.ng-invalid {
-            border: 1px solid var(--ion-color-danger);
+    form.ng-touched.ng-invalid {
+        ion-item#cityPicker {
+            --border-color: var(--ion-color-danger);
         }
     }
 }
