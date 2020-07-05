@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation} from '@angul
 import {RoomService} from '../providers/room.service';
 import {Router} from '@angular/router';
 import {Subject} from 'rxjs';
-import {debounceTime, distinctUntilChanged, filter, switchMap, tap} from 'rxjs/operators';
+import {take} from 'rxjs/operators';
 import * as moment from 'moment';
 import {NgForm} from '@angular/forms';
 import {RoomPreviewModel} from '../../profile-module/models/room-preview.model';
@@ -37,23 +37,10 @@ export class RoomSearchComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.lastCriteria = this.roomSearchService.getLastCriteria();
-        this.roomService.fetchAvailableCities().subscribe((cities => this.availableCities = cities));
-        this.searchObservable.pipe(
-            debounceTime(200),
-            distinctUntilChanged(),
-            debounceTime(500),
-            switchMap(() => {
-                this.searchForm.form.markAsTouched();
-                this.isLoading = true;
-                return this.roomSearchService.fetchSearchedRooms(this.searchForm.value);
-            })
-        ).subscribe(
-            rooms => {
-                this.rooms = rooms;
-                this.isLoading = false;
-            },
-            console.log
-        );
+        this.roomService.fetchAvailableCities().subscribe((cities => this.availableCities = cities))
+        if (this.lastCriteria.cityName) {
+            this.search(this.lastCriteria);
+        }
     }
 
     navigateToRoom(id: number) {
@@ -71,4 +58,24 @@ export class RoomSearchComponent implements OnInit, OnDestroy {
     ngOnDestroy() {
         this.searchObservable.unsubscribe();
     }
+
+    submit(searchCriteriaForm) {
+        if(searchCriteriaForm.valid) {
+            this.search(searchCriteriaForm.value);
+        }
+    }
+
+    search(searchCriteria) {
+        this.isLoading = true;
+        return this.roomSearchService.fetchSearchedRooms(searchCriteria)
+            .pipe(take(1))
+            .subscribe(
+                rooms => {
+                    this.rooms = rooms;
+                    this.isLoading = false;
+                },
+                console.log
+            );
+    }
+
 }

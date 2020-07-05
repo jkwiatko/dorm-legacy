@@ -93,6 +93,9 @@
                     (ionChange)="searchObservable.next($event)">
                 </ion-range>
             </ion-item>
+            <div class="col-12 order-2 mt-4 d-flex justify-content-center">
+                <ion-button (click)="submit(searchForm)">Szukaj</ion-button>
+            </div>
         </div>
     </form>
     <div class="row mt-5">
