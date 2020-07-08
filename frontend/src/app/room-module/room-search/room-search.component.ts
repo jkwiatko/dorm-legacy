@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
 import {RoomService} from '../providers/room.service';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {Subject} from 'rxjs';
 import {take} from 'rxjs/operators';
 import * as moment from 'moment';
@@ -20,7 +20,8 @@ export class RoomSearchComponent implements OnInit, OnDestroy {
     constructor(
         private roomSearchService: RoomSearchService,
         private roomService: RoomService,
-        private router: Router
+        private router: Router,
+        private route: ActivatedRoute
     ) {
     }
 
@@ -30,22 +31,11 @@ export class RoomSearchComponent implements OnInit, OnDestroy {
     isLoading = false;
     startDate = new Date();
     lastCriteria: SearchCriteria;
+    lookingForUserOffer = false;
 
     @ViewChild('searchForm', {static: true})
     searchForm: NgForm;
     mobile = environment.mobile;
-
-    ngOnInit() {
-        this.lastCriteria = this.roomSearchService.getLastCriteria();
-        this.roomService.fetchAvailableCities().subscribe((cities => this.availableCities = cities))
-        if (this.lastCriteria.cityName) {
-            this.search(this.lastCriteria);
-        }
-    }
-
-    navigateToRoom(id: number) {
-        this.router.navigate(['room/', id])
-    }
 
     minDate() {
         return moment(new Date()).format('YYYY-MM-DD');
@@ -55,18 +45,25 @@ export class RoomSearchComponent implements OnInit, OnDestroy {
         return moment(new Date()).add(5, 'years').format('YYYY-MM-DD');
     }
 
-    ngOnDestroy() {
-        this.searchObservable.unsubscribe();
-    }
-
-    submit(searchCriteriaForm) {
-        if(searchCriteriaForm.valid) {
-            this.search(searchCriteriaForm.value);
+    ngOnInit() {
+        this.lastCriteria = this.roomSearchService.getLastCriteria();
+        this.route.url.subscribe(this.searchForUserOffers.bind(this))
+        this.roomService.fetchAvailableCities().subscribe((cities => this.availableCities = cities))
+        if (this.lastCriteria.cityName) {
+            this.search(this.lastCriteria);
         }
     }
 
-    search(searchCriteria) {
+    searchForUserOffers(url) {
+        if (url[url.length - 1].path === 'my-offers') {
+            this.lookingForUserOffer = true;
+            this.search({} as SearchCriteria);
+        }
+    }
+
+    search(searchCriteria: SearchCriteria) {
         this.isLoading = true;
+        searchCriteria.lookingForUserOffer = this.lookingForUserOffer;
         return this.roomSearchService.fetchSearchedRooms(searchCriteria)
             .pipe(take(1))
             .subscribe(
@@ -78,4 +75,18 @@ export class RoomSearchComponent implements OnInit, OnDestroy {
             );
     }
 
+    submit(searchCriteriaForm : NgForm) {
+        searchCriteriaForm.form.markAllAsTouched();
+        if (searchCriteriaForm.valid) {
+            this.search(searchCriteriaForm.value);
+        }
+    }
+
+    navigateToRoom(id: number) {
+        this.router.navigate(['room/', id])
+    }
+
+    ngOnDestroy() {
+        this.searchObservable.unsubscribe();
+    }
 }

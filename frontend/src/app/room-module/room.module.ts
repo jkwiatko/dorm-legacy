@@ -18,7 +18,8 @@ import {IonicModule} from '@ionic/angular';
 const routes: Routes = [
     {path: 'room/find', component: RoomSearchComponent, pathMatch: 'full', canActivate: [AuthGuardService]},
     {path: 'room/create', component: RoomEditComponent, pathMatch: 'full', canActivate: [AuthGuardService]},
-    {path: 'room/:id', component: RoomDetailsComponent, pathMatch: 'full'},
+    {path: 'room/my-offers', component: RoomSearchComponent, pathMatch: 'full', canActivate: [AuthGuardService]},
+    {path: 'room/:id', component: RoomDetailsComponent, pathMatch: 'full', canActivate: [AuthGuardService]},
     {path: 'room/edit/:id', component: RoomEditComponent, pathMatch: 'full', canActivate: [AuthGuardService]},
 ];
 

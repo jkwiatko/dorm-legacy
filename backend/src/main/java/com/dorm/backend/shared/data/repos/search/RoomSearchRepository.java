@@ -1,5 +1,6 @@
 package com.dorm.backend.shared.data.repos.search;
 
+import com.dorm.backend.profile.UserService;
 import com.dorm.backend.room.dtos.RoomSearchCriteria;
 import com.dorm.backend.shared.data.entities.Room;
 import org.springframework.stereotype.Repository;
@@ -20,18 +21,37 @@ public class RoomSearchRepository {
     @PersistenceContext
     EntityManager entityManager;
 
+    UserService userService;
+
+    public RoomSearchRepository(UserService userService) {
+        this.userService = userService;
+    }
+
     public List<Room> findRoomUsingCriteria(RoomSearchCriteria criteria) {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Room> criteriaQuery = criteriaBuilder.createQuery(Room.class);
         Root<Room> room = criteriaQuery.from(Room.class);
         List<Predicate> predicates = new ArrayList<>();
 
-        predicates.add(
-                criteriaBuilder.equal(
-                        room.join("address").join("city").get("name"),
-                        criteria.getCityName()
-                )
-        );
+        if(criteria.isLookingForUserOffer()) {
+            predicates.add(
+                    criteriaBuilder.equal(
+                            room.join("owner").get("id"),
+                            userService.getCurrentAuthenticatedUser().getId()
+                    ));
+        } else {
+            predicates.add(
+                    criteriaBuilder.equal(
+                            room.join("address").join("city").get("name"),
+                            criteria.getCityName()
+                    )
+            );
+            predicates.add(
+                    criteriaBuilder.notEqual(
+                            room.join("owner").get("id"),
+                            userService.getCurrentAuthenticatedUser().getId()
+                    ));
+        }
         criteria.getRoomName()
                 .filter(roomName -> !roomName.isEmpty())
                 .map(roomName -> criteriaBuilder.like(room.get("name"), roomName+"%"))

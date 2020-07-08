@@ -8,7 +8,8 @@
 <div class="search-component mb-3 container">
     <form #searchForm="ngForm">
         <div class="row">
-            <ion-item class="col-12 col-md-3 order-0-md order-1 d-flex flex-column justify-content-end" id="cityPicker">
+            <ion-item *ngIf="!lookingForUserOffer" class="col-12 col-md-3 order-0-md order-1" id="cityPicker">
+                <ion-label position="stacked">Miasto</ion-label>
                 <ion-select
                     ngModel
                     required
@@ -94,7 +95,7 @@
                 </ion-range>
             </ion-item>
             <div class="col-12 order-2 mt-4 d-flex justify-content-center">
-                <ion-button (click)="submit(searchForm)">Szukaj</ion-button>
+                <ion-button (click)="submit(searchForm)">{{lookingForUserOffer ? 'Filtruj' : 'Szukaj'}}</ion-button>
             </div>
         </div>
     </form>

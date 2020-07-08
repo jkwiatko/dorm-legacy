@@ -24,15 +24,18 @@ export class RoomSearchService {
     getLastCriteria() : SearchCriteria {
         if(this.lastCriteria) {
             return JSON.parse(JSON.stringify(this.lastCriteria));
-        } else return new SearchCriteria();
+        } else return {} as SearchCriteria;
     }
 }
 
 export class SearchCriteria {
-    cityName;
-    roomName;
-    startingDate;
-    duration;
-    maxPrice;
+    constructor(
+    public cityName,
+    public roomName,
+    public startingDate,
+    public duration,
+    public maxPrice,
+    public lookingForUserOffer= false) {
+    }
 }
 

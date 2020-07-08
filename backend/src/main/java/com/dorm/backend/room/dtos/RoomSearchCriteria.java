@@ -10,6 +10,7 @@ public class RoomSearchCriteria {
     private Date startingDate;
     private Integer duration;
     private Integer maxPrice;
+    private boolean lookingForUserOffer;
 
     public Optional<String> getRoomName() {
         return Optional.ofNullable(roomName);
@@ -49,5 +50,13 @@ public class RoomSearchCriteria {
 
     public void setMaxPrice(Integer maxPrice) {
         this.maxPrice = maxPrice;
+    }
+
+    public boolean isLookingForUserOffer() {
+        return lookingForUserOffer;
+    }
+
+    public void setLookingForUserOffer(boolean lookingForUserOffer) {
+        this.lookingForUserOffer = lookingForUserOffer;
     }
 }
