@@ -69,7 +69,7 @@ export class WelcomeScreenComponent implements OnInit, OnDestroy {
     }
 
     toggle(f: NgForm) {
-        f.reset();
+        f.reset(f.value);
         this.isLoggingIn = !this.isLoggingIn;
     }
 

@@ -3,14 +3,12 @@ package com.dorm.backend.shared.data.repos.search;
 import com.dorm.backend.profile.UserService;
 import com.dorm.backend.room.dtos.RoomSearchCriteria;
 import com.dorm.backend.shared.data.entities.Room;
+import com.dorm.backend.shared.data.entities.User;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
+import javax.persistence.criteria.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,6 +49,8 @@ public class RoomSearchRepository {
                             room.join("owner").get("id"),
                             userService.getCurrentAuthenticatedUser().getId()
                     ));
+//            TODO
+//            predicates.add(criteriaBuilder.isNotMember()
         }
         criteria.getRoomName()
                 .filter(roomName -> !roomName.isEmpty())

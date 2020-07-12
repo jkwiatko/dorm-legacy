@@ -83,3 +83,7 @@
 }
 
 
+ion-datetime.ng-invalid.ng-touched {
+    border-bottom: var(--danger) solid 1px;
+}
+

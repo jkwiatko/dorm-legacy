@@ -22,7 +22,7 @@ export class ProfileService {
     }
 
     public saveProfile(profile: ProfileModel) {
-        this.http.post<ProfileModel>(environment.api + 'profile/edit', profile).subscribe();
+        return this.http.post<ProfileModel>(environment.api + 'profile/edit', profile)
     }
 
     private addPictureExtension(profile: ProfileModel): void {

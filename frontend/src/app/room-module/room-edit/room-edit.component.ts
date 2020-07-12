@@ -11,6 +11,8 @@ import {PictureModel} from '../../shared-module/models/picture.model';
 import {ToastrService} from 'ngx-toastr';
 import {DateParserPipe} from '../../shared-module/pipes/dateParser.pipe';
 import {LazyAsyncValidatorFactory,} from '../../shared-module/lazy-async-validator/lazy-async-validator';
+import {environment} from '../../../environments/environment';
+import * as moment from 'moment';
 
 
 @Component({
@@ -42,6 +44,7 @@ export class RoomEditComponent implements OnInit {
     amenityOptions: string[] = [];
     editMode = false;
     submitted = false;
+    mobile = environment.mobile;
 
     private static sortPictures(pictures: PictureModel[]) {
         pictures.sort(((a, b) => {
@@ -53,6 +56,14 @@ export class RoomEditComponent implements OnInit {
             }
             return 0;
         }));
+    }
+
+    minDate() {
+        return moment(new Date()).format('YYYY-MM-DD');
+    }
+
+    maxDate() {
+        return moment(new Date()).add(5, 'years').format('YYYY-MM-DD');
     }
 
     ngOnInit() {
@@ -95,10 +106,10 @@ export class RoomEditComponent implements OnInit {
 
         this.form = new FormGroup({
             name: new FormControl(room.name, Validators.required),
-            deposit: new FormControl(room.deposit),
-            monthlyPrice: new FormControl(room.monthlyPrice, Validators.required),
-            houseArea: new FormControl(room.houseArea, Validators.required),
-            roomsNumber: new FormControl(room.roomsNumber, Validators.required),
+            deposit: new FormControl(room.deposit, [Validators.required, Validators.min(1)]),
+            monthlyPrice: new FormControl(room.monthlyPrice, [Validators.required, Validators.min(1)]),
+            houseArea: new FormControl(room.houseArea, [Validators.required, Validators.min(1)]),
+            roomsNumber: new FormControl(room.roomsNumber, [Validators.required, Validators.min(1)]),
             address: new FormGroup({
                 // can be null :(
                 city: new FormControl(room.address.city, [Validators.required,]
@@ -107,14 +118,15 @@ export class RoomEditComponent implements OnInit {
                 number: new FormControl(room.address.number, Validators.required),
             }),
             description: new FormControl(room.description, Validators.required),
-            availableFrom: new FormControl(this.dateParser.transform(this.room.availableFrom)),
-            minDuration: new FormControl(room.minDuration, Validators.required),
+            availableFrom: new FormControl(this.dateParser.transform(this.room.availableFrom), Validators.required),
+            minDuration: new FormControl(room.minDuration, [Validators.required, Validators.min(1)]),
             amenities
         });
     }
 
     onSubmit() {
         this.submitted = true;
+        this.form.markAllAsTouched();
         this.room.pictures = this.room.pictures.filter((el) => el != null);
         if (this.form.invalid) {
             this.toastr.error('Prosze wypełnij poprawie wszystkie pola', 'Błędne dane');

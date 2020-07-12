@@ -10,6 +10,7 @@ import com.dorm.backend.shared.data.entities.Picture;
 import com.dorm.backend.shared.data.entities.Room;
 import com.dorm.backend.shared.data.entities.User;
 import com.dorm.backend.shared.data.entities.address.City;
+import com.dorm.backend.shared.data.enums.EAmenity;
 import com.dorm.backend.shared.data.repos.AddressRepository;
 import com.dorm.backend.shared.data.repos.CityRepository;
 import com.dorm.backend.shared.data.repos.RoomRepository;
@@ -73,6 +74,12 @@ public class RoomService {
                         .map(dto -> modelMapper.map(dto, Picture.class))
                         .collect(Collectors.toList())
         );
+        room.getAmenities().addAll(roomDTO.getAmenities()
+                .stream()
+                .distinct()
+                .map(EAmenity::getEnum)
+                .collect(Collectors.toList())
+        );
         room.setOwner(user);
         setPictureDetails(room);
 
@@ -91,6 +98,13 @@ public class RoomService {
         Room currentRoom = roomRepository.findById(roomDTO.getId()).orElseThrow(EntityNotFoundException::new);
         modelMapper.map(roomDTO, currentRoom);
         currentRoom.getAddress().setCity(city);
+        currentRoom.getAmenities().clear();
+        currentRoom.getAmenities().addAll(roomDTO.getAmenities()
+                .stream()
+                .distinct()
+                .map(EAmenity::getEnum)
+                .collect(Collectors.toList())
+        );
 
         List<Picture> newPictures = roomDTO.getPictures()
                 .stream()

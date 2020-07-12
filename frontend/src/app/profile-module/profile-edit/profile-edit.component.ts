@@ -9,6 +9,7 @@ import {ToastrService} from 'ngx-toastr';
 import {DateParserPipe} from '../../shared-module/pipes/dateParser.pipe';
 import * as moment from 'moment';
 import {environment} from '../../../environments/environment';
+import {AlertController} from '@ionic/angular';
 
 @Component({
     selector: 'app-profile-edit',
@@ -30,6 +31,7 @@ export class ProfileEditComponent implements OnInit, OnDestroy {
     constructor(private profileClient: ProfileService,
                 private router: Router,
                 private dateParser: DateParserPipe,
+                private alertController: AlertController,
                 private toastr: ToastrService,
     ) {
     }
@@ -119,6 +121,7 @@ export class ProfileEditComponent implements OnInit, OnDestroy {
 
     onSubmit() {
         this.submitted = true;
+        this.form.markAllAsTouched();
         if (this.form.invalid) {
             this.toastr.error('Prosze wypełnij poprawie wszystkie pola', 'Błędne dane');
         } else {
@@ -139,7 +142,11 @@ export class ProfileEditComponent implements OnInit, OnDestroy {
                 profilePictures: this.profileImg.base64String ? [this.profileImg] : [],
                 ownedRooms: null
             };
-            this.profileClient.saveProfile(profile);
+            this.profileClient.saveProfile(profile).subscribe(() => this.alertController.create({
+                message: 'Dane zostały zaakutalizowane',
+                header: 'Sukces',
+                buttons: ['Oki']
+            }).then(alert => alert.present()));
         }
     }
 
