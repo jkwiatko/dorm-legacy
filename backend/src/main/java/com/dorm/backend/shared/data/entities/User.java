@@ -3,203 +3,67 @@ package com.dorm.backend.shared.data.entities;
 import com.dorm.backend.shared.data.entities.base.BaseEntity;
 import com.dorm.backend.shared.data.enums.EGender;
 import com.dorm.backend.shared.data.enums.EUserCharacteristic;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
+@Getter
+@Setter
 @Entity
 public class User extends BaseEntity {
 
-    private Room rentedRoom;
-    private List<Room> ownedRooms;
-    private List<Picture> profilePictures;
-    private List<String> interests;
-    private List<EUserCharacteristic> inclinations;
-    private Set<Room> possibleRooms;
-
-    private String firstName;
-    private String lastName;
-    private Date birthDate;
-    private String email;
-    private String password;
-    private String description;
-    private boolean active;
-    private EGender gender;
-    private String workingIn;
-    private String studyingAt;
-    private String cleaningPolicy;
-    private String smokingPolicy;
-    private String petPolicy;
-    private String guestsPolicy;
-
     @OneToOne
-    public Room getRentedRoom() {
-        return rentedRoom;
-    }
-
-    public void setRentedRoom(Room rentedRoom) {
-        this.rentedRoom = rentedRoom;
-    }
+    private Room rentedRoom;
 
     @OneToMany(mappedBy = "owner")
-    public List<Room> getOwnedRooms() {
-        return ownedRooms;
-    }
-
-    public void setOwnedRooms(List<Room> ownedRooms) {
-        this.ownedRooms = ownedRooms;
-    }
+    private List<Room> ownedRooms;
 
     @OneToMany(mappedBy = "ofUser", cascade = CascadeType.ALL)
-    public List<Picture> getProfilePictures() {
-        return profilePictures;
-    }
+    private List<Picture> profilePictures;
 
-    public void setProfilePictures(List<Picture> profilePictures) {
-        this.profilePictures = profilePictures;
-    }
+    @ManyToMany(cascade = CascadeType.ALL)
+    private Set<Room> possibleRooms;
 
     @ElementCollection
-    public List<String> getInterests() {
-        return interests;
-    }
-
-    public void setInterests(List<String> interests) {
-        this.interests = interests;
-    }
+    private List<String> interests;
 
     @Enumerated(value = EnumType.STRING)
     @ElementCollection(targetClass = EUserCharacteristic.class)
-    public List<EUserCharacteristic> getInclinations() {
-        return inclinations;
-    }
+    private List<EUserCharacteristic> inclinations;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    public Set<Room> getPossibleRooms() {
-        return possibleRooms;
-    }
+    //fields
 
-    public void setPossibleRooms(Set<Room> possibleRooms) {
-        this.possibleRooms = possibleRooms;
-    }
+    private String firstName;
 
-    public void setInclinations(List<EUserCharacteristic> inclinations) {
-        this.inclinations = inclinations;
-    }
+    private String lastName;
 
-    public String getFirstName() {
-        return firstName;
-    }
+    private Date birthDate;
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
+    private String email;
 
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public Date getBirthDate() {
-        return birthDate;
-    }
-
-    public void setBirthDate(Date birthDate) {
-        this.birthDate = birthDate;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
+    private String password;
 
     @Column(length = 1000)
-    public String getDescription() {
-        return description;
-    }
+    private String description;
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public boolean isActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
-    }
+    private boolean active;
 
     @Enumerated(value = EnumType.STRING)
-    public EGender getGender() {
-        return gender;
-    }
+    private EGender gender;
 
-    public void setGender(EGender gender) {
-        this.gender = gender;
-    }
+    private String workingIn;
 
-    public String getWorkingIn() {
-        return workingIn;
-    }
+    private String studyingAt;
 
-    public void setWorkingIn(String workingIn) {
-        this.workingIn = workingIn;
-    }
+    private String cleaningPolicy;
 
-    public String getStudyingAt() {
-        return studyingAt;
-    }
+    private String smokingPolicy;
 
-    public void setStudyingAt(String studyingAt) {
-        this.studyingAt = studyingAt;
-    }
+    private String petPolicy;
 
-    public String getCleaningPolicy() {
-        return cleaningPolicy;
-    }
-
-    public void setCleaningPolicy(String cleaningPolicy) {
-        this.cleaningPolicy = cleaningPolicy;
-    }
-
-    public String getSmokingPolicy() {
-        return smokingPolicy;
-    }
-
-    public void setSmokingPolicy(String smokingPolicy) {
-        this.smokingPolicy = smokingPolicy;
-    }
-
-    public String getPetPolicy() {
-        return petPolicy;
-    }
-
-    public void setPetPolicy(String petPolicy) {
-        this.petPolicy = petPolicy;
-    }
-
-    public String getGuestsPolicy() {
-        return guestsPolicy;
-    }
-
-    public void setGuestsPolicy(String guestsPolicy) {
-        this.guestsPolicy = guestsPolicy;
-    }
+    private String guestsPolicy;
 }

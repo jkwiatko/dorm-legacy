@@ -1,48 +1,25 @@
 package com.dorm.backend.shared.data.entities.address;
 
 import com.dorm.backend.shared.data.entities.base.BaseEntity;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 
+@Getter
+@Setter
 @Entity
 public class Address extends BaseEntity {
 
-    private City city;
-    private String street;
-    private String number;
-    private String zipCode;
-
     @ManyToOne
-    public City getCity() {
-        return city;
-    }
+    private City city;
 
-    public void setCity(City city) {
-        this.city = city;
-    }
+    //fields
 
-    public String getStreet() {
-        return street;
-    }
+    private String street;
 
-    public void setStreet(String street) {
-        this.street = street;
-    }
+    private String number;
 
-    public String getNumber() {
-        return number;
-    }
-
-    public void setNumber(String number) {
-        this.number = number;
-    }
-
-    public String getZipCode() {
-        return zipCode;
-    }
-
-    public void setZipCode(String zipCode) {
-        this.zipCode = zipCode;
-    }
+    private String zipCode;
 }

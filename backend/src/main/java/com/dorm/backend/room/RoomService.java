@@ -9,7 +9,6 @@ import com.dorm.backend.shared.data.dtos.RoomPreviewDTO;
 import com.dorm.backend.shared.data.entities.Picture;
 import com.dorm.backend.shared.data.entities.Room;
 import com.dorm.backend.shared.data.entities.User;
-import com.dorm.backend.shared.data.entities.address.Address;
 import com.dorm.backend.shared.data.entities.address.City;
 import com.dorm.backend.shared.data.repos.AddressRepository;
 import com.dorm.backend.shared.data.repos.CityRepository;
@@ -26,7 +25,6 @@ import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -38,7 +36,6 @@ public class RoomService {
     private final UserService userService;
     private final RoomSearchRepository roomSearchRepository;
     private final RoomRepository roomRepository;
-    private final AddressRepository addressRepository;
     private final CityRepository cityRepository;
 
     public RoomService(
@@ -55,7 +52,6 @@ public class RoomService {
         this.userService = userService;
         this.roomSearchRepository = roomSearchRepository;
         this.roomRepository = roomRepository;
-        this.addressRepository = addressRepository;
         this.cityRepository = cityRepository;
     }
 
@@ -178,10 +174,8 @@ public class RoomService {
     }
 
     public List<String> getCities() {
-        return addressRepository.findAll()
+        return cityRepository.findAll()
                 .stream()
-                .map(Address::getCity)
-                .filter(Objects::nonNull)
                 .map(City::getName)
                 .collect(Collectors.toList());
     }
