@@ -1,5 +1,8 @@
 package com.dorm.backend.profile.dto;
 
+import com.dorm.backend.shared.data.dtos.PictureDTO;
+import com.dorm.backend.shared.data.dtos.RoomPreviewDTO;
+
 import java.util.Date;
 import java.util.List;
 
@@ -20,7 +23,7 @@ public class ProfileDTO {
     private String smokingPolicy;
     private String petPolicy;
     private String guestsPolicy;
-    private List<PreviewRoomDTO> ownedRooms;
+    private List<RoomPreviewDTO> ownedRooms;
 
     public Long getId() {
         return id;
@@ -142,11 +145,11 @@ public class ProfileDTO {
         this.guestsPolicy = guestsPolicy;
     }
 
-    public List<PreviewRoomDTO> getOwnedRooms() {
+    public List<RoomPreviewDTO> getOwnedRooms() {
         return ownedRooms;
     }
 
-    public void setOwnedRooms(List<PreviewRoomDTO> ownedRooms) {
+    public void setOwnedRooms(List<RoomPreviewDTO> ownedRooms) {
         this.ownedRooms = ownedRooms;
     }
 }

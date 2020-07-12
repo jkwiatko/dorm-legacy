@@ -6,7 +6,7 @@ import {environment} from '../../../environments/environment';
 import {map, tap} from 'rxjs/operators';
 import {validatorService} from '../../shared-module/lazy-async-validator/lazy-async-validator';
 import {ToastrService} from 'ngx-toastr';
-import {RoomPreviewModel} from '../../profile-module/models/room-preview.model';
+import {RoomPreviewModel} from '../../shared-module/models/room-preview.model';
 
 @Injectable({
     providedIn: 'root'
@@ -66,5 +66,9 @@ export class RoomService implements validatorService {
                 return !availableCities.length
             })
         )
+    }
+
+    book(id: number) {
+        return this.http.post(environment.api + 'room/book', id);
     }
 }

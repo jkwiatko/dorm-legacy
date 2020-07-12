@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {RoomPreviewModel} from '../../profile-module/models/room-preview.model';
+import {RoomPreviewModel} from '../../shared-module/models/room-preview.model';
 import {environment} from '../../../environments/environment';
 import {tap} from 'rxjs/operators';
 import {RoomService} from './room.service';

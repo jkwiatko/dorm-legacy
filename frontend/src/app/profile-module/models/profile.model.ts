@@ -1,5 +1,5 @@
 import {PictureModel} from '../../shared-module/models/picture.model';
-import {RoomPreviewModel} from './room-preview.model';
+import {RoomPreviewModel} from '../../shared-module/models/room-preview.model';
 
 export class ProfileModel {
     id?: number;

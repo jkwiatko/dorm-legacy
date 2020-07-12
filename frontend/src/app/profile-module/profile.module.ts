@@ -13,6 +13,7 @@ import {MatNativeDateModule} from '@angular/material/core';
 import {MatInputModule} from '@angular/material/input';
 import {MatRadioModule} from '@angular/material/radio';
 import {IonicModule} from '@ionic/angular';
+import {ProfileSearchComponent} from './profile-search/profile-search.component';
 
 const routes: Routes = [
     {path: 'profile/edit', component: ProfileEditComponent, canActivate: [AuthGuardService]},
@@ -20,7 +21,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-    declarations: [ProfileDetailsComponent, ProfileEditComponent],
+    declarations: [ProfileDetailsComponent, ProfileEditComponent, ProfileSearchComponent],
     exports: [],
     imports: [
         RouterModule.forChild(routes),

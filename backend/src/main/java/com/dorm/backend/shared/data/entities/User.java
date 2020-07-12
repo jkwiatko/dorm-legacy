@@ -4,23 +4,20 @@ import com.dorm.backend.shared.data.entities.base.BaseEntity;
 import com.dorm.backend.shared.data.enums.EGender;
 import com.dorm.backend.shared.data.enums.EUserCharacteristic;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 public class User extends BaseEntity {
 
+    private Room rentedRoom;
     private List<Room> ownedRooms;
     private List<Picture> profilePictures;
     private List<String> interests;
     private List<EUserCharacteristic> inclinations;
+    private Set<Room> possibleRooms;
 
     private String firstName;
     private String lastName;
@@ -36,6 +33,15 @@ public class User extends BaseEntity {
     private String smokingPolicy;
     private String petPolicy;
     private String guestsPolicy;
+
+    @OneToOne
+    public Room getRentedRoom() {
+        return rentedRoom;
+    }
+
+    public void setRentedRoom(Room rentedRoom) {
+        this.rentedRoom = rentedRoom;
+    }
 
     @OneToMany(mappedBy = "owner")
     public List<Room> getOwnedRooms() {
@@ -68,6 +74,15 @@ public class User extends BaseEntity {
     @ElementCollection(targetClass = EUserCharacteristic.class)
     public List<EUserCharacteristic> getInclinations() {
         return inclinations;
+    }
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    public Set<Room> getPossibleRooms() {
+        return possibleRooms;
+    }
+
+    public void setPossibleRooms(Set<Room> possibleRooms) {
+        this.possibleRooms = possibleRooms;
     }
 
     public void setInclinations(List<EUserCharacteristic> inclinations) {

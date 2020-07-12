@@ -27,4 +27,8 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
     ngOnDestroy(): void {
         this.sub.unsubscribe();
     }
+
+    book() {
+        this.roomService.book(this.room.id).subscribe();
+    }
 }

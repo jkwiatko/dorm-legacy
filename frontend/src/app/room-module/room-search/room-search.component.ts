@@ -5,7 +5,7 @@ import {Subject} from 'rxjs';
 import {take} from 'rxjs/operators';
 import * as moment from 'moment';
 import {NgForm} from '@angular/forms';
-import {RoomPreviewModel} from '../../profile-module/models/room-preview.model';
+import {RoomPreviewModel} from '../../shared-module/models/room-preview.model';
 import {environment} from '../../../environments/environment';
 import {RoomSearchService, SearchCriteria} from '../providers/room-search.service';
 

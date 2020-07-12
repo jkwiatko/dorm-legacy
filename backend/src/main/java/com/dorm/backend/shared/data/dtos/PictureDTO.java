@@ -1,4 +1,4 @@
-package com.dorm.backend.profile.dto;
+package com.dorm.backend.shared.data.dtos;
 
 public class PictureDTO {
     private String  base64String;

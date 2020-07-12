@@ -8,6 +8,7 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 public class Room extends BaseEntity {
@@ -15,6 +16,9 @@ public class Room extends BaseEntity {
     private User owner;
     private Address address;
     private List<Picture> pictures;
+    private Set<User> possibleRoommates;
+    private User rentee;
+    private List<Message> chat;
 
     private String name;
     private String description;
@@ -40,6 +44,10 @@ public class Room extends BaseEntity {
         return address;
     }
 
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
     @OneToMany(mappedBy = "ofRoom", cascade = CascadeType.ALL, orphanRemoval = true)
     public List<Picture> getPictures() {
         return pictures;
@@ -49,8 +57,32 @@ public class Room extends BaseEntity {
         this.pictures = pictures;
     }
 
-    public void setAddress(Address address) {
-        this.address = address;
+    //TODO resolve to more safe cascading type
+    @ManyToMany(mappedBy = "possibleRooms", cascade = CascadeType.ALL)
+    public Set<User> getPossibleRoommates() {
+        return possibleRoommates;
+    }
+
+    public void setPossibleRoommates(Set<User> possibleRoommates) {
+        this.possibleRoommates = possibleRoommates;
+    }
+
+    @OneToOne(mappedBy = "rentedRoom")
+    public User getRentee() {
+        return rentee;
+    }
+
+    public void setRentee(User rentee) {
+        this.rentee = rentee;
+    }
+
+    @OneToMany(mappedBy = "room")
+    public List<Message> getChat() {
+        return chat;
+    }
+
+    public void setChat(List<Message> chat) {
+        this.chat = chat;
     }
 
     public String getName() {

@@ -1,6 +1,6 @@
 package com.dorm.backend.room.dtos;
 
-import com.dorm.backend.profile.dto.PictureDTO;
+import com.dorm.backend.shared.data.dtos.PictureDTO;
 import com.dorm.backend.profile.dto.ProfileDTO;
 
 import java.util.List;

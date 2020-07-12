@@ -14,7 +14,6 @@
                     ngModel
                     required
                     name="cityName"
-                    placeholder="Miasto"
                     interface="popover"
                     [interfaceOptions]="availableCities"
                     [ngModel]="lastCriteria.cityName"
@@ -24,8 +23,8 @@
                     </ion-select-option>
                 </ion-select>
             </ion-item>
-            <ion-item class="col-12 col-md-9 order-0 order-md-1">
-                <ion-label position="floating">Nazwa</ion-label>
+            <ion-item [ngClass]="lookingForUserOffer ? 'col-md-12' : 'col-md-9'" class="col-12 col-md-9 order-0 order-md-1">
+                <ion-label position="stacked">Nazwa</ion-label>
                 <ion-input
                     ngModel
                     name="roomName"
@@ -34,7 +33,7 @@
                 </ion-input>
             </ion-item>
             <ion-item *ngIf="mobile; else desktopPicker" class="col-12 col-md-4 order-2">
-                <ion-label position="floating">Od kiedy?</ion-label>
+                <ion-label position="stacked">Od kiedy?</ion-label>
                 <ion-datetime
                     ngModel
                     name="startingDate"
@@ -66,7 +65,7 @@
                     </mat-form-field>
                 </ion-item>
             </ng-template>
-            <ion-item mode="ios" class="col-12 col-md-4 order-2" lines="none">
+            <ion-item mode="ios" class="col-12 mt-3 col-md-4 order-2" lines="none">
                 <ion-label>M-cy:</ion-label>
                 <ion-range
                     ngModel
@@ -80,7 +79,7 @@
                     (ionChange)="searchObservable.next($event)">
                 </ion-range>
             </ion-item>
-            <ion-item mode="ios" class="col-12 col-md-4 order-2" lines="none">
+            <ion-item mode="ios" class="col-12 mt-3  col-md-4 order-2" lines="none">
                 <ion-label>$ $ $</ion-label>
                 <ion-range
                     ngModel

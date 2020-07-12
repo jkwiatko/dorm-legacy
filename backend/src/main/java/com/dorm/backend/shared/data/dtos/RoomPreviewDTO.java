@@ -1,6 +1,6 @@
-package com.dorm.backend.profile.dto;
+package com.dorm.backend.shared.data.dtos;
 
-public class PreviewRoomDTO {
+public class RoomPreviewDTO {
 
     private Long id;
     private String name;

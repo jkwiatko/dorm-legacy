@@ -1,6 +1,7 @@
 package com.dorm.backend.room;
 
-import com.dorm.backend.profile.dto.PreviewRoomDTO;
+import com.dorm.backend.shared.data.dtos.ProfilePreviewDTO;
+import com.dorm.backend.shared.data.dtos.RoomPreviewDTO;
 import com.dorm.backend.room.dtos.RoomDTO;
 import com.dorm.backend.room.dtos.RoomSearchCriteria;
 import com.dorm.backend.shared.data.enums.EAmenity;
@@ -38,9 +39,20 @@ public class RoomController {
         return ResponseEntity.ok().body(roomService.getRoom(id));
     }
 
+    @GetMapping("/{id}/roommates")
+    public ResponseEntity<List<ProfilePreviewDTO>> getPossibleRoommates(@PathVariable Long id) {
+        return ResponseEntity.ok().body(roomService.getPossibleRoommates(id));
+    }
+
     @PostMapping("/search")
-    public ResponseEntity<List<PreviewRoomDTO>> getRoomsFromCityEmptySearch(@RequestBody RoomSearchCriteria roomSearchCriteria) {
+    public ResponseEntity<List<RoomPreviewDTO>> getRoomsFromCityEmptySearch(@RequestBody RoomSearchCriteria roomSearchCriteria) {
         return ResponseEntity.ok().body(roomService.searchRoom(roomSearchCriteria));
+    }
+
+    @PostMapping("/book")
+    public ResponseEntity<Void> bookRoom(@RequestBody Long id) {
+        roomService.bookRoom(id);
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/amenities")

@@ -9,6 +9,7 @@ import {AvailableFromPipe} from './pipes/available-from.pipe';
 import {LoaderSpinnerComponent} from './loader-spiner/loader-spinner.component';
 import {DateParserPipe} from './pipes/dateParser.pipe';
 import {RoomNumberPipe} from './pipes/room-number.pipe';
+import {ProfilePreviewComponent} from './profile-preview/profile-preview.component';
 
 @NgModule({
     declarations: [
@@ -17,6 +18,7 @@ import {RoomNumberPipe} from './pipes/room-number.pipe';
         GenderPipe,
         ProfileStickyInfoComponent,
         RoomPreviewComponent,
+        ProfilePreviewComponent,
         AvailableFromPipe,
         LoaderSpinnerComponent,
         DateParserPipe,
@@ -29,6 +31,7 @@ import {RoomNumberPipe} from './pipes/room-number.pipe';
         DateParserPipe,
         ProfileStickyInfoComponent,
         RoomPreviewComponent,
+        ProfilePreviewComponent,
         AvailableFromPipe,
         LoaderSpinnerComponent,
         RoomNumberPipe

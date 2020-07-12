@@ -1,9 +1,11 @@
 package com.dorm.backend.room;
 
-import com.dorm.backend.profile.dto.PictureDTO;
-import com.dorm.backend.profile.dto.PreviewRoomDTO;
+import com.dorm.backend.profile.UserService;
 import com.dorm.backend.room.dtos.RoomDTO;
 import com.dorm.backend.room.dtos.RoomSearchCriteria;
+import com.dorm.backend.shared.data.dtos.PictureDTO;
+import com.dorm.backend.shared.data.dtos.ProfilePreviewDTO;
+import com.dorm.backend.shared.data.dtos.RoomPreviewDTO;
 import com.dorm.backend.shared.data.entities.Picture;
 import com.dorm.backend.shared.data.entities.Room;
 import com.dorm.backend.shared.data.entities.User;
@@ -16,7 +18,6 @@ import com.dorm.backend.shared.data.repos.search.RoomSearchRepository;
 import com.dorm.backend.shared.error.exc.DuplicatedPictureException;
 import com.dorm.backend.shared.error.exc.NoSuchCityException;
 import com.dorm.backend.shared.storage.PictureLocalStorage;
-import com.dorm.backend.profile.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -110,12 +111,12 @@ public class RoomService {
         roomRepository.save(currentRoom);
     }
 
-    public List<PreviewRoomDTO> searchRoom(RoomSearchCriteria roomSearchCriteria) {
+    public List<RoomPreviewDTO> searchRoom(RoomSearchCriteria roomSearchCriteria) {
         return roomSearchRepository.findRoomUsingCriteria(roomSearchCriteria).stream()
                 .map(room -> {
                     room.getPictures().forEach(PictureLocalStorage::loadPictureFromFileSystem);
                     room.getOwner().getProfilePictures().forEach(PictureLocalStorage::loadPictureFromFileSystem);
-                    return modelMapper.map(room, PreviewRoomDTO.class);
+                    return modelMapper.map(room, RoomPreviewDTO.class);
                 })
                 .collect(Collectors.toList());
     }
@@ -182,6 +183,25 @@ public class RoomService {
                 .map(Address::getCity)
                 .filter(Objects::nonNull)
                 .map(City::getName)
+                .collect(Collectors.toList());
+    }
+
+    public void bookRoom(Long id) {
+        Room room = roomRepository.findById(id)
+                .orElseThrow(EntityNotFoundException::new);
+        User thisUser = userService.getCurrentAuthenticatedUser();
+
+        thisUser.getPossibleRooms().add(room);
+        room.getPossibleRoommates().add(thisUser);
+        roomRepository.save(room);
+    }
+
+    public List<ProfilePreviewDTO> getPossibleRoommates(Long id) {
+        return roomRepository.findById(id)
+                .map(Room::getPossibleRoommates)
+                .orElseThrow(EntityNotFoundException::new)
+                .stream()
+                .map(user -> modelMapper.map(user, ProfilePreviewDTO.class))
                 .collect(Collectors.toList());
     }
 }

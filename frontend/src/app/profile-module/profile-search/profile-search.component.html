@@ -1,0 +1,25 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="end">
+            <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+<div class="search-component mb-3 container">
+    <form #searchForm="ngForm">
+        <div class="row">
+            // searching criteria
+        </div>
+    </form>
+    <div class="row mt-5">
+        <div class="col-12 text-center" *ngIf="isLoading; else searchResult">
+            <app-loader-spinner></app-loader-spinner>
+        </div>
+        <ng-template #searchResult>
+            <div class="col-12 p-3 mt-lg-5 text-center" *ngIf="profiles.length < 1">Brak wyników wyszukiwania</div>
+            <div *ngFor="let profile of profiles" class="col-md-6 col-12 col-lg-4 p-3">
+                <app-profile-preview (click)="navigateToProfile(profile.id)" [profile]="profile"></app-profile-preview>
+            </div>
+        </ng-template>
+    </div>
+</div>
