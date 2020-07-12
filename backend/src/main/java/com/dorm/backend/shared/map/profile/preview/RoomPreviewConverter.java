@@ -4,13 +4,14 @@ import com.dorm.backend.shared.data.dtos.PictureDTO;
 import com.dorm.backend.shared.data.dtos.RoomPreviewDTO;
 import com.dorm.backend.shared.data.entities.Picture;
 import com.dorm.backend.shared.data.entities.Room;
-import com.dorm.backend.shared.storage.PictureLocalStorage;
 import org.modelmapper.Converter;
 import org.modelmapper.spi.MappingContext;
 
-import java.util.Base64;
 import java.util.Comparator;
 import java.util.Optional;
+
+import static com.dorm.backend.shared.storage.PictureLocalStorage.loadPictureFromFileSystem;
+import static java.util.Base64.getMimeEncoder;
 
 public class RoomPreviewConverter implements Converter<Room, RoomPreviewDTO> {
 
@@ -27,16 +28,15 @@ public class RoomPreviewConverter implements Converter<Room, RoomPreviewDTO> {
                 .ifPresent(roomPreviewDTO::setAvailableFrom);
         room.getPictures().stream()
                 .min(Comparator.comparingInt(Picture::getPictureOrder))
-                .ifPresent(img -> convert2Picture(roomPreviewDTO, img));
+                .ifPresent(img -> roomPreviewDTO.setPicture(convert2Picture(img)));
         return roomPreviewDTO;
     }
 
-    private void convert2Picture(RoomPreviewDTO previewRoomDTO, Picture picture) {
-        PictureDTO pictureDTO = new PictureDTO();
-        PictureLocalStorage.loadPictureFromFileSystem(picture);
-        pictureDTO.setBase64String(new String(Base64.getMimeEncoder().encode(picture.getPicture())));
-        pictureDTO.setName(picture.getPictureName());
-        pictureDTO.setPictureOrder(picture.getPictureOrder());
-        previewRoomDTO.setPicture(pictureDTO);
+    private PictureDTO convert2Picture(Picture picture) {
+        return PictureDTO.builder()
+                .name(picture.getPictureName())
+                .pictureOrder(picture.getPictureOrder())
+                .base64String(new String(getMimeEncoder().encode(loadPictureFromFileSystem(picture))))
+                .build();
     }
 }

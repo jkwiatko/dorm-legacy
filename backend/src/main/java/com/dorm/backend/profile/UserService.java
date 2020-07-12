@@ -72,7 +72,6 @@ public class UserService {
 
     public ProfileDTO getUserProfile(Long id) {
         User user = getUser(id);
-        user.getProfilePictures().forEach(PictureLocalStorage::loadPictureFromFileSystem);
         return modelMapper.map(user, ProfileDTO.class);
     }
 

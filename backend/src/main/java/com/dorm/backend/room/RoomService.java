@@ -109,11 +109,7 @@ public class RoomService {
 
     public List<RoomPreviewDTO> searchRoom(RoomSearchCriteria roomSearchCriteria) {
         return roomSearchRepository.findRoomUsingCriteria(roomSearchCriteria).stream()
-                .map(room -> {
-                    room.getPictures().forEach(PictureLocalStorage::loadPictureFromFileSystem);
-                    room.getOwner().getProfilePictures().forEach(PictureLocalStorage::loadPictureFromFileSystem);
-                    return modelMapper.map(room, RoomPreviewDTO.class);
-                })
+                .map(room -> modelMapper.map(room, RoomPreviewDTO.class))
                 .collect(Collectors.toList());
     }
 
@@ -157,10 +153,9 @@ public class RoomService {
     }
 
     public RoomDTO getRoom(Long id) {
-        Room room = roomRepository.findById(id).orElseThrow(EntityNotFoundException::new);
-        room.getPictures().forEach(PictureLocalStorage::loadPictureFromFileSystem);
-        room.getOwner().getProfilePictures().forEach(PictureLocalStorage::loadPictureFromFileSystem);
-        return modelMapper.map(room, RoomDTO.class);
+       return roomRepository.findById(id)
+               .map(room -> modelMapper.map(room, RoomDTO.class))
+               .orElseThrow(EntityNotFoundException::new);
     }
 
     private void setPictureDetails(Room room) {
