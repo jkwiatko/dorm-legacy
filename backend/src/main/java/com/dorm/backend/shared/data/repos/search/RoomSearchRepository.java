@@ -3,7 +3,6 @@ package com.dorm.backend.shared.data.repos.search;
 import com.dorm.backend.profile.UserService;
 import com.dorm.backend.room.dtos.RoomSearchCriteria;
 import com.dorm.backend.shared.data.entities.Room;
-import com.dorm.backend.shared.data.entities.User;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -31,13 +30,20 @@ public class RoomSearchRepository {
         Root<Room> room = criteriaQuery.from(Room.class);
         List<Predicate> predicates = new ArrayList<>();
 
-        if(criteria.isLookingForUserOffer()) {
+        if (criteria.isLookingForUserOffer()) {
             predicates.add(
                     criteriaBuilder.equal(
                             room.join("owner").get("id"),
                             userService.getCurrentAuthenticatedUser().getId()
                     ));
         } else {
+            room.fetch("possibleRoommates", JoinType.LEFT);
+            predicates.add(
+                    criteriaBuilder.isNotMember(
+                            userService.getCurrentAuthenticatedUser(),
+                            room.get("possibleRoommates")
+                    )
+            );
             predicates.add(
                     criteriaBuilder.equal(
                             room.join("address").join("city").get("name"),
@@ -49,12 +55,10 @@ public class RoomSearchRepository {
                             room.join("owner").get("id"),
                             userService.getCurrentAuthenticatedUser().getId()
                     ));
-//            TODO
-//            predicates.add(criteriaBuilder.isNotMember()
         }
         criteria.getRoomName()
                 .filter(roomName -> !roomName.isEmpty())
-                .map(roomName -> criteriaBuilder.like(room.get("name"), roomName+"%"))
+                .map(roomName -> criteriaBuilder.like(room.get("name"), roomName + "%"))
                 .ifPresent(predicates::add);
         criteria.getStartingDate()
                 .map(start -> criteriaBuilder.lessThanOrEqualTo(room.get("availableFrom"), start))
