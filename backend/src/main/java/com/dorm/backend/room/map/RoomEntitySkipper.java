@@ -1,7 +1,7 @@
 package com.dorm.backend.room.map;
 
-import com.dorm.backend.room.dtos.RoomDTO;
-import com.dorm.backend.shared.data.entities.Room;
+import com.dorm.backend.room.dto.RoomDTO;
+import com.dorm.backend.shared.data.entity.Room;
 import org.modelmapper.PropertyMap;
 
 public class RoomEntitySkipper extends PropertyMap<RoomDTO, Room> {

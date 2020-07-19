@@ -1,7 +1,7 @@
 package com.dorm.backend.profile.map;
 
 import com.dorm.backend.profile.dto.ProfileDTO;
-import com.dorm.backend.shared.data.entities.User;
+import com.dorm.backend.shared.data.entity.User;
 import org.modelmapper.PropertyMap;
 
 public class UserEntitySkipper extends PropertyMap<ProfileDTO, User> {

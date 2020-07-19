@@ -1,7 +1,7 @@
 package com.dorm.backend.profile.dto;
 
-import com.dorm.backend.shared.data.dtos.PictureDTO;
-import com.dorm.backend.shared.data.dtos.RoomPreviewDTO;
+import com.dorm.backend.shared.data.dto.PictureDTO;
+import com.dorm.backend.shared.data.dto.RoomPreviewDTO;
 
 import java.util.Date;
 import java.util.List;

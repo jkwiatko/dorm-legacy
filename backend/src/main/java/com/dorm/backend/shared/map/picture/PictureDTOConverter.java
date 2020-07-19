@@ -1,8 +1,8 @@
 package com.dorm.backend.shared.map.picture;
 
-import com.dorm.backend.shared.data.dtos.PictureDTO;
-import com.dorm.backend.shared.data.entities.LocalPicture;
-import com.dorm.backend.shared.storage.PictureLocalStorage;
+import com.dorm.backend.shared.data.dto.PictureDTO;
+import com.dorm.backend.shared.data.entity.picture.LocalPicture;
+import com.dorm.backend.shared.service.storage.PictureLocalStorage;
 import org.modelmapper.Converter;
 import org.modelmapper.spi.MappingContext;
 

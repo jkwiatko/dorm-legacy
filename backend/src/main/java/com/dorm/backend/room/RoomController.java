@@ -1,9 +1,11 @@
 package com.dorm.backend.room;
 
-import com.dorm.backend.shared.data.dtos.ProfilePreviewDTO;
-import com.dorm.backend.shared.data.dtos.RoomPreviewDTO;
-import com.dorm.backend.room.dtos.RoomDTO;
-import com.dorm.backend.room.dtos.RoomSearchCriteria;
+import com.dorm.backend.room.service.LocalRoomService;
+import com.dorm.backend.room.service.RoomService;
+import com.dorm.backend.shared.data.dto.ProfilePreviewDTO;
+import com.dorm.backend.shared.data.dto.RoomPreviewDTO;
+import com.dorm.backend.room.dto.RoomDTO;
+import com.dorm.backend.room.dto.RoomSearchCriteria;
 import com.dorm.backend.shared.data.enums.EAmenity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,9 +18,9 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/room")
 public class RoomController {
 
-    private RoomService roomService;
+    private final RoomService roomService;
 
-    public RoomController(RoomService roomService) {
+    public RoomController(LocalRoomService roomService) {
         this.roomService = roomService;
     }
 
@@ -63,6 +65,6 @@ public class RoomController {
 
     @GetMapping("/cities")
     public ResponseEntity<List<String>> getCities() {
-        return ResponseEntity.ok().body(roomService.getCities());
+        return ResponseEntity.ok().body(roomService.getPossibleCities());
     }
 }

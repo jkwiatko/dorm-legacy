@@ -1,7 +1,7 @@
 package com.dorm.backend.auth;
 
-import com.dorm.backend.shared.data.entities.User;
-import com.dorm.backend.shared.data.repos.UserRepository;
+import com.dorm.backend.shared.data.entity.User;
+import com.dorm.backend.shared.data.repo.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
