@@ -112,8 +112,11 @@ export class RoomEditComponent implements OnInit {
             roomsNumber: new FormControl(room.roomsNumber, [Validators.required, Validators.min(1)]),
             address: new FormGroup({
                 // can be null :(
-                city: new FormControl(room.address.city, [Validators.required,]
-                    , LazyAsyncValidatorFactory(this.roomCli)),
+                city: new FormControl(
+                    room.address.city,
+                    Validators.required,
+                    LazyAsyncValidatorFactory(this.roomCli)
+                ),
                 street: new FormControl(room.address.street, Validators.required),
                 number: new FormControl(room.address.number, Validators.required),
             }),

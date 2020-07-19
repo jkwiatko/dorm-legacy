@@ -38,8 +38,8 @@ public class ProfileController {
     }
 
     @PostMapping("/edit")
-    public ResponseEntity<Void> editProfile(@RequestBody ProfileDTO profile) {
-        userService.editCurrentAuthenticatedUser(profile);
+    public ResponseEntity<Void> editCurrentUserProfile(@RequestBody ProfileDTO profile) {
+        userService.editCurrentUserProfile(profile);
         return ResponseEntity.ok().build();
     }
 

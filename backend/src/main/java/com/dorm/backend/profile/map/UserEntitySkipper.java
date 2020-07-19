@@ -1,4 +1,4 @@
-package com.dorm.backend.shared.map.profile;
+package com.dorm.backend.profile.map;
 
 import com.dorm.backend.profile.dto.ProfileDTO;
 import com.dorm.backend.shared.data.entities.User;
@@ -10,5 +10,6 @@ public class UserEntitySkipper extends PropertyMap<ProfileDTO, User> {
         skip(destination.getId());
         skip(destination.getInclinations());
         skip(destination.getInterests());
+        skip(destination.getProfilePictures());
     }
 }

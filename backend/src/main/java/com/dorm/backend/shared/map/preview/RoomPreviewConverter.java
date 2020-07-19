@@ -1,4 +1,4 @@
-package com.dorm.backend.shared.map.profile.preview;
+package com.dorm.backend.shared.map.preview;
 
 import com.dorm.backend.shared.data.dtos.PictureDTO;
 import com.dorm.backend.shared.data.dtos.RoomPreviewDTO;
@@ -34,7 +34,6 @@ public class RoomPreviewConverter implements Converter<Room, RoomPreviewDTO> {
 
     private PictureDTO convert2Picture(Picture picture) {
         return PictureDTO.builder()
-                .name(picture.getPictureName())
                 .pictureOrder(picture.getPictureOrder())
                 .base64String(new String(getMimeEncoder().encode(loadPictureFromFileSystem(picture))))
                 .build();

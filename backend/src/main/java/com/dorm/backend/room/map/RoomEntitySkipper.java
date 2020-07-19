@@ -1,4 +1,4 @@
-package com.dorm.backend.shared.map.room;
+package com.dorm.backend.room.map;
 
 import com.dorm.backend.room.dtos.RoomDTO;
 import com.dorm.backend.shared.data.entities.Room;

@@ -1,4 +1,4 @@
-package com.dorm.backend.shared.map.profile;
+package com.dorm.backend.profile.map;
 
 import com.dorm.backend.shared.data.enums.EUserCharacteristic;
 import org.modelmapper.Converter;

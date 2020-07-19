@@ -16,7 +16,7 @@ public class JwtEntryPoint implements AuthenticationEntryPoint {
         if(e instanceof BadCredentialsException)  {
             httpServletResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Złe hasło lub login");
         } else {
-            httpServletResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED, e.getMessage());
+            httpServletResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Jesteś niezalogowany, zaloguj się i spróbuj jeszcze raz");
         }
     }
 }

@@ -3,10 +3,12 @@ package com.dorm.backend.profile;
 import com.dorm.backend.auth.UserPrincipal;
 import com.dorm.backend.auth.jwt.Credentials;
 import com.dorm.backend.profile.dto.ProfileDTO;
+import com.dorm.backend.shared.data.entities.LocalPicture;
 import com.dorm.backend.shared.data.entities.User;
-import com.dorm.backend.shared.data.repos.UserRepository;
 import com.dorm.backend.shared.data.enums.EUserCharacteristic;
+import com.dorm.backend.shared.data.repos.UserRepository;
 import com.dorm.backend.shared.storage.PictureLocalStorage;
+import com.dorm.backend.shared.storage.PictureService;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -14,26 +16,51 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
 public class UserService {
 
     private final ModelMapper modelMapper;
-    private final PictureLocalStorage pictureLocalStorage;
+    private final PictureService pictureService;
     private final UserRepository userRepository;
 
     UserService(
             ModelMapper modelMapper,
-            PictureLocalStorage pictureLocalStorage,
+            PictureService pictureService,
             UserRepository userRepository
     ) {
         this.modelMapper = modelMapper;
-        this.pictureLocalStorage = pictureLocalStorage;
+        this.pictureService = pictureService;
         this.userRepository = userRepository;
+    }
+
+    public void editCurrentUserProfile(ProfileDTO profileDTO) {
+        User user = getCurrentAuthenticatedUser();
+        modelMapper.map(profileDTO, user);
+
+        user.getInterests().clear();
+        user.getInterests().addAll(profileDTO.getInterests()
+                .stream()
+                .map(interest -> StringUtils.capitalize(interest.toLowerCase()))
+                .distinct()
+                .collect(Collectors.toList())
+        );
+        user.getInclinations().clear();
+        user.getInclinations().addAll(profileDTO.getInclinations()
+                .stream()
+                .distinct()
+                .map(EUserCharacteristic::getEnum)
+                .collect(Collectors.toList())
+        );
+        List<LocalPicture> newProfilePictures = pictureService.mapToLocalPictures(profileDTO.getProfilePictures());
+        user.getProfilePictures().clear();
+        user.getProfilePictures().addAll(newProfilePictures);
+        setPictureDetails(user);
+
+        updateUser(user);
+        newProfilePictures.forEach(PictureLocalStorage::savePicture);
     }
 
     public User getCurrentAuthenticatedUser() {
@@ -44,43 +71,9 @@ public class UserService {
         return getUser(((UserPrincipal) principal).getId());
     }
 
-    public void editCurrentAuthenticatedUser(ProfileDTO profile) {
-        User user = getCurrentAuthenticatedUser();
-        modelMapper.map(profile, user);
-
-        user.getInterests().clear();
-        user.getInterests().addAll(profile.getInterests()
-                .stream()
-                .map(interest -> StringUtils.capitalize(interest.toLowerCase()))
-                .distinct()
-                .collect(Collectors.toList())
-        );
-        user.getInclinations().clear();
-        user.getInclinations().addAll(profile.getInclinations()
-                .stream()
-                .distinct()
-                .map(EUserCharacteristic::getEnum)
-                .collect(Collectors.toList())
-        );
-
-        setPictureDetails(user);
-        user.getProfilePictures().stream()
-                .filter(picture -> Objects.nonNull(picture.getPicture()))
-                .forEach(pictureLocalStorage::savePicture);
-        updateUser(user);
-    }
-
     public ProfileDTO getUserProfile(Long id) {
         User user = getUser(id);
         return modelMapper.map(user, ProfileDTO.class);
-    }
-
-    public User findByUsername(String email) {
-        return userRepository.findByEmail(email);
-    }
-
-    public List<User> getAllUsers() {
-        return new ArrayList<>(userRepository.findAll());
     }
 
     public void addUser(Credentials credentials) {
@@ -98,11 +91,7 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public void  deleteUser(Long id) {
-        userRepository.deleteById(id);
-    }
-
-    public void setPictureDetails(User user) {
+    private void setPictureDetails(User user) {
         user.getProfilePictures().forEach(picture -> {
                 picture.setOwner(user);
                 picture.setOfUser(user);

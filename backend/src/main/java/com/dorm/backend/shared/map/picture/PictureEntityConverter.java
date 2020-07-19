@@ -1,4 +1,4 @@
-package com.dorm.backend.shared.map.profile.picture;
+package com.dorm.backend.shared.map.picture;
 
 import com.dorm.backend.shared.data.dtos.PictureDTO;
 import com.dorm.backend.shared.data.entities.Picture;
@@ -8,7 +8,7 @@ import org.modelmapper.spi.MappingContext;
 import static com.dorm.backend.shared.storage.PictureLocalStorage.loadPictureFromFileSystem;
 import static java.util.Base64.getMimeEncoder;
 
-public class ProfilePictureEntityConverter implements Converter<Picture, PictureDTO> {
+public class PictureEntityConverter implements Converter<Picture, PictureDTO> {
 
     @Override
     public PictureDTO convert(MappingContext<Picture, PictureDTO> context) {
