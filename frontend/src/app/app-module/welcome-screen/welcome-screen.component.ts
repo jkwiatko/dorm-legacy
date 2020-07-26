@@ -1,8 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {environment} from '../../../environments/environment';
-import {Router} from '@angular/router';
 import {AuthService} from '../../auth-module/providers/auth.service';
-import {AlertController, MenuController} from '@ionic/angular';
+import {AlertController, MenuController, NavController} from '@ionic/angular';
 import {NgForm} from '@angular/forms';
 import {Subscription} from 'rxjs';
 
@@ -18,7 +17,7 @@ export class WelcomeScreenComponent implements OnInit, OnDestroy {
     isLoggingIn = true;
     isLoading = false;
 
-    constructor(private router: Router,
+    constructor(private nav: NavController,
                 private auth: AuthService,
                 private alertCtrl: AlertController,
                 private menuCtrl: MenuController
@@ -43,7 +42,7 @@ export class WelcomeScreenComponent implements OnInit, OnDestroy {
             header: 'Witaj!',
             buttons: [{
                 text: 'Oki',
-                handler: () => this.router.navigate(['profile/edit'])
+                handler: () => this.nav.navigateForward(['profile/edit'])
             }]
         }).then(alert => alert.present());
     }

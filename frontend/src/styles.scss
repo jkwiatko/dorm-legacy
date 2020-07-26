@@ -32,6 +32,12 @@
     right: 12px;
 }
 
+.ion-page {
+    overflow-y: auto;
+    display: unset;
+    background-color: white;
+}
+
 .big-title {
     color: $font-color;
     font-size: 30px;
