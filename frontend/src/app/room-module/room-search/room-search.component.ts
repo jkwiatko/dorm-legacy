@@ -8,6 +8,7 @@ import {NgForm} from '@angular/forms';
 import {RoomPreviewModel} from '../../shared-module/models/room-preview.model';
 import {environment} from '../../../environments/environment';
 import {RoomSearchService, SearchCriteria} from '../providers/room-search.service';
+import {SearchType} from '../../shared-module/models/searchType.model';
 
 @Component({
     selector: 'app-rooms',
@@ -31,7 +32,7 @@ export class RoomSearchComponent implements OnInit, OnDestroy {
     isLoading = false;
     startDate = new Date();
     lastCriteria: SearchCriteria;
-    lookingForUserOffer = false;
+    lookingForUserOffer: SearchType;
 
     @ViewChild('searchForm', {static: true})
     searchForm: NgForm;
