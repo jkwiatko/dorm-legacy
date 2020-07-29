@@ -1,6 +1,6 @@
 package com.dorm.backend.shared.data.enums;
 
-public enum ERoommatePreferences {
+public enum RoommatePreference {
     NO_SMOKING,
     NO_PETS,
     SOCIABLE,

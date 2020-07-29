@@ -1,6 +1,6 @@
 package com.dorm.backend.room.dto;
 
-import com.dorm.backend.shared.data.enums.ERoomSearchType;
+import com.dorm.backend.shared.data.enums.SearchType;
 import lombok.Data;
 
 import java.util.Date;
@@ -19,7 +19,7 @@ public class RoomSearchCriteria {
 
     private Integer maxPrice;
 
-    private ERoomSearchType eRoomSearchType;
+    private SearchType searchType;
 
     //optional getters
 

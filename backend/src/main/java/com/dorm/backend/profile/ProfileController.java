@@ -2,7 +2,7 @@ package com.dorm.backend.profile;
 
 import com.dorm.backend.profile.dto.ProfileDTO;
 import com.dorm.backend.profile.service.ProfileService;
-import com.dorm.backend.shared.data.enums.EUserCharacteristic;
+import com.dorm.backend.shared.data.enums.UserCharacteristic;
 import com.dorm.backend.shared.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -49,8 +49,8 @@ public class ProfileController {
     @GetMapping("/characteristics")
     public ResponseEntity<List<String>> getCharacteristics() {
         return ResponseEntity.ok().body(
-                Arrays.stream(EUserCharacteristic.values())
-                        .map(EUserCharacteristic::toString)
+                Arrays.stream(UserCharacteristic.values())
+                        .map(UserCharacteristic::toString)
                         .collect(Collectors.toList())
         );
     }

@@ -32,7 +32,10 @@ public class RoomSearchRepository {
         List<Predicate> predicates = new ArrayList<>();
 
 
-        switch (criteria.getERoomSearchType()) {
+        switch (criteria.getSearchType()) {
+            case RESERVED_OFFER:
+                addReservedRoomPredicates(criteriaBuilder, room, predicates);
+                break;
             case OWN_OFFER:
                 addCurrentUserOffersPredicates(criteriaBuilder, room, predicates);
                 break;
@@ -42,9 +45,6 @@ public class RoomSearchRepository {
                         criteriaBuilder.equal(
                                 room.join("address").join("city").get("name"),
                                 criteria.getCityName()));
-                break;
-            case RESERVED_OFFER:
-                addReservedRoomPredicates(criteriaBuilder, room, predicates);
                 break;
             default:
                 throw new NoSearchTypeSpecifiedException();

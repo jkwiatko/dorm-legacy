@@ -11,7 +11,7 @@ import com.dorm.backend.shared.data.entity.picture.LocalPictureEntity;
 import com.dorm.backend.shared.data.entity.Room;
 import com.dorm.backend.shared.data.entity.User;
 import com.dorm.backend.shared.data.entity.address.City;
-import com.dorm.backend.shared.data.enums.EAmenity;
+import com.dorm.backend.shared.data.enums.Amenity;
 import com.dorm.backend.shared.data.repo.CityRepository;
 import com.dorm.backend.shared.data.repo.RoomRepository;
 import com.dorm.backend.shared.data.repo.search.RoomSearchRepository;
@@ -107,7 +107,7 @@ public class LocalRoomService implements RoomService {
         room.setAmenities(roomDTO.getAmenities()
                 .stream()
                 .distinct()
-                .map(EAmenity::getEnum)
+                .map(Amenity::getEnum)
                 .collect(Collectors.toList())
         );
         room.setOwner(user);
@@ -135,7 +135,7 @@ public class LocalRoomService implements RoomService {
         currentRoom.getAmenities().addAll(roomDTO.getAmenities()
                 .stream()
                 .distinct()
-                .map(EAmenity::getEnum)
+                .map(Amenity::getEnum)
                 .collect(Collectors.toList())
         );
 

@@ -32,7 +32,7 @@ export class RoomSearchComponent implements OnInit, OnDestroy {
     isLoading = false;
     startDate = new Date();
     lastCriteria: SearchCriteria;
-    lookingForUserOffer: SearchType;
+    searchType: SearchType;
 
     @ViewChild('searchForm', {static: true})
     searchForm: NgForm;
@@ -48,23 +48,34 @@ export class RoomSearchComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.lastCriteria = this.roomSearchService.getLastCriteria();
-        this.route.url.subscribe(this.searchForUserOffers.bind(this))
-        this.roomService.fetchAvailableCities().subscribe((cities => this.availableCities = cities))
-        if (this.lastCriteria.cityName) {
-            this.search(this.lastCriteria);
-        }
+        this.route.url.subscribe(this.setSearchType.bind(this));
+        this.roomService.fetchAvailableCities()
+            .pipe(take(1))
+            .subscribe((cities => this.availableCities = cities));
     }
 
-    searchForUserOffers(url) {
-        if (url[url.length - 1].path === 'my-offers') {
-            this.lookingForUserOffer = true;
-            this.search({} as SearchCriteria);
+    setSearchType(url) {
+        switch (url[url.length - 1].path) {
+            case 'own':
+                this.searchType = SearchType.OWN_OFFER;
+                break;
+            case 'reserved':
+                this.searchType = SearchType.RESERVED_OFFER;
+                break;
+            case 'search':
+                this.searchType = SearchType.SEARCHED_OFFER;
+                break;
+        }
+
+        // load previous search
+        if (this.lastCriteria.searchType === this.searchType) {
+            this.search(this.lastCriteria);
         }
     }
 
     search(searchCriteria: SearchCriteria) {
         this.isLoading = true;
-        searchCriteria.lookingForUserOffer = this.lookingForUserOffer;
+        searchCriteria.searchType = this.searchType;
         return this.roomSearchService.fetchSearchedRooms(searchCriteria)
             .pipe(take(1))
             .subscribe(
@@ -76,7 +87,7 @@ export class RoomSearchComponent implements OnInit, OnDestroy {
             );
     }
 
-    submit(searchCriteriaForm : NgForm) {
+    submit(searchCriteriaForm: NgForm) {
         searchCriteriaForm.form.markAllAsTouched();
         if (searchCriteriaForm.valid) {
             this.search(searchCriteriaForm.value);

@@ -2,8 +2,8 @@ package com.dorm.backend.shared.data.entity;
 
 import com.dorm.backend.shared.data.entity.base.BaseEntity;
 import com.dorm.backend.shared.data.entity.picture.LocalPictureEntity;
-import com.dorm.backend.shared.data.enums.EGender;
-import com.dorm.backend.shared.data.enums.EUserCharacteristic;
+import com.dorm.backend.shared.data.enums.Gender;
+import com.dorm.backend.shared.data.enums.UserCharacteristic;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -33,8 +33,8 @@ public class User extends BaseEntity {
     private List<String> interests;
 
     @Enumerated(value = EnumType.STRING)
-    @ElementCollection(targetClass = EUserCharacteristic.class)
-    private List<EUserCharacteristic> inclinations;
+    @ElementCollection(targetClass = UserCharacteristic.class)
+    private List<UserCharacteristic> inclinations;
 
     //fields
 
@@ -54,7 +54,7 @@ public class User extends BaseEntity {
     private boolean active;
 
     @Enumerated(value = EnumType.STRING)
-    private EGender gender;
+    private Gender gender;
 
     private String workingIn;
 

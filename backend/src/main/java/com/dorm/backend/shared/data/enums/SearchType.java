@@ -1,6 +1,6 @@
 package com.dorm.backend.shared.data.enums;
 
-public enum ERoomSearchType {
+public enum SearchType {
     OWN_OFFER,
     SEARCHED_OFFER,
     RESERVED_OFFER

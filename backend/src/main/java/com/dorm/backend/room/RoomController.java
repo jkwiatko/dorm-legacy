@@ -6,7 +6,7 @@ import com.dorm.backend.shared.data.dto.ProfilePreviewDTO;
 import com.dorm.backend.shared.data.dto.RoomPreviewDTO;
 import com.dorm.backend.room.dto.RoomDTO;
 import com.dorm.backend.room.dto.RoomSearchCriteria;
-import com.dorm.backend.shared.data.enums.EAmenity;
+import com.dorm.backend.shared.data.enums.Amenity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -60,7 +60,7 @@ public class RoomController {
     @GetMapping("/amenities")
     public ResponseEntity<List<String>> getAmenities() {
         return ResponseEntity.ok()
-                .body(Arrays.stream(EAmenity.values()).map(EAmenity::toString).collect(Collectors.toList()));
+                .body(Arrays.stream(Amenity.values()).map(Amenity::toString).collect(Collectors.toList()));
     }
 
     @GetMapping("/cities")

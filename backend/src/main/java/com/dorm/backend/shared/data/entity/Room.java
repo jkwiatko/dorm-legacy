@@ -3,7 +3,7 @@ package com.dorm.backend.shared.data.entity;
 import com.dorm.backend.shared.data.entity.address.Address;
 import com.dorm.backend.shared.data.entity.base.BaseEntity;
 import com.dorm.backend.shared.data.entity.picture.LocalPictureEntity;
-import com.dorm.backend.shared.data.enums.EAmenity;
+import com.dorm.backend.shared.data.enums.Amenity;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -38,8 +38,8 @@ public class Room extends BaseEntity {
     private List<Message> chat;
 
     @Enumerated(value = EnumType.STRING)
-    @ElementCollection(targetClass = EAmenity.class)
-    private List<EAmenity> amenities;
+    @ElementCollection(targetClass = Amenity.class)
+    private List<Amenity> amenities;
 
     //fields
 

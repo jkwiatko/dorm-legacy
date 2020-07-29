@@ -1,7 +1,7 @@
 package com.dorm.backend.shared.data.dto;
 
 import com.dorm.backend.shared.data.entity.picture.LocalPictureEntity;
-import com.dorm.backend.shared.data.enums.EGender;
+import com.dorm.backend.shared.data.enums.Gender;
 import lombok.Data;
 
 import java.util.Date;
@@ -17,7 +17,7 @@ public class ProfilePreviewDTO {
 
     private Date birthDate;
 
-    private EGender gender;
+    private Gender gender;
 
     private LocalPictureEntity profilePictures;
 

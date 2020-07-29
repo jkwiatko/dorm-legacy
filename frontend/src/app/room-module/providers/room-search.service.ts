@@ -4,7 +4,7 @@ import {RoomPreviewModel} from '../../shared-module/models/room-preview.model';
 import {environment} from '../../../environments/environment';
 import {tap} from 'rxjs/operators';
 import {RoomService} from './room.service';
-import {SearchType} from "../../shared-module/models/searchType.model";
+import {SearchType} from '../../shared-module/models/searchType.model';
 
 @Injectable({
     providedIn: 'root'
@@ -36,7 +36,7 @@ export class SearchCriteria {
     public startingDate,
     public duration,
     public maxPrice,
-    public eRoomSearchType: SearchType) {
+    public searchType: SearchType) {
     }
 }
 

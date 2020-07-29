@@ -1,6 +1,6 @@
 package com.dorm.backend.shared.data.enums;
 
-public enum EAmenity {
+public enum Amenity {
 
     //place
     LOCATION("Localizacja"),
@@ -23,12 +23,12 @@ public enum EAmenity {
 
     private final String readableText;
 
-    EAmenity(String readableText) {
+    Amenity(String readableText) {
         this.readableText = readableText;
     }
 
-    public static EAmenity getEnum(String readableText) {
-        for (EAmenity value : EAmenity.values()) {
+    public static Amenity getEnum(String readableText) {
+        for (Amenity value : Amenity.values()) {
             if (value.readableText.equals(readableText)) {
                 return value;
             }

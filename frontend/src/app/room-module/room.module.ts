@@ -1,6 +1,5 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {AgmCoreModule} from '@agm/core';
 import {MatSelectModule} from '@angular/material/select';
 import {MatInputModule} from '@angular/material/input';
 import {RouterModule, Routes} from '@angular/router';
@@ -16,9 +15,10 @@ import {MatRadioModule} from '@angular/material/radio';
 import {IonicModule} from '@ionic/angular';
 
 const routes: Routes = [
-    {path: 'room/find', component: RoomSearchComponent, pathMatch: 'full', canActivate: [AuthGuardService]},
+    {path: 'room/search', component: RoomSearchComponent, pathMatch: 'full', canActivate: [AuthGuardService]},
+    {path: 'room/search/own', component: RoomSearchComponent, pathMatch: 'full', canActivate: [AuthGuardService]},
+    {path: 'room/search/reserved', component: RoomSearchComponent, pathMatch: 'full', canActivate: [AuthGuardService]},
     {path: 'room/create', component: RoomEditComponent, pathMatch: 'full', canActivate: [AuthGuardService]},
-    {path: 'room/my-offers', component: RoomSearchComponent, pathMatch: 'full', canActivate: [AuthGuardService]},
     {path: 'room/:id', component: RoomDetailsComponent, pathMatch: 'full', canActivate: [AuthGuardService]},
     {path: 'room/edit/:id', component: RoomEditComponent, pathMatch: 'full', canActivate: [AuthGuardService]},
 ];
@@ -26,9 +26,7 @@ const routes: Routes = [
 @NgModule({
     declarations: [RoomSearchComponent, RoomEditComponent, RoomDetailsComponent],
     imports: [
-        RouterModule.forChild(routes),
         CommonModule,
-        AgmCoreModule,
         MatSelectModule,
         MatInputModule,
         ReactiveFormsModule,
@@ -39,6 +37,7 @@ const routes: Routes = [
         MatRadioModule,
         IonicModule,
         FormsModule,
+        RouterModule.forChild(routes),
     ],
 })
 export class RoomModule {

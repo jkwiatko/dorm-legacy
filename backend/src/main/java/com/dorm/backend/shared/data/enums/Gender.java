@@ -1,6 +1,6 @@
 package com.dorm.backend.shared.data.enums;
 
-public enum EGender {
+public enum Gender {
     MALE,
     FEMALE
 }
