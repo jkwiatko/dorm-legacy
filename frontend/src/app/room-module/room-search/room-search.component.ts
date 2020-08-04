@@ -7,8 +7,9 @@ import * as moment from 'moment';
 import {NgForm} from '@angular/forms';
 import {RoomPreviewModel} from '../../shared-module/models/room-preview.model';
 import {environment} from '../../../environments/environment';
-import {RoomSearchService, SearchCriteria} from '../providers/room-search.service';
+import {RoomSearchService} from '../providers/room-search.service';
 import {SearchType} from '../../shared-module/models/searchType.model';
+import {SearchCriteriaModel} from '../models/search.criteria.model';
 
 @Component({
     selector: 'app-rooms',
@@ -31,8 +32,8 @@ export class RoomSearchComponent implements OnInit, OnDestroy {
     searchObservable = new Subject<Event>();
     isLoading = false;
     startDate = new Date();
-    lastCriteria: SearchCriteria;
     searchType: SearchType;
+    searchTypeEnum = SearchType;
 
     @ViewChild('searchForm', {static: true})
     searchForm: NgForm;
@@ -47,7 +48,6 @@ export class RoomSearchComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.lastCriteria = this.roomSearchService.getLastCriteria();
         this.route.url.subscribe(this.setSearchType.bind(this));
         this.roomService.fetchAvailableCities()
             .pipe(take(1))
@@ -66,14 +66,9 @@ export class RoomSearchComponent implements OnInit, OnDestroy {
                 this.searchType = SearchType.SEARCHED_OFFER;
                 break;
         }
-
-        // load previous search
-        if (this.lastCriteria.searchType === this.searchType) {
-            this.search(this.lastCriteria);
-        }
     }
 
-    search(searchCriteria: SearchCriteria) {
+    search(searchCriteria: SearchCriteriaModel) {
         this.isLoading = true;
         searchCriteria.searchType = this.searchType;
         return this.roomSearchService.fetchSearchedRooms(searchCriteria)
@@ -95,7 +90,7 @@ export class RoomSearchComponent implements OnInit, OnDestroy {
     }
 
     navigateToRoom(id: number) {
-        this.router.navigate(['room/', id])
+        this.router.navigate(['room/', id]).then()
     }
 
     ngOnDestroy() {

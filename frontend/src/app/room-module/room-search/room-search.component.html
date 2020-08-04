@@ -8,7 +8,7 @@
 <div class="search-component mb-3 mt-3 mt-lg-5 container">
     <form #searchForm="ngForm">
         <div class="row">
-            <ion-item *ngIf="!lookingForUserOffer" class="col-12 col-md-3 order-0-md order-1" id="cityPicker">
+            <ion-item *ngIf="searchType === searchTypeEnum.SEARCHED_OFFER" class="col-12 col-md-3 order-0-md order-1" id="cityPicker">
                 <ion-label position="stacked">Miasto</ion-label>
                 <ion-select
                     ngModel
@@ -16,19 +16,17 @@
                     name="cityName"
                     interface="popover"
                     [interfaceOptions]="availableCities"
-                    [ngModel]="lastCriteria.cityName"
                     (ionChange)="searchObservable.next($event)">
                     <ion-select-option *ngFor="let city of availableCities" [value]="city">
                         {{city}}
                     </ion-select-option>
                 </ion-select>
             </ion-item>
-            <ion-item [ngClass]="lookingForUserOffer ? 'col-md-12' : 'col-md-9'" class="col-12 col-md-9 order-0 order-md-1">
+            <ion-item [ngClass]="searchType === searchTypeEnum.SEARCHED_OFFER ? 'col-md-9' : 'col-md-12'" class="col-12 col-md-9 order-0 order-md-1">
                 <ion-label position="stacked">Nazwa</ion-label>
                 <ion-input
                     ngModel
                     name="roomName"
-                    [ngModel]="lastCriteria.roomName"
                     (input)="searchObservable.next($event)">
                 </ion-input>
             </ion-item>
@@ -41,7 +39,6 @@
                     picker-format="YYYY MMM DD"
                     [min]="minDate()"
                     [max]="maxDate()"
-                    [ngModel]="lastCriteria.startingDate"
                     (ionChange)="searchObservable.next($event)">
                 </ion-datetime>
             </ion-item>
@@ -57,7 +54,6 @@
                                    [max]="maxDate()"
                                    [min]="minDate()"
                                    [matDatepicker]="picker"
-                                   [ngModel]="lastCriteria.startingDate"
                                    (dateChange)="searchObservable.next()">
                         </label>
                         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
@@ -75,7 +71,6 @@
                     pin="true"
                     [min]="1"
                     [max]="24"
-                    [ngModel]="lastCriteria.duration"
                     (ionChange)="searchObservable.next($event)">
                 </ion-range>
             </ion-item>
@@ -89,12 +84,11 @@
                     pin="true"
                     [min]="500"
                     [max]="3000"
-                    [ngModel]="lastCriteria.maxPrice"
                     (ionChange)="searchObservable.next($event)">
                 </ion-range>
             </ion-item>
             <div class="col-12 order-2 mt-4 d-flex justify-content-center">
-                <ion-button (click)="submit(searchForm)">{{lookingForUserOffer ? 'Filtruj' : 'Szukaj'}}</ion-button>
+                <ion-button (click)="submit(searchForm)">{{searchType === searchTypeEnum.SEARCHED_OFFER ? 'Szukaj' : 'Filtruj'}}</ion-button>
             </div>
         </div>
     </form>

@@ -5,20 +5,20 @@
         </ion-toolbar>
     </ion-header>
     <ion-content>
-        <ion-list>
-            <ion-item routerLink="profile/edit" (click)="navigate()">
+        <ion-list (click)="navigate()">
+            <ion-item routerLink="profile/edit">
                 <ion-icon name="person" slot="start"></ion-icon>
                 <ion-label>Profil</ion-label>
             </ion-item>
-            <ion-item routerLink="room/find" (click)="navigate()">
+            <ion-item routerLink="room/search">
                 <ion-icon name="search" slot="start"></ion-icon>
                 <ion-label>Szukaj</ion-label>
             </ion-item>
-            <ion-item routerLink="room/my-offers" (click)="navigate()">
+            <ion-item routerLink="room/search/own">
                 <ion-icon name="star" slot="start"></ion-icon>
                 <ion-label>Moje Oferty</ion-label>
             </ion-item>
-            <ion-item>
+            <ion-item routerLink="room/search/reserved">
                 <ion-icon name="heart" slot="start"></ion-icon>
                 <ion-label>Rezerwacje</ion-label>
             </ion-item>

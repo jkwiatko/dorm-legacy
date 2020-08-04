@@ -88,12 +88,10 @@ public class RoomSearchRepository {
     }
 
     private void addReservedRoomPredicates(CriteriaBuilder criteriaBuilder, Root<Room> room, List<Predicate> predicates) {
-        room.fetch("possibleRoommates", JoinType.LEFT);
         predicates.add(
-                criteriaBuilder.isMember(
-                        userService.getCurrentAuthenticatedUser(),
-                        room.get("possibleRoommates"))
-        );
+                criteriaBuilder.equal(
+                        room.join("possibleRoommates").get("id"),
+                        userService.getCurrentAuthenticatedUser().getId()));
         predicates.add(
                 criteriaBuilder.notEqual(
                         room.join("owner").get("id"),
