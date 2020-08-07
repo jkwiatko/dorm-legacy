@@ -5,7 +5,6 @@ import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
-import {AgmCoreModule} from '@agm/core';
 import {ProfileModule} from '../profile-module/profile.module';
 import {WelcomeScreenComponent} from './welcome-screen/welcome-screen.component';
 import {TokenInterceptor} from '../auth-module/providers/token.interceptor';
@@ -14,7 +13,7 @@ import {ToastrModule} from 'ngx-toastr';
 import {IonicModule, IonicRouteStrategy} from '@ionic/angular';
 import {RouteReuseStrategy} from '@angular/router';
 import {FormsModule} from '@angular/forms';
-import { MobileMenuComponent } from './mobile-menu/mobile-menu.component';
+import {MobileMenuComponent} from './mobile-menu/mobile-menu.component';
 
 @NgModule({
     declarations: [
@@ -35,9 +34,6 @@ import { MobileMenuComponent } from './mobile-menu/mobile-menu.component';
                 positionClass: 'toast-top-right-under-header',
             }
         ),
-        AgmCoreModule.forRoot({
-            apiKey: 'AIzaSyDKVy1CJI89TnmbC381IzCvQumuddcZttY'
-        }),
     ],
     providers: [
         {
