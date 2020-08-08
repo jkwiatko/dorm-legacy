@@ -8,26 +8,26 @@
 <div class="search-component mb-3 mt-3 mt-lg-5 container">
     <form #searchForm="ngForm">
         <div class="row">
-            <ion-item *ngIf="searchType === searchTypeEnum.SEARCHED_OFFER" class="col-12 col-md-3 order-0-md order-1" id="cityPicker">
+            <ion-item *ngIf="searchType === searchTypeEnum.SEARCHED_OFFER" class="col-12 col-md-3 order-0-md order-1"
+                      id="cityPicker">
                 <ion-label position="stacked">Miasto</ion-label>
                 <ion-select
                     ngModel
                     required
                     name="cityName"
                     interface="popover"
-                    [interfaceOptions]="availableCities"
-                    (ionChange)="searchObservable.next($event)">
+                    [interfaceOptions]="availableCities">
                     <ion-select-option *ngFor="let city of availableCities" [value]="city">
                         {{city}}
                     </ion-select-option>
                 </ion-select>
             </ion-item>
-            <ion-item [ngClass]="searchType === searchTypeEnum.SEARCHED_OFFER ? 'col-md-9' : 'col-md-12'" class="col-12 col-md-9 order-0 order-md-1">
+            <ion-item [ngClass]="searchType === searchTypeEnum.SEARCHED_OFFER ? 'col-md-9' : 'col-md-12'"
+                      class="col-12 col-md-9 order-0 order-md-1">
                 <ion-label position="stacked">Nazwa</ion-label>
                 <ion-input
                     ngModel
-                    name="roomName"
-                    (input)="searchObservable.next($event)">
+                    name="roomName">
                 </ion-input>
             </ion-item>
             <ion-item *ngIf="mobile; else desktopPicker" class="col-12 col-md-4 order-2">
@@ -38,8 +38,7 @@
                     display-format="MM DD YYYY"
                     picker-format="YYYY MMM DD"
                     [min]="minDate()"
-                    [max]="maxDate()"
-                    (ionChange)="searchObservable.next($event)">
+                    [max]="maxDate()">
                 </ion-datetime>
             </ion-item>
             <ng-template #desktopPicker>
@@ -53,8 +52,7 @@
                                    placeholder="Od kiedy?"
                                    [max]="maxDate()"
                                    [min]="minDate()"
-                                   [matDatepicker]="picker"
-                                   (dateChange)="searchObservable.next()">
+                                   [matDatepicker]="picker">
                         </label>
                         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                         <mat-datepicker #picker startView="month" [startAt]="startDate"></mat-datepicker>
@@ -70,8 +68,7 @@
                     step="1"
                     pin="true"
                     [min]="1"
-                    [max]="24"
-                    (ionChange)="searchObservable.next($event)">
+                    [max]="24">
                 </ion-range>
             </ion-item>
             <ion-item mode="ios" class="col-12 mt-3  col-md-4 order-2" lines="none">
@@ -83,12 +80,12 @@
                     step="100"
                     pin="true"
                     [min]="500"
-                    [max]="3000"
-                    (ionChange)="searchObservable.next($event)">
+                    [max]="3000">
                 </ion-range>
             </ion-item>
             <div class="col-12 order-2 mt-4 d-flex justify-content-center">
-                <ion-button (click)="submit(searchForm)">{{searchType === searchTypeEnum.SEARCHED_OFFER ? 'Szukaj' : 'Filtruj'}}</ion-button>
+                <ion-button
+                    (click)="submit(searchForm)">{{searchType === searchTypeEnum.SEARCHED_OFFER ? 'Szukaj' : 'Filtruj'}}</ion-button>
             </div>
         </div>
     </form>
@@ -99,7 +96,11 @@
         <ng-template #searchResult>
             <div class="col-12 p-3 mt-lg-5 text-center" *ngIf="rooms.length < 1">Brak wyników wyszukiwania</div>
             <div *ngFor="let room of rooms" class="col-md-6 col-12 col-lg-4 p-3">
-                <app-room-preview (click)="navigateToRoom(room.id)" [room]="room"></app-room-preview>
+                <app-room-preview *ngIf="searchType != searchTypeEnum.OWN_OFFER; else roommatesLink"
+                                  (click)="navigateToRoom(room.id)" [room]="room"></app-room-preview>
+                <ng-template #roommatesLink>
+                    <app-room-preview (click)="navigateToRoommates(room.id)" [room]="room"></app-room-preview>
+                </ng-template>
             </div>
         </ng-template>
     </div>

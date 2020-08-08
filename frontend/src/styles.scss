@@ -27,6 +27,11 @@
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 @import "variables";
 
+ion-header {
+    position: sticky;
+    top: 0;
+}
+
 .toast-top-right-under-header {
     top: $header-height;
     right: 12px;

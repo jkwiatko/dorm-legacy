@@ -61,6 +61,7 @@ public class LocalProfileService implements ProfileService {
         newProfilePictures.forEach(PictureLocalStorage::savePicture);
     }
 
+    @Override
     public ProfileDTO getUserProfile(Long id) {
         User user = userService.getUser(id);
         return modelMapper.map(user, ProfileDTO.class);

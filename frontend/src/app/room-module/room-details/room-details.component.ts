@@ -1,34 +1,38 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {RoomModel} from '../models/room.model';
 import {ActivatedRoute, Router} from '@angular/router';
-import {switchMap} from 'rxjs/operators';
-import {EMPTY, Subscription} from 'rxjs';
+import {switchMap, tap} from 'rxjs/operators';
+import {EMPTY} from 'rxjs';
 import {RoomService} from '../providers/room.service';
+import {ProfileService} from '../../profile-module/providers/profile.service';
 
 @Component({
     selector: 'app-room-details',
     templateUrl: './room-details.component.html',
     styleUrls: ['./room-details.component.scss']
 })
-export class RoomDetailsComponent implements OnInit, OnDestroy {
+export class RoomDetailsComponent implements OnInit {
 
+    isOwner = false;
     room: RoomModel = new RoomModel();
-    sub: Subscription;
 
-    constructor(private route: ActivatedRoute, private router: Router, private roomService: RoomService) {
+    constructor(private route: ActivatedRoute,
+                private router: Router,
+                private roomService: RoomService,
+                private profileService: ProfileService) {
     }
 
     ngOnInit() {
-        this.sub = this.route.params.pipe(
-            switchMap(params => +params.id ? this.roomService.fetchRoom(+params.id) : EMPTY)
-        ).subscribe(room => this.room = room);
-    }
-
-    ngOnDestroy(): void {
-        this.sub.unsubscribe();
+        this.route.params.pipe(
+            switchMap(params => +params.id ? this.roomService.fetchRoom(+params.id) : EMPTY),
+            tap(room => this.room = room),
+            switchMap(() => this.profileService.fetchCurrentUserProfile())
+        ).subscribe(currentUser => this.isOwner = currentUser.id === this.room.owner.id);
     }
 
     book() {
-        this.roomService.book(this.room.id).subscribe();
+        if (this.isOwner) {
+            this.roomService.book(this.room.id).subscribe();
+        }
     }
 }

@@ -1,5 +1,6 @@
 package com.dorm.backend.room;
 
+import com.dorm.backend.profile.service.ProfileService;
 import com.dorm.backend.room.service.LocalRoomService;
 import com.dorm.backend.room.service.RoomService;
 import com.dorm.backend.shared.data.dto.ProfilePreviewDTO;
@@ -24,6 +25,22 @@ public class RoomController {
         this.roomService = roomService;
     }
 
+    @GetMapping("/amenities")
+    public ResponseEntity<List<String>> getAmenities() {
+        return ResponseEntity.ok()
+                .body(Arrays.stream(Amenity.values()).map(Amenity::toString).collect(Collectors.toList()));
+    }
+
+    @GetMapping("/cities")
+    public ResponseEntity<List<String>> getCities() {
+        return ResponseEntity.ok().body(roomService.getPossibleCities());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<RoomDTO> getRoom(@PathVariable Long id) {
+        return ResponseEntity.ok().body(roomService.getRoom(id));
+    }
+
     @PostMapping("/create")
     public ResponseEntity<Void> createRoom(@RequestBody RoomDTO roomDTO) {
         roomService.createRoom(roomDTO);
@@ -36,14 +53,10 @@ public class RoomController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<RoomDTO> getRoom(@PathVariable Long id) {
-        return ResponseEntity.ok().body(roomService.getRoom(id));
-    }
-
-    @GetMapping("/{id}/roommates")
-    public ResponseEntity<List<ProfilePreviewDTO>> getPossibleRoommates(@PathVariable Long id) {
-        return ResponseEntity.ok().body(roomService.getPossibleRoommates(id));
+    @PostMapping("/book")
+    public ResponseEntity<Void> bookRoom(@RequestBody Long id) {
+        roomService.bookRoom(id);
+        return ResponseEntity.ok().build();
     }
 
     @PostMapping("/search")
@@ -51,20 +64,8 @@ public class RoomController {
         return ResponseEntity.ok().body(roomService.searchRoom(roomSearchCriteria));
     }
 
-    @PostMapping("/book")
-    public ResponseEntity<Void> bookRoom(@RequestBody Long id) {
-        roomService.bookRoom(id);
-        return ResponseEntity.ok().build();
-    }
-
-    @GetMapping("/amenities")
-    public ResponseEntity<List<String>> getAmenities() {
-        return ResponseEntity.ok()
-                .body(Arrays.stream(Amenity.values()).map(Amenity::toString).collect(Collectors.toList()));
-    }
-
-    @GetMapping("/cities")
-    public ResponseEntity<List<String>> getCities() {
-        return ResponseEntity.ok().body(roomService.getPossibleCities());
+    @GetMapping("/{id}/search/roommates")
+    public ResponseEntity<List<ProfilePreviewDTO>> getPossibleRoommates(@PathVariable Long id) {
+        return ResponseEntity.ok().body(roomService.getPossibleRoommates(id));
     }
 }

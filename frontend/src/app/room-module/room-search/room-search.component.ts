@@ -1,7 +1,6 @@
-import {Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
+import {Component, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
 import {RoomService} from '../providers/room.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {Subject} from 'rxjs';
 import {take} from 'rxjs/operators';
 import * as moment from 'moment';
 import {NgForm} from '@angular/forms';
@@ -17,7 +16,7 @@ import {SearchCriteriaModel} from '../models/search.criteria.model';
     styleUrls: ['./room-search.component.scss'],
     encapsulation: ViewEncapsulation.None
 })
-export class RoomSearchComponent implements OnInit, OnDestroy {
+export class RoomSearchComponent implements OnInit {
 
     constructor(
         private roomSearchService: RoomSearchService,
@@ -29,7 +28,6 @@ export class RoomSearchComponent implements OnInit, OnDestroy {
 
     rooms: RoomPreviewModel[] = []
     availableCities: string[] = [];
-    searchObservable = new Subject<Event>();
     isLoading = false;
     startDate = new Date();
     searchType: SearchType;
@@ -50,7 +48,6 @@ export class RoomSearchComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.route.url.subscribe(this.setSearchType.bind(this));
         this.roomService.fetchAvailableCities()
-            .pipe(take(1))
             .subscribe((cities => this.availableCities = cities));
     }
 
@@ -93,7 +90,7 @@ export class RoomSearchComponent implements OnInit, OnDestroy {
         this.router.navigate(['room/', id]).then()
     }
 
-    ngOnDestroy() {
-        this.searchObservable.unsubscribe();
+    navigateToRoommates(id: number) {
+        this.router.navigate(['room/', id, 'search', 'roommate']).then();
     }
 }

@@ -4,6 +4,7 @@ import {Observable} from 'rxjs';
 import {environment} from '../../../environments/environment';
 import {tap} from 'rxjs/operators';
 import {ProfileModel} from '../models/profile.model';
+import {ProfilePreviewModel} from '../../shared-module/models/profile-preview.model';
 
 @Injectable({
     providedIn: 'root'
@@ -41,5 +42,10 @@ export class ProfileService {
 
     fetchCharacteristicsOptions(): Observable<string[]> {
         return this.http.get<string[]>(environment.api + 'profile/characteristics');
+    }
+
+    fetchUserProfilePreviewsForRoom(id: number) {
+        console.log(environment.api + `room/${id}/roommates`);
+        return this.http.get<ProfilePreviewModel>(environment.api + `room/${id}/search/roommates`);
     }
 }

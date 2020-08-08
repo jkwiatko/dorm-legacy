@@ -13,15 +13,16 @@ import {MatNativeDateModule} from '@angular/material/core';
 import {MatInputModule} from '@angular/material/input';
 import {MatRadioModule} from '@angular/material/radio';
 import {IonicModule} from '@ionic/angular';
-import {ProfileSearchComponent} from './profile-search/profile-search.component';
+import {RoommateSearchComponent} from './profile-search/roommate-search.component';
 
 const routes: Routes = [
     {path: 'profile/edit', component: ProfileEditComponent, canActivate: [AuthGuardService]},
-    {path: 'profile/:id', component: ProfileDetailsComponent}
+    {path: 'profile/:id', component: ProfileDetailsComponent, canActivate: [AuthGuardService]},
+    {path: 'room/:id/search/roommate', component: RoommateSearchComponent, canActivate: [AuthGuardService]}
 ];
 
 @NgModule({
-    declarations: [ProfileDetailsComponent, ProfileEditComponent, ProfileSearchComponent],
+    declarations: [ProfileDetailsComponent, ProfileEditComponent, RoommateSearchComponent],
     exports: [],
     imports: [
         RouterModule.forChild(routes),
