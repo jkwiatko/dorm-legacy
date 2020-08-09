@@ -21,7 +21,10 @@ export class RoommateSearchComponent implements OnInit {
     ngOnInit(): void {
         this.route.params.pipe(
             switchMap(params => this.profileService.fetchUserProfilePreviewsForRoom(params.id)))
-            .subscribe(console.log);
+            .subscribe(profiles => {
+                console.log(profiles);
+                this.profiles = profiles
+            });
     }
 
     navigateToProfile(id: any) {

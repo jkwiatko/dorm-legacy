@@ -13,7 +13,7 @@ import {MatNativeDateModule} from '@angular/material/core';
 import {MatInputModule} from '@angular/material/input';
 import {MatRadioModule} from '@angular/material/radio';
 import {IonicModule} from '@ionic/angular';
-import {RoommateSearchComponent} from './profile-search/roommate-search.component';
+import {RoommateSearchComponent} from './roommate-search/roommate-search.component';
 
 const routes: Routes = [
     {path: 'profile/edit', component: ProfileEditComponent, canActivate: [AuthGuardService]},

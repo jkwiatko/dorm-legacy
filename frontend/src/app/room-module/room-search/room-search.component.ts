@@ -93,7 +93,11 @@ export class RoomSearchComponent implements OnInit {
     }
 
     reset() {
+        if( this.searchType === SearchType.SEARCHED_OFFER ) {
         this.searchForm.resetForm({cityName: this.searchForm.form.get('cityName').value});
+        } else {
+            this.searchForm.resetForm();
+        }
     }
 
     navigateToRoom(id: number) {

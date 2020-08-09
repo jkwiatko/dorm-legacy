@@ -46,6 +46,6 @@ export class ProfileService {
 
     fetchUserProfilePreviewsForRoom(id: number) {
         console.log(environment.api + `room/${id}/roommates`);
-        return this.http.get<ProfilePreviewModel>(environment.api + `room/${id}/search/roommates`);
+        return this.http.get<ProfilePreviewModel[]>(environment.api + `room/${id}/search/roommates`);
     }
 }
