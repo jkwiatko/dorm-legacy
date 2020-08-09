@@ -3,13 +3,13 @@ package com.dorm.backend.shared.data.enums;
 public enum UserCharacteristic {
     EARLY_BIRD("Rannym ptaszkiem"),
     NIGHT_OWL("Nocnym markiem"),
-    PARTY_PERSON("Towarzyski"),
-    SILENT("Cichy"),
+    PARTY_PERSON("Towarzyski/a"),
+    SILENT("Cichy/a"),
     HEALTHY("Fit"),
     VEGAN("Vege"),
     VEGETARIAN("Wege"),
-    PET_PAL("Miłośnikiem zwierząt"),
-    SHOPAHOLIC("Zakupoholikiem"),
+    PET_PAL("Miłośnikiem/czką zwierząt"),
+    SHOPAHOLIC("Zakupoholikiem/czką"),
     SLEEPYHEAD("Spiochem");
 
     private final String readableText;

@@ -1,7 +1,6 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ProfileService} from '../providers/profile.service';
-import {Subscription} from 'rxjs';
 import {Router} from '@angular/router';
 import {ProfileModel} from '../models/profile.model';
 import {PictureModel} from '../../shared-module/models/picture.model';
@@ -9,7 +8,7 @@ import {ToastrService} from 'ngx-toastr';
 import {DateParserPipe} from '../../shared-module/pipes/dateParser.pipe';
 import * as moment from 'moment';
 import {environment} from '../../../environments/environment';
-import {AlertController} from '@ionic/angular';
+import {AlertController, ViewWillEnter} from '@ionic/angular';
 
 @Component({
     selector: 'app-profile-edit',
@@ -17,11 +16,10 @@ import {AlertController} from '@ionic/angular';
     styleUrls: ['./profile-edit.component.scss']
 })
 
-export class ProfileEditComponent implements OnInit, OnDestroy {
+export class ProfileEditComponent implements OnInit, ViewWillEnter {
 
     startDate = new Date(2000, 0, 1);
     form: FormGroup;
-    profileSub: Subscription;
     profile: ProfileModel = new ProfileModel();
     profileImg: PictureModel = new PictureModel();
     characteristicsOptions: string[] = [];
@@ -36,22 +34,25 @@ export class ProfileEditComponent implements OnInit, OnDestroy {
     ) {
     }
 
+    ngOnInit() {
+        this.setForm(new ProfileModel());
+    }
+
+    ionViewWillEnter(): void {
+        this.profileClient.fetchCharacteristicsOptions()
+            .subscribe((options) => this.characteristicsOptions = options);
+        this.profileClient.fetchCurrentUserProfile().subscribe(profile => {
+            this.profile = profile;
+            this.setForm(profile);
+        });
+    }
+
     get interestsControl() {
         return (this.form.get('interests') as FormArray).controls;
     }
 
     get inclinationsControl() {
         return (this.form.get('inclinations') as FormArray).controls;
-    }
-
-    ngOnInit() {
-        this.setForm(new ProfileModel());
-        this.profileClient.fetchCharacteristicsOptions()
-            .subscribe((options) => this.characteristicsOptions = options);
-        this.profileSub = this.profileClient.fetchCurrentUserProfile().subscribe(profile => {
-            this.profile = profile;
-            this.setForm(profile);
-        });
     }
 
     setForm(profile: ProfileModel) {
@@ -151,7 +152,7 @@ export class ProfileEditComponent implements OnInit, OnDestroy {
     }
 
     onAddRoom() {
-        this.router.navigate(['/room/create']);
+        this.router.navigate(['/room/create']).then();
     }
 
     resetForm() {
@@ -165,10 +166,6 @@ export class ProfileEditComponent implements OnInit, OnDestroy {
 
     maxDate() {
         return moment(new Date()).subtract(15, 'years').format('YYYY-MM-DD');
-    }
-
-    ngOnDestroy(): void {
-        this.profileSub.unsubscribe();
     }
 
 }

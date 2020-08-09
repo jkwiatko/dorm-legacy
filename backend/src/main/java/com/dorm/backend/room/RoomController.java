@@ -1,12 +1,11 @@
 package com.dorm.backend.room;
 
-import com.dorm.backend.profile.service.ProfileService;
+import com.dorm.backend.room.dto.RoomDTO;
+import com.dorm.backend.room.dto.RoomSearchCriteria;
 import com.dorm.backend.room.service.LocalRoomService;
 import com.dorm.backend.room.service.RoomService;
 import com.dorm.backend.shared.data.dto.ProfilePreviewDTO;
 import com.dorm.backend.shared.data.dto.RoomPreviewDTO;
-import com.dorm.backend.room.dto.RoomDTO;
-import com.dorm.backend.room.dto.RoomSearchCriteria;
 import com.dorm.backend.shared.data.enums.Amenity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -53,10 +52,21 @@ public class RoomController {
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/book")
+    @PatchMapping("/book")
     public ResponseEntity<Void> bookRoom(@RequestBody Long id) {
         roomService.bookRoom(id);
         return ResponseEntity.ok().build();
+    }
+
+    @PatchMapping("/unBook")
+    ResponseEntity<Void> unBookRoom(@RequestBody Long id) {
+        roomService.unBookRoom(id);
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/booked/{id}")
+    public ResponseEntity<Boolean> isBooked(@PathVariable Long id) {
+        return ResponseEntity.ok(roomService.isBooked(id));
     }
 
     @PostMapping("/search")

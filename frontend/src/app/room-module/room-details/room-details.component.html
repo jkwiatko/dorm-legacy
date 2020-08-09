@@ -157,7 +157,16 @@
                     </div>
                 </div>
                 <hr class="w-100 horizontal-line">
-                <ion-button [disabled]="isOwner" (click)="book()" color="primary mb-3">Zarezerwuj</ion-button>
+                <ion-button *ngIf="!isBooked; else unBookButton"
+                            [disabled]="isOwner"
+                            (click)="book()"
+                            color="primary mb-3">
+                    Zarezerwuj
+                </ion-button>
+                <ng-template #unBookButton>
+                    <ion-button [disabled]="isOwner" (click)="unBook()" color="primary mb-3">Anuluj Rezerwacje</ion-button>
+                </ng-template>
+
             </div>
             <div class="col-12 col-lg-4 mb-4 mb-lg-0 order-0 order-lg-1 cursor-pointer">
                 <app-profile-sticky-info [navigateOnClick]="true" [profile]="room.owner">

@@ -69,6 +69,14 @@ export class RoomService implements validatorService {
     }
 
     book(id: number) {
-        return this.http.post(environment.api + 'room/book', id);
+        return this.http.patch(environment.api + 'room/book', id);
+    }
+
+    unBook(id: number) {
+        return this.http.patch(environment.api + 'room/unBook/', id);
+    }
+
+    isBooked(id: number) {
+        return this.http.get<boolean>(environment.api + 'room/booked/' + id);
     }
 }

@@ -23,4 +23,7 @@ public interface RoomService {
 
     void bookRoom(Long id);
 
+    void unBookRoom(Long id);
+
+    boolean isBooked(Long id);
 }

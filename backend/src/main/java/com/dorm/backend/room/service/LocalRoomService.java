@@ -1,24 +1,26 @@
 package com.dorm.backend.room.service;
 
-import com.dorm.backend.shared.service.UserService;
 import com.dorm.backend.room.dto.RoomDTO;
 import com.dorm.backend.room.dto.RoomSearchCriteria;
 import com.dorm.backend.shared.data.dto.PictureDTO;
 import com.dorm.backend.shared.data.dto.ProfilePreviewDTO;
 import com.dorm.backend.shared.data.dto.RoomPreviewDTO;
-import com.dorm.backend.shared.data.entity.picture.LocalPicture;
-import com.dorm.backend.shared.data.entity.picture.LocalPictureEntity;
 import com.dorm.backend.shared.data.entity.Room;
 import com.dorm.backend.shared.data.entity.User;
 import com.dorm.backend.shared.data.entity.address.City;
+import com.dorm.backend.shared.data.entity.base.BaseEntity;
+import com.dorm.backend.shared.data.entity.picture.LocalPicture;
+import com.dorm.backend.shared.data.entity.picture.LocalPictureEntity;
 import com.dorm.backend.shared.data.enums.Amenity;
 import com.dorm.backend.shared.data.repo.CityRepository;
 import com.dorm.backend.shared.data.repo.RoomRepository;
 import com.dorm.backend.shared.data.repo.search.RoomSearchRepository;
+import com.dorm.backend.shared.error.exc.CannotBookOwnRoomException;
 import com.dorm.backend.shared.error.exc.DuplicatedPictureException;
 import com.dorm.backend.shared.error.exc.NoSuchCityException;
-import com.dorm.backend.shared.service.storage.PictureLocalStorage;
+import com.dorm.backend.shared.service.UserService;
 import com.dorm.backend.shared.service.storage.LocalPictureService;
+import com.dorm.backend.shared.service.storage.PictureLocalStorage;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -28,6 +30,7 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -154,11 +157,34 @@ public class LocalRoomService implements RoomService {
     public void bookRoom(Long id) {
         Room room = roomRepository.findById(id)
                 .orElseThrow(EntityNotFoundException::new);
-        User thisUser = userService.getCurrentAuthenticatedUser();
+        User thisUser = Optional.of(userService.getCurrentAuthenticatedUser())
+                .filter(user -> !user.getId().equals(room.getOwner().getId()))
+                .orElseThrow(CannotBookOwnRoomException::new);
 
         thisUser.getPossibleRooms().add(room);
         room.getPossibleRoommates().add(thisUser);
         roomRepository.save(room);
+    }
+
+    @Override
+    public void unBookRoom(Long id) {
+        Room room = roomRepository.findById(id)
+                .orElseThrow(EntityNotFoundException::new);
+        User thisUser = Optional.of(userService.getCurrentAuthenticatedUser())
+                .filter(user -> !user.getId().equals(room.getOwner().getId()))
+                .orElseThrow(CannotBookOwnRoomException::new);
+
+        thisUser.getPossibleRooms().remove(room);
+        room.getPossibleRoommates().remove(thisUser);
+        roomRepository.save(room);
+    }
+
+    @Override
+    public boolean isBooked(Long id) {
+        return roomRepository.getOne(id).getPossibleRoommates()
+                .stream()
+                .map(BaseEntity::getId)
+                .anyMatch(userService.getCurrentAuthenticatedUser().getId()::equals);
     }
 
     private void setPictureDetails(Room room) {

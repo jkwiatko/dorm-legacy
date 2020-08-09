@@ -1,5 +1,6 @@
 package com.dorm.backend.shared.error.api;
 
+import com.dorm.backend.shared.error.exc.CannotBookOwnRoomException;
 import com.dorm.backend.shared.error.exc.FileNameAlreadyTaken;
 import com.dorm.backend.shared.error.exc.NoSearchTypeSpecifiedException;
 import com.dorm.backend.shared.error.exc.NoSuchCityException;
@@ -42,6 +43,13 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     protected ResponseEntity<ApiError> handleNoSearchType(NoSearchTypeSpecifiedException exc) {
         ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST);
         apiError.setMessage("No search type has been specified!");
+        return buildResponseEntity(apiError);
+    }
+
+    @ExceptionHandler(CannotBookOwnRoomException.class)
+    protected ResponseEntity<ApiError> handleCannotBookOwnRoom(CannotBookOwnRoomException exc) {
+        ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST);
+        apiError.setMessage("Nie możesz zarezerwować swojego własnego pokoju!");
         return buildResponseEntity(apiError);
     }
 
