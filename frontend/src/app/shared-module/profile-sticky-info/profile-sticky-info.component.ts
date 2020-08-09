@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ProfileModel} from '../../profile-module/models/profile.model';
-import {Router} from "@angular/router";
+import {Router} from '@angular/router';
 
 
 @Component({

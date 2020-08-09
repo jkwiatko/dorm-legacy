@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import * as moment from 'moment';
-import {environment} from "../../../environments/environment";
+import {environment} from '../../../environments/environment';
 
 @Pipe({
   name: 'age'

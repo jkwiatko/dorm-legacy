@@ -43,11 +43,11 @@ export class RoomDetailsComponent implements ViewWillEnter {
 
     book() {
         this.roomService.book(this.room.id).subscribe();
-        this.nav.back();
+        this.nav.navigateBack(['room/search']).then();
     }
 
     unBook() {
         this.roomService.unBook(this.room.id).subscribe();
-        this.nav.back();
+        this.nav.navigateBack(['room/search']).then();
     }
 }

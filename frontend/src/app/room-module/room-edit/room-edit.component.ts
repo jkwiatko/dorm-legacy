@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {EMPTY} from 'rxjs';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute} from '@angular/router';
 import {RoomModel} from '../models/room.model';
 import {RoomService} from '../providers/room.service';
 import {FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
@@ -13,6 +13,7 @@ import {DateParserPipe} from '../../shared-module/pipes/dateParser.pipe';
 import {LazyAsyncValidatorFactory,} from '../../shared-module/lazy-async-validator/lazy-async-validator';
 import {environment} from '../../../environments/environment';
 import * as moment from 'moment';
+import {LoadingController, NavController} from '@ionic/angular';
 
 
 @Component({
@@ -30,11 +31,12 @@ export class RoomEditComponent implements OnInit {
     constructor
     (
         private route: ActivatedRoute,
-        private router: Router,
+        private nav: NavController,
         private roomCli: RoomService,
         private profileCli: ProfileService,
         private dateParser: DateParserPipe,
-        private toastr: ToastrService
+        private toastr: ToastrService,
+        private loaderCtrl: LoadingController
     ) {
     }
 
@@ -45,6 +47,7 @@ export class RoomEditComponent implements OnInit {
     editMode = false;
     submitted = false;
     mobile = environment.mobile;
+    loader;
 
     private static sortPictures(pictures: PictureModel[]) {
         pictures.sort(((a, b) => {
@@ -67,11 +70,11 @@ export class RoomEditComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.setForm(this.room);
+        this.loaderCtrl.create({keyboardClose: true, message: 'Saving room...'}).then(loader => this.loader = loader);
 
+        this.setForm(this.room);
         this.roomCli.fetchAvailableAmenities()
             .subscribe((amenityOptions) => this.amenityOptions = amenityOptions);
-
         this.route.url.subscribe(url => {
             if (url[url.length - 1].path === 'create') {
                 // tslint:disable-next-line:no-shadowed-variable
@@ -111,7 +114,7 @@ export class RoomEditComponent implements OnInit {
             houseArea: new FormControl(room.houseArea, [Validators.required, Validators.min(1)]),
             roomsNumber: new FormControl(room.roomsNumber, [Validators.required, Validators.min(1)]),
             address: new FormGroup({
-                // can be null :(
+                // can be null
                 city: new FormControl(
                     room.address.city,
                     Validators.required,
@@ -128,24 +131,25 @@ export class RoomEditComponent implements OnInit {
     }
 
     onSubmit() {
+        this.loader.present()
         this.submitted = true;
         this.form.markAllAsTouched();
         this.room.pictures = this.room.pictures.filter((el) => el != null);
+
         if (this.form.invalid) {
             this.toastr.error('Prosze wypełnij poprawie wszystkie pola', 'Błędne dane');
         } else {
-            if (this.editMode) {
-                this.roomCli.editRoom(this.room.merge(this.form.value))
-                    .subscribe(() => this.router.navigate(['/profile/edit']),
-                        error => this.toastr.error(error.error.message, 'Błędne dane!'));
-            } else {
-                this.roomCli.createRoom(this.room.merge(this.form.value))
-                    .subscribe(() => this.router.navigate(['/profile/edit']),
-                        error => {
-                            this.toastr.error(error.error.message, 'Błędne dane!');
-                            console.log(error);
-                        });
-            }
+            const roomModel = this.room.merge(this.form.value)
+            const obs = this.editMode ? this.roomCli.editRoom(roomModel) : this.roomCli.createRoom(roomModel);
+            obs.subscribe(
+                () => {
+                    this.loader.dismiss();
+                    this.nav.navigateBack(['/profile/edit']).then()
+                },
+                error => {
+                    this.loader.dismiss()
+                    this.toastr.error(error.error.message, 'Błędne dane!');
+                });
         }
     }
 

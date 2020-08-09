@@ -13,6 +13,7 @@ import {AuthGuardService} from '../auth-module/providers/auth-guard.service';
 import {RoomDetailsComponent} from './room-details/room-details.component';
 import {MatRadioModule} from '@angular/material/radio';
 import {IonicModule} from '@ionic/angular';
+import {SafePipe} from '../shared-module/pipes/safe.pipe';
 
 const routes: Routes = [
     {path: 'room/search', component: RoomSearchComponent, pathMatch: 'full', canActivate: [AuthGuardService]},
@@ -39,6 +40,7 @@ const routes: Routes = [
         FormsModule,
         RouterModule.forChild(routes),
     ],
+    providers: [SafePipe]
 })
 export class RoomModule {
 }

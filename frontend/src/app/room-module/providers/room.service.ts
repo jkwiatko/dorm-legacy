@@ -38,14 +38,12 @@ export class RoomService implements validatorService {
             .pipe(tap(RoomService.addPictureExt));
     }
 
-    public createRoom(room: RoomModel) {
-        return this.http
-            .post<RoomModel>(environment.api + 'room/create', room)
+    public createRoom(room: RoomModel) : Observable<RoomModel> {
+        return this.http.post<RoomModel>(environment.api + 'room/create', room)
     }
 
     public editRoom(room: RoomModel): Observable<RoomModel> {
-        return this.http
-            .post<RoomModel>(environment.api + 'room/edit', room)
+        return this.http.post<RoomModel>(environment.api + 'room/edit', room)
     }
 
     fetchAvailableCities(): Observable<string[]> {

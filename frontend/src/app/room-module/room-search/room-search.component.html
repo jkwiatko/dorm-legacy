@@ -1,8 +1,9 @@
 <ion-header>
     <ion-toolbar>
-        <ion-buttons slot="end">
+        <ion-buttons slot="start">
             <ion-menu-button></ion-menu-button>
         </ion-buttons>
+        <ion-title>{{title}}</ion-title>
     </ion-toolbar>
 </ion-header>
 <div class="search-component mb-3 mt-3 mt-lg-5 container">
@@ -16,6 +17,7 @@
                     required
                     name="cityName"
                     interface="popover"
+                    [ngModel]="availableCities[0]"
                     [interfaceOptions]="availableCities">
                     <ion-select-option *ngFor="let city of availableCities" [value]="city">
                         {{city}}
@@ -85,7 +87,8 @@
             </ion-item>
             <div class="col-12 order-2 mt-4 d-flex justify-content-center">
                 <ion-button
-                    (click)="submit(searchForm)">{{searchType === searchTypeEnum.SEARCHED_OFFER ? 'Szukaj' : 'Filtruj'}}</ion-button>
+                    (click)="reset()">Reset
+                </ion-button>
             </div>
         </div>
     </form>

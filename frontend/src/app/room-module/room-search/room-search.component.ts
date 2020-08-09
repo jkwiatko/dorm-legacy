@@ -1,7 +1,7 @@
 import {Component, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
 import {RoomService} from '../providers/room.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {take} from 'rxjs/operators';
+import {debounceTime, take} from 'rxjs/operators';
 import * as moment from 'moment';
 import {NgForm} from '@angular/forms';
 import {RoomPreviewModel} from '../../shared-module/models/room-preview.model';
@@ -32,6 +32,7 @@ export class RoomSearchComponent implements OnInit {
     startDate = new Date();
     searchType: SearchType;
     searchTypeEnum = SearchType;
+    title: string;
 
     @ViewChild('searchForm', {static: true})
     searchForm: NgForm;
@@ -49,18 +50,23 @@ export class RoomSearchComponent implements OnInit {
         this.route.url.subscribe(this.setSearchType.bind(this));
         this.roomService.fetchAvailableCities()
             .subscribe((cities => this.availableCities = cities));
+        this.searchForm.valueChanges.pipe(debounceTime(500))
+            .subscribe(() => this.submit(this.searchForm))
     }
 
     setSearchType(url) {
         switch (url[url.length - 1].path) {
             case 'own':
                 this.searchType = SearchType.OWN_OFFER;
+                this.title = 'Moje Oferty'
                 break;
             case 'reserved':
                 this.searchType = SearchType.RESERVED_OFFER;
+                this.title = 'Zarazerwowane Oferty'
                 break;
             case 'search':
                 this.searchType = SearchType.SEARCHED_OFFER;
+                this.title = 'Szukaj Ofert'
                 break;
         }
     }
@@ -84,6 +90,10 @@ export class RoomSearchComponent implements OnInit {
         if (searchCriteriaForm.valid) {
             this.search(searchCriteriaForm.value);
         }
+    }
+
+    reset() {
+        this.searchForm.resetForm({cityName: this.searchForm.form.get('cityName').value});
     }
 
     navigateToRoom(id: number) {

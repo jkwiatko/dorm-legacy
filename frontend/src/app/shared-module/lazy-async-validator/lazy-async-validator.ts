@@ -1,6 +1,6 @@
-import {BehaviorSubject, Observable, of} from "rxjs";
-import {debounceTime, filter, map, mergeMap, take, tap} from "rxjs/operators";
-import {AbstractControl} from "@angular/forms";
+import {BehaviorSubject, Observable, of} from 'rxjs';
+import {debounceTime, filter, map, mergeMap, take, tap} from 'rxjs/operators';
+import {AbstractControl} from '@angular/forms';
 
 export interface validatorService {
     checkIfNotValid(term): Observable<boolean>
