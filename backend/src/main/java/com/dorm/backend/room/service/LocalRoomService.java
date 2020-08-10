@@ -89,7 +89,13 @@ public class LocalRoomService implements RoomService {
                 .map(Room::getPossibleRoommates)
                 .orElseThrow(EntityNotFoundException::new)
                 .stream()
-                .map(user -> modelMapper.map(user, ProfilePreviewDTO.class))
+                .map(user -> {
+                    ProfilePreviewDTO dto = modelMapper.map(user, ProfilePreviewDTO.class);
+                    user.getProfilePictures().stream()
+                            .findFirst()
+                            .ifPresent(picture -> dto.setPicture(modelMapper.map(picture, PictureDTO.class)));
+                    return dto;
+                })
                 .collect(Collectors.toList());
     }
 

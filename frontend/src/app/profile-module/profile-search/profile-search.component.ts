@@ -6,10 +6,10 @@ import {switchMap} from 'rxjs/operators';
 
 @Component({
     selector: 'app-profile-search',
-    templateUrl: './roommate-search.component.html',
-    styleUrls: ['./roommate-search.component.scss']
+    templateUrl: './profile-search.component.html',
+    styleUrls: ['./profile-search.component.scss']
 })
-export class RoommateSearchComponent implements OnInit {
+export class ProfileSearchComponent implements OnInit {
 
     isLoading = false;
     profiles: ProfilePreviewModel[] = [];
@@ -25,9 +25,5 @@ export class RoommateSearchComponent implements OnInit {
                 console.log(profiles);
                 this.profiles = profiles
             });
-    }
-
-    navigateToProfile(id: any) {
-        return null
     }
 }

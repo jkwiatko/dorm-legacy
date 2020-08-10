@@ -18,9 +18,9 @@ export class RoomPreviewComponent implements OnInit {
     ngOnInit() {
     }
 
-    onEditRoom() {
+    navigateToRoom() {
         if(this.navigateOnClick) {
-            this.router.navigate(['/room/edit', this.room.id]);
+            this.router.navigate(['/room/edit', this.room.id]).then();
         }
     }
 

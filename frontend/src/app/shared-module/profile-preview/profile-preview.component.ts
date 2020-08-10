@@ -9,12 +9,16 @@ import {ProfilePreviewModel} from '../models/profile-preview.model';
 export class ProfilePreviewComponent implements OnInit {
 
     @Input()
-    private profile: ProfilePreviewModel;
+    profile: ProfilePreviewModel;
 
     constructor() {
     }
 
     ngOnInit(): void {
+        console.log(this.profile);
     }
 
+    navigateToUser() {
+        return null;
+    }
 }

@@ -40,12 +40,20 @@ export class ProfileService {
         }
     }
 
+    private addPictureExtensionToProfilePreview(profilePreviews: ProfilePreviewModel[]) {
+        profilePreviews.forEach(profilePreview => {
+            if (profilePreview.picture) {
+                profilePreview.picture.base64String = 'data:image/jpeg;base64,' + profilePreview.picture.base64String;
+            }
+        })
+    }
+
     fetchCharacteristicsOptions(): Observable<string[]> {
         return this.http.get<string[]>(environment.api + 'profile/characteristics');
     }
 
     fetchUserProfilePreviewsForRoom(id: number) {
-        console.log(environment.api + `room/${id}/roommates`);
-        return this.http.get<ProfilePreviewModel[]>(environment.api + `room/${id}/search/roommates`);
+        return this.http.get<ProfilePreviewModel[]>(environment.api + `room/${id}/search/roommates`)
+            .pipe(tap(this.addPictureExtensionToProfilePreview));
     }
 }

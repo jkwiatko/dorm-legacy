@@ -1,6 +1,6 @@
 package com.dorm.backend.shared.map;
 
-import com.dorm.backend.profile.map.UserCharacteristicConverter;
+import com.dorm.backend.profile.map.UserInclinationsConverter;
 import com.dorm.backend.profile.map.UserEntitySkipper;
 import com.dorm.backend.room.map.AmenityConverter;
 import com.dorm.backend.room.map.RoomEntitySkipper;
@@ -20,7 +20,7 @@ public class ModelMapperConfig {
         mapper.addConverter(new PictureDTOConverter());
         mapper.addConverter(new PictureEntityConverter());
         mapper.addConverter(new RoomPreviewConverter());
-        mapper.addConverter(new UserCharacteristicConverter());
+        mapper.addConverter(new UserInclinationsConverter());
         mapper.addConverter(new AmenityConverter());
         mapper.addMappings(new RoomEntitySkipper());
         mapper.addMappings(new UserEntitySkipper());

@@ -1,6 +1,6 @@
 package com.dorm.backend.shared.data.enums;
 
-public enum UserCharacteristic {
+public enum Inclination {
     EARLY_BIRD("Rannym ptaszkiem"),
     NIGHT_OWL("Nocnym markiem"),
     PARTY_PERSON("Towarzyski/a"),
@@ -14,12 +14,12 @@ public enum UserCharacteristic {
 
     private final String readableText;
 
-    UserCharacteristic(String readableText) {
+    Inclination(String readableText) {
         this.readableText = readableText;
     }
 
-    public static UserCharacteristic getEnum(String readableText) {
-        for(UserCharacteristic value : UserCharacteristic.values()) {
+    public static Inclination getEnum(String readableText) {
+        for(Inclination value : Inclination.values()) {
             if(value.readableText.equals(readableText)) {
                 return value;
             }

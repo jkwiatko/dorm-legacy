@@ -3,7 +3,7 @@ package com.dorm.backend.shared.data.entity;
 import com.dorm.backend.shared.data.entity.base.BaseEntity;
 import com.dorm.backend.shared.data.entity.picture.LocalPictureEntity;
 import com.dorm.backend.shared.data.enums.Gender;
-import com.dorm.backend.shared.data.enums.UserCharacteristic;
+import com.dorm.backend.shared.data.enums.Inclination;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -33,8 +33,8 @@ public class User extends BaseEntity {
     private List<String> interests;
 
     @Enumerated(value = EnumType.STRING)
-    @ElementCollection(targetClass = UserCharacteristic.class)
-    private List<UserCharacteristic> inclinations;
+    @ElementCollection(targetClass = Inclination.class)
+    private List<Inclination> inclinations;
 
     //fields
 

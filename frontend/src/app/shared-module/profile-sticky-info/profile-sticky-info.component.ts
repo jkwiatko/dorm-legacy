@@ -20,7 +20,7 @@ export class ProfileStickyInfoComponent implements OnInit {
 
     navigateToUser() {
       if(this.navigateOnClick) {
-          this.router.navigate(['profile', this.profile.id])
+          this.router.navigate(['profile', this.profile.id]).then();
       }
     }
 }

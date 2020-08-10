@@ -3,7 +3,7 @@ package com.dorm.backend.profile.service;
 import com.dorm.backend.profile.dto.ProfileDTO;
 import com.dorm.backend.shared.data.entity.User;
 import com.dorm.backend.shared.data.entity.picture.LocalPicture;
-import com.dorm.backend.shared.data.enums.UserCharacteristic;
+import com.dorm.backend.shared.data.enums.Inclination;
 import com.dorm.backend.shared.service.UserService;
 import com.dorm.backend.shared.service.storage.LocalPictureService;
 import com.dorm.backend.shared.service.storage.PictureLocalStorage;
@@ -49,7 +49,7 @@ public class LocalProfileService implements ProfileService {
         user.getInclinations().addAll(profileDTO.getInclinations()
                 .stream()
                 .distinct()
-                .map(UserCharacteristic::getEnum)
+                .map(Inclination::getEnum)
                 .collect(Collectors.toList())
         );
         List<LocalPicture> newProfilePictures = pictureService.mapToLocalPictures(profileDTO.getProfilePictures());
