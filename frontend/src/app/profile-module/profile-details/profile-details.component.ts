@@ -3,6 +3,7 @@ import {ProfileService} from '../providers/profile.service';
 import {ActivatedRoute} from '@angular/router';
 import {switchMap} from 'rxjs/operators';
 import {ProfileModel} from '../models/profile.model';
+import {ProfilePreviewModel} from '../../shared-module/models/profile-preview.model';
 
 @Component({
     selector: 'app-profile-details',
@@ -15,11 +16,15 @@ export class ProfileDetailsComponent implements OnInit {
     }
 
     profile: ProfileModel;
+    profilePreview = new ProfilePreviewModel();
 
     ngOnInit() {
         this.profile = new ProfileModel();
         this.route.params.pipe(
             switchMap(params => this.profileCli.fetchUserProfile(params.id))
-        ).subscribe(profile => this.profile = profile);
+        ).subscribe(profile => {
+            this.profile = profile;
+            this.profilePreview = ProfilePreviewModel.buildFromProfileModel(profile);
+        });
     }
 }

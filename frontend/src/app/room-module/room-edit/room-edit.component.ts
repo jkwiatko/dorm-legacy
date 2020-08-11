@@ -6,7 +6,6 @@ import {RoomService} from '../providers/room.service';
 import {FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
 import {switchMap} from 'rxjs/operators';
 import {ProfileService} from '../../profile-module/providers/profile.service';
-import {ProfileModel} from '../../profile-module/models/profile.model';
 import {PictureModel} from '../../shared-module/models/picture.model';
 import {ToastrService} from 'ngx-toastr';
 import {DateParserPipe} from '../../shared-module/pipes/dateParser.pipe';
@@ -14,6 +13,7 @@ import {LazyAsyncValidatorFactory,} from '../../shared-module/lazy-async-validat
 import {environment} from '../../../environments/environment';
 import * as moment from 'moment';
 import {LoadingController, NavController} from '@ionic/angular';
+import {ProfilePreviewModel} from '../../shared-module/models/profile-preview.model';
 
 
 @Component({
@@ -41,7 +41,7 @@ export class RoomEditComponent implements OnInit {
     }
 
     form: FormGroup;
-    profile = new ProfileModel();
+    profile = new ProfilePreviewModel();
     room = new RoomModel();
     amenityOptions: string[] = [];
     editMode = false;
@@ -70,33 +70,25 @@ export class RoomEditComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.loaderCtrl.create({keyboardClose: true, message: 'Saving room...'}).then(loader => this.loader = loader);
-
         this.setForm(this.room);
+        this.loaderCtrl.create({keyboardClose: true, message: 'Saving room...'}).then(loader => this.loader = loader);
         this.roomCli.fetchAvailableAmenities()
             .subscribe((amenityOptions) => this.amenityOptions = amenityOptions);
+
         this.route.url.subscribe(url => {
             if (url[url.length - 1].path === 'create') {
-                // tslint:disable-next-line:no-shadowed-variable
-                const sub = this.profileCli.fetchCurrentUserProfile().subscribe(profile => {
-                    this.profile = profile;
-                    sub.unsubscribe();
-                });
+                this.profileCli.fetchCurrentUserProfile()
+                    .subscribe(profile => this.profile = ProfilePreviewModel.buildFromProfileModel(profile));
             }
         });
-
-        const sub = this.route.params.pipe(
+        this.route.params.pipe(
             switchMap(params => +params.id ? this.roomCli.fetchRoom(+params.id) : EMPTY)
         ).subscribe(room => {
             this.room = (new RoomModel().merge(room));
             RoomEditComponent.sortPictures(this.room.pictures);
             this.editMode = true;
-
-            this.profile = room.owner;
-            this.room.owner = null;
-
+            this.profile = ProfilePreviewModel.buildFromProfileModel(room.owner);
             this.setForm(this.room);
-            sub.unsubscribe();
         });
 
     }

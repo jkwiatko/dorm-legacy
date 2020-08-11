@@ -6,6 +6,7 @@ import {EMPTY} from 'rxjs';
 import {RoomService} from '../providers/room.service';
 import {ProfileService} from '../../profile-module/providers/profile.service';
 import {NavController, ViewWillEnter} from '@ionic/angular';
+import {ProfilePreviewModel} from '../../shared-module/models/profile-preview.model';
 
 @Component({
     selector: 'app-room-details',
@@ -17,6 +18,7 @@ export class RoomDetailsComponent implements ViewWillEnter {
     isOwner = false;
     isBooked = false;
     room: RoomModel = new RoomModel();
+    ownerProfilePreview = new ProfilePreviewModel();
 
     constructor(
         private route: ActivatedRoute,
@@ -32,6 +34,7 @@ export class RoomDetailsComponent implements ViewWillEnter {
             switchMap(params => +params.id ? this.roomService.fetchRoom(+params.id) : EMPTY),
             switchMap(room => {
                 this.room = room;
+                this.ownerProfilePreview = ProfilePreviewModel.buildFromProfileModel(room.owner);
                 return this.profileService.fetchCurrentUserProfile()
             }),
             switchMap(currentUser => {
