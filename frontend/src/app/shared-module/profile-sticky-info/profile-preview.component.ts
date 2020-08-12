@@ -4,14 +4,15 @@ import {ProfilePreviewModel} from '../models/profile-preview.model';
 
 
 @Component({
-  selector: 'app-profile-sticky-info',
-  templateUrl: './profile-sticky-info.component.html',
-  styleUrls: ['./profile-sticky-info.component.scss']
+  selector: 'app-profile-preview',
+  templateUrl: './profile-preview.component.html',
+  styleUrls: ['./profile-preview.component.scss']
 })
-export class ProfileStickyInfoComponent implements OnInit {
+export class ProfilePreviewComponent implements OnInit {
 
   @Input() profile: ProfilePreviewModel;
   @Input() navigateOnClick: boolean;
+  @Input() sticky: boolean;
 
   constructor(private router: Router) { }
 

@@ -284,8 +284,10 @@
                     </div>
                 </div>
                 <div class="col-12 col-lg-4 mb-4 mb-lg-0 order-0 order-lg-1">
-                    <app-profile-sticky-info [navigateOnClick]="true" [profile]="this.profile">
-                    </app-profile-sticky-info>
+                    <app-profile-preview [profile]="profile"
+                                         [sticky]="true"
+                                         [navigateOnClick]="true">
+                    </app-profile-preview>
                 </div>
             </div>
         </div>

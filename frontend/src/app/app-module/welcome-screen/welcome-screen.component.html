@@ -9,7 +9,7 @@
 <div *ngIf="!authenticated" class="login-dialog">
     <h1 class="mb-4 mt-4 pl-3">{{isLoggingIn ? 'Logowanie' : 'Rejestracja'}}</h1>
     <div>
-        <form #f="ngForm">
+        <form #f="ngForm" (keydown)="handlePressingEnter(f, $event)">
             <div class="text-center p-2">
                 <ion-item mode="ios" lines="none">
                     <ion-label position="floating">email</ion-label>
@@ -30,8 +30,8 @@
     </div>
     <div class="mt-3 mb-3 d-flex d-flex justify-content-around">
         <ion-button (click)="toggle(f)">{{isLoggingIn ? 'Zarejestruj' : 'Zaloguj'}}</ion-button>
-        <ion-button *ngIf="isLoggingIn" [disabled]="f.invalid" (click)="login(f)">Ok</ion-button>
-        <ion-button *ngIf="!isLoggingIn" [disabled]="f.invalid" (click)="register(f)">Ok</ion-button>
+        <ion-button *ngIf="isLoggingIn" [disabled]="f.invalid" (click)="submit(f)">Ok</ion-button>
+        <ion-button *ngIf="!isLoggingIn" [disabled]="f.invalid" (click)="submit(f)">Ok</ion-button>
     </div>
 </div>
 <div *ngIf="authenticated" class="login-dialog">

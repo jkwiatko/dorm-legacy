@@ -25,18 +25,39 @@ export class WelcomeScreenComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-       this.authSub = this.auth.isLoginIn.subscribe(isLoginIn => this.authenticated = isLoginIn);
+        this.authSub = this.auth.isLoginIn.subscribe(isLoginIn => this.authenticated = isLoginIn);
     }
 
-    login(f: NgForm) {
-        this.auth.login(f.value).then(this.onSuccessfulLogin.bind(this), this.onError.bind(this));
+    submit(f: NgForm) {
+        if (this.isLoggingIn) {
+            this.auth.login(f.value)
+                .then(this.onSuccessfulLogin.bind(this), this.onError.bind(this));
+        } else {
+            this.auth.register(f.value)
+                .then(this.onSuccessfulLogin.bind(this), this.onError.bind(this));
+        }
     }
 
-    register(f: NgForm) {
-        this.auth.register(f.value).then(this.onSuccessfulLogin.bind(this), this.onError.bind(this));
+    logout() {
+        this.auth.logout();
     }
 
-    onSuccessfulLogin() {
+    toggle(f: NgForm) {
+        f.reset(f.value);
+        this.isLoggingIn = !this.isLoggingIn;
+    }
+
+    openNavMenu() {
+        this.menuCtrl.open('navigation-menu').then();
+    }
+
+    handlePressingEnter(f: NgForm, event) {
+        if (event && event.key === 'Enter') {
+            this.submit(f);
+        }
+    }
+
+    private onSuccessfulLogin() {
         this.alertCtrl.create({
             message: 'Zalogowano pomyślnie',
             header: 'Witaj!',
@@ -47,7 +68,7 @@ export class WelcomeScreenComponent implements OnInit, OnDestroy {
         }).then(alert => alert.present());
     }
 
-    onError(error) {
+    private onError(error) {
         if (error.error && error.error.message) {
             this.alertCtrl.create({
                 message: error.error.message,
@@ -67,22 +88,10 @@ export class WelcomeScreenComponent implements OnInit, OnDestroy {
         }
     }
 
-    toggle(f: NgForm) {
-        f.reset(f.value);
-        this.isLoggingIn = !this.isLoggingIn;
-    }
-
-    logout() {
-        this.auth.logout();
-    }
-
     ngOnDestroy(): void {
         if (this.authSub) {
             this.authSub.unsubscribe();
         }
     }
 
-    openNavMenu() {
-        this.menuCtrl.open('navigation-menu').then();
-    }
 }
