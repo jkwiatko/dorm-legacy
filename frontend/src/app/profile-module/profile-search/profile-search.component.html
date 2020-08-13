@@ -3,15 +3,70 @@
         <ion-buttons slot="start">
             <ion-back-button defaultHref="room/search/own"></ion-back-button>
         </ion-buttons>
+        <ion-title>Szukaj współlokatora</ion-title>
+        <ion-buttons slot="end">
+            <ion-button>
+                <ion-icon name="refresh" slot="icon-only"></ion-icon>
+            </ion-button>
+        </ion-buttons>
     </ion-toolbar>
 </ion-header>
-<div class="search-component mb-3 container">
-    <form #searchForm="ngForm">
+<div class="mb-3 mt-2 mt-lg-5 container">
+    <form [formGroup]="form">
         <div class="row">
-            // searching criteria
+            <ion-item class="col-12 col-md-5">
+                <ion-label position="stacked">Uczelnia/Praca</ion-label>
+                <ion-input formControlName="workAndUniversity">
+                </ion-input>
+            </ion-item>
+            <ion-item class="col-12 col-md-3 d-flex align-content-center" lines="none">
+                <ion-label>Wiek:</ion-label>
+                <ion-input type="number"
+                           placeholder="min"
+                           formControlName="minAge"
+                           class="text-center"
+                           (ionChange)="onMinChange()">
+                </ion-input>
+                <ion-input type="number"
+                           placeholder="max"
+                           formControlName="maxAge"
+                           class="text-center">
+                </ion-input>
+            </ion-item>
+            <ion-item lines="none" class="col-12 col-md-2 d-flex align-content-center">
+                <mat-radio-group formControlName="gender"
+                                 class="input-group d-flex justify-content-center p-2"
+                                 aria-label="Select an option">
+                    <mat-radio-button value="MALE" color="primary">M</mat-radio-button>
+                    <mat-radio-button value="FEMALE" class="ml-4">K</mat-radio-button>
+                </mat-radio-group>
+            </ion-item>
+            <ion-item lines="none" class="d-flex align-content-center">
+                <button type="button" class="btn btn-success" (click)="onAddInclination()">
+                    Dodaj filtr
+                </button>
+            </ion-item>
+        </div>
+        <div class="row" formArrayName="inclinations">
+            <div *ngFor="let inclination of inclinationsControl; let i = index"
+                 class="col-6 col-md-3 d-flex align-items-end justify-content-around">
+                <ion-item class="w-75" lines="none">
+                    <ion-label position="floating">Wybierz... </ion-label>
+                    <ion-select formControlName="{{i}}"
+                                interface="popover"
+                                [interfaceOptions]="possibleInclinations">
+                        <ion-select-option *ngFor="let inclination of possibleInclinations"
+                                           [value]="inclination">
+                            {{inclination}}
+                        </ion-select-option>
+                    </ion-select>
+                </ion-item>
+                <ion-button class="h-50"  (click)="onDeleteInclination(i)" type="button">X</ion-button>
+            </div>
         </div>
     </form>
-    <div class="row mt-5">
+    <hr class="mt-5">
+    <div class="row mt-2">
         <div class="col-12 text-center" *ngIf="isLoading; else searchResult">
             <app-loader-spinner></app-loader-spinner>
         </div>

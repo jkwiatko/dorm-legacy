@@ -86,14 +86,12 @@ export class ProfileEditComponent implements OnInit, ViewWillEnter {
     }
 
     onAddInterest() {
-        this.resetForm();
         (this.form.get('interests') as FormArray).push(
             new FormControl(null, Validators.required)
         );
     }
 
     onAddInclination() {
-        this.resetForm();
         (this.form.get('inclinations') as FormArray).push(
             new FormControl(null, Validators.required)
         );
@@ -153,11 +151,6 @@ export class ProfileEditComponent implements OnInit, ViewWillEnter {
 
     onAddRoom() {
         this.router.navigate(['/room/create']).then();
-    }
-
-    resetForm() {
-        this.submitted = false;
-        this.form.reset(this.form.value);
     }
 
     minDate() {

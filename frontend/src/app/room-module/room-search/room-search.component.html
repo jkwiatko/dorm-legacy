@@ -4,9 +4,14 @@
             <ion-menu-button></ion-menu-button>
         </ion-buttons>
         <ion-title>{{title}}</ion-title>
+        <ion-buttons slot="end">
+            <ion-button>
+                <ion-icon name="refresh" slot="icon-only"></ion-icon>
+            </ion-button>
+        </ion-buttons>
     </ion-toolbar>
 </ion-header>
-<div class="search-component mb-3 mt-3 mt-lg-5 container">
+<div class="mb-3 mt-2 mt-lg-5 container">
     <form #searchForm="ngForm">
         <div class="row">
             <ion-item *ngIf="searchType === searchTypeEnum.SEARCHED_OFFER" class="col-12 col-md-3 order-0-md order-1"
@@ -24,8 +29,8 @@
                     </ion-select-option>
                 </ion-select>
             </ion-item>
-            <ion-item [ngClass]="searchType === searchTypeEnum.SEARCHED_OFFER ? 'col-md-9' : 'col-md-12'"
-                      class="col-12 col-md-9 order-0 order-md-1">
+            <ion-item [ngClass]="searchType === searchTypeEnum.SEARCHED_OFFER ? 'col-md-9' : ''"
+                      class="col-12 order-0 order-md-1">
                 <ion-label position="stacked">Nazwa</ion-label>
                 <ion-input
                     ngModel
@@ -33,7 +38,10 @@
                 </ion-input>
             </ion-item>
             <ion-item *ngIf="mobile; else desktopPicker" class="col-12 col-md-4 order-2">
-                <ion-label position="stacked">Od kiedy?</ion-label>
+                <ion-label class="d-flex justify-content-center align-items-center">
+                    <div class="mr-4">Od kiedy?</div>
+                    <div><ion-icon size="large" name="calendar-outline"></ion-icon></div>
+                </ion-label>
                 <ion-datetime
                     ngModel
                     name="startingDate"
@@ -102,7 +110,7 @@
                 <app-room-preview *ngIf="searchType != searchTypeEnum.OWN_OFFER; else roommatesLink"
                                   (click)="navigateToRoom(room.id)" [room]="room"></app-room-preview>
                 <ng-template #roommatesLink>
-                    <app-room-preview (click)="navigateToRoommates(room.id)" [room]="room"></app-room-preview>
+                    <app-room-preview (click)="navigateToProfileSearch(room.id)" [room]="room"></app-room-preview>
                 </ng-template>
             </div>
         </ng-template>

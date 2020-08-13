@@ -3,6 +3,7 @@ import {ProfilePreviewModel} from '../../shared-module/models/profile-preview.mo
 import {ActivatedRoute} from '@angular/router';
 import {ProfileService} from '../providers/profile.service';
 import {switchMap} from 'rxjs/operators';
+import {AbstractControl, FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
 
 @Component({
     selector: 'app-profile-search',
@@ -12,10 +13,27 @@ import {switchMap} from 'rxjs/operators';
 export class ProfileSearchComponent implements OnInit {
 
     isLoading = false;
+    possibleInclinations: string[];
+    minimalMaximalValue = 0;
     profiles: ProfilePreviewModel[] = [];
+
+    form = new FormGroup({
+        gender: new FormControl(null, []),
+        minAge: new FormControl(null, Validators.min(0)),
+        maxAge: new FormControl(
+            null,
+            (control: AbstractControl) => Validators.min(this.minimalMaximalValue)(control)
+        ),
+        workAndUniversity: new FormControl(null, []),
+        inclinations: new FormArray([])
+    });
 
     constructor(private route: ActivatedRoute,
                 private profileService: ProfileService) {
+    }
+
+    get inclinationsControl() {
+        return (this.form.get('inclinations') as FormArray).controls;
     }
 
     ngOnInit(): void {
@@ -25,5 +43,23 @@ export class ProfileSearchComponent implements OnInit {
                 console.log(profiles);
                 this.profiles = profiles
             });
+    }
+
+    reset() {
+        this.form.reset();
+    }
+
+    onAddInclination() {
+        (this.form.get('inclinations') as FormArray)
+            .push(new FormControl(null, Validators.required))
+    }
+
+    onDeleteInclination(i: number) {
+        (this.form.get('inclinations') as FormArray).removeAt(i);
+    }
+
+    onMinChange() {
+        this.minimalMaximalValue = this.form.get('minAge').value;
+        this.form.get('maxAge').updateValueAndValidity();
     }
 }

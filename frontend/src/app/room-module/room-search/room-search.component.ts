@@ -104,7 +104,7 @@ export class RoomSearchComponent implements OnInit {
         this.router.navigate(['room/', id]).then()
     }
 
-    navigateToRoommates(id: number) {
+    navigateToProfileSearch(id: number) {
         this.router.navigate(['room/', id, 'search', 'roommate']).then();
     }
 }
