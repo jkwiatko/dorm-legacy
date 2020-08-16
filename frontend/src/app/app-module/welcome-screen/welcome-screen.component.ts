@@ -76,14 +76,24 @@ export class WelcomeScreenComponent implements OnInit, OnDestroy {
                 buttons: ['Oki']
             }).then(alert => alert.present());
         } else {
-            if (error.name === 'TimeoutError') {
-                this.alertCtrl.create({
-                    message: error.message,
-                    header: 'Błąd',
-                    buttons: ['Oki']
-                }).then(alert => alert.present());
-            } else {
-                console.log('CRITICAL ERROR!');
+            switch (error.name) {
+                case error.name === 'TimeoutError':
+                    this.alertCtrl.create({
+                        message: error.message,
+                        header: 'Błąd',
+                        buttons: ['Oki']
+                    }).then(alert => alert.present());
+                    break;
+                case 'HttpErrorResponse':
+                    this.alertCtrl.create({
+                        message: 'Z nieznanych przyczyn serwer nie odpowiada. ' +
+                            'Spróbuj później, a jeśli problem będzie nawracał to skontaktuj sie z administratorem.',
+                        header: 'Serwer niedostępny',
+                        buttons: ['Oki']
+                    }).then(alert => alert.present());
+                    break;
+                default:
+                    console.log('UNKNOWN ERROR!!!');
             }
         }
     }
