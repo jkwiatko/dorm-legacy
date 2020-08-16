@@ -1,7 +1,9 @@
 package com.dorm.backend.profile;
 
 import com.dorm.backend.profile.dto.ProfileDTO;
+import com.dorm.backend.profile.dto.ProfileSearchCriteria;
 import com.dorm.backend.profile.service.ProfileService;
+import com.dorm.backend.shared.data.dto.ProfilePreviewDTO;
 import com.dorm.backend.shared.data.enums.Inclination;
 import com.dorm.backend.shared.service.UserService;
 import org.springframework.http.ResponseEntity;
@@ -39,6 +41,18 @@ public class ProfileController {
     public ResponseEntity<Void> editCurrentUserProfile(@RequestBody ProfileDTO profile) {
         profileService.editProfile(profile);
         return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/search/roommates/")
+    public ResponseEntity<List<ProfilePreviewDTO>> getPossibleRoommatesUsingCriteria(
+            @RequestBody ProfileSearchCriteria profileSearchCriteria
+    ) {
+        return ResponseEntity.ok().body(profileService.getPossibleRoommates(profileSearchCriteria));
+    }
+
+    @GetMapping("/search/roommates/{id}")
+    public ResponseEntity<List<ProfilePreviewDTO>> getPossibleRoommates(@PathVariable Long id) {
+        return ResponseEntity.ok().body(profileService.getPossibleRoommates(id));
     }
 
     @GetMapping("/characteristics")

@@ -3,7 +3,6 @@ package com.dorm.backend.room.service;
 import com.dorm.backend.room.dto.RoomDTO;
 import com.dorm.backend.room.dto.RoomSearchCriteria;
 import com.dorm.backend.shared.data.dto.PictureDTO;
-import com.dorm.backend.shared.data.dto.ProfilePreviewDTO;
 import com.dorm.backend.shared.data.dto.RoomPreviewDTO;
 import com.dorm.backend.shared.data.entity.Room;
 import com.dorm.backend.shared.data.entity.User;
@@ -80,22 +79,6 @@ public class LocalRoomService implements RoomService {
     public List<RoomPreviewDTO> searchRoom(RoomSearchCriteria roomSearchCriteria) {
         return roomSearchRepository.findRoomUsingCriteria(roomSearchCriteria).stream()
                 .map(room -> modelMapper.map(room, RoomPreviewDTO.class))
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    public List<ProfilePreviewDTO> getPossibleRoommates(Long id) {
-        return roomRepository.findById(id)
-                .map(Room::getPossibleRoommates)
-                .orElseThrow(EntityNotFoundException::new)
-                .stream()
-                .map(user -> {
-                    ProfilePreviewDTO dto = modelMapper.map(user, ProfilePreviewDTO.class);
-                    user.getProfilePictures().stream()
-                            .findFirst()
-                            .ifPresent(picture -> dto.setPicture(modelMapper.map(picture, PictureDTO.class)));
-                    return dto;
-                })
                 .collect(Collectors.toList());
     }
 

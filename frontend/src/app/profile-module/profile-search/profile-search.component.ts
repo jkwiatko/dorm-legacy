@@ -4,6 +4,7 @@ import {ActivatedRoute} from '@angular/router';
 import {ProfileService} from '../providers/profile.service';
 import {switchMap} from 'rxjs/operators';
 import {AbstractControl, FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
+import {ProfileSearchCriteriaModel} from '../models/profile-search-criteria.model';
 
 @Component({
     selector: 'app-profile-search',
@@ -12,6 +13,7 @@ import {AbstractControl, FormArray, FormControl, FormGroup, Validators} from '@a
 })
 export class ProfileSearchComponent implements OnInit {
 
+    roomId;
     isLoading = false;
     possibleInclinations: string[];
     minimalMaximalValue = 0;
@@ -38,15 +40,21 @@ export class ProfileSearchComponent implements OnInit {
 
     ngOnInit(): void {
         this.route.params.pipe(
-            switchMap(params => this.profileService.fetchUserProfilePreviewsForRoom(params.id)))
-            .subscribe(profiles => {
-                console.log(profiles);
-                this.profiles = profiles
-            });
+            switchMap(params => {
+                this.roomId = params.id;
+                return this.profileService.fetchUserProfilePreviewsForRoom(params.id);
+            }))
+            .subscribe(profiles => this.profiles = profiles);
+        this.form.valueChanges.subscribe(value => this.submit(value));
     }
 
     reset() {
         this.form.reset();
+    }
+
+    submit(value: ProfileSearchCriteriaModel) {
+        value.roomId = this.roomId;
+        this.profileService.fetchSearchedUserProfile(value).subscribe(profiles => this.profiles = profiles);
     }
 
     onAddInclination() {

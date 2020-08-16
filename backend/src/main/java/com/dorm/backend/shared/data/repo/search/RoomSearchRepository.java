@@ -31,7 +31,6 @@ public class RoomSearchRepository {
         Root<Room> room = criteriaQuery.from(Room.class);
         List<Predicate> predicates = new ArrayList<>();
 
-
         switch (criteria.getSearchType()) {
             case RESERVED_OFFER:
                 addReservedRoomPredicates(criteriaBuilder, room, predicates);
@@ -63,6 +62,7 @@ public class RoomSearchRepository {
         criteria.getMaxPrice()
                 .map(price -> criteriaBuilder.lessThanOrEqualTo(room.get("monthlyPrice"), price))
                 .ifPresent(predicates::add);
+
         criteriaQuery.where(predicates.toArray(new Predicate[0]));
         return entityManager.createQuery(criteriaQuery).getResultList();
     }

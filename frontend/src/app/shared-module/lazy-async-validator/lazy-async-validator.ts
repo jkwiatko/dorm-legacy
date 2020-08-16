@@ -2,11 +2,11 @@ import {BehaviorSubject, Observable, of} from 'rxjs';
 import {debounceTime, filter, map, mergeMap, take, tap} from 'rxjs/operators';
 import {AbstractControl} from '@angular/forms';
 
-export interface validatorService {
+export interface ValidatorService {
     checkIfNotValid(term): Observable<boolean>
 }
 
-export function LazyAsyncValidatorFactory(validatorService: validatorService) {
+export function LazyAsyncValidatorFactory(validatorService: ValidatorService) {
     const termDebouncer = new BehaviorSubject('');
     const validationEmitter = new BehaviorSubject(null);
     let prevTerm = '';
@@ -27,7 +27,6 @@ export function LazyAsyncValidatorFactory(validatorService: validatorService) {
     ).subscribe(validity => {
         validationEmitter.next(validity);
     });
-
 
     return (control: AbstractControl) => {
         termDebouncer.next(control.value);

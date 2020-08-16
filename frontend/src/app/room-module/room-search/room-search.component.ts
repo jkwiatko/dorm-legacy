@@ -6,9 +6,8 @@ import * as moment from 'moment';
 import {NgForm} from '@angular/forms';
 import {RoomPreviewModel} from '../../shared-module/models/room-preview.model';
 import {environment} from '../../../environments/environment';
-import {RoomSearchService} from '../providers/room-search.service';
 import {SearchType} from '../../shared-module/models/searchType.model';
-import {SearchCriteriaModel} from '../models/search.criteria.model';
+import {RoomSearchCriteriaModel} from '../models/room-search-criteria.model';
 
 @Component({
     selector: 'app-rooms',
@@ -19,7 +18,6 @@ import {SearchCriteriaModel} from '../models/search.criteria.model';
 export class RoomSearchComponent implements OnInit {
 
     constructor(
-        private roomSearchService: RoomSearchService,
         private roomService: RoomService,
         private router: Router,
         private route: ActivatedRoute
@@ -71,10 +69,10 @@ export class RoomSearchComponent implements OnInit {
         }
     }
 
-    search(searchCriteria: SearchCriteriaModel) {
+    search(searchCriteria: RoomSearchCriteriaModel) {
         this.isLoading = true;
         searchCriteria.searchType = this.searchType;
-        return this.roomSearchService.fetchSearchedRooms(searchCriteria)
+        return this.roomService.fetchSearchedRooms(searchCriteria)
             .pipe(take(1))
             .subscribe(
                 rooms => {

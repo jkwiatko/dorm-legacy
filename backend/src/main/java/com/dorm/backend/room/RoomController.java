@@ -4,7 +4,6 @@ import com.dorm.backend.room.dto.RoomDTO;
 import com.dorm.backend.room.dto.RoomSearchCriteria;
 import com.dorm.backend.room.service.LocalRoomService;
 import com.dorm.backend.room.service.RoomService;
-import com.dorm.backend.shared.data.dto.ProfilePreviewDTO;
 import com.dorm.backend.shared.data.dto.RoomPreviewDTO;
 import com.dorm.backend.shared.data.enums.Amenity;
 import org.springframework.http.ResponseEntity;
@@ -72,10 +71,5 @@ public class RoomController {
     @PostMapping("/search")
     public ResponseEntity<List<RoomPreviewDTO>> getRoomsFromCityEmptySearch(@RequestBody RoomSearchCriteria roomSearchCriteria) {
         return ResponseEntity.ok().body(roomService.searchRoom(roomSearchCriteria));
-    }
-
-    @GetMapping("/{id}/search/roommates")
-    public ResponseEntity<List<ProfilePreviewDTO>> getPossibleRoommates(@PathVariable Long id) {
-        return ResponseEntity.ok().body(roomService.getPossibleRoommates(id));
     }
 }

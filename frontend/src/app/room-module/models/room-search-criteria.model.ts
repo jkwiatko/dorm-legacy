@@ -1,6 +1,6 @@
 import {SearchType} from '../../shared-module/models/searchType.model';
 
-export class SearchCriteriaModel {
+export class RoomSearchCriteriaModel {
     constructor(
         public cityName,
         public roomName,
