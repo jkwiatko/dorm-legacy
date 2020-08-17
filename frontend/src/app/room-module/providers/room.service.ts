@@ -68,6 +68,10 @@ export class RoomService implements ValidatorService {
         return this.http.get<boolean>(environment.api + 'room/booked/' + id);
     }
 
+    public pickRoommate(roomId: number, userId: number) {
+        return this.http.put(environment.api + `room/pick/roommate/`,{roomId, userId})
+    }
+
     private static addPictureExtToPreview(rooms: RoomPreviewModel[]) {
         rooms.forEach(room => {
             if (room.picture) {

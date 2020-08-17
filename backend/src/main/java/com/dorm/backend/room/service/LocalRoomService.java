@@ -1,5 +1,6 @@
 package com.dorm.backend.room.service;
 
+import com.dorm.backend.room.dto.PickRoommateDTO;
 import com.dorm.backend.room.dto.RoomDTO;
 import com.dorm.backend.room.dto.RoomSearchCriteria;
 import com.dorm.backend.shared.data.dto.PictureDTO;
@@ -13,6 +14,7 @@ import com.dorm.backend.shared.data.entity.picture.LocalPictureEntity;
 import com.dorm.backend.shared.data.enums.Amenity;
 import com.dorm.backend.shared.data.repo.CityRepository;
 import com.dorm.backend.shared.data.repo.RoomRepository;
+import com.dorm.backend.shared.data.repo.UserRepository;
 import com.dorm.backend.shared.data.repo.search.RoomSearchRepository;
 import com.dorm.backend.shared.error.exc.CannotBookOwnRoomException;
 import com.dorm.backend.shared.error.exc.DuplicatedPictureException;
@@ -41,6 +43,7 @@ public class LocalRoomService implements RoomService {
     private final LocalPictureService pictureService;
     private final RoomSearchRepository roomSearchRepository;
     private final RoomRepository roomRepository;
+    private final UserRepository userRepository;
     private final CityRepository cityRepository;
 
     public LocalRoomService(
@@ -49,6 +52,7 @@ public class LocalRoomService implements RoomService {
             LocalPictureService pictureService,
             RoomSearchRepository roomSearchRepository,
             RoomRepository roomRepository,
+            UserRepository userRepository,
             CityRepository cityRepository
     ) {
         this.modelMapper = modelMapper;
@@ -56,6 +60,7 @@ public class LocalRoomService implements RoomService {
         this.pictureService = pictureService;
         this.roomSearchRepository = roomSearchRepository;
         this.roomRepository = roomRepository;
+        this.userRepository = userRepository;
         this.cityRepository = cityRepository;
     }
 
@@ -174,6 +179,14 @@ public class LocalRoomService implements RoomService {
                 .stream()
                 .map(BaseEntity::getId)
                 .anyMatch(userService.getCurrentAuthenticatedUser().getId()::equals);
+    }
+
+
+    public void pickRoommate(PickRoommateDTO dto) {
+        Room room = roomRepository.findById(dto.getRoomId()).orElseThrow(EntityNotFoundException::new);
+        User user = userRepository.findById(dto.getUserId()).orElseThrow(EntityNotFoundException::new);
+        room.setRentee(user);
+        user.setRentedRoom(room);
     }
 
     private void setPictureDetails(Room room) {

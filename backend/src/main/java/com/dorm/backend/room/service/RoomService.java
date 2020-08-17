@@ -1,5 +1,6 @@
 package com.dorm.backend.room.service;
 
+import com.dorm.backend.room.dto.PickRoommateDTO;
 import com.dorm.backend.room.dto.RoomDTO;
 import com.dorm.backend.room.dto.RoomSearchCriteria;
 import com.dorm.backend.shared.data.dto.RoomPreviewDTO;
@@ -23,4 +24,6 @@ public interface RoomService {
     void unBookRoom(Long id);
 
     boolean isBooked(Long id);
+
+    void pickRoommate(PickRoommateDTO pickRoommateDTO);
 }

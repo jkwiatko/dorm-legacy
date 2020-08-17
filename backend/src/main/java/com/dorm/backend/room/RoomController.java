@@ -1,5 +1,6 @@
 package com.dorm.backend.room;
 
+import com.dorm.backend.room.dto.PickRoommateDTO;
 import com.dorm.backend.room.dto.RoomDTO;
 import com.dorm.backend.room.dto.RoomSearchCriteria;
 import com.dorm.backend.room.service.LocalRoomService;
@@ -66,6 +67,12 @@ public class RoomController {
     @GetMapping("/booked/{id}")
     public ResponseEntity<Boolean> isBooked(@PathVariable Long id) {
         return ResponseEntity.ok(roomService.isBooked(id));
+    }
+
+    @PutMapping("pick/roommate")
+    public ResponseEntity<Void> pickRoommate(@RequestBody PickRoommateDTO pickRoommateDTO) {
+        roomService.pickRoommate(pickRoommateDTO);
+        return ResponseEntity.ok().build();
     }
 
     @PostMapping("/search")

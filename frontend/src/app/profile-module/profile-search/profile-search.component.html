@@ -72,7 +72,7 @@
         <ng-template #searchResult>
             <div class="col-12 p-3 mt-lg-5 text-center" *ngIf="profiles.length < 1">Brak wyników wyszukiwania</div>
             <div *ngFor="let profile of profiles" class="col-md-4 col-6 col-lg-3 p-3">
-                <app-profile-preview [profile]="profile" [navigateOnClick]="true">
+                <app-profile-preview [profile]="profile" [navigateOnClick]="true" [roomIdToPickRoommate]="roomId">
                 </app-profile-preview>
             </div>
         </ng-template>
