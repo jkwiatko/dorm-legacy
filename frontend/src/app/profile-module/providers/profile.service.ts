@@ -30,13 +30,8 @@ export class ProfileService {
         return this.http.post<ProfileModel>(environment.api + 'profile/edit', profile)
     }
 
-    public fetchCharacteristicsOptions(): Observable<string[]> {
+    public fetchInclinationsOptions(): Observable<string[]> {
         return this.http.get<string[]>(environment.api + 'profile/characteristics');
-    }
-
-    public fetchUserProfilePreviewsForRoom(id: number) {
-        return this.http.get<ProfilePreviewModel[]>(environment.api + `profile/search/roommates/${id}`)
-            .pipe(tap(ProfileService.addPictureExtToPreview));
     }
 
     public fetchSearchedUserProfile(criteria: ProfileSearchCriteriaModel) : Observable<ProfilePreviewModel[]> {

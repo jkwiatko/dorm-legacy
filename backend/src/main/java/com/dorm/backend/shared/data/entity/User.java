@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -42,7 +43,7 @@ public class User extends BaseEntity {
 
     private String lastName;
 
-    private Date birthDate;
+    private LocalDate birthDate;
 
     private String email;
 

@@ -50,11 +50,6 @@ public class ProfileController {
         return ResponseEntity.ok().body(profileService.getPossibleRoommates(profileSearchCriteria));
     }
 
-    @GetMapping("/search/roommates/{id}")
-    public ResponseEntity<List<ProfilePreviewDTO>> getPossibleRoommates(@PathVariable Long id) {
-        return ResponseEntity.ok().body(profileService.getPossibleRoommates(id));
-    }
-
     @GetMapping("/characteristics")
     public ResponseEntity<List<String>> getCharacteristics() {
         return ResponseEntity.ok().body(

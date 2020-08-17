@@ -43,7 +43,7 @@ export class RoomService implements ValidatorService {
         return this.http.post<RoomModel>(environment.api + 'room/edit', room)
     }
 
-    public checkIfCityNotValid(cityName: string) {
+    public checkIfNotValid(cityName: string) {
         return this.fetchAvailableCities().pipe(
             map(availableCities => availableCities.filter(availableCity => availableCity === cityName)),
             map(availableCities => {

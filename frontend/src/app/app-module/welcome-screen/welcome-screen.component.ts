@@ -86,8 +86,7 @@ export class WelcomeScreenComponent implements OnInit, OnDestroy {
                     break;
                 case 'HttpErrorResponse':
                     this.alertCtrl.create({
-                        message: 'Z nieznanych przyczyn serwer nie odpowiada. ' +
-                            'Spróbuj później, a jeśli problem będzie nawracał to skontaktuj sie z administratorem.',
+                        message: 'Brak odpowiedzi z serwera. Spróbuj później',
                         header: 'Serwer niedostępny',
                         buttons: ['Oki']
                     }).then(alert => alert.present());

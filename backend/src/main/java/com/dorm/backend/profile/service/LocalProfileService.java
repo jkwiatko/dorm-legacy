@@ -4,7 +4,6 @@ import com.dorm.backend.profile.dto.ProfileDTO;
 import com.dorm.backend.profile.dto.ProfileSearchCriteria;
 import com.dorm.backend.shared.data.dto.PictureDTO;
 import com.dorm.backend.shared.data.dto.ProfilePreviewDTO;
-import com.dorm.backend.shared.data.entity.Room;
 import com.dorm.backend.shared.data.entity.User;
 import com.dorm.backend.shared.data.entity.picture.LocalPicture;
 import com.dorm.backend.shared.data.enums.Inclination;
@@ -17,9 +16,11 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -81,18 +82,9 @@ public class LocalProfileService implements ProfileService {
     }
 
     @Override
-    public List<ProfilePreviewDTO> getPossibleRoommates(Long id) {
-        return roomRepository.findById(id)
-                .map(Room::getPossibleRoommates)
-                .orElseThrow(EntityNotFoundException::new)
-                .stream()
-                .map(this::mapUserToProfilePreview)
-                .collect(Collectors.toList());
-    }
-
-    @Override
     public List<ProfilePreviewDTO> getPossibleRoommates(ProfileSearchCriteria profileSearchCriteria) {
         return searchRepository.findProfileUsingCriteria(profileSearchCriteria).stream()
+                .filter(user -> inclinationsFilter(user, profileSearchCriteria))
                 .map(this::mapUserToProfilePreview)
                 .collect(Collectors.toList());
     }
@@ -103,6 +95,16 @@ public class LocalProfileService implements ProfileService {
                 .findFirst()
                 .ifPresent(picture -> dto.setPicture(modelMapper.map(picture, PictureDTO.class)));
         return dto;
+    }
+
+    private boolean inclinationsFilter(User user, ProfileSearchCriteria criteria) {
+        return user.getInclinations().containsAll(
+                criteria.getInclinations()
+                        .map(Collection::stream)
+                        .map(stream -> stream.map(Inclination::getEnum)
+                                .filter(Objects::nonNull)
+                                .collect(Collectors.toList()))
+                        .orElse(Collections.emptyList()));
     }
 
     private static void setPictureDetails(User user) {

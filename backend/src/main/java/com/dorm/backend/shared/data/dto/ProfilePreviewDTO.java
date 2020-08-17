@@ -3,6 +3,7 @@ package com.dorm.backend.shared.data.dto;
 import com.dorm.backend.shared.data.enums.Gender;
 import lombok.Data;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Data
@@ -14,7 +15,7 @@ public class ProfilePreviewDTO {
 
     private String lastName;
 
-    private Date birthDate;
+    private LocalDate birthDate;
 
     private Gender gender;
 

@@ -42,9 +42,11 @@ export class ProfileSearchComponent implements OnInit {
         this.route.params.pipe(
             switchMap(params => {
                 this.roomId = params.id;
-                return this.profileService.fetchUserProfilePreviewsForRoom(params.id);
+                return this.profileService.fetchSearchedUserProfile(new ProfileSearchCriteriaModel(params.id));
             }))
             .subscribe(profiles => this.profiles = profiles);
+        this.profileService.fetchInclinationsOptions()
+            .subscribe(inclinations => this.possibleInclinations = inclinations)
         this.form.valueChanges.subscribe(value => this.submit(value));
     }
 

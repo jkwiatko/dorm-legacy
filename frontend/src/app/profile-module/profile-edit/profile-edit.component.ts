@@ -39,7 +39,7 @@ export class ProfileEditComponent implements OnInit, ViewWillEnter {
     }
 
     ionViewWillEnter(): void {
-        this.profileClient.fetchCharacteristicsOptions()
+        this.profileClient.fetchInclinationsOptions()
             .subscribe((options) => this.characteristicsOptions = options);
         this.profileClient.fetchCurrentUserProfile().subscribe(profile => {
             this.profile = profile;

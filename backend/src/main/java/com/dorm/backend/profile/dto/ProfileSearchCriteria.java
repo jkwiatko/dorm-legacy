@@ -40,4 +40,8 @@ public class ProfileSearchCriteria {
     public Optional<String> getWorkAndUniversity() {
         return Optional.ofNullable(workAndUniversity);
     }
+
+    public Optional<List<String>> getInclinations() {
+        return Optional.ofNullable(inclinations);
+    }
 }
