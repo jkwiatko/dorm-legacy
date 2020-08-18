@@ -1,9 +1,10 @@
 <div (click)="navigateToRoom()" class="border p-4 h-100 cursor-pointer d-flex flex-column justify-content-between">
     <div class="text-center mb-4">{{room.name}}</div>
-    <div class="mb-4">
+    <div [ngClass]="room.picture ? 'mb-4' : ''">
         <img class="room-image"
              [src]="room.picture ? (room.picture.base64String | safe: 'url') : 'assets/svg/default-room.svg'">
     </div>
+    <div class="text-center">{{room.monthlyPrice}}</div>
     <div class="basic-info-list">
         <ul>
             <li class="d-lg-inline">{{room.roomsNumber | roomNumber}}</li>

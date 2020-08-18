@@ -23,6 +23,7 @@ public class RoomPreviewConverter implements Converter<Room, RoomPreviewDTO> {
         roomPreviewDTO.setName(room.getName());
         roomPreviewDTO.setMinDuration(room.getMinDuration());
         roomPreviewDTO.setRoomsNumber(room.getRoomsNumber());
+        roomPreviewDTO.setMonthlyPrice(room.getMonthlyPrice());
         Optional.ofNullable(room.getAvailableFrom())
                 .map(Object::toString)
                 .ifPresent(roomPreviewDTO::setAvailableFrom);
