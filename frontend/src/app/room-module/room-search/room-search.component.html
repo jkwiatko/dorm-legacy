@@ -107,10 +107,13 @@
         <ng-template #searchResult>
             <div class="col-12 p-3 mt-lg-5 text-center" *ngIf="rooms.length < 1">Brak wyników wyszukiwania</div>
             <div *ngFor="let room of rooms" class="col-md-6 col-12 col-lg-4 p-3">
-                <app-room-preview *ngIf="searchType != searchTypeEnum.OWN_OFFER; else roommatesLink"
-                                  (click)="navigateToRoom(room.id)" [room]="room"></app-room-preview>
+                <app-room-preview *ngIf="searchType != searchTypeEnum.OWN_OFFER; else roommatesLink" [room]="room">
+                </app-room-preview>
                 <ng-template #roommatesLink>
-                    <app-room-preview (click)="navigateToProfileSearch(room.id)" [room]="room"></app-room-preview>
+                    <app-room-preview [navigateOnClick]="false"
+                                      (click)="navigateToProfileSearch(room.id)"
+                                      [room]="room">
+                    </app-room-preview>
                 </ng-template>
             </div>
         </ng-template>

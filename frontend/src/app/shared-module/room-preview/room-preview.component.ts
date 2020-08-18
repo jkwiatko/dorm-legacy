@@ -10,7 +10,7 @@ import {Router} from '@angular/router';
 export class RoomPreviewComponent implements OnInit {
 
     @Input() room: RoomPreviewModel;
-    @Input() navigateOnClick: boolean;
+    @Input() navigateOnClick = true;
     @Input() displayPrice = true;
 
     constructor(private router: Router) {
@@ -21,7 +21,7 @@ export class RoomPreviewComponent implements OnInit {
 
     navigateToRoom() {
         if(this.navigateOnClick) {
-            this.router.navigate(['/room/edit', this.room.id]).then();
+            this.router.navigate(['/room', this.room.id]).then();
         }
     }
 

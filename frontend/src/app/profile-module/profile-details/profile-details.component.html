@@ -105,15 +105,15 @@
                     </div>
                     <div class="row">
                         <div *ngFor="let room of profile.ownedRooms" class="col-6 p-3">
-                            <app-room-preview [navigateOnClick]="true"
-                                              [room]="room"
-                                              [displayPrice]="false">
+                            <app-room-preview [room]="room" [displayPrice]="false">
                             </app-room-preview>
                         </div>
                     </div>
                 </div>
                 <div class="mb-5 d-flex justify-content-center">
-                    <ion-button *ngIf="!!roomIdToPickRoommate" (click)="pickRoommate()"> wybierz </ion-button>
+                    <ion-button *ngIf="!!roomIdToPickRoommate" (click)="pickRoommate()">
+                        wybierz wpółlokatora
+                    </ion-button>
                 </div>
             </div>
         </div>

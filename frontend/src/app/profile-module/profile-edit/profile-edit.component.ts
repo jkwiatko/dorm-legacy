@@ -9,6 +9,7 @@ import {DateParserPipe} from '../../shared-module/pipes/dateParser.pipe';
 import * as moment from 'moment';
 import {environment} from '../../../environments/environment';
 import {AlertController, ViewWillEnter} from '@ionic/angular';
+import {navigationAlertFactory} from '../../shared-module/alerts/navigation.alert';
 
 @Component({
     selector: 'app-profile-edit',
@@ -149,8 +150,22 @@ export class ProfileEditComponent implements OnInit, ViewWillEnter {
         }
     }
 
+    navigateToRoom(id: number) {
+        const editRoomNav = () => { this.router.navigate(['room/edit', id]).then(); }
+        if (this.form.touched) {
+            this.alertController.create(navigationAlertFactory(editRoomNav)).then(alert => alert.present());
+        } else {
+            editRoomNav();
+        }
+    }
+
     onAddRoom() {
-        this.router.navigate(['/room/create']).then();
+        const createRoomNav = () => { this.router.navigate(['/room/create']).then(); }
+        if(this.form.touched) {
+            this.alertController.create(navigationAlertFactory(createRoomNav)).then(alert => alert.present());
+        } else {
+            createRoomNav();
+        }
     }
 
     minDate() {
