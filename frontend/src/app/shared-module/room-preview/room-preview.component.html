@@ -4,7 +4,7 @@
         <img class="room-image"
              [src]="room.picture ? (room.picture.base64String | safe: 'url') : 'assets/svg/default-room.svg'">
     </div>
-    <div class="text-center">{{room.monthlyPrice}}</div>
+    <div *ngIf="displayPrice" class="text-center">{{room.monthlyPrice}}</div>
     <div class="basic-info-list">
         <ul>
             <li class="d-lg-inline">{{room.roomsNumber | roomNumber}}</li>

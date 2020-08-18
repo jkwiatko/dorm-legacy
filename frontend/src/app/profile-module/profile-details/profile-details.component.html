@@ -105,7 +105,10 @@
                     </div>
                     <div class="row">
                         <div *ngFor="let room of profile.ownedRooms" class="col-6 p-3">
-                            <app-room-preview [navigateOnClick]="true" [room]="room"></app-room-preview>
+                            <app-room-preview [navigateOnClick]="true"
+                                              [room]="room"
+                                              [displayPrice]="false">
+                            </app-room-preview>
                         </div>
                     </div>
                 </div>

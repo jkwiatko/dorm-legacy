@@ -11,6 +11,7 @@ export class RoomPreviewComponent implements OnInit {
 
     @Input() room: RoomPreviewModel;
     @Input() navigateOnClick: boolean;
+    @Input() displayPrice = true;
 
     constructor(private router: Router) {
     }
