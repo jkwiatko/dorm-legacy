@@ -17,7 +17,6 @@ export class ProfileDetailsComponent implements OnInit {
         private profileService: ProfileService,
         private roomService: RoomService,
         private route: ActivatedRoute,
-        private router: Router
     ) {
     }
 
@@ -26,13 +25,12 @@ export class ProfileDetailsComponent implements OnInit {
     profilePreview = new ProfilePreviewModel();
 
     ngOnInit() {
-        const routerState = this.router.getCurrentNavigation().extras.state;
-        if (routerState && routerState.roomId) {
-            this.roomIdToPickRoommate = routerState.roomId;
-        }
         this.profile = new ProfileModel();
         this.route.params.pipe(
-            switchMap(params => this.profileService.fetchUserProfile(params.id))
+            switchMap(params => {
+                this.roomIdToPickRoommate = params.roomId;
+                return this.profileService.fetchUserProfile(params.userId)
+            })
         ).subscribe(profile => {
             this.profile = profile;
             this.profilePreview = ProfilePreviewModel.buildFromProfileModel(profile);
