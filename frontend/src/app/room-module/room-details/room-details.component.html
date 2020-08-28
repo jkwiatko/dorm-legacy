@@ -3,8 +3,15 @@
         <ion-buttons slot="start">
             <ion-back-button defaultHref="room/search"></ion-back-button>
         </ion-buttons>
-        <ion-buttons slot="end">
-            <ion-menu-button></ion-menu-button>
+        <ion-buttons *ngIf="!isLoading" slot="end">
+            <ion-button *ngIf="!isBooked; else unBookButton" [disabled]="isOwner" (click)="book()">
+                <ion-icon slot="icon-only" name="heart"></ion-icon>
+            </ion-button>
+            <ng-template #unBookButton>
+                <ion-button [disabled]="isOwner" (click)="unBook()">
+                    <ion-icon slot="icon-only" name="heart-dislike"></ion-icon>
+                </ion-button>
+            </ng-template>
         </ion-buttons>
     </ion-toolbar>
 </ion-header>
@@ -149,24 +156,13 @@
                     </div>
                 </div>
                 <hr class="w-100 horizontal-line">
-                <div class="row text-center d-flex justify-content-center">
+                <div class="row text-center d-flex justify-content-center mb-3">
                     <div class="col-12 mb-3 text-center font-weight-bold yellow-text">Udogodnienia</div>
                     <div class="col-md-4 col-12 mb-2"
                          *ngFor="let amenity of room.amenities;">
                         <div>{{amenity}}</div>
                     </div>
                 </div>
-                <hr class="w-100 horizontal-line">
-                <ion-button *ngIf="!isBooked; else unBookButton"
-                            [disabled]="isOwner"
-                            (click)="book()"
-                            color="primary mb-3">
-                    Zarezerwuj
-                </ion-button>
-                <ng-template #unBookButton>
-                    <ion-button [disabled]="isOwner" (click)="unBook()" color="primary mb-3">Anuluj Rezerwacje
-                    </ion-button>
-                </ng-template>
             </div>
             <div class="col-12 col-lg-4 mb-4 mb-lg-0 order-0 order-lg-1 cursor-pointer">
                 <app-profile-preview [profile]="ownerProfilePreview"

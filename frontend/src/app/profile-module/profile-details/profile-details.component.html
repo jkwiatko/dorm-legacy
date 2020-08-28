@@ -3,8 +3,15 @@
         <ion-buttons slot="start">
             <ion-back-button defaultHref="room/search/own"></ion-back-button>
         </ion-buttons>
-        <ion-buttons slot="end">
-            <ion-menu-button></ion-menu-button>
+        <ion-buttons *ngIf="!!roomIdToPickRoommate" slot="end">
+            <ion-button *ngIf="profile.rentedRoomId; else addRoommate" (click)="removeRoommate()">
+                <ion-icon slot="icon-only" name="person-remove"></ion-icon>
+            </ion-button>
+            <ng-template #addRoommate>
+                <ion-button (click)="pickRoommate()">
+                    <ion-icon slot="icon-only" name="person-add"></ion-icon>
+                </ion-button>
+            </ng-template>
         </ion-buttons>
     </ion-toolbar>
 </ion-header>
@@ -97,8 +104,8 @@
                         </div>
                     </div>
                 </div>
-                <hr class="horizontal-line">
-                <div class="mb-3">
+                <hr *ngIf="!roomIdToPickRoommate" class="horizontal-line">
+                <div *ngIf="!roomIdToPickRoommate" class="mb-3">
                     <div class="big-title blue-text font-weight-bold">
                         Moje Pokoje
                     </div>
@@ -110,9 +117,6 @@
                     </div>
                 </div>
                 <div class="mb-5 d-flex justify-content-center">
-                    <ion-button *ngIf="!!roomIdToPickRoommate" (click)="pickRoommate()">
-                        wybierz wpółlokatora
-                    </ion-button>
                 </div>
             </div>
         </div>

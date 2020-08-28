@@ -40,5 +40,7 @@ public class ProfileDTO {
 
     private String guestsPolicy;
 
+    private Long rentedRoomId;
+
     private List<RoomPreviewDTO> ownedRooms;
 }

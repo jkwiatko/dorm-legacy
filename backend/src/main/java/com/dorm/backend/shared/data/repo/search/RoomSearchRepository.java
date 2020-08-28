@@ -85,6 +85,9 @@ public class RoomSearchRepository {
                 criteriaBuilder.notEqual(
                         room.join("owner").get("id"),
                         userService.getCurrentAuthenticatedUser().getId()));
+        predicates.add(criteriaBuilder.isNull(
+                room.join("rentee", JoinType.LEFT).get("id")));
+        skipAlreadyRentedRooms(criteriaBuilder, room, predicates);
     }
 
     private void addReservedRoomPredicates(CriteriaBuilder criteriaBuilder, Root<Room> room, List<Predicate> predicates) {
@@ -96,5 +99,11 @@ public class RoomSearchRepository {
                 criteriaBuilder.notEqual(
                         room.join("owner").get("id"),
                         userService.getCurrentAuthenticatedUser().getId()));
+        skipAlreadyRentedRooms(criteriaBuilder, room, predicates);
+    }
+
+    private void skipAlreadyRentedRooms(CriteriaBuilder criteriaBuilder, Root<Room> room, List<Predicate> predicates) {
+        predicates.add(criteriaBuilder.isNull(
+                room.join("rentee", JoinType.LEFT).get("id")));
     }
 }

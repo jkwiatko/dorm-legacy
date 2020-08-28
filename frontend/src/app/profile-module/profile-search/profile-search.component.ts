@@ -1,17 +1,18 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {ProfilePreviewModel} from '../../shared-module/models/profile-preview.model';
 import {ActivatedRoute} from '@angular/router';
 import {ProfileService} from '../providers/profile.service';
-import {switchMap} from 'rxjs/operators';
+import {debounceTime, switchMap} from 'rxjs/operators';
 import {AbstractControl, FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ProfileSearchCriteriaModel} from '../models/profile-search-criteria.model';
+import {ViewWillEnter} from '@ionic/angular';
 
 @Component({
     selector: 'app-profile-search',
     templateUrl: './profile-search.component.html',
     styleUrls: ['./profile-search.component.scss']
 })
-export class ProfileSearchComponent implements OnInit {
+export class ProfileSearchComponent implements ViewWillEnter {
 
     roomId;
     isLoading = false;
@@ -38,7 +39,7 @@ export class ProfileSearchComponent implements OnInit {
         return (this.form.get('inclinations') as FormArray).controls;
     }
 
-    ngOnInit(): void {
+    ionViewWillEnter(): void {
         this.route.params.pipe(
             switchMap(params => {
                 this.roomId = params.id;
@@ -47,7 +48,7 @@ export class ProfileSearchComponent implements OnInit {
             .subscribe(profiles => this.profiles = profiles);
         this.profileService.fetchInclinationsOptions()
             .subscribe(inclinations => this.possibleInclinations = inclinations)
-        this.form.valueChanges.subscribe(value => this.submit(value));
+        this.form.valueChanges.pipe(debounceTime(1000)).subscribe(value => this.submit(value));
     }
 
     reset() {

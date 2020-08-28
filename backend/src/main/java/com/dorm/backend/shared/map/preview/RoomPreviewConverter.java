@@ -2,6 +2,7 @@ package com.dorm.backend.shared.map.preview;
 
 import com.dorm.backend.shared.data.dto.PictureDTO;
 import com.dorm.backend.shared.data.dto.RoomPreviewDTO;
+import com.dorm.backend.shared.data.entity.base.BaseEntity;
 import com.dorm.backend.shared.data.entity.picture.LocalPictureEntity;
 import com.dorm.backend.shared.data.entity.Room;
 import org.modelmapper.Converter;
@@ -24,6 +25,9 @@ public class RoomPreviewConverter implements Converter<Room, RoomPreviewDTO> {
         roomPreviewDTO.setMinDuration(room.getMinDuration());
         roomPreviewDTO.setRoomsNumber(room.getRoomsNumber());
         roomPreviewDTO.setMonthlyPrice(room.getMonthlyPrice());
+        Optional.ofNullable(room.getRentee())
+                .map(BaseEntity::getId)
+                .ifPresent(roomPreviewDTO::setRenteeId);
         Optional.ofNullable(room.getAvailableFrom())
                 .map(Object::toString)
                 .ifPresent(roomPreviewDTO::setAvailableFrom);

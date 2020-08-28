@@ -17,6 +17,7 @@ export class RoomDetailsComponent implements ViewWillEnter {
 
     isOwner = false;
     isBooked = false;
+    isLoading = true;
     room: RoomModel = new RoomModel();
     ownerProfilePreview = new ProfilePreviewModel();
 
@@ -41,7 +42,10 @@ export class RoomDetailsComponent implements ViewWillEnter {
                 this.isOwner = currentUser.id === this.room.owner.id;
                 return this.roomService.isBooked(this.room.id);
             })
-        ).subscribe(isBooked => this.isBooked = isBooked);
+        ).subscribe(isBooked => {
+            this.isBooked = isBooked;
+            this.isLoading = false;
+        });
     }
 
     book() {
@@ -51,6 +55,6 @@ export class RoomDetailsComponent implements ViewWillEnter {
 
     unBook() {
         this.roomService.unBook(this.room.id).subscribe();
-        this.nav.navigateBack(['room/search']).then();
+        this.nav.navigateBack(['room/search/reserved']).then();
     }
 }

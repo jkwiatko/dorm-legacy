@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
+import {Component, ViewChild, ViewEncapsulation} from '@angular/core';
 import {RoomService} from '../providers/room.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {debounceTime, take} from 'rxjs/operators';
@@ -8,6 +8,7 @@ import {RoomPreviewModel} from '../../shared-module/models/room-preview.model';
 import {environment} from '../../../environments/environment';
 import {SearchType} from '../../shared-module/models/searchType.model';
 import {RoomSearchCriteriaModel} from '../models/room-search-criteria.model';
+import {ViewWillEnter} from '@ionic/angular';
 
 @Component({
     selector: 'app-rooms',
@@ -15,7 +16,7 @@ import {RoomSearchCriteriaModel} from '../models/room-search-criteria.model';
     styleUrls: ['./room-search.component.scss'],
     encapsulation: ViewEncapsulation.None
 })
-export class RoomSearchComponent implements OnInit {
+export class RoomSearchComponent implements ViewWillEnter {
 
     constructor(
         private roomService: RoomService,
@@ -36,20 +37,21 @@ export class RoomSearchComponent implements OnInit {
     searchForm: NgForm;
     mobile = environment.mobile;
 
+    ionViewWillEnter(): void {
+        this.route.url.subscribe(this.setSearchType.bind(this));
+        this.roomService.fetchAvailableCities()
+            .subscribe((cities => this.availableCities = cities));
+        this.searchForm.valueChanges.pipe(debounceTime(1000))
+            .subscribe(() => this.submit(this.searchForm))
+        this.submit(this.searchForm);
+    }
+
     minDate() {
         return moment(new Date()).format('YYYY-MM-DD');
     }
 
     maxDate() {
         return moment(new Date()).add(5, 'years').format('YYYY-MM-DD');
-    }
-
-    ngOnInit() {
-        this.route.url.subscribe(this.setSearchType.bind(this));
-        this.roomService.fetchAvailableCities()
-            .subscribe((cities => this.availableCities = cities));
-        this.searchForm.valueChanges.pipe(debounceTime(500))
-            .subscribe(() => this.submit(this.searchForm))
     }
 
     setSearchType(url) {
@@ -99,6 +101,11 @@ export class RoomSearchComponent implements OnInit {
     }
 
     navigateToProfileSearch(id: number) {
-        this.router.navigate(['room/', id, 'search', 'roommate']).then();
+        const selectedRoom = this.rooms.find(room => room.id === id)
+        if (selectedRoom.renteeId) {
+            this.router.navigate(['room', id, 'search', 'roommate', selectedRoom.renteeId]).then();
+        } else {
+            this.router.navigate(['room/', id, 'search', 'roommate']).then();
+        }
     }
 }

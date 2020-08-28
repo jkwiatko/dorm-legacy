@@ -88,4 +88,8 @@ export class RoomService implements ValidatorService {
             room.owner.profilePictures.forEach(img => img.base64String = 'data:image/jpeg;base64,' + img.base64String);
         }
     }
+
+    removeRoommate(roomId: number,userId: number) {
+        return this.http.patch(environment.api + 'room/remove/roommate', {roomId, userId});
+    }
 }

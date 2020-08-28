@@ -21,4 +21,6 @@ public class RoomPreviewDTO {
 
     private PictureDTO picture;
 
+    private Long renteeId;
+
 }

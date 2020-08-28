@@ -17,5 +17,6 @@ export class ProfileModel {
     smokingPolicy: string;
     petPolicy: string;
     guestsPolicy: string;
+    rentedRoomId: number;
     ownedRooms: RoomPreviewModel[] = [];
 }

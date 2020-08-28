@@ -7,5 +7,6 @@ export class RoomPreviewModel {
     minDuration: number;
     roomsNumber: number;
     monthlyPrice: number;
+    renteeId: number;
     picture: PictureModel = new PictureModel();
 }

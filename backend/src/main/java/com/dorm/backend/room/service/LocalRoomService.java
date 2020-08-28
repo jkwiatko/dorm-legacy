@@ -1,6 +1,5 @@
 package com.dorm.backend.room.service;
 
-import com.dorm.backend.room.dto.PickRoommateDTO;
 import com.dorm.backend.room.dto.RoomDTO;
 import com.dorm.backend.room.dto.RoomSearchCriteria;
 import com.dorm.backend.shared.data.dto.PictureDTO;
@@ -181,12 +180,20 @@ public class LocalRoomService implements RoomService {
                 .anyMatch(userService.getCurrentAuthenticatedUser().getId()::equals);
     }
 
-
-    public void pickRoommate(PickRoommateDTO dto) {
-        Room room = roomRepository.findById(dto.getRoomId()).orElseThrow(EntityNotFoundException::new);
-        User user = userRepository.findById(dto.getUserId()).orElseThrow(EntityNotFoundException::new);
+    @Override
+    public void pickRoommate( Long roomId, Long userId) {
+        Room room = roomRepository.findById(roomId).orElseThrow(EntityNotFoundException::new);
+        User user = userRepository.findById(userId).orElseThrow(EntityNotFoundException::new);
         room.setRentee(user);
         user.setRentedRoom(room);
+    }
+
+    @Override
+    public void removeRoommate(Long roomId, Long userId) {
+        Room room = roomRepository.findById(roomId).orElseThrow(EntityNotFoundException::new);
+        User user = userRepository.findById(userId).orElseThrow(EntityNotFoundException::new);
+        room.setRentee(null);
+        user.setRentedRoom(null);
     }
 
     private void setPictureDetails(Room room) {

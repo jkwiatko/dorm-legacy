@@ -1,6 +1,6 @@
 package com.dorm.backend.room;
 
-import com.dorm.backend.room.dto.PickRoommateDTO;
+import com.dorm.backend.room.dto.RoommateRequestDTO;
 import com.dorm.backend.room.dto.RoomDTO;
 import com.dorm.backend.room.dto.RoomSearchCriteria;
 import com.dorm.backend.room.service.LocalRoomService;
@@ -70,8 +70,14 @@ public class RoomController {
     }
 
     @PutMapping("pick/roommate")
-    public ResponseEntity<Void> pickRoommate(@RequestBody PickRoommateDTO pickRoommateDTO) {
-        roomService.pickRoommate(pickRoommateDTO);
+    public ResponseEntity<Void> pickRoommate(@RequestBody RoommateRequestDTO request) {
+        roomService.pickRoommate(request.getRoomId(), request.getUserId());
+        return ResponseEntity.ok().build();
+    }
+
+    @PatchMapping("remove/roommate")
+    public ResponseEntity<Void> removeRoommate(@RequestBody RoommateRequestDTO request) {
+        roomService.removeRoommate(request.getRoomId(), request.getUserId());
         return ResponseEntity.ok().build();
     }
 

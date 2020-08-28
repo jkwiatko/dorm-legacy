@@ -1,9 +1,11 @@
 package com.dorm.backend.shared.map;
 
-import com.dorm.backend.profile.map.UserInclinationsConverter;
+import com.dorm.backend.profile.dto.ProfileDTO;
 import com.dorm.backend.profile.map.UserEntitySkipper;
+import com.dorm.backend.profile.map.UserInclinationsConverter;
 import com.dorm.backend.room.map.AmenityConverter;
 import com.dorm.backend.room.map.RoomEntitySkipper;
+import com.dorm.backend.shared.data.entity.User;
 import com.dorm.backend.shared.map.picture.PictureDTOConverter;
 import com.dorm.backend.shared.map.picture.PictureEntityConverter;
 import com.dorm.backend.shared.map.preview.RoomPreviewConverter;
@@ -24,6 +26,12 @@ public class ModelMapperConfig {
         mapper.addConverter(new AmenityConverter());
         mapper.addMappings(new RoomEntitySkipper());
         mapper.addMappings(new UserEntitySkipper());
+        registerProfileMappings(mapper);
         return mapper;
+    }
+
+    private void registerProfileMappings(ModelMapper mapper) {
+        mapper.createTypeMap(User.class, ProfileDTO.class)
+                .addMapping(src -> src.getRentedRoom().getId(), ProfileDTO::setRentedRoomId);
     }
 }
