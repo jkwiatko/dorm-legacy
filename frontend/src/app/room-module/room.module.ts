@@ -19,9 +19,10 @@ const routes: Routes = [
     {path: 'room/search', component: RoomSearchComponent, pathMatch: 'full', canActivate: [AuthGuardService]},
     {path: 'room/search/own', component: RoomSearchComponent, pathMatch: 'full', canActivate: [AuthGuardService]},
     {path: 'room/search/reserved', component: RoomSearchComponent, pathMatch: 'full', canActivate: [AuthGuardService]},
+    {path: 'room/search/rented', component: RoomSearchComponent, pathMatch: 'full', canActivate: [AuthGuardService]},
     {path: 'room/create', component: RoomEditComponent, pathMatch: 'full', canActivate: [AuthGuardService]},
+    {path: 'room/:id/edit', component: RoomEditComponent, pathMatch: 'full', canActivate: [AuthGuardService]},
     {path: 'room/:id', component: RoomDetailsComponent, pathMatch: 'full', canActivate: [AuthGuardService]},
-    {path: 'room/edit/:id', component: RoomEditComponent, pathMatch: 'full', canActivate: [AuthGuardService]},
 ];
 
 @NgModule({

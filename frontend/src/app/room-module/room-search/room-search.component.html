@@ -5,7 +5,7 @@
         </ion-buttons>
         <ion-title>{{title}}</ion-title>
         <ion-buttons slot="end">
-            <ion-button>
+            <ion-button (click)="reset()">
                 <ion-icon name="refresh" slot="icon-only"></ion-icon>
             </ion-button>
         </ion-buttons>
@@ -40,7 +40,9 @@
             <ion-item *ngIf="mobile; else desktopPicker" class="col-12 col-md-4 order-2">
                 <ion-label class="d-flex justify-content-center align-items-center">
                     <div class="mr-4">Od kiedy?</div>
-                    <div><ion-icon size="large" name="calendar-outline"></ion-icon></div>
+                    <div>
+                        <ion-icon size="large" name="calendar-outline"></ion-icon>
+                    </div>
                 </ion-label>
                 <ion-datetime
                     ngModel
@@ -93,11 +95,6 @@
                     [max]="3000">
                 </ion-range>
             </ion-item>
-            <div class="col-12 order-2 mt-4 d-flex justify-content-center">
-                <ion-button
-                    (click)="reset()">Reset
-                </ion-button>
-            </div>
         </div>
     </form>
     <div class="row mt-5">
@@ -107,14 +104,10 @@
         <ng-template #searchResult>
             <div class="col-12 p-3 mt-lg-5 text-center" *ngIf="rooms.length < 1">Brak wyników wyszukiwania</div>
             <div *ngFor="let room of rooms" class="col-md-6 col-12 col-lg-4 p-3">
-                <app-room-preview *ngIf="searchType != searchTypeEnum.OWN_OFFER; else roommatesLink" [room]="room">
+                <app-room-preview [navigateOnClick]="false"
+                                  (click)="navigate(room.id)"
+                                  [room]="room">
                 </app-room-preview>
-                <ng-template #roommatesLink>
-                    <app-room-preview [navigateOnClick]="false"
-                                      (click)="navigateToProfileSearch(room.id)"
-                                      [room]="room">
-                    </app-room-preview>
-                </ng-template>
             </div>
         </ng-template>
     </div>

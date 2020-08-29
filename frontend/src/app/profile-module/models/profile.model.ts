@@ -3,6 +3,7 @@ import {RoomPreviewModel} from '../../shared-module/models/room-preview.model';
 
 export class ProfileModel {
     id?: number;
+    rentedRoomId?: number;
     firstName: string;
     lastName: string;
     profilePictures: PictureModel[] = [];
@@ -17,6 +18,5 @@ export class ProfileModel {
     smokingPolicy: string;
     petPolicy: string;
     guestsPolicy: string;
-    rentedRoomId: number;
     ownedRooms: RoomPreviewModel[] = [];
 }

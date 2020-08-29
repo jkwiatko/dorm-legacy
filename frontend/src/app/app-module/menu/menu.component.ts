@@ -4,11 +4,11 @@ import {MenuController} from '@ionic/angular';
 import {AuthService} from '../../auth-module/providers/auth.service';
 
 @Component({
-    selector: 'app-mobile-menu',
-    templateUrl: './mobile-menu.component.html',
-    styleUrls: ['./mobile-menu.component.scss']
+    selector: 'app-menu',
+    templateUrl: './menu.component.html',
+    styleUrls: ['./menu.component.scss']
 })
-export class MobileMenuComponent implements OnInit {
+export class MenuComponent implements OnInit {
 
     constructor(
         private router: Router,

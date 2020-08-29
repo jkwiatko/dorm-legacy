@@ -40,10 +40,9 @@ public class RoomSearchRepository {
                 break;
             case SEARCHED_OFFER:
                 addSearchedOffersPredicates(criteriaBuilder, room, predicates);
-                predicates.add(
-                        criteriaBuilder.equal(
-                                room.join("address").join("city").get("name"),
-                                criteria.getCityName()));
+                break;
+            case RENTED_OFFER:
+                addRentedRoomPredicates(criteriaBuilder, room, predicates);
                 break;
             default:
                 throw new NoSearchTypeSpecifiedException();
@@ -67,14 +66,21 @@ public class RoomSearchRepository {
         return entityManager.createQuery(criteriaQuery).getResultList();
     }
 
-    private void addCurrentUserOffersPredicates(CriteriaBuilder criteriaBuilder, Root<Room> room, List<Predicate> predicates) {
+    private void addCurrentUserOffersPredicates(CriteriaBuilder criteriaBuilder,
+                                                Root<Room> room,
+                                                List<Predicate> predicates
+    ) {
         predicates.add(
                 criteriaBuilder.equal(
                         room.join("owner").get("id"),
                         userService.getCurrentAuthenticatedUser().getId()));
+        skipAlreadyRentedRooms(criteriaBuilder, room, predicates);
     }
 
-    private void addSearchedOffersPredicates(CriteriaBuilder criteriaBuilder, Root<Room> room, List<Predicate> predicates) {
+    private void addSearchedOffersPredicates(CriteriaBuilder criteriaBuilder,
+                                             Root<Room> room,
+                                             List<Predicate> predicates
+    ) {
         room.fetch("possibleRoommates", JoinType.LEFT);
         predicates.add(
                 criteriaBuilder.isNotMember(
@@ -90,7 +96,10 @@ public class RoomSearchRepository {
         skipAlreadyRentedRooms(criteriaBuilder, room, predicates);
     }
 
-    private void addReservedRoomPredicates(CriteriaBuilder criteriaBuilder, Root<Room> room, List<Predicate> predicates) {
+    private void addReservedRoomPredicates(CriteriaBuilder criteriaBuilder,
+                                           Root<Room> room,
+                                           List<Predicate> predicates
+    ) {
         predicates.add(
                 criteriaBuilder.equal(
                         room.join("possibleRoommates").get("id"),
@@ -102,8 +111,19 @@ public class RoomSearchRepository {
         skipAlreadyRentedRooms(criteriaBuilder, room, predicates);
     }
 
+    private void addRentedRoomPredicates(CriteriaBuilder criteriaBuilder, Root<Room> room, List<Predicate> predicates) {
+        predicates.add(
+                criteriaBuilder.and(
+                        criteriaBuilder.isNotNull(room.join("rentee")),
+                        criteriaBuilder.equal(
+                                room.join("owner").get("id"),
+                                userService.getCurrentAuthenticatedUser().getId()
+                        )
+                )
+        );
+    }
+
     private void skipAlreadyRentedRooms(CriteriaBuilder criteriaBuilder, Root<Room> room, List<Predicate> predicates) {
-        predicates.add(criteriaBuilder.isNull(
-                room.join("rentee", JoinType.LEFT).get("id")));
+        predicates.add(criteriaBuilder.isNull(room.join("rentee", JoinType.LEFT)));
     }
 }

@@ -26,7 +26,7 @@ export class ProfilePreviewComponent implements OnInit {
         if (this.navigateOnClick) {
             if (this.roomIdToPickRoommate) {
                 this.router.navigate(
-                    ['room',this.roomIdToPickRoommate, 'search', 'roommate', this.profile.id]).then();
+                    ['room',this.roomIdToPickRoommate, 'search', 'rentee', this.profile.id]).then();
             } else {
                 this.router.navigate(['profile', this.profile.id]).then();
             }

@@ -42,13 +42,15 @@ export class ProfileSearchComponent implements ViewWillEnter {
     ionViewWillEnter(): void {
         this.route.params.pipe(
             switchMap(params => {
-                this.roomId = params.id;
+                this.roomId = params.roomId;
                 return this.profileService.fetchSearchedUserProfile(new ProfileSearchCriteriaModel(params.roomId));
             }))
             .subscribe(profiles => this.profiles = profiles);
         this.profileService.fetchInclinationsOptions()
             .subscribe(inclinations => this.possibleInclinations = inclinations)
-        this.form.valueChanges.pipe(debounceTime(1000)).subscribe(value => this.submit(value));
+        this.form.valueChanges
+            .pipe(debounceTime(1000))
+            .subscribe(value => this.submit(value));
     }
 
     reset() {
@@ -57,7 +59,8 @@ export class ProfileSearchComponent implements ViewWillEnter {
 
     submit(value: ProfileSearchCriteriaModel) {
         value.roomId = this.roomId;
-        this.profileService.fetchSearchedUserProfile(value).subscribe(profiles => this.profiles = profiles);
+        this.profileService.fetchSearchedUserProfile(value)
+            .subscribe(profiles => this.profiles = profiles);
     }
 
     onAddInclination() {

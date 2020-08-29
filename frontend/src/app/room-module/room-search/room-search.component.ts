@@ -1,14 +1,15 @@
 import {Component, ViewChild, ViewEncapsulation} from '@angular/core';
 import {RoomService} from '../providers/room.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {debounceTime, take} from 'rxjs/operators';
+import {debounceTime} from 'rxjs/operators';
 import * as moment from 'moment';
 import {NgForm} from '@angular/forms';
 import {RoomPreviewModel} from '../../shared-module/models/room-preview.model';
 import {environment} from '../../../environments/environment';
 import {SearchType} from '../../shared-module/models/searchType.model';
 import {RoomSearchCriteriaModel} from '../models/room-search-criteria.model';
-import {ViewWillEnter} from '@ionic/angular';
+import {ViewWillEnter, ViewWillLeave} from '@ionic/angular';
+import {Subscription} from 'rxjs';
 
 @Component({
     selector: 'app-rooms',
@@ -16,7 +17,7 @@ import {ViewWillEnter} from '@ionic/angular';
     styleUrls: ['./room-search.component.scss'],
     encapsulation: ViewEncapsulation.None
 })
-export class RoomSearchComponent implements ViewWillEnter {
+export class RoomSearchComponent implements ViewWillEnter, ViewWillLeave {
 
     constructor(
         private roomService: RoomService,
@@ -25,6 +26,9 @@ export class RoomSearchComponent implements ViewWillEnter {
     ) {
     }
 
+    @ViewChild('searchForm', {static: false})
+    searchForm: NgForm;
+
     rooms: RoomPreviewModel[] = []
     availableCities: string[] = [];
     isLoading = false;
@@ -32,57 +36,24 @@ export class RoomSearchComponent implements ViewWillEnter {
     searchType: SearchType;
     searchTypeEnum = SearchType;
     title: string;
-
-    @ViewChild('searchForm', {static: true})
-    searchForm: NgForm;
     mobile = environment.mobile;
 
+    private formSub: Subscription;
+    private routeSub: Subscription;
+    private shouldPreloadData = true;
+
     ionViewWillEnter(): void {
-        this.route.url.subscribe(this.setSearchType.bind(this));
+        this.routeSub = this.route.url.subscribe(this.setSearchType.bind(this));
         this.roomService.fetchAvailableCities()
             .subscribe((cities => this.availableCities = cities));
-        this.searchForm.valueChanges.pipe(debounceTime(1000))
+        this.formSub = this.searchForm.valueChanges
+            .pipe(debounceTime(1000))
             .subscribe(() => this.submit(this.searchForm))
-        this.submit(this.searchForm);
     }
 
-    minDate() {
-        return moment(new Date()).format('YYYY-MM-DD');
-    }
-
-    maxDate() {
-        return moment(new Date()).add(5, 'years').format('YYYY-MM-DD');
-    }
-
-    setSearchType(url) {
-        switch (url[url.length - 1].path) {
-            case 'own':
-                this.searchType = SearchType.OWN_OFFER;
-                this.title = 'Moje Oferty'
-                break;
-            case 'reserved':
-                this.searchType = SearchType.RESERVED_OFFER;
-                this.title = 'Zarazerwowane Oferty'
-                break;
-            case 'search':
-                this.searchType = SearchType.SEARCHED_OFFER;
-                this.title = 'Szukaj Ofert'
-                break;
-        }
-    }
-
-    search(searchCriteria: RoomSearchCriteriaModel) {
-        this.isLoading = true;
-        searchCriteria.searchType = this.searchType;
-        return this.roomService.fetchSearchedRooms(searchCriteria)
-            .pipe(take(1))
-            .subscribe(
-                rooms => {
-                    this.rooms = rooms;
-                    this.isLoading = false;
-                },
-                console.log
-            );
+    ionViewWillLeave(): void {
+        this.routeSub.unsubscribe();
+        this.formSub.unsubscribe();
     }
 
     submit(searchCriteriaForm: NgForm) {
@@ -100,12 +71,76 @@ export class RoomSearchComponent implements ViewWillEnter {
         }
     }
 
-    navigateToProfileSearch(id: number) {
-        const selectedRoom = this.rooms.find(room => room.id === id)
-        if (selectedRoom.renteeId) {
-            this.router.navigate(['room', id, 'search', 'roommate', selectedRoom.renteeId]).then();
-        } else {
-            this.router.navigate(['room/', id, 'search', 'roommate']).then();
+    minDate() {
+        return moment(new Date()).format('YYYY-MM-DD');
+    }
+
+    maxDate() {
+        return moment(new Date()).add(5, 'years').format('YYYY-MM-DD');
+    }
+
+    navigate(roomId: number) {
+        const selectedRoom = this.rooms.find(room => room.id === roomId)
+        switch (this.searchType) {
+            case SearchType.RENTED_OFFER:
+                this.navigateToRentee(roomId, selectedRoom.renteeId);
+                break;
+            case SearchType.OWN_OFFER:
+                this.navigateToProfileSearch(roomId);
+                break;
+            case SearchType.RESERVED_OFFER:
+            case SearchType.SEARCHED_OFFER:
+            default:
+                this.navigateToRoom(roomId);
         }
+    }
+
+    private search(searchCriteria: RoomSearchCriteriaModel) {
+        this.isLoading = true;
+        searchCriteria.searchType = this.searchType;
+        return this.roomService.fetchSearchedRooms(searchCriteria)
+            .subscribe(
+                rooms => {
+                    this.rooms = rooms;
+                    this.isLoading = false;
+                },
+                console.log
+            );
+    }
+
+    private setSearchType(url) {
+        switch (url[url.length - 1].path) {
+            case 'own':
+                this.searchType = SearchType.OWN_OFFER;
+                this.title = 'Moje Oferty'
+                break;
+            case 'reserved':
+                this.searchType = SearchType.RESERVED_OFFER;
+                this.title = 'Zarazerwowane Oferty'
+                break;
+            case 'search':
+                this.searchType = SearchType.SEARCHED_OFFER;
+                this.title = 'Szukaj Ofert'
+                this.shouldPreloadData = false;
+                break;
+            case 'rented':
+                this.searchType = SearchType.RENTED_OFFER;
+                this.title = 'Wynajęte'
+        }
+        if (this.shouldPreloadData) {
+            this.submit(this.searchForm)
+        }
+    }
+
+    private navigateToRentee(roomId: number, userId: number) {
+        this.router.navigate(['room', roomId, 'search', 'rentee', userId]).then();
+    }
+
+    private navigateToProfileSearch(roomId: number) {
+        this.router.navigate(['room', roomId, 'search', 'rentee']).then();
+    }
+
+    private navigateToRoom(roomId: number) {
+        this.router.navigate(['/room', roomId]).then();
     }
 }

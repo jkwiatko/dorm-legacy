@@ -151,7 +151,7 @@ export class ProfileEditComponent implements OnInit, ViewWillEnter {
     }
 
     navigateToRoom(id: number) {
-        const editRoomNav = () => { this.router.navigate(['room/edit', id]).then(); }
+        const editRoomNav = () => { this.router.navigate(['room', id, 'edit']).then(); }
         if (this.form.touched) {
             this.alertController.create(navigationAlertFactory(editRoomNav)).then(alert => alert.present());
         } else {

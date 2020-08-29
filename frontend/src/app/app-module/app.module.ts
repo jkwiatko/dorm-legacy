@@ -13,13 +13,13 @@ import {ToastrModule} from 'ngx-toastr';
 import {IonicModule, IonicRouteStrategy} from '@ionic/angular';
 import {RouteReuseStrategy} from '@angular/router';
 import {FormsModule} from '@angular/forms';
-import {MobileMenuComponent} from './mobile-menu/mobile-menu.component';
+import {MenuComponent} from './menu/menu.component';
 
 @NgModule({
     declarations: [
         AppComponent,
         WelcomeScreenComponent,
-        MobileMenuComponent
+        MenuComponent
     ],
     imports: [
         BrowserModule,

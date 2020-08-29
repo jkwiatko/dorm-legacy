@@ -18,8 +18,8 @@ import {ProfileSearchComponent} from './profile-search/profile-search.component'
 const routes: Routes = [
     {path: 'profile/edit', component: ProfileEditComponent, canActivate: [AuthGuardService]},
     {path: 'profile/:userId', component: ProfileDetailsComponent, canActivate: [AuthGuardService]},
-    {path: 'room/:roomId/search/roommate', component: ProfileSearchComponent, canActivate: [AuthGuardService]},
-    {path: 'room/:roomId/search/roommate/:userId', component: ProfileDetailsComponent, canActivate: [AuthGuardService]}
+    {path: 'room/:roomId/search/rentee', component: ProfileSearchComponent, canActivate: [AuthGuardService]},
+    {path: 'room/:roomId/search/rentee/:userId', component: ProfileDetailsComponent, canActivate: [AuthGuardService]}
 ];
 
 @NgModule({
