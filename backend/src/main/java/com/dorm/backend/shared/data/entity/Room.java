@@ -34,9 +34,6 @@ public class Room extends BaseEntity {
     @OneToOne(mappedBy = "rentedRoom")
     private User rentee;
 
-    @OneToMany(mappedBy = "room")
-    private List<Message> chat;
-
     @Enumerated(value = EnumType.STRING)
     @ElementCollection(targetClass = Amenity.class)
     private List<Amenity> amenities;

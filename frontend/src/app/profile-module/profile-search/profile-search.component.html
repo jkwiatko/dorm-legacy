@@ -41,17 +41,19 @@
                     <mat-radio-button value="FEMALE" class="ml-4">K</mat-radio-button>
                 </mat-radio-group>
             </ion-item>
-            <ion-item lines="none" class="d-flex align-content-center">
-                <button type="button" class="btn btn-success" (click)="onAddInclination()">
-                    Dodaj filtr
-                </button>
-            </ion-item>
+            <div class="col-12 d-flex justify-content-center">
+                <div>
+                    <ion-button (click)="onAddInclination()">
+                        Dodaj filtr
+                    </ion-button>
+                </div>
+            </div>
         </div>
         <div class="row" formArrayName="inclinations">
             <div *ngFor="let inclination of inclinationsControl; let i = index"
-                 class="col-6 col-md-3 d-flex align-items-end justify-content-around">
+                 class="col-12 col-md-3 d-flex align-items-end justify-content-around">
                 <ion-item class="w-75" lines="none">
-                    <ion-label position="floating">Wybierz... </ion-label>
+                    <ion-label position="floating">Wybierz...</ion-label>
                     <ion-select formControlName="{{i}}"
                                 interface="popover"
                                 [interfaceOptions]="possibleInclinations">
@@ -61,7 +63,7 @@
                         </ion-select-option>
                     </ion-select>
                 </ion-item>
-                <ion-button class="h-50"  (click)="onDeleteInclination(i)" type="button">X</ion-button>
+                <ion-button class="h-50" (click)="onDeleteInclination(i)" type="button">X</ion-button>
             </div>
         </div>
     </form>
@@ -71,7 +73,7 @@
         </div>
         <ng-template #searchResult>
             <div class="col-12 p-3 mt-lg-5 text-center" *ngIf="profiles.length < 1">Brak wyników wyszukiwania</div>
-            <div *ngFor="let profile of profiles" class="col-md-4 col-6 col-lg-3 p-3">
+            <div *ngFor="let profile of profiles" class="col-md-4 col-12 col-lg-3 p-3">
                 <app-profile-preview [profile]="profile" [navigateOnClick]="true">
                 </app-profile-preview>
             </div>

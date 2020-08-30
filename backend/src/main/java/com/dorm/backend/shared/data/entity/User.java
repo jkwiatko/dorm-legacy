@@ -1,6 +1,7 @@
 package com.dorm.backend.shared.data.entity;
 
 import com.dorm.backend.shared.data.entity.base.BaseEntity;
+import com.dorm.backend.shared.data.entity.message.Chat;
 import com.dorm.backend.shared.data.entity.picture.LocalPictureEntity;
 import com.dorm.backend.shared.data.enums.Gender;
 import com.dorm.backend.shared.data.enums.Inclination;
@@ -9,7 +10,6 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -29,6 +29,12 @@ public class User extends BaseEntity {
 
     @ManyToMany(cascade = CascadeType.ALL)
     private Set<Room> possibleRooms;
+
+    @OneToMany(mappedBy = "owner")
+    private List<Chat> ownedChats;
+
+    @OneToMany(mappedBy = "mate")
+    private List<Chat> matesChats;
 
     @ElementCollection
     private List<String> interests;

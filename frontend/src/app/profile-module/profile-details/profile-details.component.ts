@@ -6,6 +6,7 @@ import {ProfileModel} from '../models/profile.model';
 import {ProfilePreviewModel} from '../../shared-module/models/profile-preview.model';
 import {RoomService} from '../../room-module/providers/room.service';
 import {AlertController, NavController, ViewWillEnter} from '@ionic/angular';
+import {MessageService} from '../../message-module/providers/message.service';
 
 @Component({
     selector: 'app-profile-details',
@@ -17,6 +18,7 @@ export class ProfileDetailsComponent implements ViewWillEnter {
     constructor(
         private profileService: ProfileService,
         private roomService: RoomService,
+        private messageService: MessageService,
         private route: ActivatedRoute,
         private navController: NavController,
         private alertController: AlertController
@@ -24,6 +26,7 @@ export class ProfileDetailsComponent implements ViewWillEnter {
     }
 
     roomIdToPickRoommate: number
+    hasChat = false;
     profile = new ProfileModel();
     profilePreview = new ProfilePreviewModel();
 
@@ -32,11 +35,13 @@ export class ProfileDetailsComponent implements ViewWillEnter {
             switchMap(params => {
                 this.roomIdToPickRoommate = params.roomId;
                 return this.profileService.fetchUserProfile(params.userId);
+            }),
+            switchMap(profile => {
+                this.profile = profile;
+                this.profilePreview = ProfilePreviewModel.buildFromProfileModel(profile);
+                return this.messageService.checkIfUserHasChat(profile.id)
             })
-        ).subscribe(profile => {
-            this.profile = profile;
-            this.profilePreview = ProfilePreviewModel.buildFromProfileModel(profile);
-        });
+        ).subscribe(hasChat => this.hasChat = hasChat);
     }
 
     pickRoommate() {
@@ -65,4 +70,6 @@ export class ProfileDetailsComponent implements ViewWillEnter {
             ]
         }).then(alert => alert.present());
     }
+
+    addToChat() {}
 }

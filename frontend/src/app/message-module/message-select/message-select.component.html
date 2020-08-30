@@ -1,0 +1,19 @@
+<div class="d-table users-table">
+    <div class="d-table-row">
+        <div class="d-table-cell w-75">
+            <div class="d-flex justify-content-center">
+                <img class="small-profile-img" alt="profile image"
+                     *ngIf="profile && profile.picture else noImage"
+                     [src]="profile.picture.base64String | safe: 'url'">
+                <ng-template #noImage>
+                    <div class="small-profile-img">
+                        <span>?</span>
+                    </div>
+                </ng-template>
+            </div>
+        </div>
+        <div class="d-table-cell w-25 align-middle text-nowrap text-right">
+            <div>Stanisłąw Bąk</div>
+        </div>
+    </div>
+</div>

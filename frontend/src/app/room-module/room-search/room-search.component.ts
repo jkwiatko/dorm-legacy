@@ -116,7 +116,7 @@ export class RoomSearchComponent implements ViewWillEnter, ViewWillLeave {
                 break;
             case 'reserved':
                 this.searchType = SearchType.RESERVED_OFFER;
-                this.title = 'Zarazerwowane Oferty'
+                this.title = 'Rezerwacje'
                 break;
             case 'search':
                 this.searchType = SearchType.SEARCHED_OFFER;

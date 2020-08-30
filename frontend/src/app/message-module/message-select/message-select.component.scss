@@ -1,0 +1,21 @@
+.small-profile-img {
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    border: 1px solid lightgray;
+    overflow: hidden;
+    object-fit: cover;
+    text-align: center;
+    object-position: 50% 70%;
+
+    img {
+        max-height: 80%;
+        width: auto;
+    }
+}
+
+.users-table {
+    border-spacing: 0.5rem;
+    border-collapse: separate;
+    margin: 0;
+}

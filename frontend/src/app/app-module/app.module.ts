@@ -14,6 +14,7 @@ import {IonicModule, IonicRouteStrategy} from '@ionic/angular';
 import {RouteReuseStrategy} from '@angular/router';
 import {FormsModule} from '@angular/forms';
 import {MenuComponent} from './menu/menu.component';
+import {MessageModule} from '../message-module/message.module';
 
 @NgModule({
     declarations: [
@@ -26,6 +27,7 @@ import {MenuComponent} from './menu/menu.component';
         AppRoutingModule,
         ProfileModule,
         RoomModule,
+        MessageModule,
         BrowserAnimationsModule,
         HttpClientModule,
         FormsModule,

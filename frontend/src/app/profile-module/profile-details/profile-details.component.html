@@ -4,11 +4,14 @@
             <ion-back-button defaultHref="room/search/own"></ion-back-button>
         </ion-buttons>
         <ion-buttons *ngIf="!!roomIdToPickRoommate" slot="end">
-            <ion-button *ngIf="profile.rentedRoomId; else addRoommate" (click)="removeRoommate()">
-                <ion-icon slot="icon-only" name="person-remove"></ion-icon>
+            <ion-button *ngIf="!hasChat; else manageRoommate" (click)="addToChat()">
+                <ion-icon slot="icon-only" name="chatbubble-ellipses"></ion-icon>
             </ion-button>
-            <ng-template #addRoommate>
-                <ion-button (click)="pickRoommate()">
+            <ng-template #manageRoommate>
+                <ion-button *ngIf="profile.rentedRoomId" (click)="removeRoommate()">
+                    <ion-icon slot="icon-only" name="person-remove"></ion-icon>
+                </ion-button>
+                <ion-button *ngIf="!profile.rentedRoomId" (click)="pickRoommate()">
                     <ion-icon slot="icon-only" name="person-add"></ion-icon>
                 </ion-button>
             </ng-template>
@@ -17,109 +20,110 @@
 </ion-header>
 <div class="container">
     <div class="row mt-3">
-        <div class=" col-12 col-lg-4 mb-lg-0">
-            <app-profile-preview [profile]="profilePreview"
-                                 [sticky]="true">
-            </app-profile-preview>
-        </div>
-        <div class="col-12 col-lg-8 border">
-            <div class="ml-2">
-                <div class="mb-5 mt-3">
-                    <div class="big-title blue-text font-weight-bold">
-                        O mnie
-                    </div>
-                    <div>
-                        <div class="small-tittle font-weight-bold">Tak w skrócie:</div>
-                        <div>{{profile.description}}</div>
-                    </div>
-                    <hr class="horizontal-line">
-                    <div>
-                        <div class="small-tittle font-weight-bold m-0 mb-4">Zajmuję się</div>
-                        <div class="row d-flex justify-content-between">
-                            <div class="col-6 d-flex flex-column">
-                                <span>Pracuje w: </span>
-                                <span>{{profile.workingIn}}</span>
+        <div class="col-12 mb-3 col-lg-4 mb-lg-0">
+            <div class="col-12 mb-3 col-lg-4 mb-lg-0">
+                <app-profile-preview [profile]="profilePreview"
+                                     [sticky]="true">
+                </app-profile-preview>
+            </div>
+            <div class="col-12 col-lg-8 border">
+                <div class="ml-2">
+                    <div class="mb-5 mt-3">
+                        <div class="big-title blue-text font-weight-bold">
+                            O mnie
+                        </div>
+                        <div>
+                            <div class="small-tittle font-weight-bold">Tak w skrócie:</div>
+                            <div>{{profile.description}}</div>
+                        </div>
+                        <hr class="horizontal-line">
+                        <div>
+                            <div class="small-tittle font-weight-bold m-0 mb-4">Zajmuję się</div>
+                            <div class="row d-flex justify-content-between">
+                                <div class="col-6 d-flex flex-column">
+                                    <span>Pracuje w: </span>
+                                    <span>{{profile.workingIn}}</span>
+                                </div>
+                                <div class="col-6 d-flex flex-column">
+                                    <span>Uczę się na:  </span>
+                                    <span>{{profile.studyingAt}}</span>
+                                </div>
                             </div>
-                            <div class="col-6 d-flex flex-column">
-                                <span>Uczę się na:  </span>
-                                <span>{{profile.studyingAt}}</span>
+                        </div>
+                        <hr class="horizontal-line">
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="small-tittle font-weight-bold m-0 mb-2">
+                                    Interesuję się:
+                                </div>
+                                <div *ngFor="let interest of profile.interests"
+                                     class="yellow-text">
+                                    {{interest}}
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="small-tittle font-weight-bold m-0 mb-2">
+                                    Jestem:
+                                </div>
+                                <div *ngFor="let inclination of profile.inclinations"
+                                     class="yellow-text">
+                                    {{inclination}}
+                                </div>
                             </div>
                         </div>
                     </div>
                     <hr class="horizontal-line">
-                    <div class="row">
-                        <div class="col-6">
-                            <div class="small-tittle font-weight-bold m-0 mb-2">
-                                Interesuję się:
+                    <div class="mb-5">
+                        <div class="big-title blue-text font-weight-bold">
+                            Preferencje
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="small-tittle font-weight-bold ">
+                                    Jak często sprzątam
+                                </div>
+                                <div class="">{{profile.cleaningPolicy}}</div>
                             </div>
-                            <div *ngFor="let interest of profile.interests"
-                                 class="yellow-text">
-                                {{interest}}
+                            <div class="col-6">
+                                <div class="small-tittle font-weight-bold">
+                                    Czy palę?
+                                </div>
+                                <div>{{profile.smokingPolicy}}</div>
                             </div>
                         </div>
-                        <div class="col-6">
-                            <div class="small-tittle font-weight-bold m-0 mb-2">
-                                Jestem:
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="small-tittle font-weight-bold ">
+                                    Co myślę o zwierzętach?
+                                </div>
+                                <div class="">{{profile.petPolicy}}</div>
                             </div>
-                            <div *ngFor="let inclination of profile.inclinations"
-                                 class="yellow-text">
-                                {{inclination}}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <hr class="horizontal-line">
-                <div class="mb-5">
-                    <div class="big-title blue-text font-weight-bold">
-                        Preferencje
-                    </div>
-                    <div class="row">
-                        <div class="col-6">
-                            <div class="small-tittle font-weight-bold ">
-                                Jak często sprzątam
-                            </div>
-                            <div class="">{{profile.cleaningPolicy}}</div>
-                        </div>
-                        <div class="col-6">
-                            <div class="small-tittle font-weight-bold">
-                                Czy palę?
-                            </div>
-                            <div>{{profile.smokingPolicy}}</div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-6">
-                            <div class="small-tittle font-weight-bold ">
-                                Co myślę o zwierzętach?
-                            </div>
-                            <div class="">{{profile.petPolicy}}</div>
-                        </div>
-                        <div class="col-6">
-                            <div class="small-tittle font-weight-bold">
-                                Czy goście mogą zostać na noc?
-                            </div>
-                            <div>
-                                {{profile.guestsPolicy}}
+                            <div class="col-6">
+                                <div class="small-tittle font-weight-bold">
+                                    Czy goście mogą zostać na noc?
+                                </div>
+                                <div>
+                                    {{profile.guestsPolicy}}
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <hr *ngIf="!roomIdToPickRoommate" class="horizontal-line">
-                <div *ngIf="!roomIdToPickRoommate" class="mb-3">
-                    <div class="big-title blue-text font-weight-bold">
-                        Moje Pokoje
-                    </div>
-                    <div class="row">
-                        <div *ngFor="let room of profile.ownedRooms" class="col-6 p-3">
-                            <app-room-preview [room]="room" [displayPrice]="false">
-                            </app-room-preview>
+                    <hr *ngIf="!roomIdToPickRoommate" class="horizontal-line">
+                    <div *ngIf="!roomIdToPickRoommate" class="mb-3">
+                        <div class="big-title blue-text font-weight-bold">
+                            Moje Pokoje
+                        </div>
+                        <div class="row">
+                            <div *ngFor="let room of profile.ownedRooms" class="col-6 p-3">
+                                <app-room-preview [room]="room" [displayPrice]="false">
+                                </app-room-preview>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="mb-5 d-flex justify-content-center">
+                    <div class="mb-5 d-flex justify-content-center">
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
