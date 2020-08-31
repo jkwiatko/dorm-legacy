@@ -123,25 +123,27 @@ export class RoomEditComponent implements OnInit {
     }
 
     onSubmit() {
-        this.loader.present()
-        this.submitted = true;
-        this.form.markAllAsTouched();
-        this.room.pictures = this.room.pictures.filter((el) => el != null);
+        if(this.form.valid) {
+            this.loader.present()
+            this.submitted = true;
+            this.form.markAllAsTouched();
+            this.room.pictures = this.room.pictures.filter((el) => el != null);
 
-        if (this.form.invalid) {
-            this.toastr.error('Prosze wypełnij poprawie wszystkie pola', 'Błędne dane');
-        } else {
-            const roomModel = this.room.merge(this.form.value)
-            const obs = this.editMode ? this.roomCli.editRoom(roomModel) : this.roomCli.createRoom(roomModel);
-            obs.subscribe(
-                () => {
-                    this.loader.dismiss();
-                    this.nav.navigateBack(['/profile/edit']).then()
-                },
-                error => {
-                    this.loader.dismiss()
-                    this.toastr.error(error.error.message, 'Błędne dane!');
-                });
+            if (this.form.invalid) {
+                this.toastr.error('Prosze wypełnij poprawie wszystkie pola', 'Błędne dane');
+            } else {
+                const roomModel = this.room.merge(this.form.value)
+                const obs = this.editMode ? this.roomCli.editRoom(roomModel) : this.roomCli.createRoom(roomModel);
+                obs.subscribe(
+                    () => {
+                        this.loader.dismiss();
+                        this.nav.navigateBack(['/profile/edit']).then()
+                    },
+                    error => {
+                        this.loader.dismiss()
+                        this.toastr.error(error.error.message, 'Błędne dane!');
+                    });
+            }
         }
     }
 

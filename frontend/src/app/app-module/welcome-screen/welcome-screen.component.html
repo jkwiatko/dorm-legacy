@@ -6,7 +6,7 @@
         </ion-buttons>
     </ion-toolbar>
 </ion-header>
-<div *ngIf="!authenticated" class="login-dialog">
+<div class="login-dialog">
     <h1 class="mb-4 mt-4 pl-3">{{isLoggingIn ? 'Logowanie' : 'Rejestracja'}}</h1>
     <div>
         <form #f="ngForm" (ngSubmit)="submit(f)" (keydown)="handlePressingEnter(f, $event)">
@@ -33,9 +33,6 @@
             </div>
         </form>
     </div>
-</div>
-<div *ngIf="authenticated" class="login-dialog">
-    Szukajka
 </div>
 <div>
     <div>
@@ -107,24 +104,8 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-6 order-1 order-lg-2 d-flex align-items-center">
+            <div class="col-lg-6 order-1 order-lg-2 mb-5 d-flex align-items-center">
                 <img src="assets/home/room.jpg" class="img-fluid" style="display:block;">
-            </div>
-        </div>
-        <div class="row mt-5 mb-5">
-            <div class="col-lg-6 d-flex align-items-center">
-                <div>
-                    <img src="assets/home/big_room.jpg" class="img-fluid" style="display:block;">
-                </div>
-            </div>
-            <div
-                class="col-lg-6 mt-lg-0 mt-5 d-flex flex-column flex-sm-row d-sm-flex align-items-center justify-content-sm-center">
-                <div class="yellow-button" routerLink="/room/find">
-                    <button>Szukaj pokoju</button>
-                </div>
-                <div class="blue-button" routerLink="/room/create">
-                    <button>Wystaw pokój</button>
-                </div>
             </div>
         </div>
     </div>
