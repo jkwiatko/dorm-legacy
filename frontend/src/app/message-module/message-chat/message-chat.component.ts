@@ -16,7 +16,8 @@ export class MessageChatComponent implements ViewWillEnter, AfterViewChecked {
 
     private chatId: number;
     private chatRefreshTimer: number;
-    @ViewChild('scrollMe') private myScrollContainer: ElementRef;
+    private prevSize = 0;
+    @ViewChild('scrollFrame', {static: false}) private scrollFrame: ElementRef;
 
     constructor(private menuCtrl: MenuController,
                 private messageService: MessageService,
@@ -33,7 +34,10 @@ export class MessageChatComponent implements ViewWillEnter, AfterViewChecked {
     }
 
     ngAfterViewChecked(): void {
-        this.scrollToBottom();
+        if(this.chat.messages.length > this.prevSize) {
+            this.scrollToBottom();
+            this.prevSize = this.chat.messages.length;
+        }
     }
 
 
@@ -75,9 +79,10 @@ export class MessageChatComponent implements ViewWillEnter, AfterViewChecked {
     }
 
     private scrollToBottom(): void {
-        try {
-            this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
-        } catch (err) {
-        }
+        this.scrollFrame.nativeElement.scroll({
+            top: this.scrollFrame.nativeElement.scrollHeight,
+            left: 0,
+            behavior: 'smooth'
+        });
     }
 }

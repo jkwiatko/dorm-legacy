@@ -14,7 +14,7 @@
 <div class="container">
     <div class="row mt-3">
         <div class="col-12">
-            <div class="vh-75 overflow-auto border p-3" #scrollMe>
+            <div class="vh-75 overflow-auto border p-3" #scrollFrame>
                 <app-message-single *ngFor="let message of chat.messages; let i = index"
                                     [text]="message.text"
                                     [userName]="skipNameIfTheSame(i)"
