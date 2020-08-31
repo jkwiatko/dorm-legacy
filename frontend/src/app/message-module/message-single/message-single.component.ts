@@ -16,6 +16,16 @@ export class MessageSingleComponent implements OnInit {
     @Input()
     text: string;
 
+    get name() {
+        if(this.userName === '') {
+            return this.userName;
+        }
+        if(this.userName === 'You') {
+            return 'Ty:'
+        }
+        return this.userName+':'
+    }
+
     constructor() {
     }
 

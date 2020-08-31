@@ -5,7 +5,7 @@
             <ion-menu-button size="large"></ion-menu-button>
         </ion-buttons>
         <ion-buttons slot="end">
-            <ion-button (click)="openMenu()">
+            <ion-button routerLink="/message/pick">
                 <ion-icon slot="icon-only" name="people-circle"></ion-icon>
             </ion-button>
         </ion-buttons>
@@ -15,38 +15,30 @@
     <div class="row mt-3">
         <div class="col-12">
             <div class="vh-75 overflow-auto border p-3" #scrollMe>
-                <app-message-single [isUserMessage]="true" [userName]="'Ty'" [text]="'siemanko'"></app-message-single>
-                <app-message-single [isUserMessage]="false" [userName]="'Stanisłąw Czesak'"
-                                    [text]="'no hej...'"></app-message-single>
-                <app-message-single [isUserMessage]="true" [userName]="'Ty'" [text]="'siemanko'"></app-message-single>
-                <app-message-single [isUserMessage]="false" [userName]="'Stanisłąw Czesak'"
-                                    [text]="'no hej...'"></app-message-single>
-                <app-message-single [isUserMessage]="true" [userName]="'Ty'" [text]="'siemanko'"></app-message-single>
-                <app-message-single [isUserMessage]="false" [userName]="'Stanisłąw Czesak'"
-                                    [text]="'no hej...'"></app-message-single>
-                <app-message-single [isUserMessage]="true" [userName]="'Ty'" [text]="'siemanko'"></app-message-single>
-                <app-message-single [isUserMessage]="false" [userName]="'Stanisłąw Czesak'"
-                                    [text]="'no hej...'"></app-message-single>
-                <app-message-single [isUserMessage]="true" [userName]="'Ty'" [text]="'siemanko'"></app-message-single>
-                <app-message-single [isUserMessage]="false" [userName]="'Stanisłąw Czesak'"
-                                    [text]="'no hej...'"></app-message-single>
+                <app-message-single *ngFor="let message of chat.messages; let i = index"
+                                    [text]="message.text"
+                                    [userName]="skipNameIfTheSame(i)"
+                                    [isUserMessage]="message.from === 'You'">
+                </app-message-single>
             </div>
         </div>
     </div>
     <div class="row">
         <div class="col-12">
-            <ion-item>
-                <ion-label>Wiadomość:</ion-label>
-                <ion-input
-                    ngModel
-                    name="message">
-                </ion-input>
-                <ion-buttons slot="end">
-                    <ion-button>
-                        <ion-icon name="send" slot="icon-only"></ion-icon>
-                    </ion-button>
-                </ion-buttons>
-            </ion-item>
+            <form #f="ngForm" (ngSubmit)="submit(f)" (keydown)="handlePressingEnter(f, $event)">
+                <ion-item>
+                    <ion-label>Wiadomość:</ion-label>
+                    <ion-input
+                        ngModel
+                        name="message">
+                    </ion-input>
+                    <ion-buttons  slot="end">
+                        <ion-button (click)="submit(f)" class="border-0">
+                            <ion-icon name="send" slot="icon-only"></ion-icon>
+                        </ion-button>
+                    </ion-buttons>
+                </ion-item>
+            </form>
         </div>
     </div>
 </div>

@@ -7,42 +7,43 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController("/api/message")
+@RestController
+@RequestMapping("/api/messages")
 public class MessageController {
 
-    MessageService messageService;
+    private final MessageService messageService;
 
     public MessageController(MessageService messageService) {
         this.messageService = messageService;
     }
 
-    @GetMapping("chats")
+    @GetMapping("/chats")
     public ResponseEntity<List<ChatPreviewDTO>> getChatMates() {
         return  ResponseEntity.ok(messageService.getChatMates());
     }
 
-    @PatchMapping("chats/add")
+    @PatchMapping("/chats/add")
     public ResponseEntity<Void> addUserToChats(@RequestBody Long userId) {
         messageService.addToMateToChat(userId);
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("chats/check/{userId}")
+    @GetMapping("/chats/check/{userId}")
     public ResponseEntity<Boolean> checkIfUserHasChat(@PathVariable Long userId) {
         return ResponseEntity.ok(messageService.checkIfHasChat(userId));
     }
 
-    @GetMapping("chat/{chatId}")
+    @GetMapping("/chat/{chatId}")
     public ResponseEntity<ChatDTO> getChat(@PathVariable Long chatId) {
         return ResponseEntity.ok(messageService.getChat(chatId));
     }
 
-    @PostMapping("chat/latest")
+    @PostMapping("/chat/latest")
     public ResponseEntity<List<MessageDTO>> getLatestMessages(LatestMessagesRequest request) {
         return ResponseEntity.ok(messageService.getLatestMessages(request));
     }
 
-    @PostMapping("send")
+    @PostMapping("/send")
     public ResponseEntity<Void> sendMessageToMate(@RequestBody MessageRequest message) {
         messageService.sendMessageToMate(message);
         return ResponseEntity.ok().build();

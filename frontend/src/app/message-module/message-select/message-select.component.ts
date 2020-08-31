@@ -11,10 +11,6 @@ export class MessageSelectComponent implements OnInit {
     @Input()
     profile: ProfilePreviewModel;
 
-    constructor() {
-    }
-
     ngOnInit(): void {
     }
-
 }

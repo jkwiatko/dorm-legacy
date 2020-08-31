@@ -1,26 +1,30 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {ProfilePreviewModel} from '../../shared-module/models/profile-preview.model';
+import {Component, EventEmitter, Output} from '@angular/core';
+import {ChatPreviewModel} from '../models/chat-preview.model';
+import {ViewWillEnter} from '@ionic/angular';
+import {MessageService} from '../providers/message.service';
+import {Router} from '@angular/router';
 
 @Component({
     selector: 'app-message-menu',
     templateUrl: './message-menu.component.html',
     styleUrls: ['./message-menu.component.scss']
 })
-export class MessageMenuComponent implements OnInit {
+export class MessageMenuComponent implements ViewWillEnter {
 
     @Output()
-    pickedId: EventEmitter<number>
+    pickedId: EventEmitter<number> = new EventEmitter<number>();
 
-    @Input()
-    chatMates: ProfilePreviewModel[];
+    chatMates: ChatPreviewModel[] = [];
 
-    constructor() {
+    constructor(private messageService: MessageService,
+                private router: Router) {
     }
 
-    ngOnInit(): void {
+    ionViewWillEnter(): void {
+        this.messageService.getChatMates().subscribe(mates => this.chatMates = mates);
     }
 
     pickChat(chatMateId: number) {
-        this.pickedId.emit(chatMateId);
+        this.router.navigate(['message', chatMateId]).then();
     }
 }

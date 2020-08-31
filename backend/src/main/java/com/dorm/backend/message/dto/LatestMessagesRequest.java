@@ -2,10 +2,10 @@ package com.dorm.backend.message.dto;
 
 import lombok.Data;
 
-import java.time.LocalDate;
+import java.util.Date;
 
 @Data
 public class LatestMessagesRequest {
     Long chatId;
-    LocalDate lastMessageDate;
+    Date lastMessageDate;
 }

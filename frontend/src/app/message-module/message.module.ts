@@ -12,7 +12,8 @@ import { MessageSingleComponent } from './message-single/message-single.componen
 
 
 const routes: Routes = [
-    {path: 'message', component: MessageChatComponent, canActivate: [AuthGuardService]},
+    {path: 'message/pick', component: MessageMenuComponent, canActivate: [AuthGuardService]},
+    {path: 'message/:chatId', component: MessageChatComponent, canActivate: [AuthGuardService]},
 ];
 
 @NgModule({

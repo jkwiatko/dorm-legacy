@@ -6,6 +6,7 @@ import com.dorm.backend.shared.data.entity.base.BaseEntity;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -22,6 +23,6 @@ public class Chat extends BaseEntity {
     @ManyToOne
     private User mate;
 
-    @OneToMany(mappedBy = "chat")
+    @OneToMany(mappedBy = "chat", cascade = CascadeType.ALL)
     private List<Message> messages;
 }

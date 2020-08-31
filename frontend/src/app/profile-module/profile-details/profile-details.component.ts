@@ -71,5 +71,7 @@ export class ProfileDetailsComponent implements ViewWillEnter {
         }).then(alert => alert.present());
     }
 
-    addToChat() {}
+    addToChat() {
+        this.messageService.addUserToChat(this.profile.id).subscribe(() => this.hasChat = true);
+    }
 }

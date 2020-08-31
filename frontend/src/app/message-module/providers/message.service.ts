@@ -5,6 +5,7 @@ import {environment} from '../../../environments/environment';
 import {MessageModel} from '../models/message.model';
 import {ChatModel} from '../models/chat.model';
 import {ChatPreviewModel} from '../models/chat-preview.model';
+import {tap} from 'rxjs/operators';
 
 @Injectable({
     providedIn: 'root'
@@ -15,7 +16,8 @@ export class MessageService {
     }
 
     getChatMates(): Observable<ChatPreviewModel[]> {
-        return this.http.get<ChatPreviewModel[]>(environment.api + 'messages/chats');
+        return this.http.get<ChatPreviewModel[]>(environment.api + 'messages/chats')
+            .pipe(tap(MessageService.addPictureExtToPreview));
     }
 
     checkIfUserHasChat(userId: number): Observable<boolean> {
@@ -34,7 +36,16 @@ export class MessageService {
         return this.http.post<MessageModel[]>(environment.api + 'messages/latest', {chatId, lastMessageDate});
     }
 
-    sendMessageTo(message: MessageModel, userId: number): Observable<MessageModel>{
-        return this.http.post<MessageModel>(environment.api + 'message/send/' + userId, message);
+    sendMessageTo(text: string, chatId: number): Observable<MessageModel> {
+        return this.http.post<MessageModel>(environment.api + 'messages/send', {chatId, text});
+    }
+
+    private static addPictureExtToPreview(chatPreviews: ChatPreviewModel[]) {
+        chatPreviews.forEach(chatPreview => {
+            const picture = chatPreview.profilePreview.picture;
+            if (picture) {
+                picture.base64String = 'data:image/jpeg;base64,' + picture.base64String;
+            }
+        });
     }
 }

@@ -1,6 +1,6 @@
 <div class="d-table users-table">
     <div class="d-table-row">
-        <div class="d-table-cell w-75">
+        <div class="d-table-cell w-50">
             <div class="d-flex justify-content-center">
                 <img class="small-profile-img" alt="profile image"
                      *ngIf="profile && profile.picture else noImage"
@@ -12,8 +12,8 @@
                 </ng-template>
             </div>
         </div>
-        <div class="d-table-cell w-25 align-middle text-nowrap text-right">
-            <div>Stanisłąw Bąk</div>
+        <div class="d-table-cell w-50 align-middle text-nowrap">
+            <div>{{profile.firstName}}  {{profile.lastName}}</div>
         </div>
     </div>
 </div>

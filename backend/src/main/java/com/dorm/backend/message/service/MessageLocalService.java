@@ -1,6 +1,7 @@
 package com.dorm.backend.message.service;
 
 import com.dorm.backend.message.dto.*;
+import com.dorm.backend.shared.data.dto.PictureDTO;
 import com.dorm.backend.shared.data.dto.ProfilePreviewDTO;
 import com.dorm.backend.shared.data.entity.User;
 import com.dorm.backend.shared.data.entity.message.Chat;
@@ -13,23 +14,23 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
-import java.time.ZoneId;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 @Transactional
-public class MessageServiceImpl implements MessageService {
+public class MessageLocalService implements MessageService {
 
     private final ChatRepository chatRepository;
     private final MessageRepository messageRepository;
     private final UserService userService;
     private final ModelMapper modelMapper;
 
-    public MessageServiceImpl(ChatRepository chatRepository,
-                              MessageRepository messageRepository,
-                              UserService userService,
-                              ModelMapper modelMapper) {
+    public MessageLocalService(ChatRepository chatRepository,
+                               MessageRepository messageRepository,
+                               UserService userService,
+                               ModelMapper modelMapper) {
         this.chatRepository = chatRepository;
         this.messageRepository = messageRepository;
         this.userService = userService;
@@ -46,16 +47,19 @@ public class MessageServiceImpl implements MessageService {
 
     @Override
     public boolean checkIfHasChat(Long userId) {
-        return !chatRepository.findAllByOwner_IdOrMate_Id(userService.getCurrentAuthenticatedUser().getId(), userId)
-                .isEmpty();
+        Long currentUserId = userService.getCurrentAuthenticatedUser().getId();
+        return !chatRepository.findAllByOwner_IdOrMate_Id(currentUserId, userId).isEmpty()
+                || !chatRepository.findAllByOwner_IdOrMate_Id(userId, currentUserId).isEmpty();
     }
 
     @Override
     public void addToMateToChat(Long userId) {
-        Chat chat = new Chat();
-        chat.setOwner(userService.getCurrentAuthenticatedUser());
-        chat.setMate(userService.getUser(userId));
-        chatRepository.save(chat);
+        if (!checkIfHasChat(userId)) {
+            Chat chat = new Chat();
+            chat.setOwner(userService.getCurrentAuthenticatedUser());
+            chat.setMate(userService.getUser(userId));
+            chatRepository.save(chat);
+        }
     }
 
     @Override
@@ -64,6 +68,7 @@ public class MessageServiceImpl implements MessageService {
         return ChatDTO.builder()
                 .id(chat.getId())
                 .messages(chat.getMessages().stream()
+                        .sorted(Comparator.comparing(Message::getCreatedDate))
                         .map(this::mapToMessageDTO)
                         .collect(Collectors.toList()))
                 .build();
@@ -72,10 +77,7 @@ public class MessageServiceImpl implements MessageService {
     @Override
     public List<MessageDTO> getLatestMessages(LatestMessagesRequest latestMessagesRequest) {
         return messageRepository.findAllByCreatedDateAndChat_Id(
-                java.util.Date.from(latestMessagesRequest.getLastMessageDate()
-                        .atStartOfDay()
-                        .atZone(ZoneId.systemDefault())
-                        .toInstant()),
+                latestMessagesRequest.getLastMessageDate(),
                 latestMessagesRequest.getChatId())
                 .stream()
                 .map(this::mapToMessageDTO)
@@ -88,15 +90,15 @@ public class MessageServiceImpl implements MessageService {
         chat.getMessages().add(Message.builder()
                 .chat(chat)
                 .from(userService.getCurrentAuthenticatedUser())
-                .text(messageRequest.getText()).build()
-        );
+                .text(messageRequest.getText())
+                .build());
         chatRepository.save(chat);
     }
 
     private MessageDTO mapToMessageDTO(Message message) {
         return MessageDTO.builder()
                 .text(message.getText())
-                .time(message.getCreatedDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate())
+                .time(message.getCreatedDate())
                 .from(getSenderName(message))
                 .build();
     }
@@ -110,8 +112,13 @@ public class MessageServiceImpl implements MessageService {
     }
 
     private ChatPreviewDTO mapToChatPreview(Chat chat, Long currentUserId) {
+        User otherUser = extractOtherUser(chat, currentUserId);
         ChatPreviewDTO dto = modelMapper.map(chat, ChatPreviewDTO.class);
-        dto.setProfilePreview(modelMapper.map(extractOtherUser(chat, currentUserId), ProfilePreviewDTO.class));
+        dto.setProfilePreview(modelMapper.map(otherUser, ProfilePreviewDTO.class));
+        otherUser.getProfilePictures().stream()
+                .findFirst()
+                .map(picture -> modelMapper.map(picture, PictureDTO.class))
+                .ifPresent(dto.getProfilePreview()::setPicture);
         return dto;
     }
 

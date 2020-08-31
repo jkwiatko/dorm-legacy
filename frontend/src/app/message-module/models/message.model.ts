@@ -1,7 +1,7 @@
 export class MessageModel {
     constructor(
-        private from: string,
-        private text: string,
-        private time: Date,
+        public from: string,
+        public text: string,
+        public time: Date,
     ) { }
 }
