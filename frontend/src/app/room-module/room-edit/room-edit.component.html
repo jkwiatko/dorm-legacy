@@ -90,7 +90,7 @@
                         </label>
                     </div>
                     <ul class="basic-info-list gray-text p-0 ">
-                        <li>{{form.get('roomsNumber').value > 1 ? form.get('roomsNumber').value + ' pokoi' : '1 pokój'}}</li>
+                        <li>{{form.get('roomsNumber').value | roomNumber}}</li>
                         &bull;
                         <li>Dostępny od {{form.get('availableFrom').value | availableFrom}}</li>
                         &bull;

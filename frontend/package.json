@@ -44,6 +44,7 @@
         "@angular/compiler-cli": "~9.1.11",
         "@angular-devkit/build-angular": "~0.901.9",
         "@angular/language-service": "~9.1.11",
+        "@ionic/cli" : "latest",
         "@ionic/angular-toolkit": "^2.2.0",
         "@types/jasmine": "~3.5.11",
         "@types/jasminewd2": "~2.0.8",
