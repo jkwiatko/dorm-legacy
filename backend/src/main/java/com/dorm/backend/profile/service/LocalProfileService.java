@@ -7,7 +7,6 @@ import com.dorm.backend.shared.data.dto.ProfilePreviewDTO;
 import com.dorm.backend.shared.data.entity.User;
 import com.dorm.backend.shared.data.entity.picture.LocalPicture;
 import com.dorm.backend.shared.data.enums.Inclination;
-import com.dorm.backend.shared.data.repo.RoomRepository;
 import com.dorm.backend.shared.data.repo.search.ProfileSearchRepository;
 import com.dorm.backend.shared.service.UserService;
 import com.dorm.backend.shared.service.storage.LocalPictureService;
@@ -27,20 +26,17 @@ import java.util.stream.Collectors;
 @Transactional
 public class LocalProfileService implements ProfileService {
 
-    private final RoomRepository roomRepository;
     private final ModelMapper modelMapper;
     private final UserService userService;
     private final LocalPictureService pictureService;
     private final ProfileSearchRepository searchRepository;
 
     public LocalProfileService(
-            RoomRepository roomRepository,
             ModelMapper modelMapper,
             UserService userService,
             LocalPictureService pictureService,
             ProfileSearchRepository searchRepository
     ) {
-        this.roomRepository = roomRepository;
         this.modelMapper = modelMapper;
         this.userService = userService;
         this.pictureService = pictureService;
@@ -66,7 +62,8 @@ public class LocalProfileService implements ProfileService {
                 .map(Inclination::getEnum)
                 .collect(Collectors.toList())
         );
-        List<LocalPicture> newProfilePictures = pictureService.mapToLocalPictures(profileDTO.getProfilePictures());
+        List<LocalPicture> newProfilePictures = pictureService.mapToLocalPictures(
+                profileDTO.getProfilePictures());
         user.getProfilePictures().clear();
         user.getProfilePictures().addAll(newProfilePictures);
         setPictureDetails(user);

@@ -39,7 +39,7 @@ public class RoomSearchRepository {
                 addCurrentUserOffersPredicates(criteriaBuilder, room, predicates);
                 break;
             case SEARCHED_OFFER:
-                addSearchedOffersPredicates(criteriaBuilder, room, predicates);
+                addSearchedOffersPredicates(criteriaBuilder, room, predicates, criteria.getCityName());
                 break;
             case RENTED_OFFER:
                 addRentedRoomPredicates(criteriaBuilder, room, predicates);
@@ -79,7 +79,8 @@ public class RoomSearchRepository {
 
     private void addSearchedOffersPredicates(CriteriaBuilder criteriaBuilder,
                                              Root<Room> room,
-                                             List<Predicate> predicates
+                                             List<Predicate> predicates,
+                                             String city
     ) {
         room.fetch("possibleRoommates", JoinType.LEFT);
         predicates.add(
@@ -93,6 +94,10 @@ public class RoomSearchRepository {
                         userService.getCurrentAuthenticatedUser().getId()));
         predicates.add(criteriaBuilder.isNull(
                 room.join("rentee", JoinType.LEFT).get("id")));
+        predicates.add(criteriaBuilder.equal(
+                room.join("address").join("city").get("name"),
+                city
+        ));
         skipAlreadyRentedRooms(criteriaBuilder, room, predicates);
     }
 

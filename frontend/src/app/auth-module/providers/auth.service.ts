@@ -56,15 +56,15 @@ export class AuthService {
         }
     }
 
-    addAccessToken(token: TokenModel) {
-        localStorage.setItem('access_token', JSON.stringify(token));
-        this.addAutoLogout(token.expirationDuration());
-        this._isLoginIn.next(true);
-    }
-
     addAutoLogout(expirationDuration: number) {
         this.tokenExpirationTimer = setTimeout(() => {
             this.logout();
         }, expirationDuration);
+    }
+
+    addAccessToken(token: TokenModel) {
+        localStorage.setItem('access_token', JSON.stringify(token));
+        this.addAutoLogout(token.expirationDuration());
+        this._isLoginIn.next(true);
     }
 }

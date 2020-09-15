@@ -98,8 +98,7 @@ public class LocalRoomService implements RoomService {
         Room room = modelMapper.map(roomDTO, Room.class);
         room.getAddress().setCity(
                 cityRepository.findByName(StringUtils.capitalize(roomDTO.getAddress().getCity().toLowerCase()))
-                        .orElseThrow(() -> new NoSuchCityException(roomDTO.getAddress().getCity()))
-        );
+                        .orElseThrow(() -> new NoSuchCityException(roomDTO.getAddress().getCity())));
         room.setAmenities(roomDTO.getAmenities()
                 .stream()
                 .distinct()
@@ -181,7 +180,7 @@ public class LocalRoomService implements RoomService {
     }
 
     @Override
-    public void pickRoommate( Long roomId, Long userId) {
+    public void pickRoommate(Long roomId, Long userId) {
         Room room = roomRepository.findById(roomId).orElseThrow(EntityNotFoundException::new);
         User user = userRepository.findById(userId).orElseThrow(EntityNotFoundException::new);
         room.setRentee(user);

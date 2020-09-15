@@ -102,7 +102,9 @@ export class RoomEditComponent implements OnInit {
         this.form = new FormGroup({
             name: new FormControl(room.name, Validators.required),
             deposit: new FormControl(room.deposit, [Validators.required, Validators.min(1)]),
-            monthlyPrice: new FormControl(room.monthlyPrice, [Validators.required, Validators.min(1)]),
+            monthlyPrice: new FormControl(
+                room.monthlyPrice,
+                [Validators.required, Validators.min(1)]),
             houseArea: new FormControl(room.houseArea, [Validators.required, Validators.min(1)]),
             roomsNumber: new FormControl(room.roomsNumber, [Validators.required, Validators.min(1)]),
             address: new FormGroup({

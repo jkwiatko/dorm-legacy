@@ -43,16 +43,16 @@ export class RoomSearchComponent implements ViewWillEnter, ViewWillLeave {
     private shouldPreloadData = true;
 
     ionViewWillEnter(): void {
-        this.routeSub = this.route.url.subscribe(this.setSearchType.bind(this));
         this.roomService.fetchAvailableCities()
             .subscribe((cities => this.availableCities = cities));
+        this.routeSub = this.route.url
+            .subscribe(this.setSearchType.bind(this));
         this.formSub = this.searchForm.valueChanges
             .pipe(debounceTime(1000))
             .subscribe(() => this.submit(this.searchForm))
     }
 
     ionViewWillLeave(): void {
-        this.routeSub.unsubscribe();
         this.formSub.unsubscribe();
     }
 

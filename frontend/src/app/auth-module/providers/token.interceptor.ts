@@ -12,7 +12,9 @@ export class TokenInterceptor implements HttpInterceptor {
 
         request = request.clone({
             setHeaders: {
-                Authorization: 'Bearer ' + (new TokenModel().merge(JSON.parse(localStorage.getItem('access_token')))).token
+                Authorization: 'Bearer ' + (
+                    new TokenModel().merge(JSON.parse(localStorage.getItem('access_token')))
+                ).token
             }
         });
 

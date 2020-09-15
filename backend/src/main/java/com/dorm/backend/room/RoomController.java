@@ -27,7 +27,10 @@ public class RoomController {
     @GetMapping("/amenities")
     public ResponseEntity<List<String>> getAmenities() {
         return ResponseEntity.ok()
-                .body(Arrays.stream(Amenity.values()).map(Amenity::toString).collect(Collectors.toList()));
+                .body(Arrays.stream(Amenity.values())
+                        .map(Amenity::toString)
+                        .collect(Collectors.toList())
+                );
     }
 
     @GetMapping("/cities")
