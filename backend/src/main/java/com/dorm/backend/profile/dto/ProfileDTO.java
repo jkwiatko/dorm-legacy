@@ -4,7 +4,7 @@ import com.dorm.backend.shared.data.dto.PictureDTO;
 import com.dorm.backend.shared.data.dto.RoomPreviewDTO;
 import lombok.Data;
 
-import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -18,7 +18,7 @@ public class ProfileDTO {
 
     private List<PictureDTO> profilePictures;
 
-    private LocalDate birthDate;
+    private Date birthDate;
 
     private String description;
 

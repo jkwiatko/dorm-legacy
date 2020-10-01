@@ -11,9 +11,8 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import java.time.LocalDate;
-import java.time.Period;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 @Repository
@@ -33,12 +32,20 @@ public class ProfileSearchRepository {
                 .map(gender -> criteriaBuilder.equal(user.get("gender"), gender))
                 .ifPresent(predicates::add);
         criteria.getMinAge()
-                .map(minAge -> LocalDate.now().minus(Period.ofYears(minAge)))
-                .map(minBirthYear -> criteriaBuilder.lessThan(user.get("birthDate"), minBirthYear))
+                .map(minAge -> {
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.add(Calendar.YEAR, -minAge);
+                    return calendar.getTime();
+                })
+                .map(minBirthYear -> criteriaBuilder.lessThanOrEqualTo(user.get("birthDate"), minBirthYear))
                 .ifPresent(predicates::add);
         criteria.getMaxAge()
-                .map(maxAge -> LocalDate.now().minus(Period.ofYears(maxAge)))
-                .map(minBirthYear -> criteriaBuilder.greaterThan(user.get("birthDate"), minBirthYear))
+                .map(maxAge -> {
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.add(Calendar.YEAR, -maxAge);
+                    return calendar.getTime();
+                })
+                .map(minBirthYear -> criteriaBuilder.greaterThanOrEqualTo(user.get("birthDate"), minBirthYear))
                 .ifPresent(predicates::add);
         criteria.getRoomId()
                 .map(roomId -> criteriaBuilder.equal(user.join("possibleRooms").get("id"), roomId))

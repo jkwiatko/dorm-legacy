@@ -4,6 +4,7 @@ import com.dorm.backend.profile.dto.ProfileDTO;
 import com.dorm.backend.shared.data.dto.PictureDTO;
 import lombok.Data;
 
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -19,7 +20,7 @@ public class RoomDTO {
 
     private Integer deposit;
 
-    private String availableFrom;
+    private Date availableFrom;
 
     private Integer minDuration;
 
