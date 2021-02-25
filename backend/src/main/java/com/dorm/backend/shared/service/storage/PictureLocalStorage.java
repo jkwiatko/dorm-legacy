@@ -34,8 +34,7 @@ public class PictureLocalStorage {
                 System.getProperties().getProperty("user.home")
                         + imageStoragePath
                         + picture.getUrl()
-                        + picture.getPictureName()
-        );
+                        + picture.getPictureName());
         try {
             return Files.readAllBytes(pictureFile.toPath());
         } catch (IOException e) {
@@ -65,14 +64,11 @@ public class PictureLocalStorage {
                 System.getProperties().getProperty("user.home")
                         + imageStoragePath
                         + picture.getUrl()
-                        + picture.getPictureName()
-        );
+                        + picture.getPictureName());
 
         try (InputStream inputStream = new ByteArrayInputStream(picture.getPicture())) {
-            if (
-                    !pictureFile.getParentFile().exists() &&
-                            !pictureFile.getParentFile().mkdirs()
-            ) {
+            if (!pictureFile.getParentFile().exists() &&
+                            !pictureFile.getParentFile().mkdirs()) {
                 throw new IOException();
             }
             BufferedImage bImage = ImageIO.read(inputStream);
@@ -85,8 +81,7 @@ public class PictureLocalStorage {
                 System.getProperties().getProperty("user.home")
                         + imageStoragePath
                         + picture.getUrl()
-                        + picture.getPictureName()
-        );
+                        + picture.getPictureName());
         try {
             Files.delete(pictureFile.toPath());
         } catch (Exception e) {

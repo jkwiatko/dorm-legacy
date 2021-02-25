@@ -53,17 +53,15 @@ public class LocalProfileService implements ProfileService {
                 .stream()
                 .map(interest -> StringUtils.capitalize(interest.toLowerCase()))
                 .distinct()
-                .collect(Collectors.toList())
-        );
+                .collect(Collectors.toList()));
         user.getInclinations().clear();
         user.getInclinations().addAll(profileDTO.getInclinations()
                 .stream()
                 .distinct()
                 .map(Inclination::getEnum)
-                .collect(Collectors.toList())
-        );
-        List<LocalPicture> newProfilePictures = pictureService.mapToLocalPictures(
-                profileDTO.getProfilePictures());
+                .collect(Collectors.toList()));
+
+        List<LocalPicture> newProfilePictures = pictureService.mapToLocalPictures(profileDTO.getProfilePictures());
         user.getProfilePictures().clear();
         user.getProfilePictures().addAll(newProfilePictures);
         setPictureDetails(user);
