@@ -12,6 +12,6 @@ public interface ProfileService {
 
     void editProfile(ProfileDTO profileDTO);
 
-    List<ProfilePreviewDTO> getPossibleRoommates(ProfileSearchCriteria profileSearchCriteria);
+    List<ProfilePreviewDTO> getPossibleRoommateProfiles(ProfileSearchCriteria profileSearchCriteria);
 
 }

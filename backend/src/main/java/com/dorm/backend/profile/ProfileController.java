@@ -47,7 +47,7 @@ public class ProfileController {
     public ResponseEntity<List<ProfilePreviewDTO>> getPossibleRoommatesUsingCriteria(
             @RequestBody ProfileSearchCriteria profileSearchCriteria
     ) {
-        return ResponseEntity.ok().body(profileService.getPossibleRoommates(profileSearchCriteria));
+        return ResponseEntity.ok().body(profileService.getPossibleRoommateProfiles(profileSearchCriteria));
     }
 
     @GetMapping("/characteristics")

@@ -77,7 +77,7 @@ public class LocalProfileService implements ProfileService {
     }
 
     @Override
-    public List<ProfilePreviewDTO> getPossibleRoommates(ProfileSearchCriteria profileSearchCriteria) {
+    public List<ProfilePreviewDTO> getPossibleRoommateProfiles(ProfileSearchCriteria profileSearchCriteria) {
         return searchRepository.findProfileUsingCriteria(profileSearchCriteria).stream()
                 .filter(user -> inclinationsFilter(user, profileSearchCriteria))
                 .map(this::mapUserToProfilePreview)
