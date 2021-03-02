@@ -2,7 +2,7 @@ package com.dorm.backend.shared.map.picture;
 
 import com.dorm.backend.shared.data.dto.PictureDTO;
 import com.dorm.backend.shared.data.entity.picture.LocalPicture;
-import com.dorm.backend.shared.service.storage.PictureLocalStorage;
+import com.dorm.backend.shared.service.storage.local.LocalPictureService;
 import org.modelmapper.Converter;
 import org.modelmapper.spi.MappingContext;
 
@@ -17,7 +17,7 @@ public class PictureDTOConverter implements Converter<PictureDTO, LocalPicture> 
         PictureDTO dto = context.getSource();
 
         picture.setPictureOrder(dto.getPictureOrder());
-        picture.setUrl(PictureLocalStorage.produceHashPictureDirectoryFilename(dto.getBase64String().substring(0,255)));
+        picture.setUrl(LocalPictureService.produceHashPictureDirectoryFilename(dto.getBase64String().substring(0,255)));
         picture.setPicture(Base64.getMimeDecoder().decode(dto.getBase64String().split(";base64,")[1]));
         return picture;
     }

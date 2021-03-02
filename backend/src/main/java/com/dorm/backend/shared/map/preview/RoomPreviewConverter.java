@@ -2,16 +2,16 @@ package com.dorm.backend.shared.map.preview;
 
 import com.dorm.backend.shared.data.dto.PictureDTO;
 import com.dorm.backend.shared.data.dto.RoomPreviewDTO;
+import com.dorm.backend.shared.data.entity.Room;
 import com.dorm.backend.shared.data.entity.base.BaseEntity;
 import com.dorm.backend.shared.data.entity.picture.LocalPictureEntity;
-import com.dorm.backend.shared.data.entity.Room;
 import org.modelmapper.Converter;
 import org.modelmapper.spi.MappingContext;
 
 import java.util.Comparator;
 import java.util.Optional;
 
-import static com.dorm.backend.shared.service.storage.PictureLocalStorage.loadPictureFromFileSystem;
+import static com.dorm.backend.shared.service.storage.local.LocalPictureService.loadPictureFromFileSystem;
 import static java.util.Base64.getMimeEncoder;
 
 public class RoomPreviewConverter implements Converter<Room, RoomPreviewDTO> {

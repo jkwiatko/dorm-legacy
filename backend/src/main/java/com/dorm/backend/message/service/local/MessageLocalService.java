@@ -1,6 +1,7 @@
-package com.dorm.backend.message.service;
+package com.dorm.backend.message.service.local;
 
 import com.dorm.backend.message.dto.*;
+import com.dorm.backend.message.service.MessageService;
 import com.dorm.backend.shared.data.dto.PictureDTO;
 import com.dorm.backend.shared.data.dto.ProfilePreviewDTO;
 import com.dorm.backend.shared.data.entity.User;

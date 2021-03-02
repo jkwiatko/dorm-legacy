@@ -1,7 +1,8 @@
-package com.dorm.backend.room.service;
+package com.dorm.backend.room.service.local;
 
 import com.dorm.backend.room.dto.RoomDTO;
 import com.dorm.backend.room.dto.RoomSearchCriteria;
+import com.dorm.backend.room.service.RoomService;
 import com.dorm.backend.shared.data.dto.PictureDTO;
 import com.dorm.backend.shared.data.dto.RoomPreviewDTO;
 import com.dorm.backend.shared.data.entity.Room;
@@ -19,8 +20,7 @@ import com.dorm.backend.shared.error.exc.CannotBookOwnRoomException;
 import com.dorm.backend.shared.error.exc.DuplicatedPictureException;
 import com.dorm.backend.shared.error.exc.NoSuchCityException;
 import com.dorm.backend.shared.service.UserService;
-import com.dorm.backend.shared.service.storage.LocalPictureService;
-import com.dorm.backend.shared.service.storage.PictureLocalStorage;
+import com.dorm.backend.shared.service.storage.local.LocalPictureService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -111,7 +111,7 @@ public class LocalRoomService implements RoomService {
         room.setPictures(new ArrayList<>(roomPictures));
         setPictureDetails(room);
         roomRepository.save(room);
-        roomPictures.forEach(PictureLocalStorage::savePicture);
+        roomPictures.forEach(pictureService::savePicture);
     }
 
     @Override
@@ -141,8 +141,8 @@ public class LocalRoomService implements RoomService {
         setPictureDetails(currentRoom);
 
         roomRepository.save(currentRoom);
-        newPictures.forEach(PictureLocalStorage::savePicture);
-        oldPictures.forEach(PictureLocalStorage::deletePicture);
+        newPictures.forEach(pictureService::savePicture);
+        oldPictures.forEach(pictureService::deletePicture);
     }
 
     @Override

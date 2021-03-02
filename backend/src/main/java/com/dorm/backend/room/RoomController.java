@@ -3,7 +3,7 @@ package com.dorm.backend.room;
 import com.dorm.backend.room.dto.RoommateRequestDTO;
 import com.dorm.backend.room.dto.RoomDTO;
 import com.dorm.backend.room.dto.RoomSearchCriteria;
-import com.dorm.backend.room.service.LocalRoomService;
+import com.dorm.backend.room.service.local.LocalRoomService;
 import com.dorm.backend.room.service.RoomService;
 import com.dorm.backend.shared.data.dto.RoomPreviewDTO;
 import com.dorm.backend.shared.data.enums.Amenity;

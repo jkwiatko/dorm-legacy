@@ -1,7 +1,8 @@
-package com.dorm.backend.profile.service;
+package com.dorm.backend.profile.service.local;
 
 import com.dorm.backend.profile.dto.ProfileDTO;
 import com.dorm.backend.profile.dto.ProfileSearchCriteria;
+import com.dorm.backend.profile.service.ProfileService;
 import com.dorm.backend.shared.data.dto.PictureDTO;
 import com.dorm.backend.shared.data.dto.ProfilePreviewDTO;
 import com.dorm.backend.shared.data.entity.User;
@@ -9,8 +10,7 @@ import com.dorm.backend.shared.data.entity.picture.LocalPicture;
 import com.dorm.backend.shared.data.enums.Inclination;
 import com.dorm.backend.shared.data.repo.search.ProfileSearchRepository;
 import com.dorm.backend.shared.service.UserService;
-import com.dorm.backend.shared.service.storage.LocalPictureService;
-import com.dorm.backend.shared.service.storage.PictureLocalStorage;
+import com.dorm.backend.shared.service.storage.local.LocalPictureService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -67,7 +67,7 @@ public class LocalProfileService implements ProfileService {
         setPictureDetails(user);
 
         userService.updateUser(user);
-        newProfilePictures.forEach(PictureLocalStorage::savePicture);
+        newProfilePictures.forEach(pictureService::savePicture);
     }
 
     @Override

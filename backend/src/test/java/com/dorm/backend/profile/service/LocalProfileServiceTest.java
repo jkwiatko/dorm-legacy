@@ -1,6 +1,7 @@
 package com.dorm.backend.profile.service;
 
 import com.dorm.backend.profile.dto.ProfileDTO;
+import com.dorm.backend.profile.service.local.LocalProfileService;
 import com.dorm.backend.shared.data.dto.PictureDTO;
 import com.dorm.backend.shared.data.entity.User;
 import com.dorm.backend.shared.data.entity.picture.LocalPicture;
@@ -8,7 +9,7 @@ import com.dorm.backend.shared.data.entity.picture.LocalPictureEntity;
 import com.dorm.backend.shared.data.enums.Inclination;
 import com.dorm.backend.shared.data.repo.search.ProfileSearchRepository;
 import com.dorm.backend.shared.service.UserService;
-import com.dorm.backend.shared.service.storage.LocalPictureService;
+import com.dorm.backend.shared.service.storage.local.LocalPictureService;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;

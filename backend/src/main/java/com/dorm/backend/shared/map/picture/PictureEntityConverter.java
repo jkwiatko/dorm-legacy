@@ -5,7 +5,7 @@ import com.dorm.backend.shared.data.entity.picture.LocalPictureEntity;
 import org.modelmapper.Converter;
 import org.modelmapper.spi.MappingContext;
 
-import static com.dorm.backend.shared.service.storage.PictureLocalStorage.loadPictureFromFileSystem;
+import static com.dorm.backend.shared.service.storage.local.LocalPictureService.loadPictureFromFileSystem;
 import static java.util.Base64.getMimeEncoder;
 
 public class PictureEntityConverter implements Converter<LocalPictureEntity, PictureDTO> {
