@@ -10,7 +10,6 @@ import com.dorm.backend.shared.data.enums.Inclination;
 import com.dorm.backend.shared.data.repo.search.ProfileSearchRepository;
 import com.dorm.backend.shared.service.UserService;
 import com.dorm.backend.shared.service.storage.local.LocalPictureService;
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.*;
@@ -22,25 +21,26 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static com.dorm.backend.shared.data.enums.Inclination.EARLY_BIRD;
 import static com.dorm.backend.shared.data.enums.Inclination.VEGAN;
+import static java.util.Collections.singletonList;
+import static java.util.stream.Collectors.toList;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
 public class LocalProfileServiceTest {
 
     private static final List<String> INTERESTS = Arrays.asList("Malowanie", "Czytanie");
     private static final List<Inclination> INCLINATIONS = Arrays.asList(VEGAN, EARLY_BIRD);
-    private static final PictureDTO PICTURE = new PictureDTO("!@#", "dummy name", 1);
+    private static final PictureDTO PICTURE = new PictureDTO("!@#", "user img name", 1);
     private static final String LOCAL_PICTURE_URL = "classpath:test.jpg";
-    public static final String EXPECTED_PICTURE_NAME = "expected";
+    private static final String EXPECTED_PICTURE_HASH = "hash";
     private static final User EXPECTED_USER = getExpectedUser();
-    private static final User EDITED_USER = getEditedUser();
-    private static final List<LocalPicture> LOCAL_PICTURES = localPictures(EXPECTED_PICTURE_NAME);
 
     @Mock
     private ModelMapper modelMapper;
@@ -59,48 +59,40 @@ public class LocalProfileServiceTest {
     @Test
     public void shouldReplaceAllInterestsInclinationsAndPictures() {
         //given
-        Mockito.when(userService.getCurrentAuthenticatedUser()).thenReturn(EDITED_USER);
-        Mockito.when(localPictureService.mapToLocalPictures(Mockito.anyList())).thenReturn(LOCAL_PICTURES);
-        ProfileDTO profileDto = profileDto();
+        ProfileDTO profileDto = getProfileDto();
+        mockExternalServicesResponse();
 
         //when
         testedClass.editProfile(profileDto);
 
         //then
-        Mockito.verify(userService, Mockito.times(1)).updateUser(userCaptor.capture());
-        Assert.assertEquals(EXPECTED_USER.getInterests(), userCaptor.getValue().getInterests());
-        Assert.assertEquals(EXPECTED_USER.getInclinations(), userCaptor.getValue().getInclinations());
+        verify(userService, times(1)).updateUser(userCaptor.capture());
+        assertEquals(EXPECTED_USER.getInterests(), userCaptor.getValue().getInterests());
+        assertEquals(EXPECTED_USER.getInclinations(), userCaptor.getValue().getInclinations());
         assertPictures(EXPECTED_USER.getProfilePictures(), userCaptor.getValue().getProfilePictures());
     }
 
-    private static void assertPictures(List<LocalPictureEntity> expected, List<LocalPictureEntity> current) {
-        Assert.assertEquals(expected.get(0).getPictureName(), current.get(0).getPictureName());
-    }
-
-    private static ProfileDTO profileDto() {
+    private static ProfileDTO getProfileDto() {
         ProfileDTO dto = new ProfileDTO();
         List<String> interests = new ArrayList<>(INTERESTS);
-        List<String> inclinations = INCLINATIONS.stream().map(Inclination::getReadableText).collect(Collectors.toList());
-        List<PictureDTO> pictures = new ArrayList<>(Collections.singletonList(PICTURE));
+        List<String> inclinations = INCLINATIONS.stream().map(Inclination::getReadableText).collect(toList());
+        List<PictureDTO> pictures = new ArrayList<>(singletonList(PICTURE));
         dto.setInterests(interests);
         dto.setInclinations(inclinations);
         dto.setProfilePictures(pictures);
         return dto;
     }
 
-    private static User getEditedUser() {
-        User user = new User();
-        user.setInterests(Stream.of("Yoga", "Filmy").collect(Collectors.toList()));
-        user.setInclinations(Stream.of(VEGAN, EARLY_BIRD).collect(Collectors.toList()));
-        user.setProfilePictures(new ArrayList<>(localPictures("edited")));
-        return user;
+    private void mockExternalServicesResponse() {
+        when(userService.getCurrentAuthenticatedUser()).thenReturn(getEditedUser());
+        when(localPictureService.mapToLocalPictures(anyList())).thenReturn(localPictures(EXPECTED_PICTURE_HASH));
     }
 
-    private static User getExpectedUser() {
+    private static User getEditedUser() {
         User user = new User();
-        user.setInterests(INTERESTS);
-        user.setInclinations(INCLINATIONS);
-        user.setProfilePictures(new ArrayList<>(localPictures("expected")));
+        user.setInterests(Stream.of("Yoga", "Filmy").collect(toList()));
+        user.setInclinations(Stream.of(VEGAN, EARLY_BIRD).collect(toList()));
+        user.setProfilePictures(new ArrayList<>(localPictures("previous hash")));
         return user;
     }
 
@@ -113,6 +105,18 @@ public class LocalProfileServiceTest {
             e.printStackTrace();
         }
 
-        return Collections.singletonList(localPicture);
+        return singletonList(localPicture);
+    }
+
+    private static void assertPictures(List<LocalPictureEntity> expected, List<LocalPictureEntity> current) {
+        assertEquals(expected.get(0).getPictureName(), current.get(0).getPictureName());
+    }
+
+    private static User getExpectedUser() {
+        User user = new User();
+        user.setInterests(INTERESTS);
+        user.setInclinations(INCLINATIONS);
+        user.setProfilePictures(new ArrayList<>(localPictures(EXPECTED_PICTURE_HASH)));
+        return user;
     }
 }
