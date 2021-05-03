@@ -1,6 +1,9 @@
-package com.dorm.backend.shared.data.dto;
+package com.dorm.backend.shared.data;
 
 
+import com.dorm.backend.shared.data.dto.PictureDTO;
+import com.dorm.backend.shared.data.dto.ProfilePreviewDTO;
+import com.dorm.backend.shared.data.dto.RoomPreviewDTO;
 import com.openpojo.random.RandomFactory;
 import com.openpojo.reflection.PojoClass;
 import com.openpojo.reflection.PojoMethod;
@@ -46,7 +49,7 @@ public class PojoTest {
         pojoValidator.validate(pojo);
     }
 
-    private static Validator createPojoValidator() {
+    static Validator createPojoValidator() {
         return ValidatorBuilder.create()
                 .with(new SetterMustExistRule())
                 .with(new GetterMustExistRule())
