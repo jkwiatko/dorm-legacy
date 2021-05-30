@@ -11,6 +11,7 @@ import com.dorm.backend.shared.data.enums.Inclination;
 import com.dorm.backend.shared.data.repo.search.ProfileSearchRepository;
 import com.dorm.backend.shared.service.UserService;
 import com.dorm.backend.shared.service.storage.local.LocalPictureService;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -22,6 +23,10 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import static java.util.Collections.emptyList;
+import static java.util.stream.Collectors.toList;
+
+@Slf4j
 @Service
 @Transactional
 public class LocalProfileService implements ProfileService {
@@ -53,13 +58,13 @@ public class LocalProfileService implements ProfileService {
                 .stream()
                 .map(interest -> StringUtils.capitalize(interest.toLowerCase()))
                 .distinct()
-                .collect(Collectors.toList()));
+                .collect(toList()));
         user.getInclinations().clear();
         user.getInclinations().addAll(profileDTO.getInclinations()
                 .stream()
                 .distinct()
                 .map(Inclination::getEnum)
-                .collect(Collectors.toList()));
+                .collect(toList()));
 
         List<LocalPicture> newProfilePictures = pictureService.mapToLocalPictures(profileDTO.getProfilePictures());
         user.getProfilePictures().clear();
@@ -79,9 +84,23 @@ public class LocalProfileService implements ProfileService {
     @Override
     public List<ProfilePreviewDTO> getPossibleRoommateProfiles(ProfileSearchCriteria profileSearchCriteria) {
         return searchRepository.findProfileUsingCriteria(profileSearchCriteria).stream()
-                .filter(user -> inclinationsFilter(user, profileSearchCriteria))
+                .filter(user -> filterByInclinations(user, extractSearchedInclinations(profileSearchCriteria)))
                 .map(this::mapUserToProfilePreview)
-                .collect(Collectors.toList());
+                .collect(toList());
+    }
+
+    private boolean filterByInclinations(User user, List<Inclination> inclinations) {
+        return user.getInclinations().containsAll(inclinations);
+    }
+
+    private static List<Inclination> extractSearchedInclinations(ProfileSearchCriteria searchCriteria) {
+      return searchCriteria.getInclinations()
+                .map(Collection::stream)
+                .map(stream -> stream
+                        .map(Inclination::getEnum)
+                        .filter(Objects::nonNull)
+                        .collect(toList()))
+                .orElse(emptyList());
     }
 
     private ProfilePreviewDTO mapUserToProfilePreview(User user) {
@@ -90,16 +109,6 @@ public class LocalProfileService implements ProfileService {
                 .findFirst()
                 .ifPresent(picture -> dto.setPicture(modelMapper.map(picture, PictureDTO.class)));
         return dto;
-    }
-
-    private boolean inclinationsFilter(User user, ProfileSearchCriteria criteria) {
-        return user.getInclinations().containsAll(
-                criteria.getInclinations()
-                        .map(Collection::stream)
-                        .map(stream -> stream.map(Inclination::getEnum)
-                                .filter(Objects::nonNull)
-                                .collect(Collectors.toList()))
-                        .orElse(Collections.emptyList()));
     }
 
     private static void setPictureDetails(User user) {
