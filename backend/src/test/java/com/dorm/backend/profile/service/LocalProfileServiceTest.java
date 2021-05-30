@@ -41,38 +41,64 @@ public class LocalProfileServiceTest {
     private static final String LOCAL_PICTURE_URL = "classpath:test.jpg";
     private static final String EXPECTED_PICTURE_HASH = "hash";
     private static final User EXPECTED_USER = getExpectedUser();
+    public static final long USER_ID = 1L;
 
     @Mock
     private ModelMapper modelMapper;
+
     @Mock
     private UserService userService;
+
     @Mock
     private LocalPictureService localPictureService;
+
     @Mock
     private ProfileSearchRepository profileSearchRepository;
+
     @Captor
     private ArgumentCaptor<User> userCaptor;
 
     @InjectMocks
     private LocalProfileService testedClass;
 
+    private static User getExpectedUser() {
+        User user = new User();
+        user.setInterests(INTERESTS);
+        user.setInclinations(INCLINATIONS);
+        user.setProfilePictures(new ArrayList<>(localPictures(EXPECTED_PICTURE_HASH)));
+        return user;
+    }
+
+    private static List<LocalPicture> localPictures(String name) {
+        LocalPicture localPicture = new LocalPicture();
+        localPicture.setPictureName(name);
+
+        try {
+            localPicture.setPicture(Files.readAllBytes(ResourceUtils.getFile(LOCAL_PICTURE_URL).toPath()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return singletonList(localPicture);
+    }
+
     @Test
     public void shouldReplaceAllInterestsInclinationsAndPictures() {
         //given
-        ProfileDTO profileDto = getProfileDto();
+        ProfileDTO updatedProfile = getUpdatedProfileDto();
         mockExternalServicesResponse();
 
         //when
-        testedClass.editProfile(profileDto);
+        testedClass.editProfile(updatedProfile);
 
         //then
         verify(userService, times(1)).updateUser(userCaptor.capture());
         assertEquals(EXPECTED_USER.getInterests(), userCaptor.getValue().getInterests());
         assertEquals(EXPECTED_USER.getInclinations(), userCaptor.getValue().getInclinations());
-        assertPictures(EXPECTED_USER.getProfilePictures(), userCaptor.getValue().getProfilePictures());
+        assertUpdatedPicture(EXPECTED_USER.getProfilePictures(), userCaptor.getValue().getProfilePictures());
     }
 
-    private static ProfileDTO getProfileDto() {
+    private static ProfileDTO getUpdatedProfileDto() {
         ProfileDTO dto = new ProfileDTO();
         List<String> interests = new ArrayList<>(INTERESTS);
         List<String> inclinations = INCLINATIONS.stream().map(Inclination::getReadableText).collect(toList());
@@ -84,11 +110,11 @@ public class LocalProfileServiceTest {
     }
 
     private void mockExternalServicesResponse() {
-        when(userService.getCurrentAuthenticatedUser()).thenReturn(getEditedUser());
+        when(userService.getCurrentAuthenticatedUser()).thenReturn(getInitialUser());
         when(localPictureService.mapToLocalPictures(anyList())).thenReturn(localPictures(EXPECTED_PICTURE_HASH));
     }
 
-    private static User getEditedUser() {
+    private static User getInitialUser() {
         User user = new User();
         user.setInterests(Stream.of("Yoga", "Filmy").collect(toList()));
         user.setInclinations(Stream.of(VEGAN, EARLY_BIRD).collect(toList()));
@@ -96,27 +122,28 @@ public class LocalProfileServiceTest {
         return user;
     }
 
-    private static List<LocalPicture> localPictures(String name) {
-        LocalPicture localPicture = new LocalPicture();
-        localPicture.setPictureName(name);
-        try {
-            localPicture.setPicture(Files.readAllBytes(ResourceUtils.getFile(LOCAL_PICTURE_URL).toPath()));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return singletonList(localPicture);
-    }
-
-    private static void assertPictures(List<LocalPictureEntity> expected, List<LocalPictureEntity> current) {
+    private static void assertUpdatedPicture(List<LocalPictureEntity> expected, List<LocalPictureEntity> current) {
         assertEquals(expected.get(0).getPictureName(), current.get(0).getPictureName());
     }
 
-    private static User getExpectedUser() {
-        User user = new User();
-        user.setInterests(INTERESTS);
-        user.setInclinations(INCLINATIONS);
-        user.setProfilePictures(new ArrayList<>(localPictures(EXPECTED_PICTURE_HASH)));
-        return user;
+    @Test
+    public void shouldGetUserProfileById() {
+        //given
+        Long userId = USER_ID;
+        mockDbResponse();
+
+        //when
+        testedClass.getUserProfile(userId);
+
+        //then
+        verify(userService, times(1)).getUser(eq(USER_ID));
+        verify(modelMapper, times(1)).map(eq(EXPECTED_USER), eq(ProfileDTO.class));
     }
+
+    private void mockDbResponse() {
+        when(userService.getUser(any())).thenReturn(EXPECTED_USER);
+    }
+
+
+
 }
