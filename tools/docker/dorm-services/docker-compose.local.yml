@@ -1,0 +1,11 @@
+version: '2.4'
+services:
+  postgres:
+    container_name: mysql
+    image: mysql:8.0.31-debian
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: dorm
+    ports:
+      - "3306:3306"
